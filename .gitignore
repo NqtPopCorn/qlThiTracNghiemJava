@@ -1,0 +1,58 @@
+# Maven target directory
+/target/
+
+# Logs
+*.log
+
+# Compiled class files
+*.class
+
+# Package Files
+*.jar
+*.war
+*.ear
+
+# Maven specific
+*.mvn/
+.settings/
+.classpath
+.project
+/target/
+dependency-reduced-pom.xml
+
+# IntelliJ IDEA
+.idea/
+*.iml
+out/
+
+# Eclipse IDE
+/.metadata/
+/*.bak
+*.swp
+*.tmp
+/.recommenders/
+/.settings/
+/bin/
+/.apt_generated
+.classpath
+.project
+/.factorypath
+
+# NetBeans IDE
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# VS Code
+.vscode/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Others
+*.log
+*.tmp
+*.bak
