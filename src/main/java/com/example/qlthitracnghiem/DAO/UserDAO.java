@@ -12,37 +12,27 @@ import com.example.qlthitracnghiem.interfaces.CrudInterface;
 import com.example.qlthitracnghiem.utils.DBConnection;
 
 public class UserDAO implements CrudInterface<UserDTO> {
-  private static UserDAO instance;
 
-  private UserDAO() {
-  }
-
-  public static UserDAO getInstance() {
-    if (instance == null) {
-      instance = new UserDAO();
-    }
-    return instance;
-  }
-
-  public UserDTO getByUsername(String username) {
+  public UserDTO getByUserEmail(String email) throws SQLException {
     Connection connection = DBConnection.getConnection();
-    String sql = "SELECT * FROM users WHERE username = ?";
+    String sql = "SELECT * FROM users WHERE userEmail = ?";
     try {
       PreparedStatement ps = connection.prepareStatement(sql);
-      ps.setString(1, username);
+      ps.setString(1, email);
       ResultSet rs = ps.executeQuery();
       if (rs.next()) {
         return new UserDTO(rs.getInt("userID"), rs.getString("userName"), rs.getString("userPassword"),
             rs.getString("userEmail"), rs.getString("userFullName"), rs.getInt("isAdmin"));
       }
+      return null;
     } catch (SQLException e) {
       e.printStackTrace();
+      throw e;
     }
-    return null;
   }
 
   @Override
-  public int create(UserDTO user) {
+  public int create(UserDTO user) throws SQLException {
     Connection connection = DBConnection.getConnection();
     String sql = "INSERT INTO users (userName, userPassword, userFullName, userEmail, isAdmin) VALUES (?, ?, ?, ?, ?)";
     try {
@@ -55,12 +45,12 @@ public class UserDAO implements CrudInterface<UserDTO> {
       return ps.executeUpdate();
     } catch (SQLException e) {
       e.printStackTrace();
+      throw e;
     }
-    return 0;
   }
 
   @Override
-  public int update(UserDTO user) {
+  public int update(UserDTO user) throws SQLException {
     Connection connection = DBConnection.getConnection();
     String sql = "UPDATE users SET userPassword = ?, userFullName = ?, userEmail = ?, isAdmin = ? WHERE userID = ?";
     try {
@@ -73,12 +63,12 @@ public class UserDAO implements CrudInterface<UserDTO> {
       return ps.executeUpdate();
     } catch (SQLException e) {
       e.printStackTrace();
+      throw e;
     }
-    return 0;
   }
 
   @Override
-  public int delete(int id) {
+  public int delete(int id) throws SQLException {
     Connection connection = DBConnection.getConnection();
     String sql = "DELETE FROM users WHERE id = ?";
     try {
@@ -87,12 +77,12 @@ public class UserDAO implements CrudInterface<UserDTO> {
       return ps.executeUpdate();
     } catch (SQLException e) {
       e.printStackTrace();
+      throw e;
     }
-    return 0;
   }
 
   @Override
-  public UserDTO read(int id) {
+  public UserDTO read(int id) throws SQLException {
     Connection connection = DBConnection.getConnection();
     String sql = "SELECT * FROM users WHERE id = ?";
     try {
@@ -105,11 +95,12 @@ public class UserDAO implements CrudInterface<UserDTO> {
       }
     } catch (SQLException e) {
       e.printStackTrace();
+      throw e;
     }
     return null;
   }
 
-  public ArrayList<UserDTO> getAll() {
+  public ArrayList<UserDTO> getAll() throws SQLException {
     Connection connection = DBConnection.getConnection();
     String sql = "SELECT * FROM users";
     try {
@@ -124,7 +115,7 @@ public class UserDAO implements CrudInterface<UserDTO> {
       return users;
     } catch (SQLException e) {
       e.printStackTrace();
+      throw e;
     }
-    return null;
   }
 }

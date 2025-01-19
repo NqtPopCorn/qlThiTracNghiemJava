@@ -6,6 +6,7 @@ package com.example.qlthitracnghiem.GUI.Auth;
 
 import javax.swing.*;
 
+import com.example.qlthitracnghiem.DTO.UserDTO;
 import com.example.qlthitracnghiem.GUI.DashboardFrame;
 
 import java.awt.*;
@@ -42,7 +43,7 @@ public class AuthPanel extends JPanel {
         cardLayout.show(this, "Register");
     }
 
-    public void loginSuccessPerform() {
+    public void navigateToDashboard(UserDTO user) {
         parentFrame.dispose();
         new DashboardFrame().setVisible(true);
     }

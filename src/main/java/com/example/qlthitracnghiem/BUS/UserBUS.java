@@ -8,32 +8,35 @@ import com.example.qlthitracnghiem.utils.PasswordUtil;
 
 public class UserBUS {
   public static final int ACTION_SUCCESS = 1;
-  public static final int LOGIN_WRONG_USERNAME = 0;
-  public static final int LOGIN_WRONG_PASSWORD = -1;
   public static final int ACTION_ERROR = -9999;
 
   private UserDAO userDAO;
 
-  public UserBUS() {
-    userDAO = UserDAO.getInstance();
-  }
+  private static UserBUS instance;
 
-  public int login(String username, String password) {
-    try {
-      UserDTO user = userDAO.getByUsername(username);
-      if (user == null) {
-        return LOGIN_WRONG_USERNAME;
-      }
-      if (PasswordUtil.checkPassword(password, user.getUserPassword())) {
-        return ACTION_SUCCESS;
-      }
-    } catch (Exception e) {
-      e.printStackTrace();
+  public static UserBUS getInstance() {
+    if (instance == null) {
+      instance = new UserBUS();
     }
-    return LOGIN_WRONG_PASSWORD;
+    return instance;
   }
 
-  public int register(String username, String password, String email) {
+  private UserBUS() {
+    userDAO = new UserDAO();
+  }
+
+  public UserDTO login(String username, String password) throws Exception {
+    UserDTO user = userDAO.getByUserEmail(username);
+    if (user == null) {
+      throw new Exception("User not found");
+    }
+    if (!PasswordUtil.checkPassword(password, user.getUserPassword())) {
+      throw new Exception("Password is incorrect");
+    }
+    return user;
+  }
+
+  public int register(String username, String password, String email) throws Exception {
     UserDTO user = new UserDTO();
     user.setUserName(username);
     user.setUserEmail(email);
@@ -42,26 +45,26 @@ public class UserBUS {
     return userDAO.create(user);
   }
 
-  public boolean checkExist(String username) {
-    return userDAO.getByUsername(username) != null;
+  public boolean checkExist(String email) throws Exception {
+    return userDAO.getByUserEmail(email) != null;
   }
 
-  public int update(String username, String password) {
+  public int update(String username, String password) throws Exception {
     UserDTO user = new UserDTO();
     user.setUserName(username);
     user.setUserPassword(password);
     return userDAO.update(user);
   }
 
-  public int delete(int id) {
+  public int delete(int id) throws Exception {
     return userDAO.delete(id);
   }
 
-  public UserDTO read(int id) {
+  public UserDTO read(int id) throws Exception {
     return userDAO.read(id);
   }
 
-  public ArrayList<UserDTO> getAll() {
+  public ArrayList<UserDTO> getAll() throws Exception {
     return userDAO.getAll();
   }
 
