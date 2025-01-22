@@ -173,7 +173,8 @@ public class RegisterPanel extends javax.swing.JPanel {
       authPanel.showLoginPanel();
     } catch (Exception e) {
       e.printStackTrace();
-      JOptionPane.showMessageDialog(this, "Đăng kí thất bại");
+      JOptionPane.showMessageDialog(this, "Đăng kí thất bại. Có lỗi xảy ra\n" + e.getMessage(), "Lỗi",
+          JOptionPane.ERROR_MESSAGE);
       txtUserEmail.setText("");
       txtPassword.setText("");
       txtPassword1.setText("");

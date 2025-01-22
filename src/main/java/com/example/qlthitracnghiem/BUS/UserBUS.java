@@ -45,14 +45,21 @@ public class UserBUS {
     return userDAO.create(user);
   }
 
+  public int create(String username, String password, String email, String fullname, int isAdmin) throws Exception {
+    UserDTO user = new UserDTO();
+    user.setUserName(username);
+    user.setUserPassword(password);
+    user.setUserEmail(email);
+    user.setUserFullName(fullname);
+    user.setIsAdmin(isAdmin);
+    return userDAO.create(user);
+  }
+
   public boolean checkExist(String email) throws Exception {
     return userDAO.getByUserEmail(email) != null;
   }
 
-  public int update(String username, String password) throws Exception {
-    UserDTO user = new UserDTO();
-    user.setUserName(username);
-    user.setUserPassword(password);
+  public int update(UserDTO user) throws Exception {
     return userDAO.update(user);
   }
 
@@ -66,6 +73,15 @@ public class UserBUS {
 
   public ArrayList<UserDTO> getAll() throws Exception {
     return userDAO.getAll();
+  }
+
+  public ArrayList<UserDTO> search(String keyword) throws Exception {
+    ArrayList<UserDTO> data = getAll().stream()
+        .filter(user -> user.getUserName().contains(keyword) || user.getUserEmail().contains(keyword)
+            || String.valueOf(user.getUserID()).contains(keyword)
+            || (user.getUserFullName() != null && user.getUserFullName().contains(keyword)))
+        .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
+    return data;
   }
 
 }

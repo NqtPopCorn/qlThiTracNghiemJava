@@ -70,7 +70,7 @@ public class UserDAO implements CrudInterface<UserDTO> {
   @Override
   public int delete(int id) throws SQLException {
     Connection connection = DBConnection.getConnection();
-    String sql = "DELETE FROM users WHERE id = ?";
+    String sql = "DELETE FROM users WHERE userID = ?";
     try {
       PreparedStatement ps = connection.prepareStatement(sql);
       ps.setInt(1, id);
@@ -84,7 +84,7 @@ public class UserDAO implements CrudInterface<UserDTO> {
   @Override
   public UserDTO read(int id) throws SQLException {
     Connection connection = DBConnection.getConnection();
-    String sql = "SELECT * FROM users WHERE id = ?";
+    String sql = "SELECT * FROM users WHERE userID=?";
     try {
       PreparedStatement ps = connection.prepareStatement(sql);
       ps.setInt(1, id);

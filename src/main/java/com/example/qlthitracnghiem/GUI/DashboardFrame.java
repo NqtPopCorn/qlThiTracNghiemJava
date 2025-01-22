@@ -50,10 +50,10 @@ public class DashboardFrame extends javax.swing.JFrame {
     buttonGroup.add(navBtnThongKe);
     buttonGroup.add(navBtnDangXuat);
 
-    navBtnDeThi.addActionListener(e -> switchPanel("DeThi"));
-    navBtnCauHoi.addActionListener(e -> switchPanel("CauHoi"));
-    navBtnUser.addActionListener(e -> switchPanel("NguoiDung"));
-    navBtnThongKe.addActionListener(e -> switchPanel("ThongKe"));
+    navBtnDeThi.addActionListener(e -> switchPanel(navBtnDeThi.getActionCommand()));
+    navBtnCauHoi.addActionListener(e -> switchPanel(navBtnCauHoi.getActionCommand()));
+    navBtnUser.addActionListener(e -> switchPanel(navBtnUser.getActionCommand()));
+    navBtnThongKe.addActionListener(e -> switchPanel(navBtnThongKe.getActionCommand()));
     navBtnDangXuat.addActionListener(e -> handleLogout());
     navBtnDeThi.setSelected(true);
 
@@ -64,6 +64,9 @@ public class DashboardFrame extends javax.swing.JFrame {
   public DashboardFrame(UserDTO user) {
     this();
     this.user = user;
+    if (user != null) {
+      lblUsername.setText(user.getUserName());
+    }
   }
 
   // Hàm chuyển đổi panel
@@ -86,7 +89,7 @@ public class DashboardFrame extends javax.swing.JFrame {
           button.setBackground(Color.BLUE);
           button.setForeground(Color.WHITE);
         } else {
-          button.setBackground(Color.LIGHT_GRAY);
+          button.setBackground(Color.WHITE);
           button.setForeground(Color.BLACK);
         }
       }
@@ -108,6 +111,12 @@ public class DashboardFrame extends javax.swing.JFrame {
   // <editor-fold defaultstate="collapsed" desc="Generated
   // <editor-fold defaultstate="collapsed" desc="Generated
   // <editor-fold defaultstate="collapsed" desc="Generated
+  // <editor-fold defaultstate="collapsed" desc="Generated
+  // <editor-fold defaultstate="collapsed" desc="Generated
+  // <editor-fold defaultstate="collapsed" desc="Generated
+  // <editor-fold defaultstate="collapsed" desc="Generated
+  // <editor-fold defaultstate="collapsed" desc="Generated
+  // <editor-fold defaultstate="collapsed" desc="Generated
   // Code">//GEN-BEGIN:initComponents
   private void initComponents() {
 
@@ -115,7 +124,7 @@ public class DashboardFrame extends javax.swing.JFrame {
     cardLayout = new java.awt.CardLayout();
     sidePanel = new javax.swing.JPanel();
     jPanel4 = new javax.swing.JPanel();
-    jLabel1 = new javax.swing.JLabel();
+    lblUsername = new javax.swing.JLabel();
     jLabel2 = new javax.swing.JLabel();
     navigationPanel = new javax.swing.JPanel();
     navBtnDeThi = new javax.swing.JToggleButton();
@@ -137,13 +146,13 @@ public class DashboardFrame extends javax.swing.JFrame {
     jPanel4.setMaximumSize(new java.awt.Dimension(160, 180));
     jPanel4.setPreferredSize(new java.awt.Dimension(160, 180));
 
-    jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-    jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-    jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_user_30.png"))); // NOI18N
-    jLabel1.setText("Your User Name");
-    jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-    jLabel1.setMaximumSize(new java.awt.Dimension(144, 144));
-    jLabel1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+    lblUsername.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+    lblUsername.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+    lblUsername.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_user_30.png"))); // NOI18N
+    lblUsername.setText("Your User Name");
+    lblUsername.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+    lblUsername.setMaximumSize(new java.awt.Dimension(144, 144));
+    lblUsername.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
     jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
     jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -156,10 +165,10 @@ public class DashboardFrame extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING,
+                    .addComponent(lblUsername, javax.swing.GroupLayout.Alignment.TRAILING,
                         javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE,
-                        javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+                        Short.MAX_VALUE))
                 .addContainerGap()));
     jPanel4Layout.setVerticalGroup(
         jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -168,19 +177,13 @@ public class DashboardFrame extends javax.swing.JFrame {
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 37,
                     javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 116,
+                .addComponent(lblUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 116,
                     javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(15, Short.MAX_VALUE)));
 
     sidePanel.add(jPanel4, java.awt.BorderLayout.NORTH);
 
-    navigationPanel.setBackground(new java.awt.Color(204, 153, 255));
     navigationPanel.setPreferredSize(new java.awt.Dimension(160, 600));
-    navigationPanel.addMouseListener(new java.awt.event.MouseAdapter() {
-      public void mouseClicked(java.awt.event.MouseEvent evt) {
-        navigationPanelMouseClicked(evt);
-      }
-    });
     navigationPanel.setLayout(new java.awt.GridLayout(5, 1));
 
     navBtnDeThi.setText("Đề Thi");
@@ -236,34 +239,6 @@ public class DashboardFrame extends javax.swing.JFrame {
     pack();
   }// </editor-fold>//GEN-END:initComponents
 
-  private void navigationPanelMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_navigationPanelMouseClicked
-    // handle navigation panel click event
-    // Trong sự kiện MouseClicked
-    Object source = evt.getSource();
-    System.out.println("Source: " + source);
-    if (source instanceof JToggleButton) {
-      JButton clickedButton = (JButton) source;
-      String actionCommand = clickedButton.getActionCommand();
-      switch (actionCommand) {
-        case "DeThi":
-          cardLayout.show(currentPanel, "DeThi");
-          break;
-        case "CauHoi":
-          cardLayout.show(currentPanel, "CauHoi");
-          break;
-        case "User":
-          cardLayout.show(currentPanel, "User");
-          break;
-        case "ThongKe":
-          cardLayout.show(currentPanel, "ThongKe");
-          break;
-        case "DangXuat":
-          // handle logout
-          break;
-      }
-    }
-  }// GEN-LAST:event_navigationPanelMouseClicked
-
   /**
    * @param args the command line arguments
    */
@@ -317,10 +292,10 @@ public class DashboardFrame extends javax.swing.JFrame {
   private java.awt.CardLayout cardLayout;
   private javax.swing.JPanel currentPanel;
   private javax.swing.JPanel examplePanel1;
-  private javax.swing.JLabel jLabel1;
   private javax.swing.JLabel jLabel2;
   private javax.swing.JLabel jLabel7;
   private javax.swing.JPanel jPanel4;
+  private javax.swing.JLabel lblUsername;
   private javax.swing.JToggleButton navBtnCauHoi;
   private javax.swing.JToggleButton navBtnDangXuat;
   private javax.swing.JToggleButton navBtnDeThi;

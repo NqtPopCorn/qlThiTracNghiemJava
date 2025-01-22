@@ -45,7 +45,7 @@ public class AuthPanel extends JPanel {
 
     public void navigateToDashboard(UserDTO user) {
         parentFrame.dispose();
-        new DashboardFrame().setVisible(true);
+        new DashboardFrame(user).setVisible(true);
     }
 
 }

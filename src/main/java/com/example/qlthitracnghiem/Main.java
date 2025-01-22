@@ -12,7 +12,7 @@ public class Main {
             // AuthFrame authFrame = new AuthFrame();
             // authFrame.setVisible(true);
             // test only
-            new DashboardFrame().setVisible(true);
+            // new DashboardFrame().setVisible(true);
         });
     }
 }

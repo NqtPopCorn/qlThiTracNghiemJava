@@ -64,7 +64,7 @@ public class UserDTO {
     return isAdmin;
   }
 
-  public void setAdmin(int admin) {
+  public void setIsAdmin(int admin) {
     isAdmin = admin;
   }
 }
