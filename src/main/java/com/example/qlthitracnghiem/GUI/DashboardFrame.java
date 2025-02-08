@@ -7,6 +7,7 @@ package com.example.qlthitracnghiem.GUI;
 import javax.swing.*;
 
 import com.example.qlthitracnghiem.DTO.UserDTO;
+import com.example.qlthitracnghiem.GUI.Exam.DoExamJPanel;
 import com.example.qlthitracnghiem.GUI.User.UserPanel;
 
 import java.awt.*;
@@ -22,6 +23,7 @@ public class DashboardFrame extends javax.swing.JFrame {
   private JPanel cauHoiPanel = new JPanel();
   private JPanel userPanel = new UserPanel(this);
   private JPanel thongKePanel = new JPanel();
+  private DoExamJPanel doExamJPanel = new DoExamJPanel();
   private UserDTO user;
 
   /**
@@ -40,6 +42,7 @@ public class DashboardFrame extends javax.swing.JFrame {
     cardLayout = new CardLayout();
     currentPanel.setLayout(cardLayout);
     currentPanel.add(deThiPanel, navBtnDeThi.getActionCommand());
+    currentPanel.add(doExamJPanel, navBtnThi.getActionCommand());
     currentPanel.add(cauHoiPanel, navBtnCauHoi.getActionCommand());
     currentPanel.add(userPanel, navBtnUser.getActionCommand());
     currentPanel.add(thongKePanel, navBtnThongKe.getActionCommand());
@@ -49,8 +52,10 @@ public class DashboardFrame extends javax.swing.JFrame {
     buttonGroup.add(navBtnUser);
     buttonGroup.add(navBtnThongKe);
     buttonGroup.add(navBtnDangXuat);
+    buttonGroup.add(navBtnThi);
 
     navBtnDeThi.addActionListener(e -> switchPanel(navBtnDeThi.getActionCommand()));
+    navBtnThi.addActionListener(e -> switchPanel(navBtnThi.getActionCommand()));
     navBtnCauHoi.addActionListener(e -> switchPanel(navBtnCauHoi.getActionCommand()));
     navBtnUser.addActionListener(e -> switchPanel(navBtnUser.getActionCommand()));
     navBtnThongKe.addActionListener(e -> switchPanel(navBtnThongKe.getActionCommand()));
@@ -69,13 +74,11 @@ public class DashboardFrame extends javax.swing.JFrame {
     }
   }
 
-  // Hàm chuyển đổi panel
   private void switchPanel(String panelName) {
     updateNavigateButton();
     cardLayout.show(currentPanel, panelName);
   }
 
-  // Hàm xử lý logout
   private void handleLogout() {
     System.out.println("Logged out");
     // Thực hiện các logic đăng xuất tại đây
@@ -117,127 +120,130 @@ public class DashboardFrame extends javax.swing.JFrame {
   // <editor-fold defaultstate="collapsed" desc="Generated
   // <editor-fold defaultstate="collapsed" desc="Generated
   // <editor-fold defaultstate="collapsed" desc="Generated
-  // Code">//GEN-BEGIN:initComponents
-  private void initComponents() {
+  // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
 
-    buttonGroup = new javax.swing.ButtonGroup();
-    cardLayout = new java.awt.CardLayout();
-    sidePanel = new javax.swing.JPanel();
-    jPanel4 = new javax.swing.JPanel();
-    lblUsername = new javax.swing.JLabel();
-    jLabel2 = new javax.swing.JLabel();
-    navigationPanel = new javax.swing.JPanel();
-    navBtnDeThi = new javax.swing.JToggleButton();
-    navBtnCauHoi = new javax.swing.JToggleButton();
-    navBtnUser = new javax.swing.JToggleButton();
-    navBtnThongKe = new javax.swing.JToggleButton();
-    navBtnDangXuat = new javax.swing.JToggleButton();
-    currentPanel = new javax.swing.JPanel();
-    examplePanel1 = new javax.swing.JPanel();
-    jLabel7 = new javax.swing.JLabel();
+        buttonGroup = new javax.swing.ButtonGroup();
+        cardLayout = new java.awt.CardLayout();
+        sidePanel = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
+        lblUsername = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        navigationPanel = new javax.swing.JPanel();
+        navBtnDeThi = new javax.swing.JToggleButton();
+        navBtnThi = new javax.swing.JToggleButton();
+        navBtnCauHoi = new javax.swing.JToggleButton();
+        navBtnUser = new javax.swing.JToggleButton();
+        navBtnThongKe = new javax.swing.JToggleButton();
+        navBtnDangXuat = new javax.swing.JToggleButton();
+        currentPanel = new javax.swing.JPanel();
+        examplePanel1 = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
 
-    setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-    setMaximumSize(new java.awt.Dimension(1200, 700));
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(1200, 700));
 
-    sidePanel.setBackground(new java.awt.Color(255, 102, 255));
-    sidePanel.setPreferredSize(new java.awt.Dimension(160, 700));
-    sidePanel.setLayout(new java.awt.BorderLayout());
+        sidePanel.setBackground(new java.awt.Color(255, 102, 255));
+        sidePanel.setPreferredSize(new java.awt.Dimension(160, 700));
+        sidePanel.setLayout(new java.awt.BorderLayout());
 
-    jPanel4.setMaximumSize(new java.awt.Dimension(160, 180));
-    jPanel4.setPreferredSize(new java.awt.Dimension(160, 180));
+        jPanel4.setMaximumSize(new java.awt.Dimension(160, 180));
+        jPanel4.setPreferredSize(new java.awt.Dimension(160, 180));
 
-    lblUsername.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-    lblUsername.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-    lblUsername.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_user_30.png"))); // NOI18N
-    lblUsername.setText("Your User Name");
-    lblUsername.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-    lblUsername.setMaximumSize(new java.awt.Dimension(144, 144));
-    lblUsername.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        lblUsername.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblUsername.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblUsername.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_user_30.png"))); // NOI18N
+        lblUsername.setText("Your User Name");
+        lblUsername.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        lblUsername.setMaximumSize(new java.awt.Dimension(144, 144));
+        lblUsername.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
-    jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-    jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-    jLabel2.setText("SGU");
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("SGU");
 
-    javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-    jPanel4.setLayout(jPanel4Layout);
-    jPanel4Layout.setHorizontalGroup(
-        jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblUsername, javax.swing.GroupLayout.Alignment.TRAILING,
-                        javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
-                        Short.MAX_VALUE))
-                .addContainerGap()));
-    jPanel4Layout.setVerticalGroup(
-        jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblUsername, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 37,
-                    javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 116,
-                    javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(15, Short.MAX_VALUE)));
+                .addComponent(lblUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(15, Short.MAX_VALUE))
+        );
 
-    sidePanel.add(jPanel4, java.awt.BorderLayout.NORTH);
+        sidePanel.add(jPanel4, java.awt.BorderLayout.NORTH);
 
-    navigationPanel.setPreferredSize(new java.awt.Dimension(160, 600));
-    navigationPanel.setLayout(new java.awt.GridLayout(5, 1));
+        navigationPanel.setPreferredSize(new java.awt.Dimension(160, 600));
+        navigationPanel.setLayout(new java.awt.GridLayout(6, 1));
 
-    navBtnDeThi.setText("Đề Thi");
-    navBtnDeThi.setActionCommand("DeThi");
-    navigationPanel.add(navBtnDeThi);
+        navBtnDeThi.setText("Đề Thi");
+        navBtnDeThi.setActionCommand("DeThi");
+        navigationPanel.add(navBtnDeThi);
 
-    navBtnCauHoi.setText("Câu hỏi");
-    navBtnCauHoi.setActionCommand("CauHoi");
-    navigationPanel.add(navBtnCauHoi);
+        navBtnThi.setText("Thi");
+        navigationPanel.add(navBtnThi);
 
-    navBtnUser.setText("Người dùng");
-    navBtnUser.setActionCommand("NguoiDung");
-    navigationPanel.add(navBtnUser);
+        navBtnCauHoi.setText("Câu hỏi");
+        navBtnCauHoi.setActionCommand("CauHoi");
+        navigationPanel.add(navBtnCauHoi);
 
-    navBtnThongKe.setText("Thống Kê");
-    navBtnThongKe.setActionCommand("ThongKe");
-    navigationPanel.add(navBtnThongKe);
+        navBtnUser.setText("Người dùng");
+        navBtnUser.setActionCommand("NguoiDung");
+        navigationPanel.add(navBtnUser);
 
-    navBtnDangXuat.setText("Đăng xuất");
-    navBtnDangXuat.setActionCommand("DangXuat");
-    navigationPanel.add(navBtnDangXuat);
+        navBtnThongKe.setText("Thống Kê");
+        navBtnThongKe.setActionCommand("ThongKe");
+        navigationPanel.add(navBtnThongKe);
 
-    sidePanel.add(navigationPanel, java.awt.BorderLayout.WEST);
+        navBtnDangXuat.setText("Đăng xuất");
+        navBtnDangXuat.setActionCommand("DangXuat");
+        navigationPanel.add(navBtnDangXuat);
 
-    getContentPane().add(sidePanel, java.awt.BorderLayout.WEST);
+        sidePanel.add(navigationPanel, java.awt.BorderLayout.WEST);
 
-    currentPanel.setBackground(new java.awt.Color(255, 153, 153));
-    currentPanel.setLayout(new java.awt.CardLayout());
+        getContentPane().add(sidePanel, java.awt.BorderLayout.WEST);
 
-    jLabel7.setText(" Example Panel");
+        currentPanel.setBackground(new java.awt.Color(255, 153, 153));
+        currentPanel.setLayout(new java.awt.CardLayout());
 
-    javax.swing.GroupLayout examplePanel1Layout = new javax.swing.GroupLayout(examplePanel1);
-    examplePanel1.setLayout(examplePanel1Layout);
-    examplePanel1Layout.setHorizontalGroup(
-        examplePanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        jLabel7.setText(" Example Panel");
+
+        javax.swing.GroupLayout examplePanel1Layout = new javax.swing.GroupLayout(examplePanel1);
+        examplePanel1.setLayout(examplePanel1Layout);
+        examplePanel1Layout.setHorizontalGroup(
+            examplePanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(examplePanel1Layout.createSequentialGroup()
                 .addGap(324, 324, 324)
-                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 94,
-                    javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(622, Short.MAX_VALUE)));
-    examplePanel1Layout.setVerticalGroup(
-        examplePanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(622, Short.MAX_VALUE))
+        );
+        examplePanel1Layout.setVerticalGroup(
+            examplePanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(examplePanel1Layout.createSequentialGroup()
                 .addContainerGap(391, Short.MAX_VALUE)
-                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 66,
-                    javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(243, 243, 243)));
+                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(243, 243, 243))
+        );
 
-    currentPanel.add(examplePanel1, "card3");
+        currentPanel.add(examplePanel1, "card3");
 
-    getContentPane().add(currentPanel, java.awt.BorderLayout.CENTER);
+        getContentPane().add(currentPanel, java.awt.BorderLayout.CENTER);
 
-    pack();
-  }// </editor-fold>//GEN-END:initComponents
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
 
   /**
    * @param args the command line arguments
@@ -287,21 +293,22 @@ public class DashboardFrame extends javax.swing.JFrame {
     });
   }
 
-  // Variables declaration - do not modify//GEN-BEGIN:variables
-  private javax.swing.ButtonGroup buttonGroup;
-  private java.awt.CardLayout cardLayout;
-  private javax.swing.JPanel currentPanel;
-  private javax.swing.JPanel examplePanel1;
-  private javax.swing.JLabel jLabel2;
-  private javax.swing.JLabel jLabel7;
-  private javax.swing.JPanel jPanel4;
-  private javax.swing.JLabel lblUsername;
-  private javax.swing.JToggleButton navBtnCauHoi;
-  private javax.swing.JToggleButton navBtnDangXuat;
-  private javax.swing.JToggleButton navBtnDeThi;
-  private javax.swing.JToggleButton navBtnThongKe;
-  private javax.swing.JToggleButton navBtnUser;
-  private javax.swing.JPanel navigationPanel;
-  private javax.swing.JPanel sidePanel;
-  // End of variables declaration//GEN-END:variables
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup buttonGroup;
+    private java.awt.CardLayout cardLayout;
+    private javax.swing.JPanel currentPanel;
+    private javax.swing.JPanel examplePanel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JLabel lblUsername;
+    private javax.swing.JToggleButton navBtnCauHoi;
+    private javax.swing.JToggleButton navBtnDangXuat;
+    private javax.swing.JToggleButton navBtnDeThi;
+    private javax.swing.JToggleButton navBtnThi;
+    private javax.swing.JToggleButton navBtnThongKe;
+    private javax.swing.JToggleButton navBtnUser;
+    private javax.swing.JPanel navigationPanel;
+    private javax.swing.JPanel sidePanel;
+    // End of variables declaration//GEN-END:variables
 }
