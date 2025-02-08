@@ -20,7 +20,10 @@ public class QuestionOpntionsPanel extends javax.swing.JPanel {
     public QuestionOpntionsPanel() {
         initComponents();
         ImageUtil.setIcon(jLabel3, "/icons/ic_user_30.png", 100, 80);
-        // setPreferredSize(new java.awt.Dimension(800, 400));
+        questionOption1.setButtonText("A");
+        questionOption2.setButtonText("B");
+        questionOption3.setButtonText("C");
+        questionOption4.setButtonText("D");
     }
 
     /**
@@ -36,6 +39,8 @@ public class QuestionOpntionsPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -44,6 +49,8 @@ public class QuestionOpntionsPanel extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         questionOption1 = new com.example.qlthitracnghiem.GUI.CauHoi.QuestionOption();
         questionOption2 = new com.example.qlthitracnghiem.GUI.CauHoi.QuestionOption();
+        questionOption6 = new com.example.qlthitracnghiem.GUI.CauHoi.QuestionOption();
+        questionOption5 = new com.example.qlthitracnghiem.GUI.CauHoi.QuestionOption();
         questionOption3 = new com.example.qlthitracnghiem.GUI.CauHoi.QuestionOption();
         questionOption4 = new com.example.qlthitracnghiem.GUI.CauHoi.QuestionOption();
 
@@ -62,6 +69,8 @@ public class QuestionOpntionsPanel extends javax.swing.JPanel {
         add(jPanel1);
         add(questionOption1);
         add(questionOption2);
+        add(questionOption6);
+        add(questionOption5);
         add(questionOption3);
         add(questionOption4);
     }// </editor-fold>//GEN-END:initComponents
@@ -86,5 +95,7 @@ public class QuestionOpntionsPanel extends javax.swing.JPanel {
     private com.example.qlthitracnghiem.GUI.CauHoi.QuestionOption questionOption2;
     private com.example.qlthitracnghiem.GUI.CauHoi.QuestionOption questionOption3;
     private com.example.qlthitracnghiem.GUI.CauHoi.QuestionOption questionOption4;
+    private com.example.qlthitracnghiem.GUI.CauHoi.QuestionOption questionOption5;
+    private com.example.qlthitracnghiem.GUI.CauHoi.QuestionOption questionOption6;
     // End of variables declaration//GEN-END:variables
 }

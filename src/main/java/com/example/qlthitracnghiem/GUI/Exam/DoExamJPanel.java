@@ -26,6 +26,7 @@ public class DoExamJPanel extends javax.swing.JPanel {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -125,7 +126,9 @@ public class DoExamJPanel extends javax.swing.JPanel {
         add(jScrollPane2, java.awt.BorderLayout.LINE_END);
 
         jScrollPane1.setViewportBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(804, 100));
 
+        pnlCenter.setPreferredSize(new java.awt.Dimension(800, 5000));
         pnlCenter.setLayout(new javax.swing.BoxLayout(pnlCenter, javax.swing.BoxLayout.Y_AXIS));
         pnlCenter.add(questionOpntionsPanel5);
         pnlCenter.add(questionOpntionsPanel6);
