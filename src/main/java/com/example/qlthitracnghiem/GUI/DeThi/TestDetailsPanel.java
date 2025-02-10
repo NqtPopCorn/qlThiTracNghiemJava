@@ -29,11 +29,13 @@ public class TestDetailsPanel extends javax.swing.JPanel {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         btnBack = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         pnlCenter = new javax.swing.JPanel();
-        questionOpntionsPanel1 = new com.example.qlthitracnghiem.GUI.CauHoi.QuestionOpntionsPanel();
-        questionOpntionsPanel2 = new com.example.qlthitracnghiem.GUI.CauHoi.QuestionOpntionsPanel();
-        questionOpntionsPanel3 = new com.example.qlthitracnghiem.GUI.CauHoi.QuestionOpntionsPanel();
+        questionOpntionsPanel1 = new com.example.qlthitracnghiem.GUI.CauHoi.Question();
+        questionOpntionsPanel2 = new com.example.qlthitracnghiem.GUI.CauHoi.Question();
+        questionOpntionsPanel3 = new com.example.qlthitracnghiem.GUI.CauHoi.Question();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -49,6 +51,12 @@ public class TestDetailsPanel extends javax.swing.JPanel {
             }
         });
 
+        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel2.setText("cho phep them xoa sua cau hoi, dap an");
+
+        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel3.setText("đang tính bỏ cái panel này");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -56,18 +64,32 @@ public class TestDetailsPanel extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addComponent(btnBack)
-                .addGap(44, 44, 44)
-                .addComponent(jLabel1)
-                .addContainerGap(849, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(44, 44, 44)
+                        .addComponent(jLabel1))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(179, 179, 179)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel2))))
+                .addContainerGap(560, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(38, 38, 38)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(btnBack))
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(38, 38, 38)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(btnBack)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addComponent(jLabel2)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel3)))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
 
         add(jPanel1, java.awt.BorderLayout.PAGE_START);
@@ -96,11 +118,13 @@ public class TestDetailsPanel extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel pnlCenter;
-    private com.example.qlthitracnghiem.GUI.CauHoi.QuestionOpntionsPanel questionOpntionsPanel1;
-    private com.example.qlthitracnghiem.GUI.CauHoi.QuestionOpntionsPanel questionOpntionsPanel2;
-    private com.example.qlthitracnghiem.GUI.CauHoi.QuestionOpntionsPanel questionOpntionsPanel3;
+    private com.example.qlthitracnghiem.GUI.CauHoi.Question questionOpntionsPanel1;
+    private com.example.qlthitracnghiem.GUI.CauHoi.Question questionOpntionsPanel2;
+    private com.example.qlthitracnghiem.GUI.CauHoi.Question questionOpntionsPanel3;
     // End of variables declaration//GEN-END:variables
 }

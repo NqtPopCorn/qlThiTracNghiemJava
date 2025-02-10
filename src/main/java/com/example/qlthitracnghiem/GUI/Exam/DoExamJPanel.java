@@ -42,9 +42,9 @@ public class DoExamJPanel extends javax.swing.JPanel {
         roundedButton5 = new com.example.qlthitracnghiem.GUI.Component.RoundedButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         pnlCenter = new javax.swing.JPanel();
-        questionOpntionsPanel5 = new com.example.qlthitracnghiem.GUI.CauHoi.QuestionOpntionsPanel();
-        questionOpntionsPanel6 = new com.example.qlthitracnghiem.GUI.CauHoi.QuestionOpntionsPanel();
-        questionOpntionsPanel4 = new com.example.qlthitracnghiem.GUI.CauHoi.QuestionOpntionsPanel();
+        question1 = new com.example.qlthitracnghiem.GUI.CauHoi.Question();
+        question2 = new com.example.qlthitracnghiem.GUI.CauHoi.Question();
+        question3 = new com.example.qlthitracnghiem.GUI.CauHoi.Question();
 
         setPreferredSize(new java.awt.Dimension(1206, 760));
         setLayout(new java.awt.BorderLayout());
@@ -130,9 +130,9 @@ public class DoExamJPanel extends javax.swing.JPanel {
 
         pnlCenter.setPreferredSize(new java.awt.Dimension(800, 5000));
         pnlCenter.setLayout(new javax.swing.BoxLayout(pnlCenter, javax.swing.BoxLayout.Y_AXIS));
-        pnlCenter.add(questionOpntionsPanel5);
-        pnlCenter.add(questionOpntionsPanel6);
-        pnlCenter.add(questionOpntionsPanel4);
+        pnlCenter.add(question1);
+        pnlCenter.add(question2);
+        pnlCenter.add(question3);
 
         jScrollPane1.setViewportView(pnlCenter);
 
@@ -158,9 +158,9 @@ public class DoExamJPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPanel pnlBaiThiInfo;
     private javax.swing.JPanel pnlCenter;
-    private com.example.qlthitracnghiem.GUI.CauHoi.QuestionOpntionsPanel questionOpntionsPanel4;
-    private com.example.qlthitracnghiem.GUI.CauHoi.QuestionOpntionsPanel questionOpntionsPanel5;
-    private com.example.qlthitracnghiem.GUI.CauHoi.QuestionOpntionsPanel questionOpntionsPanel6;
+    private com.example.qlthitracnghiem.GUI.CauHoi.Question question1;
+    private com.example.qlthitracnghiem.GUI.CauHoi.Question question2;
+    private com.example.qlthitracnghiem.GUI.CauHoi.Question question3;
     private com.example.qlthitracnghiem.GUI.Component.RoundedButton roundedButton1;
     private com.example.qlthitracnghiem.GUI.Component.RoundedButton roundedButton5;
     // End of variables declaration//GEN-END:variables

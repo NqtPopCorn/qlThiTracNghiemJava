@@ -12,12 +12,12 @@ import com.example.qlthitracnghiem.utils.ImageUtil;
  *
  * @author truon
  */
-public class QuestionOpntionsPanel extends javax.swing.JPanel {
+public class Question extends javax.swing.JPanel {
 
     /**
      * Creates new form QuestionPanel
      */
-    public QuestionOpntionsPanel() {
+    public Question() {
         initComponents();
         ImageUtil.setIcon(jLabel3, "/icons/ic_user_30.png", 100, 80);
         questionOption1.setButtonText("A");
@@ -81,7 +81,7 @@ public class QuestionOpntionsPanel extends javax.swing.JPanel {
         frame.setSize(1200, 800);
         frame.setLayout(new java.awt.FlowLayout());
 
-        QuestionOpntionsPanel questionPanel = new QuestionOpntionsPanel();
+        Question questionPanel = new Question();
         frame.add(questionPanel);
         System.out.println(questionPanel.getPreferredSize());
         frame.setVisible(true);
