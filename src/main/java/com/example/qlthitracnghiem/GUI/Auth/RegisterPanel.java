@@ -36,7 +36,7 @@ public class RegisterPanel extends javax.swing.JPanel {
       } else if (!password.equals(password1)) {
         JOptionPane.showMessageDialog(this, "Mật khẩu không trùng khớp");
         return false;
-      } else if (!isUserExist) {
+      } else if (isUserExist) {
         JOptionPane.showMessageDialog(this, "Tên đăng nhập đã tồn tại");
         return false;
       }

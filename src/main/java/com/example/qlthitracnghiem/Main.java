@@ -16,7 +16,7 @@ import java.awt.GridBagLayout;
 public class Main {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-
+            new AuthFrame().setVisible(true);
         });
     }
 
