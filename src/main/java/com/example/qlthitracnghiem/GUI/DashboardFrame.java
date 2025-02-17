@@ -10,7 +10,8 @@ import com.example.qlthitracnghiem.DTO.UserDTO;
 import com.example.qlthitracnghiem.GUI.CauHoi.QuestionPanel;
 import com.example.qlthitracnghiem.GUI.Exam.DoExamJPanel;
 import com.example.qlthitracnghiem.GUI.User.UserPanel;
-
+import com.example.qlthitracnghiem.GUI.DeThi.TestPanel;
+import com.example.qlthitracnghiem.GUI.DeThi.TestPanel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,13 +21,33 @@ import java.awt.event.ActionListener;
  * @author truon
  */
 public class DashboardFrame extends javax.swing.JFrame {
-  private JPanel deThiPanel = new JPanel();
+  
   private JPanel cauHoiPanel = new JPanel();
   private JPanel userPanel = new UserPanel(this);
   private JPanel thongKePanel = new JPanel();
   private DoExamJPanel doExamJPanel = new DoExamJPanel();
   private QuestionPanel questionPanel = new QuestionPanel();
   private UserDTO user;
+  private TestPanel testPanel=new TestPanel();
+    public DashboardFrame(UserDTO user, ButtonGroup buttonGroup, CardLayout cardLayout, JPanel currentPanel, JPanel examplePanel1, JLabel jLabel2, JLabel jLabel7, JPanel jPanel4, JLabel lblUsername, JToggleButton navBtnCauHoi, JToggleButton navBtnDangXuat, JToggleButton navBtnDeThi, JToggleButton navBtnThi, JToggleButton navBtnThongKe, JToggleButton navBtnUser, JPanel navigationPanel, JPanel sidePanel) throws HeadlessException {
+        this.user = user;
+        this.buttonGroup = buttonGroup;
+        this.cardLayout = cardLayout;
+        this.currentPanel = currentPanel;
+        this.examplePanel1 = examplePanel1;
+        this.jLabel2 = jLabel2;
+        this.jLabel7 = jLabel7;
+        this.jPanel4 = jPanel4;
+        this.lblUsername = lblUsername;
+        this.navBtnCauHoi = navBtnCauHoi;
+        this.navBtnDangXuat = navBtnDangXuat;
+        this.navBtnDeThi = navBtnDeThi;
+        this.navBtnThi = navBtnThi;
+        this.navBtnThongKe = navBtnThongKe;
+        this.navBtnUser = navBtnUser;
+        this.navigationPanel = navigationPanel;
+        this.sidePanel = sidePanel;
+    }
 
   /**
    * Creates new form DashboardFrame
@@ -34,8 +55,6 @@ public class DashboardFrame extends javax.swing.JFrame {
   public DashboardFrame() {
     initComponents();
     currentPanel.removeAll();
-
-    deThiPanel.setBackground(Color.RED);
     cauHoiPanel.setBackground(Color.GREEN);
     userPanel.setBackground(Color.BLUE);
     thongKePanel.setBackground(Color.YELLOW);
@@ -43,13 +62,12 @@ public class DashboardFrame extends javax.swing.JFrame {
     cardLayout = new CardLayout();
     currentPanel.setLayout(cardLayout);
     // add panel moi tai dayday
-    currentPanel.add(deThiPanel, navBtnDeThi.getActionCommand());
     currentPanel.add(doExamJPanel, navBtnThi.getActionCommand());
     currentPanel.add(cauHoiPanel, navBtnCauHoi.getActionCommand());
     currentPanel.add(userPanel, navBtnUser.getActionCommand());
     currentPanel.add(thongKePanel, navBtnThongKe.getActionCommand());
     currentPanel.add(questionPanel, navBtnCauHoi.getActionCommand());
-
+    currentPanel.add(testPanel,navBtnDeThi.getActionCommand());
     buttonGroup.add(navBtnDeThi);
     buttonGroup.add(navBtnCauHoi);
     buttonGroup.add(navBtnUser);
