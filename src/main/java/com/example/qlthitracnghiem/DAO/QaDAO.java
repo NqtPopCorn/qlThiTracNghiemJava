@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
  *
  * @author light
  */
-public class Quang {
+public class QaDAO {
 
     static public ArrayList getArrayQuestions(String testCode,String exOrder) throws SQLException {
 
@@ -106,6 +106,25 @@ public class Quang {
             throw e;
         }
     }
+    public static ArrayList getExams(String keyword) throws SQLException{
+        Connection connection = DBConnection.getConnection();
+
+        String sql = "SELECT DISTINCT testCode FROM exams where testCode Like ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, "%" + keyword + "%");
+            ResultSet rs = ps.executeQuery();
+            ArrayList<String> examList = new ArrayList<>();
+            while (rs.next()) {
+                examList.add(rs.getString("testCode"));
+            }
+            return examList;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+    
     public static ArrayList getTestsByTestCode(String testCode)throws SQLException{
         Connection connection = DBConnection.getConnection();
 
@@ -129,7 +148,7 @@ public class Quang {
     public static void main(String[] args) {
         try {
 //            getArrayQuestions("TST003");
-
+                getExams();
         } catch (Exception e) {
         }
     }
