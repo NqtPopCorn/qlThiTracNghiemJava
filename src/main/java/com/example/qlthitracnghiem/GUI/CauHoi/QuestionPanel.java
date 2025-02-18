@@ -5,12 +5,25 @@
 package com.example.qlthitracnghiem.GUI.CauHoi;
 
 import com.example.qlthitracnghiem.BUS.QuestionsBUS;
+import com.example.qlthitracnghiem.BUS.TopicsBUS;
+import com.example.qlthitracnghiem.DAO.TopicsDAO;
 import com.example.qlthitracnghiem.DTO.QuestionsDTO;
+import com.example.qlthitracnghiem.DTO.TopicsDTO;
+import java.awt.Color;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import javax.swing.BorderFactory;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTree;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 
 /**
  *
@@ -18,6 +31,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class QuestionPanel extends javax.swing.JPanel {
 
+    public TopicsBUS topicsBUS = new TopicsBUS();
     /**
      * Creates new form QuestionPanel
      */
@@ -39,12 +53,14 @@ public class QuestionPanel extends javax.swing.JPanel {
 
         jSplitPane1 = new javax.swing.JSplitPane();
         jPanel1 = new javax.swing.JPanel();
-        btnThemChuDe = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTree1 = new javax.swing.JTree();
         jButton5 = new javax.swing.JButton();
         btnSuaChuDe = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTree2 = new javax.swing.JTree();
+        jButton1 = new javax.swing.JButton();
+        btnThemChuDe = new javax.swing.JButton();
+        Reset = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
@@ -60,59 +76,6 @@ public class QuestionPanel extends javax.swing.JPanel {
 
         jPanel1.setBackground(new java.awt.Color(204, 204, 204));
 
-        btnThemChuDe.setText("Thêm");
-        btnThemChuDe.setBorder(null);
-        btnThemChuDe.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnThemChuDeActionPerformed(evt);
-            }
-        });
-
-        jTree1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Tất cả");
-        javax.swing.tree.DefaultMutableTreeNode treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("JTree");
-        javax.swing.tree.DefaultMutableTreeNode treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("colors");
-        javax.swing.tree.DefaultMutableTreeNode treeNode4 = new javax.swing.tree.DefaultMutableTreeNode("blue");
-        treeNode3.add(treeNode4);
-        treeNode4 = new javax.swing.tree.DefaultMutableTreeNode("violet");
-        treeNode3.add(treeNode4);
-        treeNode4 = new javax.swing.tree.DefaultMutableTreeNode("red");
-        treeNode3.add(treeNode4);
-        treeNode4 = new javax.swing.tree.DefaultMutableTreeNode("yellow");
-        treeNode3.add(treeNode4);
-        treeNode2.add(treeNode3);
-        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("sports");
-        treeNode4 = new javax.swing.tree.DefaultMutableTreeNode("basketball");
-        treeNode3.add(treeNode4);
-        treeNode4 = new javax.swing.tree.DefaultMutableTreeNode("soccer");
-        treeNode3.add(treeNode4);
-        treeNode4 = new javax.swing.tree.DefaultMutableTreeNode("football");
-        treeNode3.add(treeNode4);
-        treeNode4 = new javax.swing.tree.DefaultMutableTreeNode("hockey");
-        treeNode3.add(treeNode4);
-        treeNode2.add(treeNode3);
-        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("food");
-        treeNode4 = new javax.swing.tree.DefaultMutableTreeNode("hot dogs");
-        treeNode3.add(treeNode4);
-        treeNode4 = new javax.swing.tree.DefaultMutableTreeNode("pizza");
-        treeNode3.add(treeNode4);
-        treeNode4 = new javax.swing.tree.DefaultMutableTreeNode("ravioli");
-        treeNode3.add(treeNode4);
-        treeNode4 = new javax.swing.tree.DefaultMutableTreeNode("bananas");
-        treeNode3.add(treeNode4);
-        treeNode2.add(treeNode3);
-        treeNode1.add(treeNode2);
-        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("genres");
-        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("gay");
-        treeNode2.add(treeNode3);
-        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("men");
-        treeNode2.add(treeNode3);
-        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("women");
-        treeNode2.add(treeNode3);
-        treeNode1.add(treeNode2);
-        jTree1.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
-        jScrollPane1.setViewportView(jTree1);
-
         jButton5.setText("Xóa");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -125,6 +88,47 @@ public class QuestionPanel extends javax.swing.JPanel {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel2.setText("Chủ đề");
 
+        jScrollPane3.setViewportView(jTree2);
+        loadTopics();
+
+        jButton1.setText("Tìm");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        btnThemChuDe.setText("Thêm");
+        btnThemChuDe.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThemChuDeActionPerformed(evt);
+            }
+        });
+
+        Reset.setText("Tải lại");
+        Reset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ResetActionPerformed(evt);
+            }
+        });
+        // Thêm style cho nút
+        Reset.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 14)); // Chữ đậm, cỡ 14
+        Reset.setBackground(new java.awt.Color(255, 102, 102)); // Màu nền đỏ nhạt
+        Reset.setForeground(Color.WHITE); // Chữ trắng
+        Reset.setFocusPainted(false); // Bỏ viền khi nhấn
+        Reset.setBorder(BorderFactory.createEtchedBorder()); // Viền nổi nhẹ
+        Reset.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR)); // Đổi con trỏ chuột khi di vào
+
+        // Thêm hiệu ứng hover
+        Reset.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                Reset.setBackground(new java.awt.Color(255, 51, 51)); // Đỏ đậm hơn khi hover
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                Reset.setBackground(new java.awt.Color(255, 102, 102)); // Quay lại màu cũ
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -132,65 +136,47 @@ public class QuestionPanel extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane3)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(btnThemChuDe, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnSuaChuDe)
-                                .addGap(0, 60, Short.MAX_VALUE)))
-                        .addContainerGap())))
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(Reset, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(35, 35, 35)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(btnThemChuDe, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(btnSuaChuDe, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(32, 32, 32))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel2))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(19, 19, 19)
+                        .addComponent(Reset)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSuaChuDe)
-                    .addComponent(btnThemChuDe, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton5))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 598, Short.MAX_VALUE)
+                    .addComponent(jButton5)
+                    .addComponent(btnThemChuDe))
+                .addGap(9, 9, 9)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(btnSuaChuDe))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 573, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        // Thay đổi màu nền và màu chữ cho nút bình thường
-        btnThemChuDe.setBackground(new java.awt.Color(0, 123, 255));  // Màu nền xanh dương
-        btnThemChuDe.setForeground(new java.awt.Color(255, 255, 255));  // Màu chữ trắng
-
-        // Thay đổi font chữ
-        btnThemChuDe.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 14));
-
-        // Tạo hiệu ứng khi chuột di chuyển qua nút (hover)
-        btnThemChuDe.setRolloverEnabled(true);  // Kích hoạt hiệu ứng khi di chuột qua nút
-
-        // Thay đổi màu nền khi hover
-        btnThemChuDe.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnThemChuDe.setBackground(new java.awt.Color(255, 165, 0));  // Màu nền cam khi hover
-            }
-
-            @Override
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnThemChuDe.setBackground(new java.awt.Color(0, 123, 255));  // Trở lại màu xanh dương khi không hover
-            }
-        });
-
-        // Khi nút được nhấn (Pressed)
-        btnThemChuDe.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnThemChuDeActionPerformed(evt);
-            }
-        });
         // Thay đổi màu nền và màu chữ cho nút bình thường
         jButton5.setBackground(new java.awt.Color(255, 69, 0));  // Màu nền đỏ cam (RGB: 255, 69, 0)
         jButton5.setForeground(new java.awt.Color(255, 255, 255));  // Màu chữ trắng
@@ -233,6 +219,50 @@ public class QuestionPanel extends javax.swing.JPanel {
             @Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 btnSuaChuDe.setBackground(new java.awt.Color(50, 205, 50));  // Trở lại màu xanh lá sáng khi không hover
+            }
+        });
+        // Thay đổi màu nền và màu chữ cho nút bình thường
+        jButton1.setBackground(new java.awt.Color(128,128,128));  // Màu nền xanh dương
+        jButton1.setForeground(new java.awt.Color(255,255,255));  // Màu chữ trắng
+
+        // Thay đổi font chữ
+        jButton1.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 14));
+
+        // Tạo hiệu ứng khi chuột di chuyển qua nút (hover)
+        jButton1.setRolloverEnabled(true);  // Kích hoạt hiệu ứng khi di chuột qua nút
+
+        // Thay đổi màu nền khi hover
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jButton1.setBackground(new java.awt.Color(255, 165, 0));  // Màu nền cam khi hover
+            }
+
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jButton1.setBackground(new java.awt.Color(128,128,128));  // Trở lại màu xanh dương khi không hover
+            }
+        });
+        // Thay đổi màu nền và màu chữ cho nút bình thường
+        btnThemChuDe.setBackground(new java.awt.Color(0,255,255));  // Màu nền xanh dương
+        btnThemChuDe.setForeground(new java.awt.Color(255,255,255));  // Màu chữ trắng
+
+        // Thay đổi font chữ
+        btnThemChuDe.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 14));
+
+        // Tạo hiệu ứng khi chuột di chuyển qua nút (hover)
+        btnThemChuDe.setRolloverEnabled(true);  // Kích hoạt hiệu ứng khi di chuột qua nút
+
+        // Thay đổi màu nền khi hover
+        btnThemChuDe.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnThemChuDe.setBackground(new java.awt.Color(255, 165, 0));  // Màu nền cam khi hover
+            }
+
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnThemChuDe.setBackground(new java.awt.Color(0,255,255));  // Trở lại màu xanh dương khi không hover
             }
         });
 
@@ -336,20 +366,22 @@ public class QuestionPanel extends javax.swing.JPanel {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(205, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(245, 245, 245))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGap(0, 199, Short.MAX_VALUE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(245, 245, 245))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jButton2)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton3)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jButton2)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton3)
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addContainerGap())))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -430,25 +462,96 @@ public class QuestionPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnChiTietQuestionActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnChiTietQuestionActionPerformed
-        new EditQuestionDialog(null, true).setVisible(true);
-    }// GEN-LAST:event_btnChiTietQuestionActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btnThemChuDeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemChuDeActionPerformed
+    ThemChuDeDialog dialog = new ThemChuDeDialog(null, true);
+    dialog.setLocationRelativeTo(null); // Place the dialog in the center of the screen
+    dialog.setVisible(true);
+    }//GEN-LAST:event_btnThemChuDeActionPerformed
+
+    private void ResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ResetActionPerformed
+        jTree2.setModel(null);
+        loadTopics();
+    }//GEN-LAST:event_ResetActionPerformed
+
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
     }// GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-    }// GEN-LAST:event_jButton5ActionPerformed
+       DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) jTree2.getLastSelectedPathComponent();
+if (selectedNode != null) {
+      int confirm = JOptionPane.showConfirmDialog(
+            null,
+            "Bạn có chắc chắn muốn thêm chủ đề này?",
+            "Xác nhận",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.WARNING_MESSAGE
+        );
 
-    private void btnThemChuDeActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnThemChuDeActionPerformed
-        new ThemChuDeDialog(null, true).setVisible(true);
-    }// GEN-LAST:event_btnThemChuDeActionPerformed
+        if (confirm == JOptionPane.YES_OPTION) {
+    String nodeContent = selectedNode.toString(); // Lấy nội dung của node
+    int topicID = topicsBUS.getTopicIdByName(nodeContent);
+    TopicsDTO topic = topicsBUS.getTopicByID(topicID);
+    TopicsDTO topic_update = new TopicsDTO(topic.getTpID(),topic.getTpTitle(),topic.getTpParent(),0);
+    topicsBUS.update(topic_update);
+    loadTopics();
+          JOptionPane.showMessageDialog(null, "Bạn đã xóa thành công", "Xác nhận", JOptionPane.INFORMATION_MESSAGE);
+        } 
+} else {
+             JOptionPane.showMessageDialog(null, "Hãy chọn một chủ đề", "Nhắc nhở", JOptionPane.INFORMATION_MESSAGE);
+}
 
+    }
+
+
+    
+    public void loadTopics() {
+    try {
+        TopicsDAO topicsDAO = new TopicsDAO();
+        ArrayList<TopicsDTO> topics = topicsDAO.getAll();
+        
+        jTree2.setModel(null); // Xóa toàn bộ cây
+        // Tạo node gốc
+        DefaultMutableTreeNode root = new DefaultMutableTreeNode("Tất cả");
+
+        // Sử dụng HashMap để lưu node theo ID
+        Map<Integer, DefaultMutableTreeNode> nodeMap = new HashMap<>();
+        nodeMap.put(0, root); // Gốc có tpParent = 0
+
+        // Lặp qua danh sách các chủ đề
+        for (TopicsDTO topic : topics) {
+            if(topic.getTpStatus() == 1){
+                            DefaultMutableTreeNode node = new DefaultMutableTreeNode(topic.getTpTitle());
+            nodeMap.put(topic.getTpID(), node);
+            
+            // Thêm vào node cha dựa vào tpParent
+            DefaultMutableTreeNode parent = nodeMap.get(topic.getTpParent());
+            if (parent != null) {
+                parent.add(node);
+            } else {
+                // Nếu không tìm thấy parent, có thể là lỗi dữ liệu hoặc tpParent là 0
+                root.add(node); // Thêm vào root nếu không có parent
+            }
+            }
+        }
+
+        // Gán dữ liệu vào JTree
+        jTree2.setModel(new DefaultTreeModel(root));
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+}
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Reset;
     private javax.swing.JButton btnSuaChuDe;
     private javax.swing.JButton btnThemChuDe;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton5;
@@ -456,10 +559,10 @@ public class QuestionPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSplitPane jSplitPane1;
-    private javax.swing.JTree jTree1;
+    private javax.swing.JTree jTree2;
     private javax.swing.JTable table_question;
     // End of variables declaration//GEN-END:variables
 
