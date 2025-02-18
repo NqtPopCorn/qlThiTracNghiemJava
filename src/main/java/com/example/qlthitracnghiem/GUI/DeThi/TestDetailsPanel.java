@@ -33,9 +33,9 @@ public class TestDetailsPanel extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         pnlCenter = new javax.swing.JPanel();
-        questionOpntionsPanel1 = new com.example.qlthitracnghiem.GUI.CauHoi.Question();
-        questionOpntionsPanel2 = new com.example.qlthitracnghiem.GUI.CauHoi.Question();
-        questionOpntionsPanel3 = new com.example.qlthitracnghiem.GUI.CauHoi.Question();
+        questionOpntionsPanel1 = new com.example.qlthitracnghiem.GUI.CauHoi.Question_old();
+        questionOpntionsPanel2 = new com.example.qlthitracnghiem.GUI.CauHoi.Question_old();
+        questionOpntionsPanel3 = new com.example.qlthitracnghiem.GUI.CauHoi.Question_old();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -123,8 +123,8 @@ public class TestDetailsPanel extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel pnlCenter;
-    private com.example.qlthitracnghiem.GUI.CauHoi.Question questionOpntionsPanel1;
-    private com.example.qlthitracnghiem.GUI.CauHoi.Question questionOpntionsPanel2;
-    private com.example.qlthitracnghiem.GUI.CauHoi.Question questionOpntionsPanel3;
+    private com.example.qlthitracnghiem.GUI.CauHoi.Question_old questionOpntionsPanel1;
+    private com.example.qlthitracnghiem.GUI.CauHoi.Question_old questionOpntionsPanel2;
+    private com.example.qlthitracnghiem.GUI.CauHoi.Question_old questionOpntionsPanel3;
     // End of variables declaration//GEN-END:variables
 }
