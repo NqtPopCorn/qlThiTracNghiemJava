@@ -42,9 +42,9 @@ public class DoExamJPanel extends javax.swing.JPanel {
         roundedButton5 = new com.example.qlthitracnghiem.GUI.Component.RoundedButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         pnlCenter = new javax.swing.JPanel();
-        question1 = new com.example.qlthitracnghiem.GUI.CauHoi.Question();
-        question2 = new com.example.qlthitracnghiem.GUI.CauHoi.Question();
-        question3 = new com.example.qlthitracnghiem.GUI.CauHoi.Question();
+        question1 = new com.example.qlthitracnghiem.GUI.CauHoi.Question_old();
+        question2 = new com.example.qlthitracnghiem.GUI.CauHoi.Question_old();
+        question3 = new com.example.qlthitracnghiem.GUI.CauHoi.Question_old();
 
         setPreferredSize(new java.awt.Dimension(1206, 760));
         setLayout(new java.awt.BorderLayout());
@@ -158,9 +158,9 @@ public class DoExamJPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPanel pnlBaiThiInfo;
     private javax.swing.JPanel pnlCenter;
-    private com.example.qlthitracnghiem.GUI.CauHoi.Question question1;
-    private com.example.qlthitracnghiem.GUI.CauHoi.Question question2;
-    private com.example.qlthitracnghiem.GUI.CauHoi.Question question3;
+    private com.example.qlthitracnghiem.GUI.CauHoi.Question_old question1;
+    private com.example.qlthitracnghiem.GUI.CauHoi.Question_old question2;
+    private com.example.qlthitracnghiem.GUI.CauHoi.Question_old question3;
     private com.example.qlthitracnghiem.GUI.Component.RoundedButton roundedButton1;
     private com.example.qlthitracnghiem.GUI.Component.RoundedButton roundedButton5;
     // End of variables declaration//GEN-END:variables

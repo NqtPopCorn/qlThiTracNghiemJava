@@ -195,11 +195,11 @@
             <Property name="axis" type="int" value="1"/>
           </Layout>
           <SubComponents>
-            <Component class="com.example.qlthitracnghiem.GUI.CauHoi.Question" name="question1">
+            <Component class="com.example.qlthitracnghiem.GUI.CauHoi.Question_old" name="question1">
             </Component>
-            <Component class="com.example.qlthitracnghiem.GUI.CauHoi.Question" name="question2">
+            <Component class="com.example.qlthitracnghiem.GUI.CauHoi.Question_old" name="question2">
             </Component>
-            <Component class="com.example.qlthitracnghiem.GUI.CauHoi.Question" name="question3">
+            <Component class="com.example.qlthitracnghiem.GUI.CauHoi.Question_old" name="question3">
             </Component>
           </SubComponents>
         </Container>

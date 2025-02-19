@@ -12,12 +12,12 @@ import com.example.qlthitracnghiem.utils.ImageUtil;
  *
  * @author truon
  */
-public class Question extends javax.swing.JPanel {
+public class Question_old extends javax.swing.JPanel {
 
     /**
      * Creates new form QuestionPanel
      */
-    public Question() {
+    public Question_old() {
         initComponents();
         ImageUtil.setIcon(jLabel3, "/icons/ic_user_30.png", 100, 80);
         questionOption1.setButtonText("A");
@@ -47,12 +47,12 @@ public class Question extends javax.swing.JPanel {
         buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        questionOption1 = new com.example.qlthitracnghiem.GUI.CauHoi.QuestionOption();
-        questionOption2 = new com.example.qlthitracnghiem.GUI.CauHoi.QuestionOption();
-        questionOption6 = new com.example.qlthitracnghiem.GUI.CauHoi.QuestionOption();
-        questionOption5 = new com.example.qlthitracnghiem.GUI.CauHoi.QuestionOption();
-        questionOption3 = new com.example.qlthitracnghiem.GUI.CauHoi.QuestionOption();
-        questionOption4 = new com.example.qlthitracnghiem.GUI.CauHoi.QuestionOption();
+        questionOption1 = new com.example.qlthitracnghiem.GUI.CauHoi.QuestionOption_old();
+        questionOption2 = new com.example.qlthitracnghiem.GUI.CauHoi.QuestionOption_old();
+        questionOption6 = new com.example.qlthitracnghiem.GUI.CauHoi.QuestionOption_old();
+        questionOption5 = new com.example.qlthitracnghiem.GUI.CauHoi.QuestionOption_old();
+        questionOption3 = new com.example.qlthitracnghiem.GUI.CauHoi.QuestionOption_old();
+        questionOption4 = new com.example.qlthitracnghiem.GUI.CauHoi.QuestionOption_old();
 
         setName(""); // NOI18N
         setPreferredSize(new java.awt.Dimension(800, 1000));
@@ -81,7 +81,7 @@ public class Question extends javax.swing.JPanel {
         frame.setSize(1200, 800);
         frame.setLayout(new java.awt.FlowLayout());
 
-        Question questionPanel = new Question();
+        Question_old questionPanel = new Question_old();
         frame.add(questionPanel);
         System.out.println(questionPanel.getPreferredSize());
         frame.setVisible(true);
@@ -91,11 +91,11 @@ public class Question extends javax.swing.JPanel {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
-    private com.example.qlthitracnghiem.GUI.CauHoi.QuestionOption questionOption1;
-    private com.example.qlthitracnghiem.GUI.CauHoi.QuestionOption questionOption2;
-    private com.example.qlthitracnghiem.GUI.CauHoi.QuestionOption questionOption3;
-    private com.example.qlthitracnghiem.GUI.CauHoi.QuestionOption questionOption4;
-    private com.example.qlthitracnghiem.GUI.CauHoi.QuestionOption questionOption5;
-    private com.example.qlthitracnghiem.GUI.CauHoi.QuestionOption questionOption6;
+    private com.example.qlthitracnghiem.GUI.CauHoi.QuestionOption_old questionOption1;
+    private com.example.qlthitracnghiem.GUI.CauHoi.QuestionOption_old questionOption2;
+    private com.example.qlthitracnghiem.GUI.CauHoi.QuestionOption_old questionOption3;
+    private com.example.qlthitracnghiem.GUI.CauHoi.QuestionOption_old questionOption4;
+    private com.example.qlthitracnghiem.GUI.CauHoi.QuestionOption_old questionOption5;
+    private com.example.qlthitracnghiem.GUI.CauHoi.QuestionOption_old questionOption6;
     // End of variables declaration//GEN-END:variables
 }
