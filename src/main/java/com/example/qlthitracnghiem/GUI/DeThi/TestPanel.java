@@ -2,7 +2,9 @@
 package com.example.qlthitracnghiem.GUI.DeThi;
 
 import com.example.qlthitracnghiem.BUS.ExamBUS;
+import com.example.qlthitracnghiem.BUS.QuestionsBUS;
 import com.example.qlthitracnghiem.BUS.TestBUS;
+import com.example.qlthitracnghiem.DTO.QuestionsDTO;
 import com.example.qlthitracnghiem.DTO.TestDTO;
 import org.json.JSONArray;
 
@@ -16,6 +18,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -37,14 +40,14 @@ public class TestPanel extends JPanel {
         // Panel chứa danh sách bài kiểm tra
         mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-
+        mainPanel.setBackground(new Color(255, 255, 255));
         try {
-            updateTestPanel(testBUS.getExam());
+            updateTestPanel(testBUS.getAll());
         } catch (Exception ex) {
             Logger.getLogger(TestPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        scrollPane = new JScrollPane(mainPanel);
+        scrollPane = new JScrollPane(mainPanel); // k hiện thanh scroll do kích thước chiều y nhỏ quá đó đm nóa
         add(scrollPane, BorderLayout.CENTER);
 
         // Panel chứa ô tìm kiếm và nút tạo đề thi
@@ -89,8 +92,14 @@ public class TestPanel extends JPanel {
         createButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                CreateTestDialog createTestFrame = new CreateTestDialog(null, true);
-                createTestFrame.setVisible(true);
+                CreateTestDialog createTestDialog = new CreateTestDialog(null, true);
+                createTestDialog.setVisible(true);
+                try {
+                    updateTestPanel(testBUS.getAll());
+                } catch (Exception ex) {
+                    Logger.getLogger(TestPanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
             }
         });
         createButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/add.png")));
@@ -139,84 +148,163 @@ public class TestPanel extends JPanel {
         } else {
             for (TestDTO test : tests) {
                 mainPanel.add(createTestPanel(
-                        test.getTestID(),
+                        test.getTestTime(),
                         test.getTestTitle(),
                         test.getTestDate() != null ? test.getTestDate().toString() : "Không có ngày",
                         test.getTestStatus() == 1 ? "Đang mở" : "Đã kết thúc",
-                        test.getTestCode())); // Thêm testCode vào đây
+                        test.getTestCode()));
             }
         }
 
-        // Cập nhật lại giao diện
         mainPanel.revalidate();
         mainPanel.repaint();
     }
 
-    private JPanel createTestPanel(int testID, String title, String date, String status, String testCode) {
+    private JPanel createTestPanel(int testTime, String title, String date, String status, String testCode) {
         JPanel panel = new JPanel();
         panel.setBackground(new Color(255, 255, 255));
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(Color.BLACK),
                 BorderFactory.createEmptyBorder(10, 10, 10, 10)));
-        JLabel testLabel = new JLabel("Kiểm tra lần " + testID);
         JLabel subjectLabel = new JLabel("Test title: " + title);
         JLabel dateLabel = new JLabel("Diễn ra từ ngày: " + date);
         JLabel statusLabel = new JLabel("Tình trạng: " + status);
-        testLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         subjectLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         dateLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         statusLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        // Panel chứa các nút bấm
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 0));
         buttonPanel.setBackground(new Color(255, 255, 255));
         JButton viewButton = new JButton("Xem chi tiết");
         viewButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/eye.png")));
         viewButton.setBackground(new Color(220, 230, 205));
 
-        // Xử lý sự kiện khi nhấn nút "Xem chi tiết"
         viewButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    // Lấy danh sách ex_quesIDs từ bảng exams dựa trên testID
-                    List<Integer> exQuesIDs = examBUS.getExQuesIDs(testCode);
-                    System.err.println("exquesid" + exQuesIDs);
-                    // Tạo một JPanel mới để hiển thị thông tin chi tiết
-                    JPanel detailPanel = new JPanel();
-                    detailPanel.setLayout(new BoxLayout(detailPanel, BoxLayout.Y_AXIS));
+                    // Lấy danh sách exCode từ bảng exams dựa trên testCode
+                    List<String> examCodes = examBUS.getExamCode(testCode);
+                    System.err.println("examCode: " + examCodes);
 
-                    // Duyệt qua từng qID trong ex_quesIDs
-                    for (int qID : exQuesIDs) {
-                        // Lấy qContent từ bảng questions
-                        String qContent = examBUS.getQuestionContent(qID);
+                    JPanel detailPanel = new JPanel(new BorderLayout());
+                    detailPanel.setBackground(new Color(255, 255, 255));
 
-                        // Lấy awContent từ bảng answers
-                        List<String> awContents = examBUS.getAnswerContent(qID);
+                    // Panel chứa thông tin bài thi và câu hỏi
+                    JPanel contentPanel = new JPanel();
+                    contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
+                    contentPanel.setBackground(new Color(255, 255, 255));
+                    contentPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0)); // top, left, bottom, right
 
-                        // Tạo một JPanel để hiển thị câu hỏi và câu trả lời
-                        JPanel questionPanel = new JPanel();
-                        questionPanel.setLayout(new BoxLayout(questionPanel, BoxLayout.Y_AXIS));
-                        questionPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                    JLabel jtfTestTitle = new JLabel("Bài thi môn: " + title);
+                    jtfTestTitle.setFont(new Font("Serif", Font.BOLD, 18));
+                    contentPanel.add(jtfTestTitle);
 
-                        // Thêm qContent vào JPanel
-                        JLabel qContentLabel = new JLabel("Câu hỏi: " + qContent);
-                        questionPanel.add(qContentLabel);
+                    JLabel jtfTestTime = new JLabel("Thời gian: " + testTime + " phút");
+                    jtfTestTime.setFont(new Font("Serif", Font.BOLD, 18));
+                    contentPanel.add(jtfTestTime);
 
-                        // Thêm awContent vào JPanel
-                        for (String awContent : awContents) {
-                            JLabel awContentLabel = new JLabel("Trả lời: " + awContent);
-                            questionPanel.add(awContentLabel);
+                    for (String exCode : examCodes) {
+                        // Hiển thị mã đề
+                        JLabel exCodeLabel = new JLabel("Mã đề: " + exCode);
+                        exCodeLabel.setFont(new Font("Serif", Font.BOLD, 16));
+                        contentPanel.add(exCodeLabel);
+                        contentPanel.add(Box.createVerticalStrut(20)); // Khoảng cách giữa phần thời gian và mã đề đầu
+                                                                       // tiên
+
+                        // Lấy danh sách câu hỏi và câu trả lời cho exCode hiện tại
+                        List<Integer> exQuesIDs = examBUS.getExQuesIDsByExCode(exCode);
+                        System.err.println("ex_quesIDs: " + exQuesIDs);
+
+                        int questionNumber = 1;
+                        for (int qID : exQuesIDs) {
+                            // Lấy nội dung câu hỏi và hình ảnh
+                            Map<String, String> questionData = examBUS.getQuestionContent(qID);
+                            String qContent = questionData.get("qContent");
+                            String qPictures = questionData.get("qPictures");
+
+                            // Tạo panel cho câu hỏi
+                            JPanel questionPanel = new JPanel();
+                            questionPanel.setLayout(new BoxLayout(questionPanel, BoxLayout.Y_AXIS));
+                            questionPanel.setBackground(new Color(255, 255, 255));
+
+                            // Hiển thị nội dung câu hỏi
+                            JLabel qContentLabel = new JLabel("Câu " + questionNumber + ": " + qContent);
+                            qContentLabel.setFont(new Font("Serif", Font.BOLD, 12));
+                            questionPanel.add(qContentLabel);
+
+                            // Hiển thị hình ảnh câu hỏi (nếu có)
+                            if (qPictures != null && !qPictures.isEmpty()) {
+                                JLabel qPictureLabel = new JLabel("Hình ảnh: " + qPictures);
+                                qPictureLabel.setFont(new Font("Serif", Font.PLAIN, 12));
+                                questionPanel.add(qPictureLabel);
+                            }
+
+                            // Lấy danh sách câu trả lời và hình ảnh
+                            List<Map<String, String>> awContents = examBUS.getAnswerContent(qID);
+
+                            // Tạo ButtonGroup cho câu hỏi hiện tại
+                            ButtonGroup buttonGroup = new ButtonGroup();
+
+                            for (Map<String, String> answerData : awContents) {
+                                String awContent = answerData.get("awContent");
+                                String awPictures = answerData.get("awPictures");
+
+                                // Tạo JRadioButton cho mỗi câu trả lời
+                                JRadioButton radioButton = new JRadioButton(awContent);
+                                radioButton.setFont(new Font("Serif", Font.PLAIN, 12));
+                                radioButton.setBackground(new Color(255, 255, 255));
+
+                                // Hiển thị hình ảnh câu trả lời (nếu có)
+                                if (awPictures != null && !awPictures.isEmpty()) {
+                                    radioButton.setText(awContent + " (Hình ảnh: " + awPictures + ")");
+                                }
+
+                                buttonGroup.add(radioButton);
+                                questionPanel.add(radioButton);
+                            }
+
+                            contentPanel.add(questionPanel);
+                            contentPanel.add(Box.createVerticalStrut(10)); // Khoảng cách giữa các câu hỏi
+                            questionNumber++;
                         }
 
-                        // Thêm questionPanel vào detailPanel
-                        detailPanel.add(questionPanel);
+                        contentPanel.add(Box.createVerticalStrut(20)); // Khoảng cách giữa các mã đề
                     }
 
-                    // Xóa toàn bộ nội dung cũ của mainPanel và thêm detailPanel vào
+                    detailPanel.add(contentPanel, BorderLayout.CENTER);
+
+                    JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+                    bottomPanel.setBackground(new Color(255, 255, 255));
+
+                    JButton btnBack = new JButton("Back");
+                    btnBack.setBackground(new Color(28, 58, 118));
+                    btnBack.setForeground(Color.WHITE);
+                    btnBack.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            mainPanel.removeAll();
+                            try {
+                                updateTestPanel(testBUS.getAll());
+                            } catch (Exception ex) {
+                                Logger.getLogger(TestPanel.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            mainPanel.revalidate();
+                            mainPanel.repaint();
+                        }
+                    });
+
+                    bottomPanel.add(btnBack);
+                    detailPanel.add(bottomPanel, BorderLayout.SOUTH);
+
+                    JScrollPane scrollPane = new JScrollPane(detailPanel);
+                    scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+                    scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
+                    // Cập nhật mainPanel với JScrollPane
                     mainPanel.removeAll();
-                    mainPanel.add(detailPanel);
+                    mainPanel.add(scrollPane);
                     mainPanel.revalidate();
                     mainPanel.repaint();
                 } catch (Exception ex) {
@@ -225,7 +313,6 @@ public class TestPanel extends JPanel {
                 }
             }
         });
-
         JButton editButton = new JButton("Chỉnh sửa");
         editButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/wrench.png")));
         editButton.setBackground(new Color(175, 205, 235));
@@ -237,8 +324,6 @@ public class TestPanel extends JPanel {
         buttonPanel.add(editButton);
         buttonPanel.add(deleteButton);
         buttonPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-
-        panel.add(testLabel);
         panel.add(subjectLabel);
         panel.add(dateLabel);
         panel.add(statusLabel);
