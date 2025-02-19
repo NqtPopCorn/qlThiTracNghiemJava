@@ -6,25 +6,21 @@ package com.example.qlthitracnghiem.GUI.CauHoi;
 
 import com.example.qlthitracnghiem.BUS.QuestionsBUS;
 import com.example.qlthitracnghiem.BUS.TopicsBUS;
-import com.example.qlthitracnghiem.DAO.TopicsDAO;
 import com.example.qlthitracnghiem.DTO.QuestionsDTO;
 import com.example.qlthitracnghiem.DTO.TopicsDTO;
 import java.awt.Color;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.swing.BorderFactory;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JTree;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreePath;
 
 /**
  *
@@ -69,6 +65,8 @@ public class QuestionPanel extends javax.swing.JPanel {
         xoabtn_question = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         table_question = new javax.swing.JTable();
+        find_txt = new javax.swing.JTextField();
+        find_cbx = new javax.swing.JComboBox<>();
 
         setPreferredSize(new java.awt.Dimension(1040, 700));
 
@@ -265,6 +263,15 @@ public class QuestionPanel extends javax.swing.JPanel {
         display_questions(-1);
         jScrollPane2.setViewportView(table_question);
 
+        find_txt.setText("Tìm kiếm");
+        find_txt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                find_txtActionPerformed(evt);
+            }
+        });
+
+        find_cbx.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"Nội dung", "Mức độ", "Id" }));
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -283,6 +290,10 @@ public class QuestionPanel extends javax.swing.JPanel {
                                 .addComponent(qthem_btn)
                                 .addGap(18, 18, 18)
                                 .addComponent(xoabtn_question)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(find_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(find_cbx, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap())))
         );
@@ -294,7 +305,9 @@ public class QuestionPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(qthem_btn)
-                    .addComponent(xoabtn_question))
+                    .addComponent(xoabtn_question)
+                    .addComponent(find_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(find_cbx, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 574, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -396,6 +409,26 @@ public class QuestionPanel extends javax.swing.JPanel {
         display_questions(-1);
     }//GEN-LAST:event_ResetActionPerformed
 
+    private void find_txtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_find_txtActionPerformed
+    
+        String token = (String) find_cbx.getSelectedItem();
+        String content = find_txt.getText();
+        String key = "";
+        switch(token){
+            case "Id" -> key = "id";
+            case "Nội dung" -> key = "content";
+            case "Mức độ" -> key = "level";
+        }
+        
+        if(content.isEmpty()){
+        display_questions(-1);
+        }
+        else{
+           List<QuestionsDTO> questions = questionBUS.find(content, key);
+           display(questions);
+        }         
+    }//GEN-LAST:event_find_txtActionPerformed
+
     private void qthem_btnActionPerformed(java.awt.event.ActionEvent evt) {                                             
     ThemCauHoiDialog dialog = new ThemCauHoiDialog(null, true);
     dialog.setLocationRelativeTo(null); // Place the dialog in the center of the screen
@@ -489,7 +522,7 @@ if (selectedNode != null) {
 
     }
 
- 
+ //hàm hiển thị theo topic
 public void display_questions(int qTopicID) {
     // Lấy model hiện tại của bảng (nếu có)
     DefaultTableModel tableModel = (DefaultTableModel) table_question.getModel();
@@ -620,7 +653,103 @@ table_question.getColumnModel().getColumn(0).setPreferredWidth(40);  // Độ r�
 table_question.getColumnModel().getColumn(0).setMaxWidth(50);       // Độ rộng tối đa cho cột checkbox
 table_question.getColumnModel().getColumn(0).setMinWidth(30);   
 }
-    public void loadTopics() {
+
+//hàm hiển thị theo danh sách có sẵn
+public void display(List<QuestionsDTO> list){
+ // Lấy model hiện tại của bảng (nếu có)
+    DefaultTableModel tableModel = (DefaultTableModel) table_question.getModel();
+    
+    tableModel = new DefaultTableModel(
+    new Object [][] {},
+    new String [] {
+        "", "Ảnh", "Nội dung", "Mức độ", "Chủ đề"
+    }
+) {
+    @Override
+    public Class<?> getColumnClass(int columnIndex) {
+        return (columnIndex == 0) ? Boolean.class : String.class; // Cột đầu là checkbox
+    }
+
+    @Override
+    public boolean isCellEditable(int row, int column) {
+        return column == 0; // Chỉ chỉnh sửa checkbox
+    }
+};
+    
+    // Xóa tất cả các dòng hiện có để tránh dữ liệu bị lặp
+    tableModel.setRowCount(0);  
+
+    for (QuestionsDTO question : list) {
+        if (question.getqStatus() == 1) {  // Chỉ lấy các câu hỏi có trạng thái hợp lệ
+            Object[] row = new Object[5];
+
+            row[0] = false; // Checkbox mặc định là chưa chọn
+            row[1] = question.getqPicture(); // Ảnh (hiện tại đang là đường dẫn)
+            row[2] = question.getqContent(); // Nội dung câu hỏi
+
+            // Xác định mức độ
+            switch (question.getqLevel()) {
+                case 1:
+                    row[3] = "easy";
+                    break;
+                case 2:
+                    row[3] = "medium";
+                    break;
+                default:
+                    row[3] = "difficult";
+                    break;
+            }
+
+            // Lấy tên chủ đề từ topicsBUS
+            String topicName = topicsBUS.getTopicByID(question.getqTopicID()).getTpTitle();
+            row[4] = topicName;
+
+            // Thêm hàng vào bảng
+            tableModel.addRow(row);
+        }
+    }
+    // Gán lại model (nếu cần)
+    table_question.setModel(tableModel);
+    
+    // 1️⃣ Căn giữa tiêu đề cột
+DefaultTableCellRenderer headerRenderer = (DefaultTableCellRenderer) table_question.getTableHeader().getDefaultRenderer();
+headerRenderer.setHorizontalAlignment(JLabel.CENTER);
+
+// 2️⃣ Căn giữa nội dung của cột cuối cùng ("Mức độ")
+DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+
+// Xác định cột cuối cùng (cột "Mức độ")
+int lastColumnIndex = table_question.getColumnCount() - 1;
+table_question.getColumnModel().getColumn(lastColumnIndex).setCellRenderer(centerRenderer);
+
+// Căn giữa nội dung của cột "Mức độ"
+table_question.getColumnModel().getColumn(lastColumnIndex-1).setCellRenderer(centerRenderer);
+
+// Thu hẹp độ rộng của cột "Chủ đề"
+table_question.getColumnModel().getColumn(lastColumnIndex).setPreferredWidth(120);  // Độ rộng mong muốn
+table_question.getColumnModel().getColumn(lastColumnIndex).setMaxWidth(200);       // Độ rộng tối đa
+table_question.getColumnModel().getColumn(lastColumnIndex).setMinWidth(60);        // Độ rộng tối thiểu
+
+
+// Thu hẹp độ rộng của cột "Mức độ"
+table_question.getColumnModel().getColumn(lastColumnIndex-1).setPreferredWidth(80);  // Độ rộng mong muốn
+table_question.getColumnModel().getColumn(lastColumnIndex-1).setMaxWidth(100);       // Độ rộng tối đa
+table_question.getColumnModel().getColumn(lastColumnIndex-1).setMinWidth(60);        // Độ rộng tối thiểu
+
+// 5️⃣ Thu hẹp độ rộng của cột "Ảnh"
+table_question.getColumnModel().getColumn(1).setPreferredWidth(150);  // Độ rộng mong muốn cho cột "Ảnh"
+table_question.getColumnModel().getColumn(1).setMaxWidth(300);        // Độ rộng tối đa cho cột "Ảnh"
+table_question.getColumnModel().getColumn(1).setMinWidth(50);        // Độ rộng tối thiểu cho cột "Ảnh"
+
+// 4️⃣ Thu hẹp độ rộng của cột checkbox
+table_question.getColumnModel().getColumn(0).setPreferredWidth(40);  // Độ rộng mong muốn cho cột checkbox
+table_question.getColumnModel().getColumn(0).setMaxWidth(50);       // Độ rộng tối đa cho cột checkbox
+table_question.getColumnModel().getColumn(0).setMinWidth(30);   
+}
+
+   
+public void loadTopics() {
         ArrayList<TopicsDTO> topics = topicsBUS.getAll();
         jTree2.setModel(null); // Xóa toàn bộ cây
         // Tạo node gốc
@@ -677,6 +806,8 @@ table_question.getColumnModel().getColumn(0).setMinWidth(30);
     private javax.swing.JButton Reset;
     private javax.swing.JButton btnThemChuDe;
     private javax.swing.JButton btn_loc;
+    private javax.swing.JComboBox<String> find_cbx;
+    private javax.swing.JTextField find_txt;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;

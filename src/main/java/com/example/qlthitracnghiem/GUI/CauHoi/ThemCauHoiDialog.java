@@ -1,17 +1,28 @@
 
 package com.example.qlthitracnghiem.GUI.CauHoi;
 
+import com.example.qlthitracnghiem.BUS.AnswersBUS;
 import com.example.qlthitracnghiem.BUS.QuestionsBUS;
 import com.example.qlthitracnghiem.BUS.TopicsBUS;
+import com.example.qlthitracnghiem.DTO.AnswersDTO;
+import com.example.qlthitracnghiem.DTO.QuestionsDTO;
 import com.example.qlthitracnghiem.DTO.TopicsDTO;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
+import javax.swing.JCheckBox;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 /**
  *
@@ -22,10 +33,13 @@ public class ThemCauHoiDialog extends javax.swing.JDialog {
 
     public TopicsBUS topicsBUS = new TopicsBUS();
     public QuestionsBUS questionBUS = new QuestionsBUS();
+    public AnswersBUS answersBUS = new AnswersBUS();
     
+            
     public ThemCauHoiDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+            setUpCheckBoxLogic(); //dùng để làm cho các checkbox đáp án chỉ được chọn 1 cái
          this.setSize(484, 777); // Đặt kích thước hợp lý
     this.setLocationRelativeTo(null); // Hiển thị giữa màn hình
 
@@ -41,7 +55,7 @@ public class ThemCauHoiDialog extends javax.swing.JDialog {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        question_txt = new javax.swing.JTextArea();
         jLabel3 = new javax.swing.JLabel();
         tp_cbx = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
@@ -50,31 +64,31 @@ public class ThemCauHoiDialog extends javax.swing.JDialog {
         anh_field = new javax.swing.JTextField();
         file_btn = new javax.swing.JButton();
         panel_ans = new javax.swing.JPanel();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        check_ans = new javax.swing.JCheckBox();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea2 = new javax.swing.JTextArea();
         anh_field2 = new javax.swing.JTextField();
         file_btn1 = new javax.swing.JButton();
         panel_ans1 = new javax.swing.JPanel();
-        jCheckBox2 = new javax.swing.JCheckBox();
+        check_ans2 = new javax.swing.JCheckBox();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTextArea3 = new javax.swing.JTextArea();
         anh_field3 = new javax.swing.JTextField();
         file_btn2 = new javax.swing.JButton();
         panel_ans2 = new javax.swing.JPanel();
-        jCheckBox3 = new javax.swing.JCheckBox();
+        check_ans3 = new javax.swing.JCheckBox();
         jScrollPane4 = new javax.swing.JScrollPane();
         jTextArea4 = new javax.swing.JTextArea();
         anh_field4 = new javax.swing.JTextField();
         file_btn3 = new javax.swing.JButton();
         panel_ans3 = new javax.swing.JPanel();
-        jCheckBox4 = new javax.swing.JCheckBox();
+        check_ans4 = new javax.swing.JCheckBox();
         jScrollPane5 = new javax.swing.JScrollPane();
         jTextArea5 = new javax.swing.JTextArea();
         anh_field5 = new javax.swing.JTextField();
         file_btn4 = new javax.swing.JButton();
         panel_ans4 = new javax.swing.JPanel();
-        jCheckBox5 = new javax.swing.JCheckBox();
+        check_ans1 = new javax.swing.JCheckBox();
         jScrollPane6 = new javax.swing.JScrollPane();
         jTextArea6 = new javax.swing.JTextArea();
         anh_field6 = new javax.swing.JTextField();
@@ -100,9 +114,9 @@ public class ThemCauHoiDialog extends javax.swing.JDialog {
         jPanel2.add(jLabel6);
         jLabel6.setBounds(120, 10, 160, 32);
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        question_txt.setColumns(20);
+        question_txt.setRows(5);
+        jScrollPane1.setViewportView(question_txt);
 
         jPanel2.add(jScrollPane1);
         jScrollPane1.setBounds(10, 90, 260, 60);
@@ -124,12 +138,12 @@ public class ThemCauHoiDialog extends javax.swing.JDialog {
         tp_cbx.setBounds(290, 80, 170, 22);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
-        jLabel1.setText("Chủ đề câu hỏi");
+        jLabel1.setText("Chủ đề câu hỏi (*)");
         jPanel2.add(jLabel1);
         jLabel1.setBounds(290, 60, 100, 16);
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
-        jLabel2.setText("Mức độ");
+        jLabel2.setText("Mức độ (*)");
         jPanel2.add(jLabel2);
         jLabel2.setBounds(290, 110, 110, 16);
 
@@ -140,9 +154,14 @@ public class ThemCauHoiDialog extends javax.swing.JDialog {
         anh_field.setText("Ảnh câu hỏi ");
         anh_field.setEditable(false);
         anh_field.setOpaque(false); // Loại bỏ màu nền
+        anh_field.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                anh_fieldActionPerformed(evt);
+            }
+        });
         anh_field.setBorder(null); // Xóa viền
         jPanel2.add(anh_field);
-        anh_field.setBounds(290, 160, 250, 22);
+        anh_field.setBounds(290, 160, 180, 22);
 
         file_btn.setText("Chọn file");
         jPanel2.add(file_btn);
@@ -177,13 +196,13 @@ public class ThemCauHoiDialog extends javax.swing.JDialog {
 
         panel_ans.setLayout(null);
 
-        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+        check_ans.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox1ActionPerformed(evt);
+                check_ansActionPerformed(evt);
             }
         });
-        panel_ans.add(jCheckBox1);
-        jCheckBox1.setBounds(5, 43, 19, 19);
+        panel_ans.add(check_ans);
+        check_ans.setBounds(5, 43, 19, 19);
 
         jTextArea2.setColumns(20);
         jTextArea2.setRows(5);
@@ -240,13 +259,13 @@ public class ThemCauHoiDialog extends javax.swing.JDialog {
 
         panel_ans1.setLayout(null);
 
-        jCheckBox2.addActionListener(new java.awt.event.ActionListener() {
+        check_ans2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox2ActionPerformed(evt);
+                check_ans2ActionPerformed(evt);
             }
         });
-        panel_ans1.add(jCheckBox2);
-        jCheckBox2.setBounds(5, 43, 19, 19);
+        panel_ans1.add(check_ans2);
+        check_ans2.setBounds(5, 43, 19, 19);
 
         jTextArea3.setColumns(20);
         jTextArea3.setRows(5);
@@ -303,13 +322,13 @@ public class ThemCauHoiDialog extends javax.swing.JDialog {
 
         panel_ans2.setLayout(null);
 
-        jCheckBox3.addActionListener(new java.awt.event.ActionListener() {
+        check_ans3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox3ActionPerformed(evt);
+                check_ans3ActionPerformed(evt);
             }
         });
-        panel_ans2.add(jCheckBox3);
-        jCheckBox3.setBounds(5, 43, 19, 19);
+        panel_ans2.add(check_ans3);
+        check_ans3.setBounds(5, 43, 19, 19);
 
         jTextArea4.setColumns(20);
         jTextArea4.setRows(5);
@@ -366,13 +385,13 @@ public class ThemCauHoiDialog extends javax.swing.JDialog {
 
         panel_ans3.setLayout(null);
 
-        jCheckBox4.addActionListener(new java.awt.event.ActionListener() {
+        check_ans4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox4ActionPerformed(evt);
+                check_ans4ActionPerformed(evt);
             }
         });
-        panel_ans3.add(jCheckBox4);
-        jCheckBox4.setBounds(5, 43, 19, 19);
+        panel_ans3.add(check_ans4);
+        check_ans4.setBounds(5, 43, 19, 19);
 
         jTextArea5.setColumns(20);
         jTextArea5.setRows(5);
@@ -429,13 +448,13 @@ public class ThemCauHoiDialog extends javax.swing.JDialog {
 
         panel_ans4.setLayout(null);
 
-        jCheckBox5.addActionListener(new java.awt.event.ActionListener() {
+        check_ans1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox5ActionPerformed(evt);
+                check_ans1ActionPerformed(evt);
             }
         });
-        panel_ans4.add(jCheckBox5);
-        jCheckBox5.setBounds(5, 43, 19, 19);
+        panel_ans4.add(check_ans1);
+        check_ans1.setBounds(5, 43, 19, 19);
 
         jTextArea6.setColumns(20);
         jTextArea6.setRows(5);
@@ -491,6 +510,11 @@ public class ThemCauHoiDialog extends javax.swing.JDialog {
         panel_ans4.setBounds(10, 330, 390, 100);
 
         file_btn6.setText("Xác nhận");
+        file_btn6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                file_btn6ActionPerformed(evt);
+            }
+        });
         jPanel2.add(file_btn6);
         file_btn6.setBounds(10, 160, 110, 23);
         file_btn6.addActionListener(new ActionListener() {
@@ -525,45 +549,115 @@ public class ThemCauHoiDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+    private void check_ansActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_check_ansActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox1ActionPerformed
+    }//GEN-LAST:event_check_ansActionPerformed
 
     private void anh_field2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_anh_field2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_anh_field2ActionPerformed
 
-    private void jCheckBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox2ActionPerformed
+    private void check_ans2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_check_ans2ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox2ActionPerformed
+    }//GEN-LAST:event_check_ans2ActionPerformed
 
     private void anh_field3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_anh_field3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_anh_field3ActionPerformed
 
-    private void jCheckBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox3ActionPerformed
+    private void check_ans3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_check_ans3ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox3ActionPerformed
+    }//GEN-LAST:event_check_ans3ActionPerformed
 
     private void anh_field4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_anh_field4ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_anh_field4ActionPerformed
 
-    private void jCheckBox4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox4ActionPerformed
+    private void check_ans4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_check_ans4ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox4ActionPerformed
+    }//GEN-LAST:event_check_ans4ActionPerformed
 
     private void anh_field5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_anh_field5ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_anh_field5ActionPerformed
 
-    private void jCheckBox5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox5ActionPerformed
+    private void check_ans1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_check_ans1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox5ActionPerformed
+    }//GEN-LAST:event_check_ans1ActionPerformed
 
     private void anh_field6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_anh_field6ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_anh_field6ActionPerformed
+
+    private void file_btn6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_file_btn6ActionPerformed
+        String question = question_txt.getText().trim();
+        String topic = (String) tp_cbx.getSelectedItem();
+        String level = (String) level_cbx.getSelectedItem();
+        String pic = anh_field.getText();
+        if(question.isEmpty()){
+               JOptionPane.showMessageDialog(null, "Hãy ghi nội dung câu hỏi", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+        else if(!kiemTraDapAn()){ return; }
+        else{
+                        QuestionsDTO new_question = new QuestionsDTO();
+                        new_question.setqContent(question);
+                        new_question.setqTopicID(topicsBUS.getTopicIdByName(topic));
+                        new_question.setqStatus(1);
+            switch(level){
+                case "easy" -> new_question.setqLevel(1);
+                case "medium" -> new_question.setqLevel(2);
+                case "difficult" -> new_question.setqLevel(3);
+            }
+          switch(pic){
+              case "Ảnh câu hỏi " -> new_question.setqPicture("");
+              default -> new_question.setqPicture(pic);
+
+          }
+          
+          int newID = questionBUS.create(new_question); //thêm câu hỏi
+          
+          Object[][] answerList = layDuLieuDapAn();
+          
+          for(Object[] answer : answerList){
+              if(!answer[0].equals("") || !answer[1].equals("Ảnh đáp án")){
+                  AnswersDTO new_answer = new AnswersDTO();
+                  
+                  new_answer.setQID(newID);
+                  new_answer.setAwStatus(1);
+                 
+                  if(answer[0].equals("")){
+                       new_answer.setAwContent("");
+                  }
+                  else{
+                    new_answer.setAwContent((String)answer[0]);
+                  }
+                  System.out.println(answer[0]);
+                  
+                  if(answer[1].equals("Ảnh đáp án")){
+                       new_answer.setAwPictures("");
+                  }
+                  else{
+                    new_answer.setAwPictures((String)answer[1]);
+                  }
+                  
+                   if((boolean)answer[2] == true){
+                       new_answer.setIsRight(1);
+                  }
+                  else{
+                   new_answer.setIsRight(0);
+                  } 
+                   
+                   answersBUS.create(new_answer); //thêm câu trả lời
+              }
+          }
+              JOptionPane.showMessageDialog(null, "Đã thêm câu hỏi thành công", "Thông báo", JOptionPane.WARNING_MESSAGE);
+
+        }
+    }//GEN-LAST:event_file_btn6ActionPerformed
+
+    private void anh_fieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_anh_fieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_anh_fieldActionPerformed
 
     
       
@@ -593,22 +687,128 @@ public class ThemCauHoiDialog extends javax.swing.JDialog {
         //</editor-fold>
 
         /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
+        java.awt.EventQueue.invokeLater(() -> {
             ThemCauHoiDialog dialog = new ThemCauHoiDialog(new javax.swing.JFrame(), true);
             dialog.setLocationRelativeTo(null); // Hiển thị ở giữa màn hình
             dialog.setVisible(true); // Hiển thị dialog
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                    
-                });
+            dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                @Override
+                public void windowClosing(java.awt.event.WindowEvent e) {
+                    System.exit(0);
+                }
+                
+            });
+        });
+    }
+    
+    //hàm dùng để kiểm tra xem người nhập đã nhập đúng đáp án chưa
+    private boolean kiemTraDapAn() {
+    int soDapAnHopLe = 0; // Biến đếm số đáp án hợp lệ
+    boolean coDapAnDung = false; // Biến kiểm tra có đáp án đúng nào không
 
+    JPanel[] panelAnswers = {panel_ans,panel_ans1, panel_ans2, panel_ans3, panel_ans4}; 
+    
+    for (JPanel panel : panelAnswers) {
+        boolean coNoiDung = false;
+        boolean laDapAnDung = false;
+        
+        for (Component comp : panel.getComponents()) {
+if (comp instanceof JScrollPane scrollPane) { 
+        Component view = scrollPane.getViewport().getView();
+        if (view instanceof JTextArea jTextArea) {
+            String text = jTextArea.getText().trim();
+            System.out.println("Đọc được JTextArea: " + text);
+            if (!text.isEmpty()) {
+                coNoiDung = true;
+            }
+        }
+    }
+            if (comp instanceof JTextField jTextField) { // Kiểm tra file ảnh đã chọn
+                String filePath = jTextField.getText().trim();
+                if (!filePath.equals("Ảnh đáp án")) {
+                    coNoiDung = true;
+                }
+            }
+            if (comp instanceof JCheckBox checkBox) { // Kiểm tra đáp án đúng
+                                if (checkBox.isSelected()) {
+                    laDapAnDung = true;
+                }
+            }
+        }
+
+        if (coNoiDung) {
+            soDapAnHopLe++; // Nếu đáp án hợp lệ, tăng biến đếm
+            if (laDapAnDung) {
+                coDapAnDung = true; // Đánh dấu có ít nhất 1 đáp án đúng
+            }
+        }
+    }
+
+    if (soDapAnHopLe < 2) {
+        JOptionPane.showMessageDialog(null, "Phải có ít nhất 2 đáp án hợp lệ!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        return false;
+    }
+
+    if (!coDapAnDung) {
+        JOptionPane.showMessageDialog(null, "Phải chọn ít nhất 1 đáp án đúng!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        return false;
+    }
+
+    return true; // Đủ điều kiện hợp lệ
+}
+
+    //hàm dùng để đảm bảo chỉ chọn 1 đáp án đúng
+    private void setUpCheckBoxLogic() {
+    JCheckBox[] checkBoxes = {check_ans, check_ans1, check_ans2, check_ans3, check_ans4};
+
+    for (JCheckBox checkBox : checkBoxes) {
+        checkBox.addItemListener((ItemEvent e) -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                for (JCheckBox otherCheckBox : checkBoxes) {
+                    if (otherCheckBox != checkBox) {
+                        otherCheckBox.setSelected(false); // Bỏ chọn các checkbox khác
+                    }
+                }
             }
         });
     }
+}
+    
+    //hàm lấy thông tin các đáp án
+    private Object[][] layDuLieuDapAn() {
+    JPanel[] panelAnswers = {panel_ans, panel_ans1, panel_ans2, panel_ans3, panel_ans4};
+    Object[][] data = new Object[panelAnswers.length][3]; // Mỗi hàng chứa: {text, image, isCorrect}
+
+    for (int i = 0; i < panelAnswers.length; i++) {
+        String text = "";
+        String imagePath = "";
+        boolean isCorrect = false;
+
+        for (Component comp : panelAnswers[i].getComponents()) {
+            if (comp instanceof JScrollPane scrollPane) { 
+                    Component view = scrollPane.getViewport().getView();
+                if (view instanceof JTextArea jTextArea) {
+                text = jTextArea.getText().trim();
+            }
+            }
+
+            if (comp instanceof JTextField jTextField) {
+                imagePath = jTextField.getText().trim();
+            }
+            if (comp instanceof JCheckBox jCheckBox) {
+                isCorrect = jCheckBox.isSelected();
+            }
+        }
+
+        // Lưu vào mảng
+        data[i][0] = text;
+        data[i][1] = imagePath;
+        data[i][2] = isCorrect;
+    }
+
+    return data;
+}
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField anh_field;
@@ -617,6 +817,11 @@ public class ThemCauHoiDialog extends javax.swing.JDialog {
     private javax.swing.JTextField anh_field4;
     private javax.swing.JTextField anh_field5;
     private javax.swing.JTextField anh_field6;
+    private javax.swing.JCheckBox check_ans;
+    private javax.swing.JCheckBox check_ans1;
+    private javax.swing.JCheckBox check_ans2;
+    private javax.swing.JCheckBox check_ans3;
+    private javax.swing.JCheckBox check_ans4;
     private javax.swing.JButton file_btn;
     private javax.swing.JButton file_btn1;
     private javax.swing.JButton file_btn2;
@@ -624,11 +829,6 @@ public class ThemCauHoiDialog extends javax.swing.JDialog {
     private javax.swing.JButton file_btn4;
     private javax.swing.JButton file_btn5;
     private javax.swing.JButton file_btn6;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JCheckBox jCheckBox3;
-    private javax.swing.JCheckBox jCheckBox4;
-    private javax.swing.JCheckBox jCheckBox5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -641,7 +841,6 @@ public class ThemCauHoiDialog extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
     private javax.swing.JTextArea jTextArea3;
     private javax.swing.JTextArea jTextArea4;
@@ -653,6 +852,7 @@ public class ThemCauHoiDialog extends javax.swing.JDialog {
     private javax.swing.JPanel panel_ans2;
     private javax.swing.JPanel panel_ans3;
     private javax.swing.JPanel panel_ans4;
+    private javax.swing.JTextArea question_txt;
     private javax.swing.JComboBox<String> tp_cbx;
     // End of variables declaration//GEN-END:variables
 }
