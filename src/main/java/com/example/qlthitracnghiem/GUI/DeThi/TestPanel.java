@@ -1,8 +1,11 @@
 
 package com.example.qlthitracnghiem.GUI.DeThi;
 
+import com.example.qlthitracnghiem.BUS.ExamBUS;
 import com.example.qlthitracnghiem.BUS.TestBUS;
 import com.example.qlthitracnghiem.DTO.TestDTO;
+import org.json.JSONArray;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,6 +15,7 @@ import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,7 +24,8 @@ public class TestPanel extends JPanel {
     private JScrollPane scrollPane;
     private JComboBox<String> comboBox;
     private JTextField searchField;
-    TestBUS testBUS = new TestBUS();
+    private TestBUS testBUS = new TestBUS();
+    private ExamBUS examBUS = new ExamBUS();
 
     public TestPanel() {
         initComponents();
@@ -34,7 +39,7 @@ public class TestPanel extends JPanel {
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
         try {
-            updateTestPanel(testBUS.getAll());
+            updateTestPanel(testBUS.getExam());
         } catch (Exception ex) {
             Logger.getLogger(TestPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -56,23 +61,20 @@ public class TestPanel extends JPanel {
 
         searchField = new JTextField("Tìm kiếm đề thi", 15);
         searchField.setForeground(Color.GRAY);
-        //tạo placeholder
         searchField.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
-                // Khi người dùng nhấp vào ô tìm kiếm
                 if (searchField.getText().equals("Tìm kiếm đề thi")) {
-                    searchField.setText(""); 
+                    searchField.setText("");
                     searchField.setForeground(Color.BLACK);
                 }
             }
 
             @Override
             public void focusLost(FocusEvent e) {
-                // Khi người dùng rời khỏi ô tìm kiếm
                 if (searchField.getText().trim().isEmpty()) {
-                    searchField.setText("Tìm kiếm đề thi"); 
-                    searchField.setForeground(Color.GRAY); 
+                    searchField.setText("Tìm kiếm đề thi");
+                    searchField.setForeground(Color.GRAY);
                 }
             }
         });
@@ -84,14 +86,21 @@ public class TestPanel extends JPanel {
         });
 
         JButton createButton = new JButton("Tạo đề thi");
+        createButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CreateTestDialog createTestFrame = new CreateTestDialog(null, true);
+                createTestFrame.setVisible(true);
+            }
+        });
         createButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/add.png")));
         createButton.setForeground(Color.WHITE);
         createButton.setBackground(new Color(28, 58, 118));
 
         topPanel.add(comboBox);
-        topPanel.add(Box.createHorizontalStrut(10)); 
+        topPanel.add(Box.createHorizontalStrut(10));
         topPanel.add(searchField);
-        topPanel.add(Box.createHorizontalGlue()); // Đẩy nút "Tạo đề thi" sang phải
+        topPanel.add(Box.createHorizontalGlue());
         topPanel.add(createButton);
 
         add(topPanel, BorderLayout.NORTH);
@@ -133,7 +142,8 @@ public class TestPanel extends JPanel {
                         test.getTestID(),
                         test.getTestTitle(),
                         test.getTestDate() != null ? test.getTestDate().toString() : "Không có ngày",
-                        test.getTestStatus() == 1 ? "Đang mở" : "Đã kết thúc"));
+                        test.getTestStatus() == 1 ? "Đang mở" : "Đã kết thúc",
+                        test.getTestCode())); // Thêm testCode vào đây
             }
         }
 
@@ -142,9 +152,9 @@ public class TestPanel extends JPanel {
         mainPanel.repaint();
     }
 
-    private JPanel createTestPanel(int testID, String title, String date, String status) {
+    private JPanel createTestPanel(int testID, String title, String date, String status, String testCode) {
         JPanel panel = new JPanel();
-        panel.setBackground(new java.awt.Color(255, 255, 255));
+        panel.setBackground(new Color(255, 255, 255));
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(Color.BLACK),
@@ -160,18 +170,69 @@ public class TestPanel extends JPanel {
 
         // Panel chứa các nút bấm
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 0));
-        buttonPanel.setBackground(new java.awt.Color(255, 255, 255));
+        buttonPanel.setBackground(new Color(255, 255, 255));
         JButton viewButton = new JButton("Xem chi tiết");
         viewButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/eye.png")));
-        viewButton.setBackground(new java.awt.Color(220, 230, 205));
+        viewButton.setBackground(new Color(220, 230, 205));
+
+        // Xử lý sự kiện khi nhấn nút "Xem chi tiết"
+        viewButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    // Lấy danh sách ex_quesIDs từ bảng exams dựa trên testID
+                    List<Integer> exQuesIDs = examBUS.getExQuesIDs(testCode);
+                    System.err.println("exquesid" + exQuesIDs);
+                    // Tạo một JPanel mới để hiển thị thông tin chi tiết
+                    JPanel detailPanel = new JPanel();
+                    detailPanel.setLayout(new BoxLayout(detailPanel, BoxLayout.Y_AXIS));
+
+                    // Duyệt qua từng qID trong ex_quesIDs
+                    for (int qID : exQuesIDs) {
+                        // Lấy qContent từ bảng questions
+                        String qContent = examBUS.getQuestionContent(qID);
+
+                        // Lấy awContent từ bảng answers
+                        List<String> awContents = examBUS.getAnswerContent(qID);
+
+                        // Tạo một JPanel để hiển thị câu hỏi và câu trả lời
+                        JPanel questionPanel = new JPanel();
+                        questionPanel.setLayout(new BoxLayout(questionPanel, BoxLayout.Y_AXIS));
+                        questionPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+                        // Thêm qContent vào JPanel
+                        JLabel qContentLabel = new JLabel("Câu hỏi: " + qContent);
+                        questionPanel.add(qContentLabel);
+
+                        // Thêm awContent vào JPanel
+                        for (String awContent : awContents) {
+                            JLabel awContentLabel = new JLabel("Trả lời: " + awContent);
+                            questionPanel.add(awContentLabel);
+                        }
+
+                        // Thêm questionPanel vào detailPanel
+                        detailPanel.add(questionPanel);
+                    }
+
+                    // Xóa toàn bộ nội dung cũ của mainPanel và thêm detailPanel vào
+                    mainPanel.removeAll();
+                    mainPanel.add(detailPanel);
+                    mainPanel.revalidate();
+                    mainPanel.repaint();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(TestPanel.this, "Lỗi khi lấy dữ liệu!");
+                }
+            }
+        });
 
         JButton editButton = new JButton("Chỉnh sửa");
         editButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/wrench.png")));
-        editButton.setBackground(new java.awt.Color(175, 205, 235));
+        editButton.setBackground(new Color(175, 205, 235));
 
         JButton deleteButton = new JButton("Xóa đề");
         deleteButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/multiply.png")));
-        deleteButton.setBackground(new java.awt.Color(248, 220, 209));
+        deleteButton.setBackground(new Color(248, 220, 209));
         buttonPanel.add(viewButton);
         buttonPanel.add(editButton);
         buttonPanel.add(deleteButton);

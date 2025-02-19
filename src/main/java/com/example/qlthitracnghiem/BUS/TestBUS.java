@@ -23,6 +23,12 @@ public class TestBUS {
   public ArrayList<TestDTO> getAll() throws Exception {
     return testDAO.getAll();
   }
+  public ArrayList<TestDTO> getExam() throws Exception{
+      return testDAO.getExam();
+  }
+    public TestBUS(TestDAO testDAO) {
+        this.testDAO = testDAO;
+    }
 
   public ArrayList<TestDTO> search(String keyword, int status) {
     try {

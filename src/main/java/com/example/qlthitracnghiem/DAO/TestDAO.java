@@ -19,13 +19,11 @@ import java.time.LocalDateTime;
 
 // chưa sửa lại mấy phương thức create,update,delete 
 public class TestDAO implements CrudInterface<UserDTO> {
-
+  /// ý tưởng là hiển thị test dựa trên testcode tham chiếu từ bảng exams, lúc ấn vô xem chi tiết thì hiện chi tiết đề ra
   public ArrayList<TestDTO> search(String keyword, int status) throws SQLException {
     ArrayList<TestDTO> tests = new ArrayList<>();
     Connection connection = DBConnection.getConnection();
-
-    // SQL có điều kiện tìm kiếm theo từ khóa và trạng thái
-    String sql = "SELECT * FROM test WHERE (testTitle LIKE ?)";
+    String sql = "SELECT t.* FROM test t JOIN exams e ON t.testcode = e.testcode WHERE t.testTitle LIKE ?";
     if (status != -1) {
       sql += " AND testStatus = ?";
     }
@@ -68,26 +66,26 @@ public class TestDAO implements CrudInterface<UserDTO> {
 
   @Override
   public int create(UserDTO user) throws SQLException {
- 
-      return 0;
-    
+
+    return 0;
+
   }
 
   @Override
   public int update(UserDTO user) throws SQLException {
-  
+
     return 0;
   }
 
   @Override
   public int delete(int id) throws SQLException {
-  
+
     return 0;
   }
 
   @Override
   public UserDTO read(int id) throws SQLException {
-   
+
     return null;
   }
 
@@ -117,6 +115,42 @@ public class TestDAO implements CrudInterface<UserDTO> {
     } catch (SQLException e) {
       e.printStackTrace();
       throw e;
-    } 
+    }
+  }
+
+  public ArrayList<TestDTO> getExam() throws SQLException {
+    Connection connection = DBConnection.getConnection();
+    String sql = "SELECT t.*, e.exOrder, e.exCode, e.ex_quesIDs " +
+        "FROM test t " +
+        "JOIN exams e ON t.testCode = e.testCode";
+    try {
+      PreparedStatement ps = connection.prepareStatement(sql);
+      ResultSet rs = ps.executeQuery();
+      ArrayList<TestDTO> tests = new ArrayList<>();
+      while (rs.next()) {
+        // Lấy thông tin từ bảng test
+        int testID = rs.getInt("testID");
+        String testCode = rs.getString("testCode");
+        String testTitle = rs.getString("testTitle");
+        int testTime = rs.getInt("testTime");
+        int tpID = rs.getInt("tpID");
+        int num_easy = rs.getInt("num_easy");
+        int num_medium = rs.getInt("num_medium");
+        int num_diff = rs.getInt("num_diff");
+        int testLimit = rs.getInt("testLimit");
+        LocalDateTime testDate = rs.getObject("testDate", LocalDateTime.class);
+        int testStatus = rs.getInt("testStatus");
+
+        TestDTO testDTO = new TestDTO(
+            testID, testCode, testTitle, testTime, tpID, num_easy, num_medium, num_diff,
+            testLimit, testDate, testStatus);
+
+        tests.add(testDTO);
+      }
+      return tests;
+    } catch (SQLException e) {
+      e.printStackTrace();
+      throw e;
+    }
   }
 }
