@@ -4,19 +4,11 @@
  */
 package com.example.qlthitracnghiem.GUI.CauHoi;
 
-import com.example.qlthitracnghiem.GUI.CauHoi.QuestionPanel;
 import com.example.qlthitracnghiem.BUS.TopicsBUS;
-import com.example.qlthitracnghiem.DAO.TopicsDAO;
 import com.example.qlthitracnghiem.DTO.TopicsDTO;
 import java.awt.Color;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
 
 /**
  *
@@ -26,6 +18,7 @@ public class ThemChuDeDialog extends javax.swing.JDialog {
 
     /**
      * Creates new form ThemChuDeDialog
+     * @param parent
      */
     public ThemChuDeDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -161,7 +154,7 @@ else {
         "Bạn có chắc chắn muốn thêm chủ đề này?",
         "Xác nhận",
         JOptionPane.YES_NO_OPTION,
-        JOptionPane.WARNING_MESSAGE
+            JOptionPane.WARNING_MESSAGE
     );
 
     if (confirm == JOptionPane.YES_OPTION) {

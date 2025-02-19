@@ -210,7 +210,7 @@
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jScrollPane2" max="32767" attributes="0"/>
                                   <Group type="102" attributes="0">
-                                      <Component id="jButton2" min="-2" max="-2" attributes="0"/>
+                                      <Component id="qthem_btn" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Component id="xoabtn_question" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -229,7 +229,7 @@
                       <Component id="jLabel1" pref="61" max="32767" attributes="0"/>
                       <EmptySpace min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jButton2" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="qthem_btn" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="xoabtn_question" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -249,13 +249,13 @@
                 <Property name="text" type="java.lang.String" value="C&#xe2;u H&#x1ecf;i"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton2">
+            <Component class="javax.swing.JButton" name="qthem_btn">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Th&#xea;m"/>
+                <Property name="text" type="java.lang.String" value="Th&#xea;m" postCode="qthem_btn.addActionListener(new java.awt.event.ActionListener() {&#xa;            public void actionPerformed(java.awt.event.ActionEvent evt) {&#xa;                qthem_btnActionPerformed(evt);&#xa;            }&#xa;        });"/>
                 <Property name="toolTipText" type="java.lang.String" value="Th&#xea;m v&#xe0;o ch&#x1ee7; &#x111;&#x1ec1; ho&#x1eb7;c th&#xea;m m&#x1edb;i"/>
               </Properties>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="// Thay &#x111;&#x1ed5;i m&#xe0;u n&#x1ec1;n v&#xe0; m&#xe0;u ch&#x1eef; cho n&#xfa;t b&#xec;nh th&#x1b0;&#x1edd;ng&#xa;jButton2.setBackground(new java.awt.Color(0, 123, 255));  // M&#xe0;u n&#x1ec1;n xanh d&#x1b0;&#x1a1;ng&#xa;jButton2.setForeground(new java.awt.Color(255, 255, 255));  // M&#xe0;u ch&#x1eef; tr&#x1eaf;ng&#xa;&#xa;// Thay &#x111;&#x1ed5;i font ch&#x1eef;&#xa;jButton2.setFont(new java.awt.Font(&quot;Arial&quot;, java.awt.Font.BOLD, 14));&#xa;&#xa;// T&#x1ea1;o hi&#x1ec7;u &#x1ee9;ng khi chu&#x1ed9;t di chuy&#x1ec3;n qua n&#xfa;t (hover)&#xa;jButton2.setRolloverEnabled(true);  // K&#xed;ch ho&#x1ea1;t hi&#x1ec7;u &#x1ee9;ng khi di chu&#x1ed9;t qua n&#xfa;t&#xa;&#xa;// Thay &#x111;&#x1ed5;i m&#xe0;u n&#x1ec1;n khi hover&#xa;jButton2.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;    @Override&#xa;    public void mouseEntered(java.awt.event.MouseEvent evt) {&#xa;        jButton2.setBackground(new java.awt.Color(255, 165, 0));  // M&#xe0;u n&#x1ec1;n cam khi hover&#xa;    }&#xa;&#xa;    @Override&#xa;    public void mouseExited(java.awt.event.MouseEvent evt) {&#xa;        jButton2.setBackground(new java.awt.Color(0, 123, 255));  // Tr&#x1edf; l&#x1ea1;i m&#xe0;u xanh d&#x1b0;&#x1a1;ng khi kh&#xf4;ng hover&#xa;    }&#xa;});"/>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="// Thay &#x111;&#x1ed5;i m&#xe0;u n&#x1ec1;n v&#xe0; m&#xe0;u ch&#x1eef; cho n&#xfa;t b&#xec;nh th&#x1b0;&#x1edd;ng&#xa;qthem_btn.setBackground(new java.awt.Color(0, 123, 255));  // M&#xe0;u n&#x1ec1;n xanh d&#x1b0;&#x1a1;ng&#xa;qthem_btn.setForeground(new java.awt.Color(255, 255, 255));  // M&#xe0;u ch&#x1eef; tr&#x1eaf;ng&#xa;&#xa;// Thay &#x111;&#x1ed5;i font ch&#x1eef;&#xa;qthem_btn.setFont(new java.awt.Font(&quot;Arial&quot;, java.awt.Font.BOLD, 14));&#xa;&#xa;// T&#x1ea1;o hi&#x1ec7;u &#x1ee9;ng khi chu&#x1ed9;t di chuy&#x1ec3;n qua n&#xfa;t (hover)&#xa;qthem_btn.setRolloverEnabled(true);  // K&#xed;ch ho&#x1ea1;t hi&#x1ec7;u &#x1ee9;ng khi di chu&#x1ed9;t qua n&#xfa;t&#xa;&#xa;// Thay &#x111;&#x1ed5;i m&#xe0;u n&#x1ec1;n khi hover&#xa;qthem_btn.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;    @Override&#xa;    public void mouseEntered(java.awt.event.MouseEvent evt) {&#xa;        qthem_btn.setBackground(new java.awt.Color(255, 165, 0));  // M&#xe0;u n&#x1ec1;n cam khi hover&#xa;    }&#xa;&#xa;    @Override&#xa;    public void mouseExited(java.awt.event.MouseEvent evt) {&#xa;        qthem_btn.setBackground(new java.awt.Color(0, 123, 255));  // Tr&#x1edf; l&#x1ea1;i m&#xe0;u xanh d&#x1b0;&#x1a1;ng khi kh&#xf4;ng hover&#xa;    }&#xa;});"/>
               </AuxValues>
             </Component>
             <Component class="javax.swing.JButton" name="xoabtn_question">

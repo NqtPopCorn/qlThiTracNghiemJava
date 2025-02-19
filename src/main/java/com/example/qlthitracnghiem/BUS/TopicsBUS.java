@@ -78,4 +78,13 @@ public class TopicsBUS {
         return false;
     }
   }
+        
+        public ArrayList<TopicsDTO> getAllSortedByName() {
+        try {
+            return topicsDAO.getAllSortedByName();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new ArrayList<>(); // Trả về danh sách rỗng nếu có lỗi
+        }
+    }
 }

@@ -134,6 +134,26 @@ public int getIdByName(String tpTitle) throws SQLException {
     return -1; // Trả về -1 nếu không tìm thấy
 }
 
+//sắp xếp theo tên
+public ArrayList<TopicsDTO> getAllSortedByName() throws SQLException {
+    Connection connection = DBConnection.getConnection();
+    String sql = "SELECT * FROM topics ORDER BY tpTitle ASC"; // Sắp xếp theo bảng chữ cái
+    ArrayList<TopicsDTO> topicsList = new ArrayList<>();
+
+    try (PreparedStatement ps = connection.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
+        while (rs.next()) {
+            topicsList.add(new TopicsDTO(
+                rs.getInt("tpID"),
+                rs.getString("tpTitle"),
+                rs.getInt("tpParent"),
+                rs.getInt("tpStatus")
+            ));
+        }
+    }
+    return topicsList;
+}
+
 
 
 }
