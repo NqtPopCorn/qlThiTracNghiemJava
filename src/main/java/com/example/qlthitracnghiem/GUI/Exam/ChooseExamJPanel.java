@@ -5,7 +5,9 @@
 package com.example.qlthitracnghiem.GUI.Exam;
 
 import com.example.qlthitracnghiem.DAO.QaDAO;
+import java.awt.CardLayout;
 import java.util.ArrayList;
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
@@ -26,9 +28,13 @@ public class ChooseExamJPanel extends javax.swing.JPanel {
      */
     DefaultTableModel tbModel = new DefaultTableModel();
 
-    public ChooseExamJPanel() {
+    public ChooseExamJPanel(DoExamJPanel doExamJPanel) {
         initComponents();
+        customstyle();
 
+        handleChooseTestCodeInTable();
+    }
+    private void customstyle() {
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
 
@@ -41,10 +47,7 @@ public class ChooseExamJPanel extends javax.swing.JPanel {
         for (int i = 0; i < examJTable.getColumnCount(); i++) {
             examJTable.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
-
-        handleChooseTestCodeInTable();
     }
-
     private void handleChooseTestCodeInTable() {
         ListSelectionModel selectionModel = examJTable.getSelectionModel();
         ListSelectionListener existingListener = null;
@@ -75,20 +78,21 @@ public class ChooseExamJPanel extends javax.swing.JPanel {
         try {
             ArrayList<String> testCodeList = QaDAO.getExams();
             loadDataTable(testCodeList);
-            
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Có lỗi xảy ra\n" + e.getMessage(), "Lỗi",
                     JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
     private void loadDataTable(ArrayList<String> testCodeList) {
         tbModel.setRowCount(0);
-            for (String tsCode : testCodeList) {
-                tbModel.addRow(
-                        new Object[]{tsCode});
-            }
+        for (String tsCode : testCodeList) {
+            tbModel.addRow(
+                    new Object[]{tsCode});
+        }
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -230,9 +234,9 @@ public class ChooseExamJPanel extends javax.swing.JPanel {
 
     private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
         // TODO add your handling code here:
-        String keyword = searchTextField.getText().replace("\\s","");
-        
-        if (keyword == ""){
+        String keyword = searchTextField.getText().replace("\\s", "");
+
+        if (keyword == "") {
             loadDataTable();
         } else {
             try {
@@ -243,14 +247,21 @@ public class ChooseExamJPanel extends javax.swing.JPanel {
             }
             searchTextField.setText("");
         }
-        
+
     }//GEN-LAST:event_searchBtnActionPerformed
 
     private void doTestBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_doTestBtnActionPerformed
         String testCode = currentTestCodeJLabel.getText();
         boolean isChooseTestCode = testCode.startsWith("TST");
         if (isChooseTestCode) {
+            // move to do exam panel
             System.out.println("move to new frame");
+            
+//            panelC.setData("asdfads"); 
+            CardLayout cardLayout = (CardLayout) getParent().getLayout(); 
+            cardLayout.show(getParent(), "doExamJPanel");
+             
+            setBorder(BorderFactory.createTitledBorder("Panel B"));
         } else {
             JOptionPane.showMessageDialog(doTestBtn, "Chưa chọn bài thi");
         }
@@ -274,7 +285,7 @@ public class ChooseExamJPanel extends javax.swing.JPanel {
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1200, 800);
-        frame.add(new ChooseExamJPanel());
+//        frame.add(new ChooseExamJPanel());
         frame.setVisible(true);
     }
 }
