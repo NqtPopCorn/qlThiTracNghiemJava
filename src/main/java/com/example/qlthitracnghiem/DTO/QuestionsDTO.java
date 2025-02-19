@@ -69,4 +69,5 @@ public class QuestionsDTO {
     public void setqStatus(int qStatus) {
         this.qStatus = qStatus;
     }
+   
 }

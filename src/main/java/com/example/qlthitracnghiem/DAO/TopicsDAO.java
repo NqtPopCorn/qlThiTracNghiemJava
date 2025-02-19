@@ -134,5 +134,7 @@ public int getIdByName(String tpTitle) throws SQLException {
     return -1; // Trả về -1 nếu không tìm thấy
 }
 
+
+
 }
 

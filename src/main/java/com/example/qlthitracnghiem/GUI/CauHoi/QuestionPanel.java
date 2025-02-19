@@ -24,6 +24,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
 
 /**
  *
@@ -32,6 +33,8 @@ import javax.swing.tree.DefaultTreeModel;
 public class QuestionPanel extends javax.swing.JPanel {
 
     public TopicsBUS topicsBUS = new TopicsBUS();
+    public QuestionsBUS questionBUS = new QuestionsBUS();
+
     /**
      * Creates new form QuestionPanel
      */
@@ -53,18 +56,17 @@ public class QuestionPanel extends javax.swing.JPanel {
 
         jSplitPane1 = new javax.swing.JSplitPane();
         jPanel1 = new javax.swing.JPanel();
-        jButton5 = new javax.swing.JButton();
-        btnSuaChuDe = new javax.swing.JButton();
+        xoabtn = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTree2 = new javax.swing.JTree();
-        jButton1 = new javax.swing.JButton();
+        btn_loc = new javax.swing.JButton();
         btnThemChuDe = new javax.swing.JButton();
         Reset = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        xoabtn_question = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         table_question = new javax.swing.JTable();
 
@@ -76,14 +78,12 @@ public class QuestionPanel extends javax.swing.JPanel {
 
         jPanel1.setBackground(new java.awt.Color(204, 204, 204));
 
-        jButton5.setText("Xóa");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        xoabtn.setText("Xóa");
+        xoabtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                xoabtnActionPerformed(evt);
             }
         });
-
-        btnSuaChuDe.setText("Sửa");
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel2.setText("Chủ đề");
@@ -91,10 +91,10 @@ public class QuestionPanel extends javax.swing.JPanel {
         jScrollPane3.setViewportView(jTree2);
         loadTopics();
 
-        jButton1.setText("Tìm");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btn_loc.setText("Lọc");
+        btn_loc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btn_locActionPerformed(evt);
             }
         });
 
@@ -141,106 +141,78 @@ public class QuestionPanel extends javax.swing.JPanel {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(Reset, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(35, 35, 35)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(btnThemChuDe, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
-                                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(btn_loc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(btnSuaChuDe, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
-                                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                    .addComponent(xoabtn, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                                    .addComponent(Reset, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                         .addGap(32, 32, 32))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel2))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addComponent(Reset)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addContainerGap()
+                .addComponent(jLabel2)
+                .addGap(17, 17, 17)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton5)
+                    .addComponent(xoabtn)
                     .addComponent(btnThemChuDe))
                 .addGap(9, 9, 9)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(btnSuaChuDe))
+                    .addComponent(btn_loc)
+                    .addComponent(Reset))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 573, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         // Thay đổi màu nền và màu chữ cho nút bình thường
-        jButton5.setBackground(new java.awt.Color(255, 69, 0));  // Màu nền đỏ cam (RGB: 255, 69, 0)
-        jButton5.setForeground(new java.awt.Color(255, 255, 255));  // Màu chữ trắng
+        xoabtn.setBackground(new java.awt.Color(255, 69, 0));  // Màu nền đỏ cam (RGB: 255, 69, 0)
+        xoabtn.setForeground(new java.awt.Color(255, 255, 255));  // Màu chữ trắng
 
         // Thay đổi font chữ
-        jButton5.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 14));
+        xoabtn.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 14));
 
         // Tạo hiệu ứng khi chuột di chuyển qua nút (hover)
-        jButton5.setRolloverEnabled(true);  // Kích hoạt hiệu ứng khi di chuột qua nút
+        xoabtn.setRolloverEnabled(true);  // Kích hoạt hiệu ứng khi di chuột qua nút
 
         // Khi hover, thay đổi màu nền của nút
-        jButton5.addMouseListener(new java.awt.event.MouseAdapter() {
+        xoabtn.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jButton5.setBackground(new java.awt.Color(255, 99, 71));  // Màu nền đỏ sáng khi hover
+                xoabtn.setBackground(new java.awt.Color(255, 99, 71));  // Màu nền đỏ sáng khi hover
             }
 
             @Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                jButton5.setBackground(new java.awt.Color(255, 69, 0));  // Trở lại màu đỏ cam khi không hover
+                xoabtn.setBackground(new java.awt.Color(255, 69, 0));  // Trở lại màu đỏ cam khi không hover
             }
         });
         // Thay đổi màu nền và màu chữ cho nút bình thường
-        btnSuaChuDe.setBackground(new java.awt.Color(50, 205, 50));  // Màu nền xanh lá (RGB: 50, 205, 50)
-        btnSuaChuDe.setForeground(new java.awt.Color(255, 255, 255));  // Màu chữ trắng
+        btn_loc.setBackground(new java.awt.Color(128,128,128));  // Màu nền xanh dương
+        btn_loc.setForeground(new java.awt.Color(255,255,255));  // Màu chữ trắng
 
         // Thay đổi font chữ
-        btnSuaChuDe.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 14));
+        btn_loc.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 14));
 
         // Tạo hiệu ứng khi chuột di chuyển qua nút (hover)
-        btnSuaChuDe.setRolloverEnabled(true);  // Kích hoạt hiệu ứng khi di chuột qua nút
-
-        // Khi hover, thay đổi màu nền của nút
-        btnSuaChuDe.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnSuaChuDe.setBackground(new java.awt.Color(34, 139, 34));  // Màu nền xanh lá đậm khi hover
-            }
-
-            @Override
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnSuaChuDe.setBackground(new java.awt.Color(50, 205, 50));  // Trở lại màu xanh lá sáng khi không hover
-            }
-        });
-        // Thay đổi màu nền và màu chữ cho nút bình thường
-        jButton1.setBackground(new java.awt.Color(128,128,128));  // Màu nền xanh dương
-        jButton1.setForeground(new java.awt.Color(255,255,255));  // Màu chữ trắng
-
-        // Thay đổi font chữ
-        jButton1.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 14));
-
-        // Tạo hiệu ứng khi chuột di chuyển qua nút (hover)
-        jButton1.setRolloverEnabled(true);  // Kích hoạt hiệu ứng khi di chuột qua nút
+        btn_loc.setRolloverEnabled(true);  // Kích hoạt hiệu ứng khi di chuột qua nút
 
         // Thay đổi màu nền khi hover
-        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+        btn_loc.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jButton1.setBackground(new java.awt.Color(255, 165, 0));  // Màu nền cam khi hover
+                btn_loc.setBackground(new java.awt.Color(255, 165, 0));  // Màu nền cam khi hover
             }
 
             @Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                jButton1.setBackground(new java.awt.Color(128,128,128));  // Trở lại màu xanh dương khi không hover
+                btn_loc.setBackground(new java.awt.Color(128,128,128));  // Trở lại màu xanh dương khi không hover
             }
         });
         // Thay đổi màu nền và màu chữ cho nút bình thường
@@ -277,89 +249,15 @@ public class QuestionPanel extends javax.swing.JPanel {
         jButton2.setText("Thêm");
         jButton2.setToolTipText("Thêm vào chủ đề hoặc thêm mới");
 
-        jButton3.setText("Xóa");
-        jButton3.setToolTipText("Xóa khỏi chủ đề hoặc xóa hẳn");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        xoabtn_question.setText("Xóa");
+        xoabtn_question.setToolTipText("Xóa khỏi chủ đề hoặc xóa hẳn");
+        xoabtn_question.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                xoabtn_questionActionPerformed(evt);
             }
         });
 
-        // Tạo model bảng với các tiêu đề cột
-        DefaultTableModel tableModel = new DefaultTableModel(
-            new Object [][] {},
-            new String [] {
-                "", "Ảnh", "Nội dung", "Mức độ", "Chủ đề"
-            }
-        ) {
-            @Override
-            public Class<?> getColumnClass(int columnIndex) {
-                return (columnIndex == 0) ? Boolean.class : String.class; // Cột đầu là checkbox
-            }
-
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return column == 0; // Chỉ chỉnh sửa checkbox
-            }
-        };
-
-        // Lấy danh sách câu hỏi từ database
-        QuestionsBUS questionBUS = new QuestionsBUS();
-        ArrayList<QuestionsDTO> questions = questionBUS.getAll();
-
-        for (QuestionsDTO question : questions) {
-            // Tạo mảng chứa dữ liệu cho mỗi câu hỏi
-            Object[] row = new Object[5];
-            row[0] = false; // Checkbox mặc định là chưa chọn
-            row[1] = question.getqPicture(); // Ảnh (nếu có đường dẫn ảnh, bạn có thể hiển thị nó hoặc để trống)
-            row[2] = question.getqContent(); // Nội dung câu hỏi
-            row[3] = question.getqLevel(); // Mức độ (có thể là "Dễ", "Trung Bình", "Khó", tùy theo dữ liệu của bạn)
-            row[4] = question.getqTopicID(); // Chủ đề (có thể thay thế bằng tên chủ đề nếu bạn có thêm thông tin)
-
-            // Thêm hàng vào model bảng
-            tableModel.addRow(row);
-        }
-
-        // Gán model cho JTable
-        table_question.setModel(tableModel);
-
-        // 1️⃣ Căn giữa tiêu đề cột
-        DefaultTableCellRenderer headerRenderer = (DefaultTableCellRenderer) table_question.getTableHeader().getDefaultRenderer();
-        headerRenderer.setHorizontalAlignment(JLabel.CENTER);
-
-        // 2️⃣ Căn giữa nội dung của cột cuối cùng ("Mức độ")
-        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-
-        // Xác định cột cuối cùng (cột "Mức độ")
-        int lastColumnIndex = table_question.getColumnCount() - 1;
-        table_question.getColumnModel().getColumn(lastColumnIndex).setCellRenderer(centerRenderer);
-
-        // Căn giữa nội dung của cột "Mức độ"
-        table_question.getColumnModel().getColumn(lastColumnIndex-1).setCellRenderer(centerRenderer);
-
-        // Thu hẹp độ rộng của cột "Chủ đề"
-        table_question.getColumnModel().getColumn(lastColumnIndex).setPreferredWidth(80);  // Độ rộng mong muốn
-        table_question.getColumnModel().getColumn(lastColumnIndex).setMaxWidth(100);       // Độ rộng tối đa
-        table_question.getColumnModel().getColumn(lastColumnIndex).setMinWidth(60);        // Độ rộng tối thiểu
-
-        // Căn giữa nội dung của cột "Chủ đề"
-        table_question.getColumnModel().getColumn(lastColumnIndex).setCellRenderer(centerRenderer);
-
-        // Thu hẹp độ rộng của cột "Mức độ"
-        table_question.getColumnModel().getColumn(lastColumnIndex-1).setPreferredWidth(80);  // Độ rộng mong muốn
-        table_question.getColumnModel().getColumn(lastColumnIndex-1).setMaxWidth(100);       // Độ rộng tối đa
-        table_question.getColumnModel().getColumn(lastColumnIndex-1).setMinWidth(60);        // Độ rộng tối thiểu
-
-        // 5️⃣ Thu hẹp độ rộng của cột "Ảnh"
-        table_question.getColumnModel().getColumn(1).setPreferredWidth(100);  // Độ rộng mong muốn cho cột "Ảnh"
-        table_question.getColumnModel().getColumn(1).setMaxWidth(200);        // Độ rộng tối đa cho cột "Ảnh"
-        table_question.getColumnModel().getColumn(1).setMinWidth(50);        // Độ rộng tối thiểu cho cột "Ảnh"
-
-        // 4️⃣ Thu hẹp độ rộng của cột checkbox
-        table_question.getColumnModel().getColumn(0).setPreferredWidth(40);  // Độ rộng mong muốn cho cột checkbox
-        table_question.getColumnModel().getColumn(0).setMaxWidth(50);       // Độ rộng tối đa cho cột checkbox
-        table_question.getColumnModel().getColumn(0).setMinWidth(30);        // Độ rộng tối thiểu cho cột checkbox
+        display_questions(-1);
         jScrollPane2.setViewportView(table_question);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -379,7 +277,7 @@ public class QuestionPanel extends javax.swing.JPanel {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jButton2)
                                 .addGap(18, 18, 18)
-                                .addComponent(jButton3)
+                                .addComponent(xoabtn_question)
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap())))
         );
@@ -391,7 +289,7 @@ public class QuestionPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
-                    .addComponent(jButton3))
+                    .addComponent(xoabtn_question))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 574, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -420,25 +318,25 @@ public class QuestionPanel extends javax.swing.JPanel {
             }
         });
         // Thay đổi màu nền và màu chữ cho nút bình thường
-        jButton3.setBackground(new java.awt.Color(255, 69, 0));  // Màu nền đỏ cam (RGB: 255, 69, 0)
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));  // Màu chữ trắng
+        xoabtn_question.setBackground(new java.awt.Color(255, 69, 0));  // Màu nền đỏ cam (RGB: 255, 69, 0)
+        xoabtn_question.setForeground(new java.awt.Color(255, 255, 255));  // Màu chữ trắng
 
         // Thay đổi font chữ
-        jButton3.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 14));
+        xoabtn_question.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 14));
 
         // Tạo hiệu ứng khi chuột di chuyển qua nút (hover)
-        jButton3.setRolloverEnabled(true);  // Kích hoạt hiệu ứng khi di chuột qua nút
+        xoabtn_question.setRolloverEnabled(true);  // Kích hoạt hiệu ứng khi di chuột qua nút
 
         // Khi hover, thay đổi màu nền của nút
-        jButton3.addMouseListener(new java.awt.event.MouseAdapter() {
+        xoabtn_question.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jButton3.setBackground(new java.awt.Color(255, 99, 71));  // Màu nền đỏ sáng khi hover
+                xoabtn_question.setBackground(new java.awt.Color(255, 99, 71));  // Màu nền đỏ sáng khi hover
             }
 
             @Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                jButton3.setBackground(new java.awt.Color(255, 69, 0));  // Trở lại màu đỏ cam khi không hover
+                xoabtn_question.setBackground(new java.awt.Color(255, 69, 0));  // Trở lại màu đỏ cam khi không hover
             }
         });
 
@@ -462,9 +360,24 @@ public class QuestionPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void btn_locActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_locActionPerformed
+          DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) jTree2.getLastSelectedPathComponent();
+          if(selectedNode == null){
+             JOptionPane.showMessageDialog(null, "Hãy chọn một chủ đề", "Nhắc nhở", JOptionPane.INFORMATION_MESSAGE);
+          }
+          else{
+              String nodeContent = selectedNode.toString(); // Lấy nội dung của node
+              
+              if(nodeContent.equals("Tất cả")){
+              display_questions(-1);
+              }
+              else{
+                 int topicID = topicsBUS.getTopicIdByName(nodeContent);
+                 display_questions(topicID);
+              }              
+          }
+
+    }//GEN-LAST:event_btn_locActionPerformed
 
     private void btnThemChuDeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemChuDeActionPerformed
     ThemChuDeDialog dialog = new ThemChuDeDialog(null, true);
@@ -475,19 +388,61 @@ public class QuestionPanel extends javax.swing.JPanel {
     private void ResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ResetActionPerformed
         jTree2.setModel(null);
         loadTopics();
+        display_questions(-1);
     }//GEN-LAST:event_ResetActionPerformed
 
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }// GEN-LAST:event_jButton3ActionPerformed
+    private void xoabtn_questionActionPerformed(java.awt.event.ActionEvent evt) {
+ArrayList<ArrayList<String>> selectedRows = getCheckedRows();
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton5ActionPerformed
+if (selectedRows.isEmpty()) {
+    JOptionPane.showMessageDialog(null, "Bạn chưa chọn câu hỏi nào!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+} else {
+    int confirm = JOptionPane.showConfirmDialog(
+        null,
+        "Bạn có chắc chắn muốn xóa những câu hỏi đã chọn?",
+        "Xác nhận",
+        JOptionPane.YES_NO_OPTION,
+        JOptionPane.WARNING_MESSAGE
+    );
+
+    if (confirm == JOptionPane.YES_OPTION) {
+        for (ArrayList<String> row : selectedRows) {
+            String content = row.get(1); // Lấy nội dung câu hỏi
+            
+            // Tìm câu hỏi theo nội dung
+            QuestionsDTO question_old = questionBUS.getQuestionsByContent(content);
+            
+            if (question_old != null) { // Kiểm tra tránh null
+                // Cập nhật trạng thái thành 0
+                QuestionsDTO question_delete = new QuestionsDTO(
+                    question_old.getqID(),
+                    question_old.getqContent(),
+                    question_old.getqPicture(), 
+                    question_old.getqTopicID(),
+                    question_old.getqLevel(),
+                    0 // Đánh dấu đã xóa
+                );
+
+                // Thực hiện update trong database
+                questionBUS.update(question_delete);
+            }
+        }
+        
+        // Cập nhật lại danh sách câu hỏi trên giao diện
+        display_questions(-1);
+    }
+}
+
+    }
+       
+
+    private void xoabtnActionPerformed(java.awt.event.ActionEvent evt) {
        DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) jTree2.getLastSelectedPathComponent();
 if (selectedNode != null) {
       int confirm = JOptionPane.showConfirmDialog(
             null,
-            "Bạn có chắc chắn muốn thêm chủ đề này?",
+            "Bạn có chắc chắn muốn xóa chủ đề này(toàn bộ câu hỏi liên quan đến chủ đề sẽ bị xóa)?",
             "Xác nhận",
             JOptionPane.YES_NO_OPTION,
             JOptionPane.WARNING_MESSAGE
@@ -496,10 +451,26 @@ if (selectedNode != null) {
         if (confirm == JOptionPane.YES_OPTION) {
     String nodeContent = selectedNode.toString(); // Lấy nội dung của node
     int topicID = topicsBUS.getTopicIdByName(nodeContent);
+    
+    ArrayList<QuestionsDTO> question_list = questionBUS.getQuestionsByTopicID(topicID); //lấy toàn bộ câu hỏi của topic đó
+    
+    
+    for(QuestionsDTO question : question_list){
+    QuestionsDTO question_update; 
+        question_update = new QuestionsDTO(
+                question.getqID(),
+                question.getqContent(),question.getqPicture(),
+                question.getqTopicID(),
+                question.getqLevel(),0);//cập nhật trạng thái là 0
+   
+        questionBUS.update(question_update);
+    }
+    
     TopicsDTO topic = topicsBUS.getTopicByID(topicID);
     TopicsDTO topic_update = new TopicsDTO(topic.getTpID(),topic.getTpTitle(),topic.getTpParent(),0);
     topicsBUS.update(topic_update);
     loadTopics();
+    display_questions(-1);
           JOptionPane.showMessageDialog(null, "Bạn đã xóa thành công", "Xác nhận", JOptionPane.INFORMATION_MESSAGE);
         } 
 } else {
@@ -508,53 +479,195 @@ if (selectedNode != null) {
 
     }
 
-
+ 
+public void display_questions(int qTopicID) {
+    // Lấy model hiện tại của bảng (nếu có)
+    DefaultTableModel tableModel = (DefaultTableModel) table_question.getModel();
     
+    tableModel = new DefaultTableModel(
+    new Object [][] {},
+    new String [] {
+        "", "Ảnh", "Nội dung", "Mức độ", "Chủ đề"
+    }
+) {
+    @Override
+    public Class<?> getColumnClass(int columnIndex) {
+        return (columnIndex == 0) ? Boolean.class : String.class; // Cột đầu là checkbox
+    }
+
+    @Override
+    public boolean isCellEditable(int row, int column) {
+        return column == 0; // Chỉ chỉnh sửa checkbox
+    }
+};
+    
+    // Xóa tất cả các dòng hiện có để tránh dữ liệu bị lặp
+    tableModel.setRowCount(0);  
+    
+    if(qTopicID == -1){
+     // Lấy danh sách câu hỏi từ database
+    ArrayList<QuestionsDTO> questions = questionBUS.getAll();
+
+    for (QuestionsDTO question : questions) {
+        if (question.getqStatus() == 1) {  // Chỉ lấy các câu hỏi có trạng thái hợp lệ
+            Object[] row = new Object[5];
+
+            row[0] = false; // Checkbox mặc định là chưa chọn
+            row[1] = question.getqPicture(); // Ảnh (hiện tại đang là đường dẫn)
+            row[2] = question.getqContent(); // Nội dung câu hỏi
+
+            // Xác định mức độ
+            switch (question.getqLevel()) {
+                case 1:
+                    row[3] = "Dễ";
+                    break;
+                case 2:
+                    row[3] = "Trung bình";
+                    break;
+                default:
+                    row[3] = "Khó";
+                    break;
+            }
+
+            // Lấy tên chủ đề từ topicsBUS
+            String topicName = topicsBUS.getTopicByID(question.getqTopicID()).getTpTitle();
+            row[4] = topicName;
+
+            // Thêm hàng vào bảng
+            tableModel.addRow(row);
+        }
+    }
+    }
+    else{
+    ArrayList<QuestionsDTO> QuestionList = questionBUS.getQuestionsByTopicID(qTopicID);
+    for(QuestionsDTO question : QuestionList){
+            if (question.getqStatus() == 1) {  // Chỉ lấy các câu hỏi có trạng thái hợp lệ
+            Object[] row = new Object[5];
+
+            row[0] = false; // Checkbox mặc định là chưa chọn
+            row[1] = question.getqPicture(); // Ảnh (hiện tại đang là đường dẫn)
+            row[2] = question.getqContent(); // Nội dung câu hỏi
+
+            // Xác định mức độ
+            switch (question.getqLevel()) {
+                case 1:
+                    row[3] = "Dễ";
+                    break;
+                case 2:
+                    row[3] = "Trung bình";
+                    break;
+                default:
+                    row[3] = "Khó";
+                    break;
+            }
+
+            // Lấy tên chủ đề từ topicsBUS
+            String topicName = topicsBUS.getTopicByID(question.getqTopicID()).getTpTitle();
+            row[4] = topicName;
+
+            // Thêm hàng vào bảng
+            tableModel.addRow(row);
+    }
+    }
+    }
+
+    // Gán lại model (nếu cần)
+    table_question.setModel(tableModel);
+    
+    // 1️⃣ Căn giữa tiêu đề cột
+DefaultTableCellRenderer headerRenderer = (DefaultTableCellRenderer) table_question.getTableHeader().getDefaultRenderer();
+headerRenderer.setHorizontalAlignment(JLabel.CENTER);
+
+// 2️⃣ Căn giữa nội dung của cột cuối cùng ("Mức độ")
+DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+
+// Xác định cột cuối cùng (cột "Mức độ")
+int lastColumnIndex = table_question.getColumnCount() - 1;
+table_question.getColumnModel().getColumn(lastColumnIndex).setCellRenderer(centerRenderer);
+
+// Căn giữa nội dung của cột "Mức độ"
+table_question.getColumnModel().getColumn(lastColumnIndex-1).setCellRenderer(centerRenderer);
+
+// Thu hẹp độ rộng của cột "Chủ đề"
+table_question.getColumnModel().getColumn(lastColumnIndex).setPreferredWidth(120);  // Độ rộng mong muốn
+table_question.getColumnModel().getColumn(lastColumnIndex).setMaxWidth(200);       // Độ rộng tối đa
+table_question.getColumnModel().getColumn(lastColumnIndex).setMinWidth(60);        // Độ rộng tối thiểu
+
+
+// Thu hẹp độ rộng của cột "Mức độ"
+table_question.getColumnModel().getColumn(lastColumnIndex-1).setPreferredWidth(80);  // Độ rộng mong muốn
+table_question.getColumnModel().getColumn(lastColumnIndex-1).setMaxWidth(100);       // Độ rộng tối đa
+table_question.getColumnModel().getColumn(lastColumnIndex-1).setMinWidth(60);        // Độ rộng tối thiểu
+
+// 5️⃣ Thu hẹp độ rộng của cột "Ảnh"
+table_question.getColumnModel().getColumn(1).setPreferredWidth(100);  // Độ rộng mong muốn cho cột "Ảnh"
+table_question.getColumnModel().getColumn(1).setMaxWidth(200);        // Độ rộng tối đa cho cột "Ảnh"
+table_question.getColumnModel().getColumn(1).setMinWidth(50);        // Độ rộng tối thiểu cho cột "Ảnh"
+
+// 4️⃣ Thu hẹp độ rộng của cột checkbox
+table_question.getColumnModel().getColumn(0).setPreferredWidth(40);  // Độ rộng mong muốn cho cột checkbox
+table_question.getColumnModel().getColumn(0).setMaxWidth(50);       // Độ rộng tối đa cho cột checkbox
+table_question.getColumnModel().getColumn(0).setMinWidth(30);   
+}
     public void loadTopics() {
-    try {
-        TopicsDAO topicsDAO = new TopicsDAO();
-        ArrayList<TopicsDTO> topics = topicsDAO.getAll();
-        
+        ArrayList<TopicsDTO> topics = topicsBUS.getAll();
         jTree2.setModel(null); // Xóa toàn bộ cây
         // Tạo node gốc
         DefaultMutableTreeNode root = new DefaultMutableTreeNode("Tất cả");
-
         // Sử dụng HashMap để lưu node theo ID
         Map<Integer, DefaultMutableTreeNode> nodeMap = new HashMap<>();
         nodeMap.put(0, root); // Gốc có tpParent = 0
-
         // Lặp qua danh sách các chủ đề
         for (TopicsDTO topic : topics) {
             if(topic.getTpStatus() == 1){
-                            DefaultMutableTreeNode node = new DefaultMutableTreeNode(topic.getTpTitle());
-            nodeMap.put(topic.getTpID(), node);
-            
-            // Thêm vào node cha dựa vào tpParent
-            DefaultMutableTreeNode parent = nodeMap.get(topic.getTpParent());
-            if (parent != null) {
-                parent.add(node);
-            } else {
-                // Nếu không tìm thấy parent, có thể là lỗi dữ liệu hoặc tpParent là 0
-                root.add(node); // Thêm vào root nếu không có parent
-            }
+                DefaultMutableTreeNode node = new DefaultMutableTreeNode(topic.getTpTitle());
+                nodeMap.put(topic.getTpID(), node);
+                
+                // Thêm vào node cha dựa vào tpParent
+                DefaultMutableTreeNode parent = nodeMap.get(topic.getTpParent());
+                if (parent != null) {
+                    parent.add(node);
+                } else {
+                    // Nếu không tìm thấy parent, có thể là lỗi dữ liệu hoặc tpParent là 0
+                    root.add(node); // Thêm vào root nếu không có parent
+                }
             }
         }
-
         // Gán dữ liệu vào JTree
         jTree2.setModel(new DefaultTreeModel(root));
-
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
 }
+  
+    //lấy dữ liệu của những hàng được tick 
+   public ArrayList<ArrayList<String>> getCheckedRows() {
+    DefaultTableModel tableModel = (DefaultTableModel) table_question.getModel();
+    ArrayList<ArrayList<String>> selectedRows = new ArrayList<>(); // Lưu danh sách hàng được chọn
+
+    // Duyệt qua tất cả các hàng trong bảng
+    for (int row = 0; row < tableModel.getRowCount(); row++) {
+        Boolean isChecked = (Boolean) tableModel.getValueAt(row, 0); // Lấy trạng thái checkbox (cột 0)
+        if (isChecked != null && isChecked) { // Nếu checkbox được tick
+            ArrayList<String> rowData = new ArrayList<>(); // Tạo danh sách con cho từng hàng
+
+            // Thêm dữ liệu của hàng vào danh sách
+            rowData.add((String) tableModel.getValueAt(row, 1)); // Ảnh
+            rowData.add((String) tableModel.getValueAt(row, 2)); // Nội dung câu hỏi
+            rowData.add((String) tableModel.getValueAt(row, 3)); // Mức độ
+            rowData.add((String) tableModel.getValueAt(row, 4)); // Chủ đề
+
+            selectedRows.add(rowData); // Thêm hàng vào danh sách chính
+        }
+    }
+
+    return selectedRows; // Trả về danh sách các hàng đã chọn
+}
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Reset;
-    private javax.swing.JButton btnSuaChuDe;
     private javax.swing.JButton btnThemChuDe;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btn_loc;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
@@ -563,7 +676,9 @@ if (selectedNode != null) {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JTree jTree2;
-    private javax.swing.JTable table_question;
+    public javax.swing.JTable table_question;
+    private javax.swing.JButton xoabtn;
+    private javax.swing.JButton xoabtn_question;
     // End of variables declaration//GEN-END:variables
 
     public static void main(String[] args) {
