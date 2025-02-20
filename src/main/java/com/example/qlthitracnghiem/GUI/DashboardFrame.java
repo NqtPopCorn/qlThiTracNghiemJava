@@ -8,15 +8,10 @@ import javax.swing.*;
 
 import com.example.qlthitracnghiem.DTO.UserDTO;
 import com.example.qlthitracnghiem.GUI.CauHoi.QuestionPanel;
-<<<<<<< HEAD
-=======
 import com.example.qlthitracnghiem.GUI.Exam.ChooseExamJPanel;
 import com.example.qlthitracnghiem.GUI.Exam.DoExamJPanel;
 import com.example.qlthitracnghiem.GUI.ThongKe.MainThongKePanel;
->>>>>>> origin/main
 import com.example.qlthitracnghiem.GUI.User.UserPanel;
-import com.example.qlthitracnghiem.GUI.CauHoi.QuestionPanel;
-import com.example.qlthitracnghiem.GUI.DeThi.TestPanel;
 import com.example.qlthitracnghiem.GUI.DeThi.TestPanel;
 import java.awt.*;
 
@@ -28,13 +23,9 @@ public class DashboardFrame extends javax.swing.JFrame {
 
   private JPanel cauHoiPanel = new JPanel();
   private JPanel userPanel = new UserPanel(this);
-<<<<<<< HEAD
-  private JPanel thongKePanel = new JPanel();
-=======
   private JPanel thongKePanel = new MainThongKePanel();
   private DoExamJPanel doExamJPanel = new DoExamJPanel();
   private ChooseExamJPanel chooseExamJPanel = new ChooseExamJPanel(doExamJPanel);
->>>>>>> origin/main
   private QuestionPanel questionPanel = new QuestionPanel();
   private UserDTO user;
   private TestPanel testPanel = new TestPanel();
@@ -76,12 +67,8 @@ public class DashboardFrame extends javax.swing.JFrame {
     cardLayout = new CardLayout();
     currentPanel.setLayout(cardLayout);
     // add panel moi tai dayday
-<<<<<<< HEAD
-    currentPanel.add(deThiPanel, navBtnDeThi.getActionCommand());
-=======
     currentPanel.add(chooseExamJPanel, navBtnThi.getActionCommand());
     currentPanel.add(doExamJPanel, "doExamJPanel");
->>>>>>> origin/main
     currentPanel.add(cauHoiPanel, navBtnCauHoi.getActionCommand());
     currentPanel.add(userPanel, navBtnUser.getActionCommand());
     currentPanel.add(thongKePanel, navBtnThongKe.getActionCommand());

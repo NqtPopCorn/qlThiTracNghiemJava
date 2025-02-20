@@ -49,7 +49,6 @@ public class QuestionsBUS {
             return questionsDAO.getQuestionByContent(content);
         } catch (SQLException e) {
             return null;
-<<<<<<< HEAD
             }
 }
          
@@ -70,9 +69,4 @@ public class QuestionsBUS {
     }
 }
          
-=======
-        }
-    }
-
->>>>>>> origin/main
 }

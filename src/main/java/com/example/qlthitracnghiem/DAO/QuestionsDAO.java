@@ -45,35 +45,53 @@ public class QuestionsDAO {
         }
     }
 
-<<<<<<< HEAD
-public int create(QuestionsDTO question) throws SQLException {
-    String sql = "INSERT INTO questions (qContent, qPictures, qTopicID, qLevel, qStatus) VALUES (?, ?, ?, ?, ?)";
-    
-    try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-        ps.setString(1, question.getqContent());
-        ps.setString(2, question.getqPicture());
-        ps.setInt(3, question.getqTopicID());
-        ps.setInt(4, question.getqLevel());
-        ps.setInt(5, question.getqStatus());
-=======
-    // Hàm thêm câu hỏi mới
-    public boolean create(QuestionsDTO question) throws SQLException {
->>>>>>> origin/main
+    public int createInt(QuestionsDTO question) throws SQLException {
+        String sql = "INSERT INTO questions (qContent, qPictures, qTopicID, qLevel, qStatus) VALUES (?, ?, ?, ?, ?)";
 
-        int affectedRows = ps.executeUpdate();
-        if (affectedRows > 0) {
-            try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    int generatedID = generatedKeys.getInt(1);
-                    return generatedID; // Trả về ID vừa tạo
+        try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            ps.setString(1, question.getqContent());
+            ps.setString(2, question.getqPicture());
+            ps.setInt(3, question.getqTopicID());
+            ps.setInt(4, question.getqLevel());
+            ps.setInt(5, question.getqStatus());
+
+            int affectedRows = ps.executeUpdate();
+            if (affectedRows > 0) {
+                try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        int generatedID = generatedKeys.getInt(1);
+                        return generatedID; // Trả về ID vừa tạo
+                    }
                 }
             }
         }
+        return -1; // Trả về -1 nếu không thành công
     }
-    return -1; // Trả về -1 nếu không thành công
-}
 
 
+    // Hàm thêm câu hỏi mới
+    public boolean create(QuestionsDTO question) throws SQLException {
+
+        String sql = "INSERT INTO questions (qContent, qPictures, qTopicID, qLevel, qStatus) VALUES (?, ?, ?, ?, ?)";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            ps.setString(1, question.getqContent());
+            ps.setString(2, question.getqPicture());
+            ps.setInt(3, question.getqTopicID());
+            ps.setInt(4, question.getqLevel());
+            ps.setInt(5, question.getqStatus());
+
+            int affectedRows = ps.executeUpdate();
+            if (affectedRows > 0) {
+                try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        question.setqID(generatedKeys.getInt(1)); // Lấy ID vừa tạo
+                    }
+                }
+            }
+            return affectedRows > 0;
+        }
+    }
     // Hàm cập nhật câu hỏi
     public boolean update(QuestionsDTO question) throws SQLException {
         Connection connection = DBConnection.getConnection();
@@ -204,61 +222,57 @@ public int create(QuestionsDTO question) throws SQLException {
         return null; // Nếu không tìm thấy câu hỏi nào
     }
 
-<<<<<<< HEAD
-    return null; // Nếu không tìm thấy câu hỏi nào
-}
-  
-     public List<QuestionsDTO> find(String content, String key) throws SQLException {
-    List<QuestionsDTO> result = new ArrayList<>();
-    String query = "";
-    boolean isLikeSearch = false;
 
-    switch (key.toLowerCase()) {
-        case "id" -> query = "SELECT * FROM questions WHERE qID = ?";
-        case "topic" -> {
-            query = "SELECT * FROM questions WHERE qTopicID IN (SELECT tpID FROM topics WHERE tpName LIKE ?)";
-            isLikeSearch = true;
-               }
-        case "content" -> {
-            query = "SELECT * FROM questions WHERE qContent LIKE ?";
-            isLikeSearch = true;
-               }
-        case "level" -> query = "SELECT * FROM questions WHERE qLevel = ?";
-        default -> {
-            System.out.println("⚠ Key không hợp lệ! Vui lòng chọn: id, topic, content, level.");
-            return result;
-               }
-    }
 
-    try (PreparedStatement stmt = connection.prepareStatement(query)) {
-        if (isLikeSearch) {
-            stmt.setString(1, "%" + content + "%"); // Tìm kiếm gần đúng
-        } else {
-            stmt.setString(1, content); // Tìm kiếm chính xác
+    public List<QuestionsDTO> find(String content, String key) throws SQLException {
+        List<QuestionsDTO> result = new ArrayList<>();
+        String query = "";
+        boolean isLikeSearch = false;
+
+        switch (key.toLowerCase()) {
+            case "id" -> query = "SELECT * FROM questions WHERE qID = ?";
+            case "topic" -> {
+                query = "SELECT * FROM questions WHERE qTopicID IN (SELECT tpID FROM topics WHERE tpName LIKE ?)";
+                isLikeSearch = true;
+                }
+            case "content" -> {
+                query = "SELECT * FROM questions WHERE qContent LIKE ?";
+                isLikeSearch = true;
+                }
+            case "level" -> query = "SELECT * FROM questions WHERE qLevel = ?";
+            default -> {
+                System.out.println("⚠ Key không hợp lệ! Vui lòng chọn: id, topic, content, level.");
+                return result;
+                }
         }
 
-        try (ResultSet rs = stmt.executeQuery()) {
-            while (rs.next()) {
-                QuestionsDTO question = new QuestionsDTO(
-                    rs.getInt("qID"),
-                    rs.getString("qContent"),
-                    rs.getString("qPictures"),  // Đổi thành qPictures theo đúng DB
-                    rs.getInt("qTopicID"),
-                    rs.getInt("qLevel"),
-                    rs.getInt("qStatus")
-                );
-                result.add(question);
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            if (isLikeSearch) {
+                stmt.setString(1, "%" + content + "%"); // Tìm kiếm gần đúng
+            } else {
+                stmt.setString(1, content); // Tìm kiếm chính xác
             }
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    QuestionsDTO question = new QuestionsDTO(
+                        rs.getInt("qID"),
+                        rs.getString("qContent"),
+                        rs.getString("qPictures"),  // Đổi thành qPictures theo đúng DB
+                        rs.getInt("qTopicID"),
+                        rs.getInt("qLevel"),
+                        rs.getInt("qStatus")
+                    );
+                    result.add(question);
+                }
+            }
+        } catch (SQLException e) {
         }
-    } catch (SQLException e) {
+
+        return result;
     }
 
-    return result;
-}
-
-
-
-=======
+    // =======
     // // Hàm thêm câu hỏi mới
     // public boolean create(QuestionsDTO question) throws SQLException {
 
@@ -419,6 +433,4 @@ public int create(QuestionsDTO question) throws SQLException {
 
     // return null; // Nếu không tìm thấy câu hỏi nào
     // }
->>>>>>> origin/main
-
 }
