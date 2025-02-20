@@ -51,7 +51,7 @@
         <Container class="javax.swing.JPanel" name="jPanel1">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="99" green="ff" red="99" type="rgb"/>
+              <Color blue="cc" green="cc" red="cc" type="rgb"/>
             </Property>
           </Properties>
           <Constraints>
@@ -63,25 +63,30 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
+                  <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                          </Group>
-                          <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jScrollPane1" max="32767" attributes="0"/>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="btnThemChuDe" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
-                                      <Component id="jButton5" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace pref="39" max="32767" attributes="0"/>
-                                      <Component id="btnSuaChuDe" min="-2" max="-2" attributes="0"/>
+                          <Component id="jScrollPane3" max="32767" attributes="0"/>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" attributes="0">
+                                      <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="btnThemChuDe" pref="100" max="32767" attributes="0"/>
+                                          <Component id="btn_loc" max="32767" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace pref="27" max="32767" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="xoabtn" pref="100" max="32767" attributes="0"/>
+                                          <Component id="Reset" max="32767" attributes="0"/>
+                                      </Group>
                                   </Group>
                               </Group>
-                              <EmptySpace max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -92,20 +97,68 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="xoabtn" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnThemChuDe" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jButton5" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="btnSuaChuDe" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jScrollPane1" pref="598" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="btn_loc" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="Reset" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jScrollPane3" pref="573" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
+            <Component class="javax.swing.JButton" name="xoabtn">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="X&#xf3;a"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="xoabtnActionPerformed"/>
+              </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="// Thay &#x111;&#x1ed5;i m&#xe0;u n&#x1ec1;n v&#xe0; m&#xe0;u ch&#x1eef; cho n&#xfa;t b&#xec;nh th&#x1b0;&#x1edd;ng&#xa;xoabtn.setBackground(new java.awt.Color(255, 69, 0));  // M&#xe0;u n&#x1ec1;n &#x111;&#x1ecf; cam (RGB: 255, 69, 0)&#xa;xoabtn.setForeground(new java.awt.Color(255, 255, 255));  // M&#xe0;u ch&#x1eef; tr&#x1eaf;ng&#xa;&#xa;// Thay &#x111;&#x1ed5;i font ch&#x1eef;&#xa;xoabtn.setFont(new java.awt.Font(&quot;Arial&quot;, java.awt.Font.BOLD, 14));&#xa;&#xa;// T&#x1ea1;o hi&#x1ec7;u &#x1ee9;ng khi chu&#x1ed9;t di chuy&#x1ec3;n qua n&#xfa;t (hover)&#xa;xoabtn.setRolloverEnabled(true);  // K&#xed;ch ho&#x1ea1;t hi&#x1ec7;u &#x1ee9;ng khi di chu&#x1ed9;t qua n&#xfa;t&#xa;&#xa;// Khi hover, thay &#x111;&#x1ed5;i m&#xe0;u n&#x1ec1;n c&#x1ee7;a n&#xfa;t&#xa;xoabtn.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;    @Override&#xa;    public void mouseEntered(java.awt.event.MouseEvent evt) {&#xa;        xoabtn.setBackground(new java.awt.Color(255, 99, 71));  // M&#xe0;u n&#x1ec1;n &#x111;&#x1ecf; s&#xe1;ng khi hover&#xa;    }&#xa;&#xa;    @Override&#xa;    public void mouseExited(java.awt.event.MouseEvent evt) {&#xa;        xoabtn.setBackground(new java.awt.Color(255, 69, 0));  // Tr&#x1edf; l&#x1ea1;i m&#xe0;u &#x111;&#x1ecf; cam khi kh&#xf4;ng hover&#xa;    }&#xa;});"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel2">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Segoe UI" size="18" style="1"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Ch&#x1ee7; &#x111;&#x1ec1;"/>
+              </Properties>
+            </Component>
+            <Container class="javax.swing.JScrollPane" name="jScrollPane3">
+              <AuxValues>
+                <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+              </AuxValues>
+
+              <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+              <SubComponents>
+                <Component class="javax.swing.JTree" name="jTree2">
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="loadTopics();"/>
+                  </AuxValues>
+                </Component>
+              </SubComponents>
+            </Container>
+            <Component class="javax.swing.JButton" name="btn_loc">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="L&#x1ecd;c"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_locActionPerformed"/>
+              </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="// Thay &#x111;&#x1ed5;i m&#xe0;u n&#x1ec1;n v&#xe0; m&#xe0;u ch&#x1eef; cho n&#xfa;t b&#xec;nh th&#x1b0;&#x1edd;ng&#xa;btn_loc.setBackground(new java.awt.Color(128,128,128));  // M&#xe0;u n&#x1ec1;n xanh d&#x1b0;&#x1a1;ng&#xa;btn_loc.setForeground(new java.awt.Color(255,255,255));  // M&#xe0;u ch&#x1eef; tr&#x1eaf;ng&#xa;&#xa;// Thay &#x111;&#x1ed5;i font ch&#x1eef;&#xa;btn_loc.setFont(new java.awt.Font(&quot;Arial&quot;, java.awt.Font.BOLD, 14));&#xa;&#xa;// T&#x1ea1;o hi&#x1ec7;u &#x1ee9;ng khi chu&#x1ed9;t di chuy&#x1ec3;n qua n&#xfa;t (hover)&#xa;btn_loc.setRolloverEnabled(true);  // K&#xed;ch ho&#x1ea1;t hi&#x1ec7;u &#x1ee9;ng khi di chu&#x1ed9;t qua n&#xfa;t&#xa;&#xa;// Thay &#x111;&#x1ed5;i m&#xe0;u n&#x1ec1;n khi hover&#xa;btn_loc.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;    @Override&#xa;    public void mouseEntered(java.awt.event.MouseEvent evt) {&#xa;        btn_loc.setBackground(new java.awt.Color(255, 165, 0));  // M&#xe0;u n&#x1ec1;n cam khi hover&#xa;    }&#xa;&#xa;    @Override&#xa;    public void mouseExited(java.awt.event.MouseEvent evt) {&#xa;        btn_loc.setBackground(new java.awt.Color(128,128,128));  // Tr&#x1edf; l&#x1ea1;i m&#xe0;u xanh d&#x1b0;&#x1a1;ng khi kh&#xf4;ng hover&#xa;    }&#xa;});"/>
+              </AuxValues>
+            </Component>
             <Component class="javax.swing.JButton" name="btnThemChuDe">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Th&#xea;m"/>
@@ -113,56 +166,27 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnThemChuDeActionPerformed"/>
               </Events>
-            </Component>
-            <Container class="javax.swing.JScrollPane" name="jScrollPane1">
               <AuxValues>
-                <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="// Thay &#x111;&#x1ed5;i m&#xe0;u n&#x1ec1;n v&#xe0; m&#xe0;u ch&#x1eef; cho n&#xfa;t b&#xec;nh th&#x1b0;&#x1edd;ng&#xa;btnThemChuDe.setBackground(new java.awt.Color(0,255,255));  // M&#xe0;u n&#x1ec1;n xanh d&#x1b0;&#x1a1;ng&#xa;btnThemChuDe.setForeground(new java.awt.Color(255,255,255));  // M&#xe0;u ch&#x1eef; tr&#x1eaf;ng&#xa;&#xa;// Thay &#x111;&#x1ed5;i font ch&#x1eef;&#xa;btnThemChuDe.setFont(new java.awt.Font(&quot;Arial&quot;, java.awt.Font.BOLD, 14));&#xa;&#xa;// T&#x1ea1;o hi&#x1ec7;u &#x1ee9;ng khi chu&#x1ed9;t di chuy&#x1ec3;n qua n&#xfa;t (hover)&#xa;btnThemChuDe.setRolloverEnabled(true);  // K&#xed;ch ho&#x1ea1;t hi&#x1ec7;u &#x1ee9;ng khi di chu&#x1ed9;t qua n&#xfa;t&#xa;&#xa;// Thay &#x111;&#x1ed5;i m&#xe0;u n&#x1ec1;n khi hover&#xa;btnThemChuDe.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;    @Override&#xa;    public void mouseEntered(java.awt.event.MouseEvent evt) {&#xa;        btnThemChuDe.setBackground(new java.awt.Color(255, 165, 0));  // M&#xe0;u n&#x1ec1;n cam khi hover&#xa;    }&#xa;&#xa;    @Override&#xa;    public void mouseExited(java.awt.event.MouseEvent evt) {&#xa;        btnThemChuDe.setBackground(new java.awt.Color(0,255,255));  // Tr&#x1edf; l&#x1ea1;i m&#xe0;u xanh d&#x1b0;&#x1a1;ng khi kh&#xf4;ng hover&#xa;    }&#xa;});"/>
               </AuxValues>
-
-              <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-              <SubComponents>
-                <Component class="javax.swing.JTree" name="jTree1">
-                  <Properties>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Segoe UI" size="14" style="0"/>
-                    </Property>
-                    <Property name="model" type="javax.swing.tree.TreeModel" editor="org.netbeans.modules.form.editors2.TreeModelEditor">
-                      <TreeModel code="T&#x1ea5;t c&#x1ea3;&#xa; JTree&#xa;  colors&#xa;   blue&#xa;   violet&#xa;   red&#xa;   yellow&#xa;  sports&#xa;   basketball&#xa;   soccer&#xa;   football&#xa;   hockey&#xa;  food&#xa;   hot dogs&#xa;   pizza&#xa;   ravioli&#xa;   bananas&#xa; genres&#xa;  gay&#xa;  men&#xa;  women"/>
-                    </Property>
-                  </Properties>
-                </Component>
-              </SubComponents>
-            </Container>
-            <Component class="javax.swing.JButton" name="jButton5">
+            </Component>
+            <Component class="javax.swing.JButton" name="Reset">
               <Properties>
-                <Property name="text" type="java.lang.String" value="X&#xf3;a"/>
+                <Property name="text" type="java.lang.String" value="T&#x1ea3;i l&#x1ea1;i"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton5ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ResetActionPerformed"/>
               </Events>
-            </Component>
-            <Component class="javax.swing.JButton" name="btnSuaChuDe">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="S&#x1eed;a"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="jLabel2">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Segoe UI" size="18" style="1"/>
-                </Property>
-                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="0" green="0" red="0" type="rgb"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Ch&#x1ee7; &#x111;&#x1ec1;"/>
-              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="// Th&#xea;m style cho n&#xfa;t&#xa;Reset.setFont(new java.awt.Font(&quot;Arial&quot;, java.awt.Font.BOLD, 14)); // Ch&#x1eef; &#x111;&#x1ead;m, c&#x1ee1; 14&#xa;Reset.setBackground(new java.awt.Color(255, 102, 102)); // M&#xe0;u n&#x1ec1;n &#x111;&#x1ecf; nh&#x1ea1;t&#xa;Reset.setForeground(Color.WHITE); // Ch&#x1eef; tr&#x1eaf;ng&#xa;Reset.setFocusPainted(false); // B&#x1ecf; vi&#x1ec1;n khi nh&#x1ea5;n&#xa;Reset.setBorder(BorderFactory.createEtchedBorder()); // Vi&#x1ec1;n n&#x1ed5;i nh&#x1eb9;&#xa;Reset.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR)); // &#x110;&#x1ed5;i con tr&#x1ecf; chu&#x1ed9;t khi di v&#xe0;o&#xa;&#xa;// Th&#xea;m hi&#x1ec7;u &#x1ee9;ng hover&#xa;Reset.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;    public void mouseEntered(java.awt.event.MouseEvent evt) {&#xa;        Reset.setBackground(new java.awt.Color(255, 51, 51)); // &#x110;&#x1ecf; &#x111;&#x1ead;m h&#x1a1;n khi hover&#xa;    }&#xa;    public void mouseExited(java.awt.event.MouseEvent evt) {&#xa;        Reset.setBackground(new java.awt.Color(255, 102, 102)); // Quay l&#x1ea1;i m&#xe0;u c&#x169;&#xa;    }&#xa;});"/>
+              </AuxValues>
             </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="jPanel2">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="33" green="cc" red="ff" type="rgb"/>
+              <Color blue="cc" green="cc" red="cc" type="rgb"/>
             </Property>
           </Properties>
           <Constraints>
@@ -174,57 +198,49 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jScrollPane2" max="32767" attributes="0"/>
-                          <Group type="102" attributes="0">
+                          <Group type="102" alignment="1" attributes="0">
+                              <EmptySpace min="0" pref="199" max="32767" attributes="0"/>
+                              <Component id="jLabel1" min="-2" pref="275" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="245" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="jLabel1" min="-2" pref="174" max="-2" attributes="0"/>
-                                      <EmptySpace pref="172" max="32767" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="jButton2" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jScrollPane2" max="32767" attributes="0"/>
+                                  <Group type="102" attributes="0">
+                                      <Component id="qthem_btn" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="jButton3" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="btnChiTietQuestion" min="-2" max="-2" attributes="0"/>
+                                      <Component id="xoabtn_question" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="find_txt" min="-2" pref="191" max="-2" attributes="0"/>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <Component id="find_cbx" min="-2" pref="95" max="-2" attributes="0"/>
                                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace min="-2" pref="225" max="-2" attributes="0"/>
-                              <Component id="jButton4" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jLabel1" pref="49" max="32767" attributes="0"/>
-                              <EmptySpace min="-2" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jButton2" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jButton3" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="btnChiTietQuestion" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Component id="jButton4" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
-                      <Component id="jScrollPane2" min="-2" pref="586" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jLabel1" pref="61" max="32767" attributes="0"/>
                       <EmptySpace min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="qthem_btn" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="xoabtn_question" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="find_txt" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="find_cbx" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="jScrollPane2" min="-2" pref="574" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -233,86 +249,62 @@
             <Component class="javax.swing.JLabel" name="jLabel1">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Segoe UI" size="18" style="1"/>
+                  <Font name="Segoe UI" size="36" style="1"/>
                 </Property>
-                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="0" green="0" red="0" type="rgb"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="T&#xea;n ch&#x1ee7; &#x111;&#x1ec1;"/>
+                <Property name="horizontalAlignment" type="int" value="0"/>
+                <Property name="text" type="java.lang.String" value="C&#xe2;u H&#x1ecf;i"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton2">
+            <Component class="javax.swing.JButton" name="qthem_btn">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Th&#xea;m"/>
+                <Property name="text" type="java.lang.String" value="Th&#xea;m" postCode="qthem_btn.addActionListener(new java.awt.event.ActionListener() {&#xa;            public void actionPerformed(java.awt.event.ActionEvent evt) {&#xa;                qthem_btnActionPerformed(evt);&#xa;            }&#xa;        });"/>
                 <Property name="toolTipText" type="java.lang.String" value="Th&#xea;m v&#xe0;o ch&#x1ee7; &#x111;&#x1ec1; ho&#x1eb7;c th&#xea;m m&#x1edb;i"/>
               </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="// Thay &#x111;&#x1ed5;i m&#xe0;u n&#x1ec1;n v&#xe0; m&#xe0;u ch&#x1eef; cho n&#xfa;t b&#xec;nh th&#x1b0;&#x1edd;ng&#xa;qthem_btn.setBackground(new java.awt.Color(0, 123, 255));  // M&#xe0;u n&#x1ec1;n xanh d&#x1b0;&#x1a1;ng&#xa;qthem_btn.setForeground(new java.awt.Color(255, 255, 255));  // M&#xe0;u ch&#x1eef; tr&#x1eaf;ng&#xa;&#xa;// Thay &#x111;&#x1ed5;i font ch&#x1eef;&#xa;qthem_btn.setFont(new java.awt.Font(&quot;Arial&quot;, java.awt.Font.BOLD, 14));&#xa;&#xa;// T&#x1ea1;o hi&#x1ec7;u &#x1ee9;ng khi chu&#x1ed9;t di chuy&#x1ec3;n qua n&#xfa;t (hover)&#xa;qthem_btn.setRolloverEnabled(true);  // K&#xed;ch ho&#x1ea1;t hi&#x1ec7;u &#x1ee9;ng khi di chu&#x1ed9;t qua n&#xfa;t&#xa;&#xa;// Thay &#x111;&#x1ed5;i m&#xe0;u n&#x1ec1;n khi hover&#xa;qthem_btn.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;    @Override&#xa;    public void mouseEntered(java.awt.event.MouseEvent evt) {&#xa;        qthem_btn.setBackground(new java.awt.Color(255, 165, 0));  // M&#xe0;u n&#x1ec1;n cam khi hover&#xa;    }&#xa;&#xa;    @Override&#xa;    public void mouseExited(java.awt.event.MouseEvent evt) {&#xa;        qthem_btn.setBackground(new java.awt.Color(0, 123, 255));  // Tr&#x1edf; l&#x1ea1;i m&#xe0;u xanh d&#x1b0;&#x1a1;ng khi kh&#xf4;ng hover&#xa;    }&#xa;});"/>
+              </AuxValues>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton3">
+            <Component class="javax.swing.JButton" name="xoabtn_question">
               <Properties>
                 <Property name="text" type="java.lang.String" value="X&#xf3;a"/>
                 <Property name="toolTipText" type="java.lang.String" value="X&#xf3;a kh&#x1ecf;i ch&#x1ee7; &#x111;&#x1ec1; ho&#x1eb7;c x&#xf3;a h&#x1eb3;n"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton3ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="xoabtn_questionActionPerformed"/>
               </Events>
-            </Component>
-            <Component class="javax.swing.JButton" name="jButton4">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Segoe UI" size="14" style="0"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="L&#x1b0;u"/>
-              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="// Thay &#x111;&#x1ed5;i m&#xe0;u n&#x1ec1;n v&#xe0; m&#xe0;u ch&#x1eef; cho n&#xfa;t b&#xec;nh th&#x1b0;&#x1edd;ng&#xa;xoabtn_question.setBackground(new java.awt.Color(255, 69, 0));  // M&#xe0;u n&#x1ec1;n &#x111;&#x1ecf; cam (RGB: 255, 69, 0)&#xa;xoabtn_question.setForeground(new java.awt.Color(255, 255, 255));  // M&#xe0;u ch&#x1eef; tr&#x1eaf;ng&#xa;&#xa;// Thay &#x111;&#x1ed5;i font ch&#x1eef;&#xa;xoabtn_question.setFont(new java.awt.Font(&quot;Arial&quot;, java.awt.Font.BOLD, 14));&#xa;&#xa;// T&#x1ea1;o hi&#x1ec7;u &#x1ee9;ng khi chu&#x1ed9;t di chuy&#x1ec3;n qua n&#xfa;t (hover)&#xa;xoabtn_question.setRolloverEnabled(true);  // K&#xed;ch ho&#x1ea1;t hi&#x1ec7;u &#x1ee9;ng khi di chu&#x1ed9;t qua n&#xfa;t&#xa;&#xa;// Khi hover, thay &#x111;&#x1ed5;i m&#xe0;u n&#x1ec1;n c&#x1ee7;a n&#xfa;t&#xa;xoabtn_question.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;    @Override&#xa;    public void mouseEntered(java.awt.event.MouseEvent evt) {&#xa;        xoabtn_question.setBackground(new java.awt.Color(255, 99, 71));  // M&#xe0;u n&#x1ec1;n &#x111;&#x1ecf; s&#xe1;ng khi hover&#xa;    }&#xa;&#xa;    @Override&#xa;    public void mouseExited(java.awt.event.MouseEvent evt) {&#xa;        xoabtn_question.setBackground(new java.awt.Color(255, 69, 0));  // Tr&#x1edf; l&#x1ea1;i m&#xe0;u &#x111;&#x1ecf; cam khi kh&#xf4;ng hover&#xa;    }&#xa;});"/>
+              </AuxValues>
             </Component>
             <Container class="javax.swing.JScrollPane" name="jScrollPane2">
-              <AuxValues>
-                <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
-              </AuxValues>
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
-                <Component class="javax.swing.JTable" name="jTable1">
-                  <Properties>
-                    <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                      <Table columnCount="4" rowCount="4">
-                        <Column editable="true" title="ID" type="java.lang.Object">
-                          <Data value="1"/>
-                          <Data value="2"/>
-                          <Data value="3"/>
-                          <Data value="null"/>
-                        </Column>
-                        <Column editable="true" title="Content" type="java.lang.Object">
-                          <Data value="Why are you gay?"/>
-                          <Data value="How dumb are you?"/>
-                          <Data value="You know Spring?"/>
-                          <Data value="null"/>
-                        </Column>
-                        <Column editable="true" title="Level" type="java.lang.Object">
-                          <Data value="3"/>
-                          <Data value="2"/>
-                          <Data value="1"/>
-                          <Data value="null"/>
-                        </Column>
-                        <Column editable="true" title="Topic" type="java.lang.Object">
-                          <Data value="Genres"/>
-                          <Data value="Sports"/>
-                          <Data value="Foods"/>
-                          <Data value="null"/>
-                        </Column>
-                      </Table>
-                    </Property>
-                  </Properties>
+                <Component class="javax.swing.JTable" name="table_question">
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="display_questions(-1);&#xa;&#xa;table_question.addMouseListener(new MouseAdapter() {&#xa;    @Override&#xa;    public void mousePressed(MouseEvent e) {&#xa;        if (e.getClickCount() == 2) { // Ki&#x1ec3;m tra n&#x1ebf;u l&#xe0; double-click&#xa;            int selectedRow = table_question.getSelectedRow(); // L&#x1ea5;y h&#xe0;ng &#x111;&#x1b0;&#x1ee3;c ch&#x1ecd;n&#xa;            if (selectedRow != -1) { // Ki&#x1ec3;m tra c&#xf3; h&#xe0;ng n&#xe0;o &#x111;&#x1b0;&#x1ee3;c ch&#x1ecd;n kh&#xf4;ng&#xa;              String name = table_question.getValueAt(selectedRow, 2).toString();&#xa;                    &#xa;    QuestionDetailDialog dialog = new QuestionDetailDialog(null, true,name);&#xa;    dialog.setLocationRelativeTo(null); // Place the dialog in the center of the screen&#xa;    dialog.setVisible(true);&#xa;       }&#xa;        }&#xa;    }&#xa;});"/>
+                    <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+                  </AuxValues>
                 </Component>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JButton" name="btnChiTietQuestion">
+            <Component class="javax.swing.JTextField" name="find_txt">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Chi ti&#x1ebf;t"/>
-                <Property name="toolTipText" type="java.lang.String" value="Xem, s&#x1eed;a chi ti&#x1ebf;t c&#xe2;u h&#x1ecf;i"/>
+                <Property name="text" type="java.lang.String" value="T&#xec;m ki&#x1ebf;m"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnChiTietQuestionActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="find_txtActionPerformed"/>
               </Events>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="find_cbx">
+              <Properties>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[] {&quot;N&#x1ed9;i dung&quot;, &quot;M&#x1ee9;c &#x111;&#x1ed9;&quot;, &quot;Id&quot; })" type="code"/>
+                </Property>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+              </AuxValues>
             </Component>
           </SubComponents>
         </Container>

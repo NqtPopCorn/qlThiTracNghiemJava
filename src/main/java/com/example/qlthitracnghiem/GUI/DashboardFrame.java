@@ -8,7 +8,6 @@ import javax.swing.*;
 
 import com.example.qlthitracnghiem.DTO.UserDTO;
 import com.example.qlthitracnghiem.GUI.CauHoi.QuestionPanel;
-import com.example.qlthitracnghiem.GUI.Exam.DoExamJPanel;
 import com.example.qlthitracnghiem.GUI.User.UserPanel;
 
 import java.awt.*;
@@ -24,7 +23,6 @@ public class DashboardFrame extends javax.swing.JFrame {
   private JPanel cauHoiPanel = new JPanel();
   private JPanel userPanel = new UserPanel(this);
   private JPanel thongKePanel = new JPanel();
-  private DoExamJPanel doExamJPanel = new DoExamJPanel();
   private QuestionPanel questionPanel = new QuestionPanel();
   private UserDTO user;
 
@@ -44,7 +42,6 @@ public class DashboardFrame extends javax.swing.JFrame {
     currentPanel.setLayout(cardLayout);
     // add panel moi tai dayday
     currentPanel.add(deThiPanel, navBtnDeThi.getActionCommand());
-    currentPanel.add(doExamJPanel, navBtnThi.getActionCommand());
     currentPanel.add(cauHoiPanel, navBtnCauHoi.getActionCommand());
     currentPanel.add(userPanel, navBtnUser.getActionCommand());
     currentPanel.add(thongKePanel, navBtnThongKe.getActionCommand());
@@ -199,6 +196,11 @@ public class DashboardFrame extends javax.swing.JFrame {
         navigationPanel.add(navBtnDeThi);
 
         navBtnThi.setText("Thi");
+        navBtnThi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                navBtnThiActionPerformed(evt);
+            }
+        });
         navigationPanel.add(navBtnThi);
 
         navBtnCauHoi.setText("Câu hỏi");
@@ -250,6 +252,10 @@ public class DashboardFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void navBtnThiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_navBtnThiActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_navBtnThiActionPerformed
+
   /**
    * @param args the command line arguments
    */
@@ -291,10 +297,8 @@ public class DashboardFrame extends javax.swing.JFrame {
     // </editor-fold>
 
     /* Create and display the form */
-    java.awt.EventQueue.invokeLater(new Runnable() {
-      public void run() {
+    java.awt.EventQueue.invokeLater(() -> {
         new DashboardFrame().setVisible(true);
-      }
     });
   }
 
