@@ -18,20 +18,20 @@ public class ThemChuDeDialog extends javax.swing.JDialog {
 
     /**
      * Creates new form ThemChuDeDialog
+     * 
      * @param parent
      */
     public ThemChuDeDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-         this.setSize(400, 280); // Đặt kích thước hợp lý
-    this.setLocationRelativeTo(null); // Hiển thị giữa màn hình
+        this.setSize(400, 280); // Đặt kích thước hợp lý
+        this.setLocationRelativeTo(null); // Hiển thị giữa màn hình
 
-        
     }
 
-
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
@@ -80,7 +80,7 @@ public class ThemChuDeDialog extends javax.swing.JDialog {
         cdParent_cbx.removeAllItems();
         cdParent_cbx.addItem("Không có");
         for (TopicsDTO topic : topics) {
-            if(topicsBUS.checkStatus(topic.getTpStatus())){
+            if (topicsBUS.checkStatus(topic.getTpStatus())) {
                 cdParent_cbx.addItem(topic.getTpTitle()); // Chỉ hiển thị tên chủ đề
             }
         }
@@ -112,76 +112,80 @@ public class ThemChuDeDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void title_txtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_title_txtActionPerformed
+    private void title_txtActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_title_txtActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_title_txtActionPerformed
+    }// GEN-LAST:event_title_txtActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-     String add_name = title_txt.getText().trim(); // Trim để tránh nhập khoảng trắng vô nghĩa
-String name_parent = (cdParent_cbx.getSelectedItem() != null) ? cdParent_cbx.getSelectedItem().toString() : ""; // Kiểm tra null
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton1ActionPerformed
+        String add_name = title_txt.getText().trim(); // Trim để tránh nhập khoảng trắng vô nghĩa
+        String name_parent = (cdParent_cbx.getSelectedItem() != null) ? cdParent_cbx.getSelectedItem().toString() : ""; // Kiểm
+                                                                                                                        // tra
+                                                                                                                        // null
 
-TopicsBUS topicsBUS = new TopicsBUS();
-int id_parent = (name_parent.isEmpty()) ? -1 : topicsBUS.getTopicIdByName(name_parent);
+        TopicsBUS topicsBUS = new TopicsBUS();
+        int id_parent = (name_parent.isEmpty()) ? -1 : topicsBUS.getTopicIdByName(name_parent);
 
-int id_topic_old = topicsBUS.getTopicIdByName(add_name);
-TopicsDTO token = topicsBUS.getTopicByID(id_topic_old);
+        int id_topic_old = topicsBUS.getTopicIdByName(add_name);
+        TopicsDTO token = topicsBUS.getTopicByID(id_topic_old);
 
-if (add_name.isEmpty()) {
-    JOptionPane.showMessageDialog(null, "Bạn chưa nhập tên chủ đề cần thêm", "Thiếu thông tin!!", JOptionPane.INFORMATION_MESSAGE);
-} 
-else if (token != null && token.getTpStatus() == 1) {
-    JOptionPane.showMessageDialog(null, "Chủ đề này đã tồn tại", "Thông tin sai lệch!!", JOptionPane.INFORMATION_MESSAGE);
-} 
-else if (token != null && token.getTpStatus() == 0) { // Khi chủ đề có nhưng bị vô hiệu hóa
-    TopicsDTO token1 = new TopicsDTO(token.getTpID(), token.getTpTitle(), token.getTpParent(), 1);
-    boolean updated = topicsBUS.update(token1);
-    
-    if (updated) {
-        JOptionPane.showMessageDialog(null, "Chủ đề đã được kích hoạt lại", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-    } else {
-        JOptionPane.showMessageDialog(null, "Không thể cập nhật chủ đề", "Lỗi", JOptionPane.ERROR_MESSAGE);
-    }
-} 
-else {
-    TopicsDTO topic = new TopicsDTO();
-    topic.setTpTitle(add_name);
-    topic.setTpStatus(1);
-    topic.setTpParent((id_parent == -1) ? 0 : id_parent);
+        if (add_name.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Bạn chưa nhập tên chủ đề cần thêm", "Thiếu thông tin!!",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else if (token != null && token.getTpStatus() == 1) {
+            JOptionPane.showMessageDialog(null, "Chủ đề này đã tồn tại", "Thông tin sai lệch!!",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else if (token != null && token.getTpStatus() == 0) { // Khi chủ đề có nhưng bị vô hiệu hóa
+            TopicsDTO token1 = new TopicsDTO(token.getTpID(), token.getTpTitle(), token.getTpParent(), 1);
+            boolean updated = topicsBUS.update(token1);
 
-    // Hiển thị hộp thoại cảnh báo
-    int confirm = JOptionPane.showConfirmDialog(
-        null,
-        "Bạn có chắc chắn muốn thêm chủ đề này?",
-        "Xác nhận",
-        JOptionPane.YES_NO_OPTION,
-            JOptionPane.WARNING_MESSAGE
-    );
-
-    if (confirm == JOptionPane.YES_OPTION) {
-        // Nếu chọn "YES", tiến hành thêm
-        boolean created = topicsBUS.create(topic);
-        
-        if (created) {
-            JOptionPane.showMessageDialog(null, "Bạn đã thêm thành công", "Xác nhận", JOptionPane.INFORMATION_MESSAGE);
+            if (updated) {
+                JOptionPane.showMessageDialog(null, "Chủ đề đã được kích hoạt lại", "Thông báo",
+                        JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, "Không thể cập nhật chủ đề", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            }
         } else {
-            JOptionPane.showMessageDialog(null, "Không thể thêm chủ đề", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            TopicsDTO topic = new TopicsDTO();
+            topic.setTpTitle(add_name);
+            topic.setTpStatus(1);
+            topic.setTpParent((id_parent == -1) ? 0 : id_parent);
+
+            // Hiển thị hộp thoại cảnh báo
+            int confirm = JOptionPane.showConfirmDialog(
+                    null,
+                    "Bạn có chắc chắn muốn thêm chủ đề này?",
+                    "Xác nhận",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE);
+
+            if (confirm == JOptionPane.YES_OPTION) {
+                // Nếu chọn "YES", tiến hành thêm
+                boolean created = topicsBUS.create(topic);
+
+                if (created) {
+                    JOptionPane.showMessageDialog(null, "Bạn đã thêm thành công", "Xác nhận",
+                            JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Không thể thêm chủ đề", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                }
+            }
         }
-    }
-}
 
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }// GEN-LAST:event_jButton1ActionPerformed
 
-    private void cdParent_cbxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cdParent_cbxActionPerformed
+    private void cdParent_cbxActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_cdParent_cbxActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cdParent_cbxActionPerformed
+    }// GEN-LAST:event_cdParent_cbxActionPerformed
 
-    
-      
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+        // <editor-fold defaultstate="collapsed" desc=" Look and feel setting code
+        // (optional) ">
+        /*
+         * If Nimbus (introduced in Java SE 6) is not available, stay with the default
+         * look and feel.
+         * For details see
+         * http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -191,28 +195,32 @@ else {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ThemChuDeDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ThemChuDeDialog.class.getName()).log(java.util.logging.Level.SEVERE,
+                    null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ThemChuDeDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ThemChuDeDialog.class.getName()).log(java.util.logging.Level.SEVERE,
+                    null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ThemChuDeDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ThemChuDeDialog.class.getName()).log(java.util.logging.Level.SEVERE,
+                    null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ThemChuDeDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ThemChuDeDialog.class.getName()).log(java.util.logging.Level.SEVERE,
+                    null, ex);
         }
-        //</editor-fold>
+        // </editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-            ThemChuDeDialog dialog = new ThemChuDeDialog(new javax.swing.JFrame(), true);
-            dialog.setLocationRelativeTo(null); // Hiển thị ở giữa màn hình
-            dialog.setVisible(true); // Hiển thị dialog
+                ThemChuDeDialog dialog = new ThemChuDeDialog(new javax.swing.JFrame(), true);
+                dialog.setLocationRelativeTo(null); // Hiển thị ở giữa màn hình
+                dialog.setVisible(true); // Hiển thị dialog
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
                         System.exit(0);
                     }
-                    
+
                 });
 
             }

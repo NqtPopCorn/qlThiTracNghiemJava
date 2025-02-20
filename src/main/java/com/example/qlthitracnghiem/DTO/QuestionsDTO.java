@@ -8,8 +8,9 @@ public class QuestionsDTO {
     private int qLevel;
     private int qStatus;
 
-    //Contrstor  không tham số 
-    public QuestionsDTO(){};
+    // Contrstor không tham số
+    public QuestionsDTO() {
+    };
 
     // Constructor có tham số
     public QuestionsDTO(int qID, String qContent, String qPicture, int qTopicID, int qLevel, int qStatus) {
@@ -69,5 +70,5 @@ public class QuestionsDTO {
     public void setqStatus(int qStatus) {
         this.qStatus = qStatus;
     }
-   
+
 }

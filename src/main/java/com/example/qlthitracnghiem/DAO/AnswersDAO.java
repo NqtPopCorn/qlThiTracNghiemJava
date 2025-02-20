@@ -11,28 +11,26 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 public class AnswersDAO {
- 
+
     public AnswersDTO getAnswerByID(int awID) throws SQLException {
         Connection connection = DBConnection.getConnection();
         String sql = "SELECT * FROM answers WHERE awID = ?";
-        
+
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, awID);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return new AnswersDTO(
-                    rs.getInt("awID"),
-                    rs.getInt("qID"),
-                    rs.getString("awContent"),
-                    rs.getString("awPictures"),
-                    rs.getInt("isRight"),
-                    rs.getInt("awStatus")
-                );
+                        rs.getInt("awID"),
+                        rs.getInt("qID"),
+                        rs.getString("awContent"),
+                        rs.getString("awPictures"),
+                        rs.getInt("isRight"),
+                        rs.getInt("awStatus"));
             }
         }
-        return null;  // Trả về null nếu không tìm thấy
+        return null; // Trả về null nếu không tìm thấy
     }
-
 
     public ArrayList<AnswersDTO> getAll() throws SQLException {
         Connection connection = DBConnection.getConnection();
@@ -40,21 +38,19 @@ public class AnswersDAO {
         ArrayList<AnswersDTO> answersList = new ArrayList<>();
 
         try (PreparedStatement ps = connection.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+                ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 answersList.add(new AnswersDTO(
-                    rs.getInt("awID"),
-                    rs.getInt("qID"),
-                    rs.getString("awContent"),
-                    rs.getString("awPictures"),
-                    rs.getInt("isRight"),
-                    rs.getInt("awStatus")
-                ));
+                        rs.getInt("awID"),
+                        rs.getInt("qID"),
+                        rs.getString("awContent"),
+                        rs.getString("awPictures"),
+                        rs.getInt("isRight"),
+                        rs.getInt("awStatus")));
             }
         }
         return answersList;
     }
-
 
     public boolean delete(int awID) throws SQLException {
         Connection connection = DBConnection.getConnection();
@@ -65,7 +61,6 @@ public class AnswersDAO {
             return ps.executeUpdate() > 0; // Trả về true nếu xóa thành công
         }
     }
-
 
     public boolean create(AnswersDTO answer) throws SQLException {
         Connection connection = DBConnection.getConnection();
@@ -83,22 +78,21 @@ public class AnswersDAO {
         }
     }
 
+    public boolean update(AnswersDTO answer) throws SQLException {
+        Connection connection = DBConnection.getConnection();
+        String sql = "UPDATE answers SET qID=?, awContent=?, awPictures=?, isRight=?, awStatus=? WHERE awID=?";
 
-public boolean update(AnswersDTO answer) throws SQLException {
-    Connection connection = DBConnection.getConnection();
-    String sql = "UPDATE answers SET qID=?, awContent=?, awPictures=?, isRight=?, awStatus=? WHERE awID=?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, answer.getQID());
+            ps.setString(2, answer.getAwContent());
+            ps.setString(3, answer.getAwPictures());
+            ps.setInt(4, answer.getIsRight());
+            ps.setInt(5, answer.getAwStatus());
+            ps.setInt(6, answer.getAwID());
 
-    try (PreparedStatement ps = connection.prepareStatement(sql)) {
-        ps.setInt(1, answer.getQID());
-        ps.setString(2, answer.getAwContent());
-        ps.setString(3, answer.getAwPictures());
-        ps.setInt(4, answer.getIsRight());
-        ps.setInt(5, answer.getAwStatus());
-        ps.setInt(6, answer.getAwID());
-
-        return ps.executeUpdate() > 0;
+            return ps.executeUpdate() > 0;
+        }
     }
-}
 
 // Hàm lấy danh sách đáp án theo ID câu hỏi
     public ArrayList<AnswersDTO> getAnswersByQuestionID(int qID) throws SQLException{
@@ -126,4 +120,3 @@ public boolean update(AnswersDTO answer) throws SQLException {
 }
 
 }
-

@@ -56,3 +56,6 @@ Thumbs.db
 *.log
 *.tmp
 *.bak
+
+# Connect DB
+/src/main/java/com/example/qlthitracnghiem/utils/DBConnection.java

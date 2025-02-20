@@ -9,7 +9,8 @@ public class AnswersDTO {
     private int awStatus;
 
     // Constructor không tham số
-    public AnswersDTO() {}
+    public AnswersDTO() {
+    }
 
     // Constructor có tham số
     public AnswersDTO(int awID, int qID, String awContent, String awPictures, int isRight, int awStatus) {
