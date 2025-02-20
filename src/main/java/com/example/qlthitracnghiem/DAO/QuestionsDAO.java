@@ -15,60 +15,60 @@ public class QuestionsDAO {
     
        public Connection connection = DBConnection.getConnection();
        
-public ArrayList<QuestionsDTO> getAll() throws SQLException {
-    // Get the database connection
+        public ArrayList<QuestionsDTO> getAll() throws SQLException {
+            // Get the database connection
 
-    // SQL query to fetch all questions
-    String sql = "SELECT * FROM questions";
+            // SQL query to fetch all questions
+            String sql = "SELECT * FROM questions";
 
-    try (PreparedStatement ps = connection.prepareStatement(sql);
-         ResultSet rs = ps.executeQuery()) {
-        
-        ArrayList<QuestionsDTO> questions = new ArrayList<>();
+            try (PreparedStatement ps = connection.prepareStatement(sql);
+                 ResultSet rs = ps.executeQuery()) {
 
-        while (rs.next()) {
-            questions.add(
-                new QuestionsDTO(
-                    rs.getInt("qID"),          
-                    rs.getString("qContent"),    
-                    rs.getString("qPictures"),  
-                    rs.getInt("qTopicID"),       
-                    rs.getInt("qLevel"),      
-                    rs.getInt("qStatus")         
-                )
-            );
-        }
+                ArrayList<QuestionsDTO> questions = new ArrayList<>();
 
-        return questions;
-
-    } catch (SQLException e) {
-        e.printStackTrace();
-        throw e;
-    }
-}
-
-public int create(QuestionsDTO question) throws SQLException {
-    String sql = "INSERT INTO questions (qContent, qPictures, qTopicID, qLevel, qStatus) VALUES (?, ?, ?, ?, ?)";
-    
-    try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-        ps.setString(1, question.getqContent());
-        ps.setString(2, question.getqPicture());
-        ps.setInt(3, question.getqTopicID());
-        ps.setInt(4, question.getqLevel());
-        ps.setInt(5, question.getqStatus());
-
-        int affectedRows = ps.executeUpdate();
-        if (affectedRows > 0) {
-            try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    int generatedID = generatedKeys.getInt(1);
-                    return generatedID; // Trả về ID vừa tạo
+                while (rs.next()) {
+                    questions.add(
+                        new QuestionsDTO(
+                            rs.getInt("qID"),          
+                            rs.getString("qContent"),    
+                            rs.getString("qPictures"),  
+                            rs.getInt("qTopicID"),       
+                            rs.getInt("qLevel"),      
+                            rs.getInt("qStatus")         
+                        )
+                    );
                 }
+
+                return questions;
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                throw e;
             }
         }
-    }
-    return -1; // Trả về -1 nếu không thành công
-}
+
+        public int create(QuestionsDTO question) throws SQLException {
+            String sql = "INSERT INTO questions (qContent, qPictures, qTopicID, qLevel, qStatus) VALUES (?, ?, ?, ?, ?)";
+
+            try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+                ps.setString(1, question.getqContent());
+                ps.setString(2, question.getqPicture());
+                ps.setInt(3, question.getqTopicID());
+                ps.setInt(4, question.getqLevel());
+                ps.setInt(5, question.getqStatus());
+
+                int affectedRows = ps.executeUpdate();
+                if (affectedRows > 0) {
+                    try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
+                        if (generatedKeys.next()) {
+                            int generatedID = generatedKeys.getInt(1);
+                            return generatedID; // Trả về ID vừa tạo
+                        }
+                    }
+                }
+            }
+            return -1; // Trả về -1 nếu không thành công
+        }
 
 
     

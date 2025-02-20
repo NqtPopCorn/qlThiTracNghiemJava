@@ -125,5 +125,15 @@ public boolean update(AnswersDTO answer) throws SQLException {
     return answersList;
 }
 
+    public boolean deleteByQuestionID(int qID) throws SQLException {
+    Connection connection = DBConnection.getConnection();
+    String sql = "DELETE FROM answers WHERE qID = ?";
+
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        ps.setInt(1, qID);
+        return ps.executeUpdate() > 0; // Trả về true nếu có ít nhất một bản ghi bị xóa
+    }
+}
+
 }
 

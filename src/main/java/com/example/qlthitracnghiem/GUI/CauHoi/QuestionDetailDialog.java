@@ -632,6 +632,9 @@ for (int i = 0; i < size; i++) {
         String topic = (String) tp_cbx.getSelectedItem();
         String level = (String) level_cbx.getSelectedItem();
         String pic = anh_field.getText();
+        QuestionsDTO old_question = questionBUS.getQuestionsByContent(question);
+        int qID = old_question.getqID(); //lấy id của question cũ ra
+       
         if(question.isEmpty()){
                JOptionPane.showMessageDialog(null, "Hãy ghi nội dung câu hỏi", "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
@@ -639,6 +642,7 @@ for (int i = 0; i < size; i++) {
         else{
                         QuestionsDTO new_question = new QuestionsDTO();
                         new_question.setqContent(question);
+                        new_question.setqID(qID);
                         new_question.setqTopicID(topicsBUS.getTopicIdByName(topic));
                         new_question.setqStatus(1);
             switch(level){
@@ -652,8 +656,8 @@ for (int i = 0; i < size; i++) {
 
           }
           
-          int newID = questionBUS.create(new_question); //thêm câu hỏi
-          
+       questionBUS.update(new_question); //sửa lại câu hỏi
+//       answersBUS.deleteByQuestionID(qID); //xóa toàn bộ đáp án cữ của câu hỏi
           Object[][] answerList = layDuLieuDapAn();
           
           for(Object[] answer : answerList){
