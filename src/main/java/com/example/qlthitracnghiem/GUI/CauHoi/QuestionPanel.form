@@ -282,7 +282,7 @@
               <SubComponents>
                 <Component class="javax.swing.JTable" name="table_question">
                   <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="display_questions(-1);"/>
+                    <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="display_questions(-1);&#xa;&#xa;table_question.addMouseListener(new MouseAdapter() {&#xa;    @Override&#xa;    public void mousePressed(MouseEvent e) {&#xa;        if (e.getClickCount() == 2) { // Ki&#x1ec3;m tra n&#x1ebf;u l&#xe0; double-click&#xa;            int selectedRow = table_question.getSelectedRow(); // L&#x1ea5;y h&#xe0;ng &#x111;&#x1b0;&#x1ee3;c ch&#x1ecd;n&#xa;            if (selectedRow != -1) { // Ki&#x1ec3;m tra c&#xf3; h&#xe0;ng n&#xe0;o &#x111;&#x1b0;&#x1ee3;c ch&#x1ecd;n kh&#xf4;ng&#xa;              String name = table_question.getValueAt(selectedRow, 2).toString();&#xa;                    &#xa;    QuestionDetailDialog dialog = new QuestionDetailDialog(null, true,name);&#xa;    dialog.setLocationRelativeTo(null); // Place the dialog in the center of the screen&#xa;    dialog.setVisible(true);&#xa;       }&#xa;        }&#xa;    }&#xa;});"/>
                     <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
                   </AuxValues>
                 </Component>
