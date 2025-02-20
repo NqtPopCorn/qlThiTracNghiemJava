@@ -54,10 +54,13 @@ public class ThemChuDeDialog extends javax.swing.JDialog {
         jPanel1.setLayout(jPanel1Layout);
 
         jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox3.setPreferredSize(new java.awt.Dimension(200, 22));
+        jComboBox3.setPreferredSize(new java.awt.Dimension(200, 23));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.ipadx = 1;
+        gridBagConstraints.ipady = 1;
         jPanel1.add(jComboBox3, gridBagConstraints);
 
         jButton3.setText("Thêm");
@@ -90,10 +93,11 @@ public class ThemChuDeDialog extends javax.swing.JDialog {
         jPanel1.add(jLabel2, gridBagConstraints);
 
         jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox4.setMinimumSize(new java.awt.Dimension(72, 23));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 10;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         jPanel1.add(jComboBox4, gridBagConstraints);
 
         jButton5.setText("Thêm");
