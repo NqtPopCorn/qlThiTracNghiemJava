@@ -27,7 +27,8 @@ public class DoExamJPanel extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jPanel2 = new javax.swing.JPanel();
@@ -42,9 +43,9 @@ public class DoExamJPanel extends javax.swing.JPanel {
         roundedButton5 = new com.example.qlthitracnghiem.GUI.Component.RoundedButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         pnlCenter = new javax.swing.JPanel();
-        question1 = new com.example.qlthitracnghiem.GUI.CauHoi.Question();
-        question2 = new com.example.qlthitracnghiem.GUI.CauHoi.Question();
-        question3 = new com.example.qlthitracnghiem.GUI.CauHoi.Question();
+        question1 = new com.example.qlthitracnghiem.GUI.CauHoi.Question_old();
+        question2 = new com.example.qlthitracnghiem.GUI.CauHoi.Question_old();
+        question3 = new com.example.qlthitracnghiem.GUI.CauHoi.Question_old();
 
         setPreferredSize(new java.awt.Dimension(1206, 760));
         setLayout(new java.awt.BorderLayout());
@@ -75,29 +76,34 @@ public class DoExamJPanel extends javax.swing.JPanel {
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(pnlBaiThiInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 467, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(62, 62, 62)
-                .addComponent(btnNopBai, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(58, 58, 58))
-        );
+                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(pnlBaiThiInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 263,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 467,
+                                        Short.MAX_VALUE)
+                                .addComponent(jLabel1)
+                                .addGap(62, 62, 62)
+                                .addComponent(btnNopBai, javax.swing.GroupLayout.PREFERRED_SIZE, 102,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(58, 58, 58)));
         jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(pnlBaiThiInfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(41, 41, 41)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnNopBai, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(51, Short.MAX_VALUE))
-        );
+                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(pnlBaiThiInfo, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                        javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addContainerGap())
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(41, 41, 41)
+                                .addGroup(jPanel2Layout
+                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(btnNopBai, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addContainerGap(51, Short.MAX_VALUE)));
 
         add(jPanel2, java.awt.BorderLayout.PAGE_START);
 
@@ -158,9 +164,9 @@ public class DoExamJPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPanel pnlBaiThiInfo;
     private javax.swing.JPanel pnlCenter;
-    private com.example.qlthitracnghiem.GUI.CauHoi.Question question1;
-    private com.example.qlthitracnghiem.GUI.CauHoi.Question question2;
-    private com.example.qlthitracnghiem.GUI.CauHoi.Question question3;
+    private com.example.qlthitracnghiem.GUI.CauHoi.Question_old question1;
+    private com.example.qlthitracnghiem.GUI.CauHoi.Question_old question2;
+    private com.example.qlthitracnghiem.GUI.CauHoi.Question_old question3;
     private com.example.qlthitracnghiem.GUI.Component.RoundedButton roundedButton1;
     private com.example.qlthitracnghiem.GUI.Component.RoundedButton roundedButton5;
     // End of variables declaration//GEN-END:variables

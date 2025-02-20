@@ -4,7 +4,13 @@
  */
 package com.example.qlthitracnghiem.GUI.CauHoi;
 
+import com.example.qlthitracnghiem.BUS.QuestionsBUS;
+import com.example.qlthitracnghiem.DTO.QuestionsDTO;
+import java.util.ArrayList;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -28,7 +34,7 @@ public class QuestionPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jSplitPane1 = new javax.swing.JSplitPane();
@@ -43,10 +49,8 @@ public class QuestionPanel extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        btnChiTietQuestion = new javax.swing.JButton();
+        table_question = new javax.swing.JTable();
 
         setPreferredSize(new java.awt.Dimension(1040, 700));
 
@@ -54,9 +58,10 @@ public class QuestionPanel extends javax.swing.JPanel {
         jSplitPane1.setDividerSize(3);
         jSplitPane1.setEnabled(false);
 
-        jPanel1.setBackground(new java.awt.Color(153, 255, 153));
+        jPanel1.setBackground(new java.awt.Color(204, 204, 204));
 
         btnThemChuDe.setText("Thêm");
+        btnThemChuDe.setBorder(null);
         btnThemChuDe.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnThemChuDeActionPerformed(evt);
@@ -118,53 +123,126 @@ public class QuestionPanel extends javax.swing.JPanel {
         btnSuaChuDe.setText("Sửa");
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Chủ đề");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
-                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addComponent(jLabel2)
-                                                .addGap(0, 0, Short.MAX_VALUE))
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addGroup(jPanel1Layout
-                                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(jScrollPane1)
-                                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                                                .addComponent(btnThemChuDe)
-                                                                .addGap(33, 33, 33)
-                                                                .addComponent(jButton5)
-                                                                .addPreferredGap(
-                                                                        javax.swing.LayoutStyle.ComponentPlacement.RELATED,
-                                                                        39, Short.MAX_VALUE)
-                                                                .addComponent(btnSuaChuDe)))
-                                                .addContainerGap()))));
-        jPanel1Layout.setVerticalGroup(
-                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jLabel2)
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnThemChuDe, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(btnThemChuDe)
-                                        .addComponent(jButton5)
-                                        .addComponent(btnSuaChuDe))
-                                .addGap(18, 18, 18)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 598, Short.MAX_VALUE)
-                                .addContainerGap()));
+                                .addComponent(jButton5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnSuaChuDe)
+                                .addGap(0, 60, Short.MAX_VALUE)))
+                        .addContainerGap())))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSuaChuDe)
+                    .addComponent(btnThemChuDe, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton5))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 598, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        // Thay đổi màu nền và màu chữ cho nút bình thường
+        btnThemChuDe.setBackground(new java.awt.Color(0, 123, 255));  // Màu nền xanh dương
+        btnThemChuDe.setForeground(new java.awt.Color(255, 255, 255));  // Màu chữ trắng
+
+        // Thay đổi font chữ
+        btnThemChuDe.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 14));
+
+        // Tạo hiệu ứng khi chuột di chuyển qua nút (hover)
+        btnThemChuDe.setRolloverEnabled(true);  // Kích hoạt hiệu ứng khi di chuột qua nút
+
+        // Thay đổi màu nền khi hover
+        btnThemChuDe.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnThemChuDe.setBackground(new java.awt.Color(255, 165, 0));  // Màu nền cam khi hover
+            }
+
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnThemChuDe.setBackground(new java.awt.Color(0, 123, 255));  // Trở lại màu xanh dương khi không hover
+            }
+        });
+
+        // Khi nút được nhấn (Pressed)
+        btnThemChuDe.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThemChuDeActionPerformed(evt);
+            }
+        });
+        // Thay đổi màu nền và màu chữ cho nút bình thường
+        jButton5.setBackground(new java.awt.Color(255, 69, 0));  // Màu nền đỏ cam (RGB: 255, 69, 0)
+        jButton5.setForeground(new java.awt.Color(255, 255, 255));  // Màu chữ trắng
+
+        // Thay đổi font chữ
+        jButton5.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 14));
+
+        // Tạo hiệu ứng khi chuột di chuyển qua nút (hover)
+        jButton5.setRolloverEnabled(true);  // Kích hoạt hiệu ứng khi di chuột qua nút
+
+        // Khi hover, thay đổi màu nền của nút
+        jButton5.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jButton5.setBackground(new java.awt.Color(255, 99, 71));  // Màu nền đỏ sáng khi hover
+            }
+
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jButton5.setBackground(new java.awt.Color(255, 69, 0));  // Trở lại màu đỏ cam khi không hover
+            }
+        });
+        // Thay đổi màu nền và màu chữ cho nút bình thường
+        btnSuaChuDe.setBackground(new java.awt.Color(50, 205, 50));  // Màu nền xanh lá (RGB: 50, 205, 50)
+        btnSuaChuDe.setForeground(new java.awt.Color(255, 255, 255));  // Màu chữ trắng
+
+        // Thay đổi font chữ
+        btnSuaChuDe.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 14));
+
+        // Tạo hiệu ứng khi chuột di chuyển qua nút (hover)
+        btnSuaChuDe.setRolloverEnabled(true);  // Kích hoạt hiệu ứng khi di chuột qua nút
+
+        // Khi hover, thay đổi màu nền của nút
+        btnSuaChuDe.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnSuaChuDe.setBackground(new java.awt.Color(34, 139, 34));  // Màu nền xanh lá đậm khi hover
+            }
+
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnSuaChuDe.setBackground(new java.awt.Color(50, 205, 50));  // Trở lại màu xanh lá sáng khi không hover
+            }
+        });
 
         jSplitPane1.setLeftComponent(jPanel1);
 
-        jPanel2.setBackground(new java.awt.Color(255, 204, 51));
+        jPanel2.setBackground(new java.awt.Color(204, 204, 204));
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel1.setText("Tên chủ đề");
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Câu Hỏi");
 
         jButton2.setText("Thêm");
         jButton2.setToolTipText("Thêm vào chủ đề hoặc thêm mới");
@@ -177,99 +255,179 @@ public class QuestionPanel extends javax.swing.JPanel {
             }
         });
 
-        jButton4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton4.setText("Lưu");
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][] {
-                        { "1", "Why are you gay?", "3", "Genres" },
-                        { "2", "How dumb are you?", "2", "Sports" },
-                        { "3", "You know Spring?", "1", "Foods" },
-                        { null, null, null, null }
-                },
-                new String[] {
-                        "ID", "Content", "Level", "Topic"
-                }));
-        jScrollPane2.setViewportView(jTable1);
-
-        btnChiTietQuestion.setText("Chi tiết");
-        btnChiTietQuestion.setToolTipText("Xem, sửa chi tiết câu hỏi");
-        btnChiTietQuestion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnChiTietQuestionActionPerformed(evt);
+        // Tạo model bảng với các tiêu đề cột
+        DefaultTableModel tableModel = new DefaultTableModel(
+            new Object [][] {},
+            new String [] {
+                "", "Ảnh", "Nội dung", "Mức độ", "Chủ đề"
             }
-        });
+        ) {
+            @Override
+            public Class<?> getColumnClass(int columnIndex) {
+                return (columnIndex == 0) ? Boolean.class : String.class; // Cột đầu là checkbox
+            }
+
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return column == 0; // Chỉ chỉnh sửa checkbox
+            }
+        };
+
+        // Lấy danh sách câu hỏi từ database
+        QuestionsBUS questionBUS = new QuestionsBUS();
+        ArrayList<QuestionsDTO> questions = questionBUS.getAll();
+
+        for (QuestionsDTO question : questions) {
+            // Tạo mảng chứa dữ liệu cho mỗi câu hỏi
+            Object[] row = new Object[5];
+            row[0] = false; // Checkbox mặc định là chưa chọn
+            row[1] = question.getqPicture(); // Ảnh (nếu có đường dẫn ảnh, bạn có thể hiển thị nó hoặc để trống)
+            row[2] = question.getqContent(); // Nội dung câu hỏi
+            row[3] = question.getqLevel(); // Mức độ (có thể là "Dễ", "Trung Bình", "Khó", tùy theo dữ liệu của bạn)
+            row[4] = question.getqTopicID(); // Chủ đề (có thể thay thế bằng tên chủ đề nếu bạn có thêm thông tin)
+
+            // Thêm hàng vào model bảng
+            tableModel.addRow(row);
+        }
+
+        // Gán model cho JTable
+        table_question.setModel(tableModel);
+
+        // 1️⃣ Căn giữa tiêu đề cột
+        DefaultTableCellRenderer headerRenderer = (DefaultTableCellRenderer) table_question.getTableHeader().getDefaultRenderer();
+        headerRenderer.setHorizontalAlignment(JLabel.CENTER);
+
+        // 2️⃣ Căn giữa nội dung của cột cuối cùng ("Mức độ")
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+
+        // Xác định cột cuối cùng (cột "Mức độ")
+        int lastColumnIndex = table_question.getColumnCount() - 1;
+        table_question.getColumnModel().getColumn(lastColumnIndex).setCellRenderer(centerRenderer);
+
+        // Căn giữa nội dung của cột "Mức độ"
+        table_question.getColumnModel().getColumn(lastColumnIndex-1).setCellRenderer(centerRenderer);
+
+        // Thu hẹp độ rộng của cột "Chủ đề"
+        table_question.getColumnModel().getColumn(lastColumnIndex).setPreferredWidth(80);  // Độ rộng mong muốn
+        table_question.getColumnModel().getColumn(lastColumnIndex).setMaxWidth(100);       // Độ rộng tối đa
+        table_question.getColumnModel().getColumn(lastColumnIndex).setMinWidth(60);        // Độ rộng tối thiểu
+
+        // Căn giữa nội dung của cột "Chủ đề"
+        table_question.getColumnModel().getColumn(lastColumnIndex).setCellRenderer(centerRenderer);
+
+        // Thu hẹp độ rộng của cột "Mức độ"
+        table_question.getColumnModel().getColumn(lastColumnIndex-1).setPreferredWidth(80);  // Độ rộng mong muốn
+        table_question.getColumnModel().getColumn(lastColumnIndex-1).setMaxWidth(100);       // Độ rộng tối đa
+        table_question.getColumnModel().getColumn(lastColumnIndex-1).setMinWidth(60);        // Độ rộng tối thiểu
+
+        // 5️⃣ Thu hẹp độ rộng của cột "Ảnh"
+        table_question.getColumnModel().getColumn(1).setPreferredWidth(100);  // Độ rộng mong muốn cho cột "Ảnh"
+        table_question.getColumnModel().getColumn(1).setMaxWidth(200);        // Độ rộng tối đa cho cột "Ảnh"
+        table_question.getColumnModel().getColumn(1).setMinWidth(50);        // Độ rộng tối thiểu cho cột "Ảnh"
+
+        // 4️⃣ Thu hẹp độ rộng của cột checkbox
+        table_question.getColumnModel().getColumn(0).setPreferredWidth(40);  // Độ rộng mong muốn cho cột checkbox
+        table_question.getColumnModel().getColumn(0).setMaxWidth(50);       // Độ rộng tối đa cho cột checkbox
+        table_question.getColumnModel().getColumn(0).setMinWidth(30);        // Độ rộng tối thiểu cho cột checkbox
+        jScrollPane2.setViewportView(table_question);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
-                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jScrollPane2)
-                                        .addGroup(jPanel2Layout.createSequentialGroup()
-                                                .addGroup(jPanel2Layout
-                                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addGroup(jPanel2Layout.createSequentialGroup()
-                                                                .addComponent(jLabel1,
-                                                                        javax.swing.GroupLayout.PREFERRED_SIZE, 174,
-                                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                .addPreferredGap(
-                                                                        javax.swing.LayoutStyle.ComponentPlacement.RELATED,
-                                                                        172, Short.MAX_VALUE))
-                                                        .addGroup(jPanel2Layout.createSequentialGroup()
-                                                                .addComponent(jButton2)
-                                                                .addGap(18, 18, 18)
-                                                                .addComponent(jButton3)
-                                                                .addGap(18, 18, 18)
-                                                                .addComponent(btnChiTietQuestion)
-                                                                .addGap(0, 0, Short.MAX_VALUE)))
-                                                .addGap(225, 225, 225)
-                                                .addComponent(jButton4)
-                                                .addGap(48, 48, 48)))
-                                .addContainerGap()));
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(205, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(245, 245, 245))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jButton2)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton3)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
         jPanel2Layout.setVerticalGroup(
-                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(jPanel2Layout.createSequentialGroup()
-                                                .addContainerGap()
-                                                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 49,
-                                                        Short.MAX_VALUE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addGroup(jPanel2Layout
-                                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                        .addComponent(jButton2)
-                                                        .addComponent(jButton3)
-                                                        .addComponent(btnChiTietQuestion))
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING,
-                                                jPanel2Layout.createSequentialGroup()
-                                                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                Short.MAX_VALUE)
-                                                        .addComponent(jButton4)
-                                                        .addGap(33, 33, 33)))
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 586,
-                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap()));
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 61, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton2)
+                    .addComponent(jButton3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 574, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        // Thay đổi màu nền và màu chữ cho nút bình thường
+        jButton2.setBackground(new java.awt.Color(0, 123, 255));  // Màu nền xanh dương
+        jButton2.setForeground(new java.awt.Color(255, 255, 255));  // Màu chữ trắng
+
+        // Thay đổi font chữ
+        jButton2.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 14));
+
+        // Tạo hiệu ứng khi chuột di chuyển qua nút (hover)
+        jButton2.setRolloverEnabled(true);  // Kích hoạt hiệu ứng khi di chuột qua nút
+
+        // Thay đổi màu nền khi hover
+        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jButton2.setBackground(new java.awt.Color(255, 165, 0));  // Màu nền cam khi hover
+            }
+
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jButton2.setBackground(new java.awt.Color(0, 123, 255));  // Trở lại màu xanh dương khi không hover
+            }
+        });
+        // Thay đổi màu nền và màu chữ cho nút bình thường
+        jButton3.setBackground(new java.awt.Color(255, 69, 0));  // Màu nền đỏ cam (RGB: 255, 69, 0)
+        jButton3.setForeground(new java.awt.Color(255, 255, 255));  // Màu chữ trắng
+
+        // Thay đổi font chữ
+        jButton3.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 14));
+
+        // Tạo hiệu ứng khi chuột di chuyển qua nút (hover)
+        jButton3.setRolloverEnabled(true);  // Kích hoạt hiệu ứng khi di chuột qua nút
+
+        // Khi hover, thay đổi màu nền của nút
+        jButton3.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jButton3.setBackground(new java.awt.Color(255, 99, 71));  // Màu nền đỏ sáng khi hover
+            }
+
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jButton3.setBackground(new java.awt.Color(255, 69, 0));  // Trở lại màu đỏ cam khi không hover
+            }
+        });
 
         jSplitPane1.setRightComponent(jPanel2);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jSplitPane1)
-                                .addContainerGap()));
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jSplitPane1)
+                .addContainerGap())
+        );
         layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jSplitPane1)
-                                .addContainerGap()));
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jSplitPane1)
+                .addContainerGap())
+        );
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnChiTietQuestionActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnChiTietQuestionActionPerformed
@@ -289,12 +447,10 @@ public class QuestionPanel extends javax.swing.JPanel {
     }// GEN-LAST:event_btnThemChuDeActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnChiTietQuestion;
     private javax.swing.JButton btnSuaChuDe;
     private javax.swing.JButton btnThemChuDe;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -303,8 +459,8 @@ public class QuestionPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSplitPane jSplitPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTree jTree1;
+    private javax.swing.JTable table_question;
     // End of variables declaration//GEN-END:variables
 
     public static void main(String[] args) {
