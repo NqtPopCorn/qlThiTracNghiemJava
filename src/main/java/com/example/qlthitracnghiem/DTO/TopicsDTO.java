@@ -6,9 +6,10 @@ public class TopicsDTO {
     private int tpParent;
     private int tpStatus;
 
-    //Cóntructor không tham số
-    public TopicsDTO() {}
-    
+    // Cóntructor không tham số
+    public TopicsDTO() {
+    }
+
     // Constructor có tham số
     public TopicsDTO(int tpID, String tpTitle, int tpParent, int tpStatus) {
         this.tpID = tpID;

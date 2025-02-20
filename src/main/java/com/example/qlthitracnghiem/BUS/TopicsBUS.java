@@ -22,8 +22,8 @@ public class TopicsBUS {
             return false; // Mặc định trả về false nếu có lỗi
         }
     }
-    
-        // Phương thức để lấy tất cả câu hỏi
+
+    // Phương thức để lấy tất cả câu hỏi
     public ArrayList<TopicsDTO> getAll() {
         try {
             return topicsDAO.getAll(); // Gọi phương thức getAll() từ QuestionDAO
@@ -32,25 +32,25 @@ public class TopicsBUS {
             return null; // Hoặc bạn có thể xử lý lỗi theo cách khác
         }
     }
-    
+
     public boolean isTitleExist(String tpTitle) {
-    try {
-        return topicsDAO.isTitleExist(tpTitle);
-    } catch (SQLException e) {
-        e.printStackTrace();
-        return false; // Trả về false nếu có lỗi xảy ra
+        try {
+            return topicsDAO.isTitleExist(tpTitle);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false; // Trả về false nếu có lỗi xảy ra
+        }
     }
-}
 
     public int getTopicIdByName(String tpTitle) {
-    try {
-        TopicsDAO dao = new TopicsDAO();
-        return dao.getIdByName(tpTitle);
-    } catch (SQLException e) {
-        e.printStackTrace();
-        return -1;
+        try {
+            TopicsDAO dao = new TopicsDAO();
+            return dao.getIdByName(tpTitle);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return -1;
+        }
     }
-}
 
     public boolean create(TopicsDTO topic) {
         try {
@@ -60,26 +60,26 @@ public class TopicsBUS {
             return false;
         }
     }
-    
-    public TopicsDTO getTopicByID(int tpID){
-    try{
-        return topicsDAO.getTopicByID(tpID);
-    } catch(SQLException e){
-        e.printStackTrace();
-        return null;
+
+    public TopicsDTO getTopicByID(int tpID) {
+        try {
+            return topicsDAO.getTopicByID(tpID);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
-  }
-    
-        public boolean update(TopicsDTO topic){
-    try{
-        return topicsDAO.update(topic);
-    } catch(SQLException e){
-        e.printStackTrace();
-        return false;
+
+    public boolean update(TopicsDTO topic) {
+        try {
+            return topicsDAO.update(topic);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
-  }
-        
-        public ArrayList<TopicsDTO> getAllSortedByName() {
+
+    public ArrayList<TopicsDTO> getAllSortedByName() {
         try {
             return topicsDAO.getAllSortedByName();
         } catch (SQLException e) {
