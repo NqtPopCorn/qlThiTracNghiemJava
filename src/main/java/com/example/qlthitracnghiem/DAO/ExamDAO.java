@@ -123,7 +123,7 @@ public class ExamDAO {
         }
     }
 
-    // tạo exOrder ngẫu nhiên (A, B, C, ..., J)
+    // tạo exOrder bắt đầu từ A (A, B, C, ..., J)
     private String generateRandomExOrder() {
         List<String> letters = new ArrayList<>(
                 List.of("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N")); /// hơi dư mà thôi kệ đi
@@ -183,20 +183,32 @@ public class ExamDAO {
 
     public int update(TestDTO testDTO, int soDe) throws SQLException {
         Connection connection = DBConnection.getConnection();
-        String sql = "UPDATE test SET  num_easy= ?, num_medium = ?, num_diff = ? WHERE testCode = ?";
-    try {
-      PreparedStatement ps = connection.prepareStatement(sql);
-      ps.setInt(1, testDTO.getNum_easy());
-      ps.setInt(2, testDTO.getNum_medium());
-      ps.setInt(3, testDTO.getNum_diff());
-      ps.setString(4, testDTO.getTestCode());
-      ps.executeUpdate();
-      generateExams(connection,testDTO.getTestCode(),testDTO, soDe);
-      return 1;
-    } catch (SQLException e) {
-      e.printStackTrace();
-      throw e;
-    }
+        System.err.println("TestCode khi sửa" + testDTO.getTestCode());
+
+        // Xóa các dòng cũ trong bảng exams
+        deleteExamsByTestCode(testDTO.getTestCode());
+
+        // Cập nhật thông tin trong bảng test
+        String sql = "UPDATE test SET num_easy= ?, num_medium = ?, num_diff = ? WHERE testCode = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, testDTO.getNum_easy());
+            ps.setInt(2, testDTO.getNum_medium());
+            ps.setInt(3, testDTO.getNum_diff());
+            ps.setString(4, testDTO.getTestCode());
+            ps.executeUpdate();
+
+            // Tạo lại các đề thi mới
+            generateExams(connection, testDTO.getTestCode(), testDTO, soDe);
+
+            return 1;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
     }
 
     public int delete(int id) throws SQLException {
@@ -304,4 +316,14 @@ public class ExamDAO {
         }
         return examCodes;
     }
+
+    public void deleteExamsByTestCode(String testCode) throws SQLException {
+        Connection connection = DBConnection.getConnection();
+        String sql = "DELETE FROM exams WHERE testCode = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, testCode);
+            ps.executeUpdate();
+        }
+    }
+
 }

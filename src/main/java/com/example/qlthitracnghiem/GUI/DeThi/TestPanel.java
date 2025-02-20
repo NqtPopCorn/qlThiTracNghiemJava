@@ -139,29 +139,30 @@ public class TestPanel extends JPanel {
     }
 
     private void updateTestPanel(ArrayList<TestDTO> tests) {
-    mainPanel.removeAll();
+        mainPanel.removeAll();
 
-    if (tests == null || tests.isEmpty()) {
-        JLabel emptyLabel = new JLabel("Không tìm thấy kết quả nào.");
-        emptyLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        mainPanel.add(emptyLabel);
-    } else {
-        for (TestDTO test : tests) {
-            mainPanel.add(createTestPanel(
-                    test.getTestTime(),
-                    test.getTestTitle(),
-                    test.getTestDate() != null ? test.getTestDate().toString() : "Không có ngày",
-                    test.getTestStatus() == 1 ? "Đang mở" : "Đã kết thúc",
-                    test.getTestCode(),
-                    test)); // Truyền đối tượng TestDTO vào đây
+        if (tests == null || tests.isEmpty()) {
+            JLabel emptyLabel = new JLabel("Không tìm thấy kết quả nào.");
+            emptyLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+            mainPanel.add(emptyLabel);
+        } else {
+            for (TestDTO test : tests) {
+                mainPanel.add(createTestPanel(
+                        test.getTestTime(),
+                        test.getTestTitle(),
+                        test.getTestDate() != null ? test.getTestDate().toString() : "Không có ngày",
+                        test.getTestStatus() == 1 ? "Đang mở" : "Đã kết thúc",
+                        test.getTestCode(),
+                        test)); // Truyền đối tượng TestDTO vào đây
+            }
         }
+
+        mainPanel.revalidate();
+        mainPanel.repaint();
     }
 
-    mainPanel.revalidate();
-    mainPanel.repaint();
-}
-
-    private JPanel createTestPanel(int testTime, String title, String date, String status, String testCode, TestDTO test) {
+    private JPanel createTestPanel(int testTime, String title, String date, String status, String testCode,
+            TestDTO test) {
         JPanel panel = new JPanel();
         panel.setBackground(new Color(255, 255, 255));
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -318,20 +319,20 @@ public class TestPanel extends JPanel {
         editButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/wrench.png")));
         editButton.setBackground(new Color(175, 205, 235));
         editButton.addActionListener(new ActionListener() {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-      
-     EditTestDialog editTestDialog = new EditTestDialog(null, true, test);
-        editTestDialog.setVisible(true);
+            @Override
+            public void actionPerformed(ActionEvent e) {
 
-        // Sau khi đóng dialog, cập nhật lại danh sách bài thi
-        try {
-            updateTestPanel(testBUS.getAll());
-        } catch (Exception ex) {
-            Logger.getLogger(TestPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-});
+                EditTestDialog editTestDialog = new EditTestDialog(null, true, test);
+                editTestDialog.setVisible(true);
+
+                // Sau khi đóng dialog, cập nhật lại danh sách bài thi
+                try {
+                    updateTestPanel(testBUS.getAll());
+                } catch (Exception ex) {
+                    Logger.getLogger(TestPanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
         JButton deleteButton = new JButton("Xóa đề");
         deleteButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/multiply.png")));
         deleteButton.setBackground(new Color(248, 220, 209));
