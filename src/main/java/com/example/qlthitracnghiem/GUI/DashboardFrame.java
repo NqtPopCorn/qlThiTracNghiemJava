@@ -223,6 +223,11 @@ public class DashboardFrame extends javax.swing.JFrame {
         navigationPanel.add(navBtnDeThi);
 
         navBtnThi.setText("Thi");
+        navBtnThi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                navBtnThiActionPerformed(evt);
+            }
+        });
         navigationPanel.add(navBtnThi);
 
         navBtnCauHoi.setText("Câu hỏi");
@@ -273,6 +278,10 @@ public class DashboardFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void navBtnThiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_navBtnThiActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_navBtnThiActionPerformed
 
   /**
    * @param args the command line arguments
