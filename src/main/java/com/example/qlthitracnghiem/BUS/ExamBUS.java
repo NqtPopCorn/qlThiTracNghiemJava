@@ -2,6 +2,8 @@
 package com.example.qlthitracnghiem.BUS;
 
 import com.example.qlthitracnghiem.DAO.ExamDAO;
+import com.example.qlthitracnghiem.DAO.TestDAO;
+import com.example.qlthitracnghiem.DTO.ExamDTO;
 import com.example.qlthitracnghiem.DTO.TestDTO;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -34,20 +36,10 @@ public class ExamBUS {
   public List<Integer> getExQuesIDs(String testCode) throws Exception {
     return ExamDAO.getExQuesIDs(testCode);
   }
-  public boolean createExam(String title, int topic, int timeLimit, int totalQuestions,
-                             int easyQuestions, int mediumQuestions, int hardQuestions,
-                             String attemptLimit, int examNum,LocalDateTime formattedDate) {
+  public boolean createExam(TestDTO exam,int examNum) {
         try {
           
-            TestDTO exam = new TestDTO();
-            exam.setTestTitle(title);
-            exam.setTestTime(timeLimit);
-            exam.setTpID(topic); 
-            exam.setNum_easy(easyQuestions);
-            exam.setNum_medium(mediumQuestions);
-            exam.setNum_diff(hardQuestions);
-            exam.setTestLimit(Integer.parseInt(attemptLimit)); 
-            exam.setTestDate(formattedDate); 
+            
 
             int result = ExamDAO.create(exam, examNum);
 
@@ -64,5 +56,8 @@ public class ExamBUS {
     }
     public List<Integer> getExQuesIDsByExCode(String exCode) throws SQLException, Exception {
         return ExamDAO.getExQuesIDsByExCode(exCode);
+    }
+    public int update(TestDTO testDTO, int soDe) throws SQLException{
+        return ExamDAO.update(testDTO,soDe);
     }
 }
