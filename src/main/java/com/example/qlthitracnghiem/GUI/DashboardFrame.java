@@ -7,6 +7,8 @@ package com.example.qlthitracnghiem.GUI;
 import javax.swing.*;
 
 import com.example.qlthitracnghiem.DTO.UserDTO;
+import com.example.qlthitracnghiem.GUI.CauHoi.QuestionPanel;
+import com.example.qlthitracnghiem.GUI.Exam.ChooseExamJPanel;
 import com.example.qlthitracnghiem.GUI.Exam.DoExamJPanel;
 import com.example.qlthitracnghiem.GUI.ThongKe.MainThongKePanel;
 import com.example.qlthitracnghiem.GUI.User.UserPanel;
@@ -25,6 +27,7 @@ public class DashboardFrame extends javax.swing.JFrame {
   private JPanel userPanel = new UserPanel(this);
   private JPanel thongKePanel = new MainThongKePanel();
   private DoExamJPanel doExamJPanel = new DoExamJPanel();
+  private ChooseExamJPanel chooseExamJPanel = new ChooseExamJPanel(doExamJPanel);
   private QuestionPanel questionPanel = new QuestionPanel();
   private UserDTO user;
   private TestPanel testPanel = new TestPanel();
@@ -66,7 +69,8 @@ public class DashboardFrame extends javax.swing.JFrame {
     cardLayout = new CardLayout();
     currentPanel.setLayout(cardLayout);
     // add panel moi tai dayday
-    currentPanel.add(doExamJPanel, navBtnThi.getActionCommand());
+    currentPanel.add(chooseExamJPanel, navBtnThi.getActionCommand());
+    currentPanel.add(doExamJPanel, "doExamJPanel");
     currentPanel.add(cauHoiPanel, navBtnCauHoi.getActionCommand());
     currentPanel.add(userPanel, navBtnUser.getActionCommand());
     currentPanel.add(thongKePanel, navBtnThongKe.getActionCommand());
