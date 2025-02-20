@@ -5,6 +5,7 @@
 package com.example.qlthitracnghiem.GUI.Exam;
 
 import com.example.qlthitracnghiem.DAO.QaDAO;
+import com.example.qlthitracnghiem.DTO.ExamDTOq;
 import java.awt.CardLayout;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
@@ -27,8 +28,9 @@ public class ChooseExamJPanel extends javax.swing.JPanel {
      * Creates new form ChooseExamJPanel
      */
     DefaultTableModel tbModel = new DefaultTableModel();
-
+    private DoExamJPanel doExJPanel;
     public ChooseExamJPanel(DoExamJPanel doExamJPanel) {
+        this.doExJPanel = doExamJPanel;
         initComponents();
         customstyle();
 
@@ -257,7 +259,10 @@ public class ChooseExamJPanel extends javax.swing.JPanel {
             // move to do exam panel
             System.out.println("move to new frame");
             
-//            panelC.setData("asdfads"); 
+//            ExamDTOq exDto = 
+            
+            doExJPanel.setTsCodeLabel(testCode);
+            
             CardLayout cardLayout = (CardLayout) getParent().getLayout(); 
             cardLayout.show(getParent(), "doExamJPanel");
              
