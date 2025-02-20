@@ -67,9 +67,10 @@ public class DoExamJPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         headerPanel = new javax.swing.JPanel();
         pnlBaiThiInfo = new javax.swing.JPanel();
         tsNameLabel = new javax.swing.JLabel();
@@ -86,15 +87,13 @@ public class DoExamJPanel extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         pnlCenter = new javax.swing.JPanel();
         question1 = new com.example.qlthitracnghiem.GUI.CauHoi.Question_old();
-        question2 = new com.example.qlthitracnghiem.GUI.CauHoi.Question_old();
-        question3 = new com.example.qlthitracnghiem.GUI.CauHoi.Question_old();
 
         setPreferredSize(new java.awt.Dimension(1206, 760));
         setLayout(new java.awt.BorderLayout());
 
         headerPanel.setBackground(new java.awt.Color(51, 255, 51));
         headerPanel.setPreferredSize(new java.awt.Dimension(1040, 140));
-        headerPanel.setLayout(new java.awt.GridLayout());
+        headerPanel.setLayout(new java.awt.GridLayout(1, 0));
 
         pnlBaiThiInfo.setLayout(new java.awt.GridLayout(2, 0));
 
@@ -109,7 +108,7 @@ public class DoExamJPanel extends javax.swing.JPanel {
         headerPanel.add(pnlBaiThiInfo);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setLayout(new java.awt.GridLayout());
+        jPanel1.setLayout(new java.awt.GridLayout(1, 0));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -121,19 +120,19 @@ public class DoExamJPanel extends javax.swing.JPanel {
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
-                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(66, 66, 66)
-                                .addComponent(timePN, javax.swing.GroupLayout.PREFERRED_SIZE, 159,
-                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(35, Short.MAX_VALUE)));
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(66, 66, 66)
+                .addComponent(timePN, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(35, Short.MAX_VALUE))
+        );
         jPanel2Layout.setVerticalGroup(
-                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(29, 29, 29)
-                                .addComponent(timePN, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                        javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(31, Short.MAX_VALUE)));
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(29, 29, 29)
+                .addComponent(timePN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(31, Short.MAX_VALUE))
+        );
 
         jPanel1.add(jPanel2);
 
@@ -144,19 +143,19 @@ public class DoExamJPanel extends javax.swing.JPanel {
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
-                jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                                .addContainerGap(95, Short.MAX_VALUE)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 91,
-                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(74, 74, 74)));
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap(95, Short.MAX_VALUE)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(74, 74, 74))
+        );
         jPanel4Layout.setVerticalGroup(
-                jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addGap(50, 50, 50)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 36,
-                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(54, Short.MAX_VALUE)));
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(50, 50, 50)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(54, Short.MAX_VALUE))
+        );
 
         jPanel1.add(jPanel4);
 
@@ -194,8 +193,6 @@ public class DoExamJPanel extends javax.swing.JPanel {
         pnlCenter.setPreferredSize(new java.awt.Dimension(800, 5000));
         pnlCenter.setLayout(new javax.swing.BoxLayout(pnlCenter, javax.swing.BoxLayout.Y_AXIS));
         pnlCenter.add(question1);
-        pnlCenter.add(question2);
-        pnlCenter.add(question3);
 
         jScrollPane1.setViewportView(pnlCenter);
 
@@ -211,10 +208,11 @@ public class DoExamJPanel extends javax.swing.JPanel {
     }// GEN-LAST:event_btnNopBaiActionPerformed
 
     public void initComponent() {
-        timePN.add(new CountdownTimer(100), BorderLayout.CENTER);
+//        timePN.add(new CountdownTimer(100), BorderLayout.CENTER);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JPanel headerPanel;
     private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
@@ -226,8 +224,6 @@ public class DoExamJPanel extends javax.swing.JPanel {
     private javax.swing.JPanel pnlBaiThiInfo;
     private javax.swing.JPanel pnlCenter;
     private com.example.qlthitracnghiem.GUI.CauHoi.Question_old question1;
-    private com.example.qlthitracnghiem.GUI.CauHoi.Question_old question2;
-    private com.example.qlthitracnghiem.GUI.CauHoi.Question_old question3;
     private com.example.qlthitracnghiem.GUI.Component.RoundedButton roundedButton1;
     private com.example.qlthitracnghiem.GUI.Component.RoundedButton roundedButton5;
     private javax.swing.JPanel timePN;
