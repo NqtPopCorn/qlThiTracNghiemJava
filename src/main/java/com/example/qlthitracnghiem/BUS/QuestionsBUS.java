@@ -5,6 +5,7 @@ import com.example.qlthitracnghiem.DAO.QuestionsDAO;
 import com.example.qlthitracnghiem.DTO.QuestionsDTO;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class QuestionsBUS {
 
@@ -48,7 +49,35 @@ public class QuestionsBUS {
             return questionsDAO.getQuestionByContent(content);
         } catch (SQLException e) {
             return null;
-        }
+            }
+}
+         
+         public int createInt(QuestionsDTO question) {
+            try{
+            return questionsDAO.createInt(question);
+            } catch (SQLException e){
+            return -1;
+            }
+              }
+        
+         //phương thức tìm kiếm câu hỏi theo key
+         public List<QuestionsDTO> find(String content, String key) {        
+    try {
+        return questionsDAO.find(content, key);
+    } catch (SQLException e) {
+        e.printStackTrace(); // In lỗi để dễ debug
+        return new ArrayList<>(); // Trả về danh sách rỗng nếu có lỗi
     }
-
+}
+         
+               //phương thức kiểm tra câu hỏi có tồn tại ko
+    public boolean isQuestionExists(String content) throws SQLException {
+    try {
+        return questionsDAO.isQuestionExists(content);
+    } catch (SQLException e) {
+        e.printStackTrace(); // In lỗi để dễ debug
+        return false;
+    }
+}   
+         
 }

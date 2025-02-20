@@ -1,6 +1,7 @@
 
 package com.example.qlthitracnghiem.GUI.CauHoi;
 
+//import com.example.qlthitracnghiem.BUS.AnswersBUS;
 import com.example.qlthitracnghiem.BUS.AnswersBUS;
 import com.example.qlthitracnghiem.BUS.QuestionsBUS;
 import com.example.qlthitracnghiem.BUS.TopicsBUS;
@@ -15,10 +16,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
@@ -31,22 +30,65 @@ import javax.swing.JTextField;
  *
  * @author truon
  */
-public class ThemCauHoiDialog extends javax.swing.JDialog {
+public class QuestionDetailDialog extends javax.swing.JDialog {
 
 
     public TopicsBUS topicsBUS = new TopicsBUS();
     public QuestionsBUS questionBUS = new QuestionsBUS();
     public AnswersBUS answersBUS = new AnswersBUS();
     
+    public final QuestionsDTO question_old;
+    
             
-    public ThemCauHoiDialog(java.awt.Frame parent, boolean modal) {
+    public QuestionDetailDialog(java.awt.Frame parent, boolean modal, String name) {
         super(parent, modal);
         initComponents();
             setUpCheckBoxLogic(); //dùng để làm cho các checkbox đáp án chỉ được chọn 1 cái
          this.setSize(484, 777); // Đặt kích thước hợp lý
     this.setLocationRelativeTo(null); // Hiển thị giữa màn hình
+    this.question_old = questionBUS.getQuestionsByContent(name);
+    
+    //ghi lại nội dung của câu hỏi cũ
+    question_txt.setText(question_old.getqContent());
+    tp_cbx.setSelectedItem(topicsBUS.getTopicByID(question_old.getqTopicID()).getTpTitle());
+    switch(question_old.getqLevel()){
+        case 1 -> level_cbx.setSelectedItem("easy");
+        case 2 -> level_cbx.setSelectedItem("medium");
+        case 3 -> level_cbx.setSelectedItem("difficult");
+    }
+    anh_field.setText(question_old.getqPicture());
+    
+    
+        JPanel[] panelAnswers = {panel_ans, panel_ans1, panel_ans2, panel_ans3, panel_ans4};
 
-        
+// Lấy danh sách đáp án
+List<AnswersDTO> answers = answersBUS.getAnswersByQuestionID(question_old.getqID());
+
+// Đảm bảo không vượt quá số lượng panel có sẵn
+int size = Math.min(panelAnswers.length, answers.size());
+
+for (int i = 0; i < size; i++) {
+    AnswersDTO answer = answers.get(i);
+    JPanel panel = panelAnswers[i];
+
+    for (Component comp : panel.getComponents()) {
+        if (comp instanceof JScrollPane scrollPane) {
+            Component view = scrollPane.getViewport().getView();
+            if (view instanceof JTextArea jTextArea) {
+                jTextArea.setText(answer.getAwContent());
+            }
+        }
+
+        if (comp instanceof JTextField jTextField) { // Kiểm tra file ảnh đã chọn
+            jTextField.setText(answer.getAwPictures());
+        }
+
+        if (comp instanceof JCheckBox checkBox) { // Kiểm tra đáp án đúng
+            checkBox.setSelected(answer.getIsRight() == 1);
+        }
+    }
+}
+
     }
 
 
@@ -111,11 +153,11 @@ public class ThemCauHoiDialog extends javax.swing.JDialog {
         jLabel5.setBounds(100, 190, 160, 32);
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel6.setText("Thêm câu hỏi");
+        jLabel6.setText("Chi tiết câu hỏi");
         jLabel6.setMaximumSize(new java.awt.Dimension(160, 32));
         jLabel6.setPreferredSize(new java.awt.Dimension(160, 32));
         jPanel2.add(jLabel6);
-        jLabel6.setBounds(120, 10, 160, 32);
+        jLabel6.setBounds(120, 10, 180, 32);
 
         question_txt.setColumns(20);
         question_txt.setRows(5);
@@ -155,7 +197,6 @@ public class ThemCauHoiDialog extends javax.swing.JDialog {
         level_cbx.setBounds(290, 130, 110, 22);
 
         anh_field.setText("Ảnh câu hỏi ");
-        anh_field.setEditable(false);
         anh_field.setOpaque(false); // Loại bỏ màu nền
         anh_field.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -167,11 +208,6 @@ public class ThemCauHoiDialog extends javax.swing.JDialog {
         anh_field.setBounds(290, 160, 180, 22);
 
         file_btn.setText("Chọn ảnh");
-        file_btn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                file_btnActionPerformed(evt);
-            }
-        });
         jPanel2.add(file_btn);
         file_btn.setBounds(170, 160, 110, 23);
         file_btn.addActionListener(new ActionListener() {
@@ -220,7 +256,6 @@ public class ThemCauHoiDialog extends javax.swing.JDialog {
         jScrollPane2.setBounds(29, 5, 220, 86);
 
         anh_field2.setText("Ảnh đáp án");
-        anh_field2.setEditable(false);
         anh_field2.setOpaque(false); // Loại bỏ màu nền
         anh_field2.setBorder(null); // Xóa viền
         anh_field2.addActionListener(new java.awt.event.ActionListener() {
@@ -232,11 +267,6 @@ public class ThemCauHoiDialog extends javax.swing.JDialog {
         anh_field2.setBounds(260, 60, 130, 22);
 
         file_btn1.setText("Chọn ảnh");
-        file_btn1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                file_btn1ActionPerformed(evt);
-            }
-        });
         panel_ans.add(file_btn1);
         file_btn1.setBounds(260, 30, 100, 23);
         file_btn1.addActionListener(new ActionListener() {
@@ -288,7 +318,6 @@ public class ThemCauHoiDialog extends javax.swing.JDialog {
         jScrollPane3.setBounds(29, 5, 220, 86);
 
         anh_field3.setText("Ảnh đáp án");
-        anh_field3.setEditable(false);
         anh_field3.setOpaque(false); // Loại bỏ màu nền
         anh_field3.setBorder(null); // Xóa viền
         anh_field3.addActionListener(new java.awt.event.ActionListener() {
@@ -351,7 +380,6 @@ public class ThemCauHoiDialog extends javax.swing.JDialog {
         jScrollPane4.setBounds(29, 5, 220, 86);
 
         anh_field4.setText("Ảnh đáp án");
-        anh_field4.setEditable(false);
         anh_field4.setOpaque(false); // Loại bỏ màu nền
         anh_field4.setBorder(null); // Xóa viền
         anh_field4.addActionListener(new java.awt.event.ActionListener() {
@@ -414,7 +442,6 @@ public class ThemCauHoiDialog extends javax.swing.JDialog {
         jScrollPane5.setBounds(29, 5, 220, 86);
 
         anh_field5.setText("Ảnh đáp án");
-        anh_field5.setEditable(false);
         anh_field5.setOpaque(false); // Loại bỏ màu nền
         anh_field5.setBorder(null); // Xóa viền
         anh_field5.addActionListener(new java.awt.event.ActionListener() {
@@ -477,7 +504,6 @@ public class ThemCauHoiDialog extends javax.swing.JDialog {
         jScrollPane6.setBounds(29, 5, 220, 86);
 
         anh_field6.setText("Ảnh đáp án");
-        anh_field6.setEditable(false);
         anh_field6.setOpaque(false); // Loại bỏ màu nền
         anh_field6.setBorder(null); // Xóa viền
         anh_field6.addActionListener(new java.awt.event.ActionListener() {
@@ -522,14 +548,14 @@ public class ThemCauHoiDialog extends javax.swing.JDialog {
         jPanel2.add(panel_ans4);
         panel_ans4.setBounds(10, 330, 390, 100);
 
-        file_btn6.setText("Xác nhận");
+        file_btn6.setText("Xác nhận sửa");
         file_btn6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 file_btn6ActionPerformed(evt);
             }
         });
         jPanel2.add(file_btn6);
-        file_btn6.setBounds(10, 160, 110, 23);
+        file_btn6.setBounds(10, 160, 120, 23);
         file_btn6.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -603,89 +629,76 @@ public class ThemCauHoiDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_anh_field6ActionPerformed
 
     private void file_btn6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_file_btn6ActionPerformed
-        String question = question_txt.getText().trim();
+        String question = question_txt.getText();
         String topic = (String) tp_cbx.getSelectedItem();
         String level = (String) level_cbx.getSelectedItem();
         String pic = anh_field.getText();
+
+        int qID = question_old.getqID(); //lấy id của question cũ ra
+       
         if(question.isEmpty()){
                JOptionPane.showMessageDialog(null, "Hãy ghi nội dung câu hỏi", "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
-        else try {
-            if(questionBUS.isQuestionExists(question)){
-                JOptionPane.showMessageDialog(null, "Câu hỏi đã tồn tại!", "Thông báo", JOptionPane.ERROR_MESSAGE); 
+        else if(!kiemTraDapAn()){ return; }
+        else{
+                        QuestionsDTO new_question = new QuestionsDTO();
+                        new_question.setqContent(question);
+                        new_question.setqID(qID);
+                        new_question.setqTopicID(topicsBUS.getTopicIdByName(topic));
+                        new_question.setqStatus(1);
+            switch(level){
+                case "easy" -> new_question.setqLevel(1);
+                case "medium" -> new_question.setqLevel(2);
+                case "difficult" -> new_question.setqLevel(3);
             }
-            else if(!kiemTraDapAn()){ return; }
-            else{
-                QuestionsDTO new_question = new QuestionsDTO();
-                new_question.setqContent(question);
-                new_question.setqTopicID(topicsBUS.getTopicIdByName(topic));
-                new_question.setqStatus(1);
-                switch(level){
-                    case "easy" -> new_question.setqLevel(1);
-                    case "medium" -> new_question.setqLevel(2);
-                    case "difficult" -> new_question.setqLevel(3);
-                }
-                switch(pic){
-                    case "Ảnh câu hỏi " -> new_question.setqPicture("");
-                    default -> new_question.setqPicture(pic);
-                    
-                }
-                
-                int newID = questionBUS.createInt(new_question); //thêm câu hỏi
-                
-                Object[][] answerList = layDuLieuDapAn();
-                
-                for(Object[] answer : answerList){
-                    if(!answer[0].equals("") || !answer[1].equals("Ảnh đáp án")){
-                        AnswersDTO new_answer = new AnswersDTO();
-                        
-                        new_answer.setQID(newID);
-                        new_answer.setAwStatus(1);
-                        
-                        if(answer[0].equals("")){
-                            new_answer.setAwContent("");
-                        }
-                        else{
-                            new_answer.setAwContent((String)answer[0]);
-                        }
-                        System.out.println(answer[0]);
-                        
-                        if(answer[1].equals("Ảnh đáp án")){
-                            new_answer.setAwPictures("");
-                        }
-                        else{
-                            new_answer.setAwPictures((String)answer[1]);
-                        }
-                        
-                        if((boolean)answer[2] == true){
-                            new_answer.setIsRight(1);
-                        }
-                        else{
-                            new_answer.setIsRight(0);
-                        }
-                        
-                        answersBUS.create(new_answer); //thêm câu trả lời
-                    }
-                }
-                JOptionPane.showMessageDialog(null, "Đã thêm câu hỏi thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(ThemCauHoiDialog.class.getName()).log(Level.SEVERE, null, ex);
+          switch(pic){
+              case "Ảnh câu hỏi " -> new_question.setqPicture("");
+              default -> new_question.setqPicture(pic);
+
+          }
+          
+       questionBUS.update(new_question); //sửa lại câu hỏi
+       answersBUS.deleteByQuestionID(qID); //xóa toàn bộ đáp án cữ của câu hỏi
+          Object[][] answerList = layDuLieuDapAn();
+          
+          for(Object[] answer : answerList){
+              if(!answer[0].equals("") || !answer[1].equals("Ảnh đáp án")){
+                  AnswersDTO new_answer = new AnswersDTO();
+                  
+                  new_answer.setQID(qID);
+                  new_answer.setAwStatus(1);
+                 
+                  if(answer[0].equals("")){
+                       new_answer.setAwContent("");
+                  }
+                  else{
+                    new_answer.setAwContent((String)answer[0]);
+                  }
+                  
+                  if(answer[1].equals("Ảnh đáp án")){
+                       new_answer.setAwPictures("");
+                  }
+                  else{
+                    new_answer.setAwPictures((String)answer[1]);
+                  }
+                  
+                   if((boolean)answer[2] == true){
+                       new_answer.setIsRight(1);
+                  }
+                  else{
+                   new_answer.setIsRight(0);
+                  } 
+                   
+                   answersBUS.create(new_answer); //thêm câu trả lời
+              }
+          }
+              JOptionPane.showMessageDialog(null, "Đã sửa câu hỏi thành công", "Thông báo", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_file_btn6ActionPerformed
 
     private void anh_fieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_anh_fieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_anh_fieldActionPerformed
-
-    private void file_btn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_file_btn1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_file_btn1ActionPerformed
-
-    private void file_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_file_btnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_file_btnActionPerformed
 
     
       
@@ -703,30 +716,20 @@ public class ThemCauHoiDialog extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ThemCauHoiDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(QuestionDetailDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ThemCauHoiDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(QuestionDetailDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ThemCauHoiDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(QuestionDetailDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ThemCauHoiDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(QuestionDetailDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(() -> {
-            ThemCauHoiDialog dialog = new ThemCauHoiDialog(new javax.swing.JFrame(), true);
-            dialog.setLocationRelativeTo(null); // Hiển thị ở giữa màn hình
-            dialog.setVisible(true); // Hiển thị dialog
-            dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                @Override
-                public void windowClosing(java.awt.event.WindowEvent e) {
-                    System.exit(0);
-                }
-                
-            });
-        });
+   
     }
     
     //hàm dùng để kiểm tra xem người nhập đã nhập đúng đáp án chưa

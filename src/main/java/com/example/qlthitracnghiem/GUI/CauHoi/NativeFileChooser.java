@@ -25,7 +25,6 @@ public class NativeFileChooser {
             // Chỉ chấp nhận file PNG hoặc JPG
             if (filename.toLowerCase().endsWith(".png") || filename.toLowerCase().endsWith(".jpg") || filename.toLowerCase().endsWith(".jpeg")) {
                 selectedFilePath =  filename;
-                System.out.println("File đã chọn: " + selectedFilePath);
             } else {
                 JOptionPane.showMessageDialog(null,"Chỉ được chọn file PNG hoặc file JPG", "Lỗi", JOptionPane.INFORMATION_MESSAGE);
                 selectedFilePath = null; // Đặt lại nếu chọn sai định dạng

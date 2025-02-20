@@ -8,7 +8,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.Normalizer;
 import java.util.ArrayList;
+import java.util.List;
 
 public class QuestionsDAO {
 
@@ -44,6 +46,30 @@ public class QuestionsDAO {
         }
     }
 
+    public int createInt(QuestionsDTO question) throws SQLException {
+        String sql = "INSERT INTO questions (qContent, qPictures, qTopicID, qLevel, qStatus) VALUES (?, ?, ?, ?, ?)";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            ps.setString(1, question.getqContent());
+            ps.setString(2, question.getqPicture());
+            ps.setInt(3, question.getqTopicID());
+            ps.setInt(4, question.getqLevel());
+            ps.setInt(5, question.getqStatus());
+
+            int affectedRows = ps.executeUpdate();
+            if (affectedRows > 0) {
+                try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        int generatedID = generatedKeys.getInt(1);
+                        return generatedID; // Trả về ID vừa tạo
+                    }
+
+                }
+            }
+        }
+           return 0;
+}
+    
     // Hàm thêm câu hỏi mới
     public boolean create(QuestionsDTO question) throws SQLException {
 
@@ -198,6 +224,78 @@ public class QuestionsDAO {
         return null; // Nếu không tìm thấy câu hỏi nào
     }
 
+
+    public List<QuestionsDTO> find(String content, String key) throws SQLException {
+        List<QuestionsDTO> result = new ArrayList<>();
+        String query = "";
+        boolean isLikeSearch = false;
+
+        switch (key.toLowerCase()) {
+            case "id" -> query = "SELECT * FROM questions WHERE qID = ?";
+            case "topic" -> {
+                query = "SELECT * FROM questions WHERE qTopicID IN (SELECT tpID FROM topics WHERE tpName LIKE ?)";
+                isLikeSearch = true;
+                }
+            case "content" -> {
+                query = "SELECT * FROM questions WHERE qContent LIKE ?";
+                isLikeSearch = true;
+                }
+            case "level" -> query = "SELECT * FROM questions WHERE qLevel = ?";
+            default -> {
+                System.out.println("⚠ Key không hợp lệ! Vui lòng chọn: id, topic, content, level.");
+                return result;
+                }
+        }
+
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            if (isLikeSearch) {
+                stmt.setString(1, "%" + content + "%"); // Tìm kiếm gần đúng
+            } else {
+                stmt.setString(1, content); // Tìm kiếm chính xác
+            }
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    QuestionsDTO question = new QuestionsDTO(
+                        rs.getInt("qID"),
+                        rs.getString("qContent"),
+                        rs.getString("qPictures"),  // Đổi thành qPictures theo đúng DB
+                        rs.getInt("qTopicID"),
+                        rs.getInt("qLevel"),
+                        rs.getInt("qStatus")
+                    );
+                    result.add(question);
+                }
+            }
+        } catch (SQLException e) {
+        }
+
+        return result;
+    }
+    
+    // Hàm chuẩn hóa chuỗi (loại bỏ dấu, khoảng trắng, viết thường)
+public String normalizeText(String input) {
+    String temp = Normalizer.normalize(input, Normalizer.Form.NFD);
+    temp = temp.replaceAll("\\s+", ""); // Loại bỏ khoảng trắng
+    return temp.toLowerCase(); // Chuyển thành chữ thường
+}
+
+public boolean isQuestionExists(String content) throws SQLException {
+    String normalizedContent = normalizeText(content);
+
+    String sql = "SELECT COUNT(*) FROM questions WHERE REPLACE(LOWER(qContent), ' ', '') = ?";
+
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        ps.setString(1, normalizedContent);
+
+        try (ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt(1) > 0; // Nếu có ít nhất một kết quả, câu hỏi đã tồn tại
+            }
+        }
+    }
+    return false;
+}
     // // Hàm thêm câu hỏi mới
     // public boolean create(QuestionsDTO question) throws SQLException {
 
