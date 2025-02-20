@@ -8,7 +8,7 @@ public class DBConnection {
 
     private static final String URL = "jdbc:mysql://localhost:3306/thitracnghiem";
     private static final String USER = "root";
-    private static final String PASSWORD = "";
+    private static final String PASSWORD = "trung2205";
 
     // Kết nối dùng chung (Singleton)
     private static Connection connection = null;

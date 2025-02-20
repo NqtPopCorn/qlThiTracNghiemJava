@@ -7,13 +7,11 @@ package com.example.qlthitracnghiem.GUI;
 import javax.swing.*;
 
 import com.example.qlthitracnghiem.DTO.UserDTO;
-import com.example.qlthitracnghiem.GUI.CauHoi.QuestionPanel;
 import com.example.qlthitracnghiem.GUI.Exam.DoExamJPanel;
+import com.example.qlthitracnghiem.GUI.ThongKe.MainThongKePanel;
 import com.example.qlthitracnghiem.GUI.User.UserPanel;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  *
@@ -23,7 +21,7 @@ public class DashboardFrame extends javax.swing.JFrame {
   private JPanel deThiPanel = new JPanel();
   private JPanel cauHoiPanel = new JPanel();
   private JPanel userPanel = new UserPanel(this);
-  private JPanel thongKePanel = new JPanel();
+  private JPanel thongKePanel = new MainThongKePanel();
   private DoExamJPanel doExamJPanel = new DoExamJPanel();
   private UserDTO user;
 
@@ -37,7 +35,7 @@ public class DashboardFrame extends javax.swing.JFrame {
     deThiPanel.setBackground(Color.RED);
     cauHoiPanel.setBackground(Color.GREEN);
     userPanel.setBackground(Color.BLUE);
-    thongKePanel.setBackground(Color.YELLOW);
+    thongKePanel.setBackground(Color.white);
 
     cardLayout = new CardLayout();
     currentPanel.setLayout(cardLayout);
@@ -144,7 +142,6 @@ public class DashboardFrame extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(1200, 700));
 
         sidePanel.setBackground(new java.awt.Color(255, 102, 255));
         sidePanel.setPreferredSize(new java.awt.Dimension(160, 700));
@@ -235,7 +232,7 @@ public class DashboardFrame extends javax.swing.JFrame {
         examplePanel1Layout.setVerticalGroup(
             examplePanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(examplePanel1Layout.createSequentialGroup()
-                .addContainerGap(391, Short.MAX_VALUE)
+                .addContainerGap(373, Short.MAX_VALUE)
                 .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(243, 243, 243))
         );
