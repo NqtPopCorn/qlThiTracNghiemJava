@@ -14,39 +14,43 @@ import java.util.List;
 
 public class QuestionsDAO {
 
-    public Connection connection = DBConnection.getConnection();
+    
+       public Connection connection = DBConnection.getConnection();
+       
+        public ArrayList<QuestionsDTO> getAll() throws SQLException 
+        {
+            // Get the database connection
 
-    public ArrayList<QuestionsDTO> getAll() throws SQLException {
-        // Get the database connection
+            // SQL query to fetch all questions
+            String sql = "SELECT * FROM questions";
 
-        // SQL query to fetch all questions
-        String sql = "SELECT * FROM questions";
+            try (PreparedStatement ps = connection.prepareStatement(sql);
+                 ResultSet rs = ps.executeQuery()) {
 
-        try (PreparedStatement ps = connection.prepareStatement(sql);
-                ResultSet rs = ps.executeQuery()) {
+                ArrayList<QuestionsDTO> questions = new ArrayList<>();
 
-            ArrayList<QuestionsDTO> questions = new ArrayList<>();
-
-            while (rs.next()) {
-                questions.add(
+                while (rs.next()) {
+                    questions.add(
                         new QuestionsDTO(
-                                rs.getInt("qID"),
-                                rs.getString("qContent"),
-                                rs.getString("qPictures"),
-                                rs.getInt("qTopicID"),
-                                rs.getInt("qLevel"),
-                                rs.getInt("qStatus")));
+                            rs.getInt("qID"),          
+                            rs.getString("qContent"),    
+                            rs.getString("qPictures"),  
+                            rs.getInt("qTopicID"),       
+                            rs.getInt("qLevel"),      
+                            rs.getInt("qStatus")         
+                        )
+                    );
+                }
             }
-
-            return questions;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw e;
+           return null;
         }
-    }
+   
+    
 
-    public int createInt(QuestionsDTO question) throws SQLException {
+
+
+public int createInt(QuestionsDTO question) throws SQLException {
+
         String sql = "INSERT INTO questions (qContent, qPictures, qTopicID, qLevel, qStatus) VALUES (?, ?, ?, ?, ?)";
 
         try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -69,9 +73,12 @@ public class QuestionsDAO {
         }
            return 0;
 }
+
     
-    // Hàm thêm câu hỏi mới
-    public boolean create(QuestionsDTO question) throws SQLException {
+
+ 
+        public boolean create(QuestionsDTO question) throws SQLException {
+
 
         String sql = "INSERT INTO questions (qContent, qPictures, qTopicID, qLevel, qStatus) VALUES (?, ?, ?, ?, ?)";
 
@@ -93,7 +100,6 @@ public class QuestionsDAO {
             return affectedRows > 0;
         }
     }
-
     // Hàm cập nhật câu hỏi
     public boolean update(QuestionsDTO question) throws SQLException {
         Connection connection = DBConnection.getConnection();
@@ -223,6 +229,7 @@ public class QuestionsDAO {
 
         return null; // Nếu không tìm thấy câu hỏi nào
     }
+
 
 
     public List<QuestionsDTO> find(String content, String key) throws SQLException {
@@ -460,5 +467,4 @@ public boolean isQuestionExists(String content) throws SQLException {
 
     // return null; // Nếu không tìm thấy câu hỏi nào
     // }
-
 }

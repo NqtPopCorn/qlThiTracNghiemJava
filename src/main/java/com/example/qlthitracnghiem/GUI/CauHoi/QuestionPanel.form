@@ -201,8 +201,24 @@
                               </Group>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
+<<<<<<< HEAD
                               <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
                               <Component id="themCH_btn" min="-2" max="-2" attributes="0"/>
+=======
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jScrollPane2" max="32767" attributes="0"/>
+                                  <Group type="102" attributes="0">
+                                      <Component id="qthem_btn" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Component id="xoabtn_question" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="find_txt" min="-2" pref="191" max="-2" attributes="0"/>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <Component id="find_cbx" min="-2" pref="95" max="-2" attributes="0"/>
+                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                  </Group>
+                              </Group>
+>>>>>>> origin/AH
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="xoabtn_question" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
@@ -226,8 +242,13 @@
                           <Component id="find_txt" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="find_cbx" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="xoabtn_question" alignment="3" min="-2" max="-2" attributes="0"/>
+<<<<<<< HEAD
                           <Component id="themCH_btn" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="import_btn" alignment="3" min="-2" max="-2" attributes="0"/>
+=======
+                          <Component id="find_txt" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="find_cbx" alignment="3" min="-2" max="-2" attributes="0"/>
+>>>>>>> origin/AH
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jScrollPane2" pref="613" max="32767" attributes="0"/>
@@ -297,6 +318,7 @@
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
             </Component>
+<<<<<<< HEAD
             <Component class="javax.swing.JButton" name="themCH_btn">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Th&#xea;m"/>
@@ -317,6 +339,8 @@
                 <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="import_btn.addActionListener(new ActionListener() {&#xa;            @Override&#xa;            public void actionPerformed(ActionEvent e) {&#xa;               NativeFileChooser_import FileChooser = new NativeFileChooser_import();&#xa;        }&#xa;        });"/>
               </AuxValues>
             </Component>
+=======
+>>>>>>> origin/AH
           </SubComponents>
         </Container>
       </SubComponents>
