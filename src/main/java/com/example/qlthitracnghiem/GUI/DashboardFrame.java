@@ -12,6 +12,8 @@ import com.example.qlthitracnghiem.GUI.Exam.ChooseExamJPanel;
 import com.example.qlthitracnghiem.GUI.Exam.DoExamJPanel;
 import com.example.qlthitracnghiem.GUI.ThongKe.MainThongKePanel;
 import com.example.qlthitracnghiem.GUI.User.UserPanel;
+import com.example.qlthitracnghiem.GUI.CauHoi.QuestionPanel;
+import com.example.qlthitracnghiem.GUI.DeThi.TestPanel;
 import com.example.qlthitracnghiem.GUI.DeThi.TestPanel;
 import java.awt.*;
 
@@ -327,8 +329,10 @@ public class DashboardFrame extends javax.swing.JFrame {
     // </editor-fold>
 
     /* Create and display the form */
-    java.awt.EventQueue.invokeLater(() -> {
+    java.awt.EventQueue.invokeLater(new Runnable() {
+      public void run() {
         new DashboardFrame().setVisible(true);
+      }
     });
   }
 
