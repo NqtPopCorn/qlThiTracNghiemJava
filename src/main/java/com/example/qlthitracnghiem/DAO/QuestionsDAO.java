@@ -281,7 +281,8 @@ public String normalizeText(String input) {
 }
 
 public boolean isQuestionExists(String content) throws SQLException {
-    String normalizedContent = normalizeText(content);
+    String normalizedContent = normalizeText(content); // Chuẩn hóa nội dung câu hỏi
+    System.out.println("Checking question: " + normalizedContent);
 
     String sql = "SELECT COUNT(*) FROM questions WHERE REPLACE(LOWER(qContent), ' ', '') = ?";
 
@@ -290,12 +291,15 @@ public boolean isQuestionExists(String content) throws SQLException {
 
         try (ResultSet rs = ps.executeQuery()) {
             if (rs.next()) {
-                return rs.getInt(1) > 0; // Nếu có ít nhất một kết quả, câu hỏi đã tồn tại
+                int count = rs.getInt(1);
+                System.out.println("Count for " + normalizedContent + " = " + count);
+                return count > 0; 
             }
         }
     }
     return false;
 }
+
     // // Hàm thêm câu hỏi mới
     // public boolean create(QuestionsDTO question) throws SQLException {
 

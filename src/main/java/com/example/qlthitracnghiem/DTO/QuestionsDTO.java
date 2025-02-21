@@ -8,6 +8,7 @@ public class QuestionsDTO {
     private int qLevel;
     private int qStatus;
 
+
     // Contrstor không tham số
     public QuestionsDTO() {
     };
