@@ -6,6 +6,7 @@ import com.example.qlthitracnghiem.BUS.QuestionsBUS;
 import com.example.qlthitracnghiem.BUS.TestBUS;
 import com.example.qlthitracnghiem.DTO.QuestionsDTO;
 import com.example.qlthitracnghiem.DTO.TestDTO;
+import com.example.qlthitracnghiem.utils.ImageUtil;
 import org.json.JSONArray;
 
 import javax.swing.*;
@@ -21,7 +22,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 public class TestPanel extends JPanel {
     private JPanel mainPanel;
     private JScrollPane scrollPane;
@@ -225,6 +225,7 @@ public class TestPanel extends JPanel {
                             Map<String, String> questionData = examBUS.getQuestionContent(qID);
                             String qContent = questionData.get("qContent");
                             String qPictures = questionData.get("qPictures");
+                         
 
                             // Tạo panel cho câu hỏi
                             JPanel questionPanel = new JPanel();
@@ -238,7 +239,9 @@ public class TestPanel extends JPanel {
 
                             // Hiển thị hình ảnh câu hỏi (nếu có)
                             if (qPictures != null && !qPictures.isEmpty()) {
-                                JLabel qPictureLabel = new JLabel("Hình ảnh: " + qPictures);
+                                JLabel qPictureLabel = new JLabel("");
+                                ImageUtil.setIcon(qPictureLabel, qPictures, 100, 100);
+                                
                                 qPictureLabel.setFont(new Font("Serif", Font.PLAIN, 12));
                                 questionPanel.add(qPictureLabel);
                             }
@@ -248,7 +251,7 @@ public class TestPanel extends JPanel {
 
                             // Tạo ButtonGroup cho câu hỏi hiện tại
                             ButtonGroup buttonGroup = new ButtonGroup();
-
+                            JLabel answerLabel=new JLabel();
                             for (Map<String, String> answerData : awContents) {
                                 String awContent = answerData.get("awContent");
                                 String awPictures = answerData.get("awPictures");
@@ -260,7 +263,8 @@ public class TestPanel extends JPanel {
 
                                 // Hiển thị hình ảnh câu trả lời (nếu có)
                                 if (awPictures != null && !awPictures.isEmpty()) {
-                                    radioButton.setText(awContent + " (Hình ảnh: " + awPictures + ")");
+                                    answerLabel.setText("");
+                                    ImageUtil.setIcon(answerLabel, awPictures, 100, 100);
                                 }
 
                                 buttonGroup.add(radioButton);
