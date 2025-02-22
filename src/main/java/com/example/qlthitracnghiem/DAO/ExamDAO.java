@@ -184,19 +184,19 @@ public class ExamDAO {
     public int update(TestDTO testDTO, int soDe) throws SQLException {
         Connection connection = DBConnection.getConnection();
         String sql = "UPDATE test SET  num_easy= ?, num_medium = ?, num_diff = ? WHERE testCode = ?";
-    try {
-      PreparedStatement ps = connection.prepareStatement(sql);
-      ps.setInt(1, testDTO.getNum_easy());
-      ps.setInt(2, testDTO.getNum_medium());
-      ps.setInt(3, testDTO.getNum_diff());
-      ps.setString(4, testDTO.getTestCode());
-      ps.executeUpdate();
-      generateExams(connection,testDTO.getTestCode(),testDTO, soDe);
-      return 1;
-    } catch (SQLException e) {
-      e.printStackTrace();
-      throw e;
-    }
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, testDTO.getNum_easy());
+            ps.setInt(2, testDTO.getNum_medium());
+            ps.setInt(3, testDTO.getNum_diff());
+            ps.setString(4, testDTO.getTestCode());
+            ps.executeUpdate();
+            generateExams(connection, testDTO.getTestCode(), testDTO, soDe);
+            return 1;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
     }
 
     public int delete(int id) throws SQLException {
