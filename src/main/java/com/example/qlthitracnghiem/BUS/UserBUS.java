@@ -3,6 +3,7 @@ package com.example.qlthitracnghiem.BUS;
 import java.util.ArrayList;
 
 import com.example.qlthitracnghiem.DAO.UserDAO;
+import com.example.qlthitracnghiem.DAO.UserInfoDAO;
 import com.example.qlthitracnghiem.DTO.UserDTO;
 import com.example.qlthitracnghiem.utils.PasswordUtil;
 
@@ -11,6 +12,7 @@ public class UserBUS {
   public static final int ACTION_ERROR = -9999;
 
   private UserDAO userDAO;
+  private UserInfoDAO userInfoDAO = new UserInfoDAO();
 
   private static UserBUS instance;
 
@@ -82,6 +84,37 @@ public class UserBUS {
             || (user.getUserFullName() != null && user.getUserFullName().contains(keyword)))
         .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
     return data;
+  }
+
+  public int updateUserInfo(int userID, String email, String fullName) throws Exception {
+    return userInfoDAO.updateUserInfo(userID + "", email, fullName);
+  }
+
+  public int updatePassword(int userID, String currentPassword, String newPassword, String confirmPassword)
+      throws Exception {
+    UserDTO user = userDAO.read(userID);
+    if (!PasswordUtil.checkPassword(currentPassword, user.getUserPassword())) {
+      System.out.println("Current password: " + currentPassword);
+      throw new Exception("Current password is incorrect");
+    }
+    if (!newPassword.equals(confirmPassword)) {
+      throw new Exception("New password and confirm password are not matched");
+    }
+
+    return userInfoDAO.updatePassword(userID + "", PasswordUtil.hashPassword(newPassword));
+  }
+
+  public ArrayList<ArrayList<String>> getLichSuLamBai(int userID) throws Exception {
+    return userInfoDAO.getLichSuLamBai(userID + "");
+  }
+
+  public ArrayList<ArrayList<String>> searchLichSuLamBai(int userID, String keyword) throws Exception {
+    // return userInfoDAO.getLichSuLamBai(userID + "").stream()
+    // .filter(row -> row.stream().anyMatch(cell ->
+    // cell.toLowerCase().contains(keyword.toLowerCase())))
+    // .collect(ArrayList::new, ArrayList::add,
+    // ArrayList::addAll);
+    return userInfoDAO.searchLichSuLamBai(userID + "", keyword);
   }
 
 }
