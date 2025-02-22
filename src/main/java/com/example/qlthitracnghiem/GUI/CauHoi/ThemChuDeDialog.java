@@ -31,9 +31,8 @@ public class ThemChuDeDialog extends javax.swing.JDialog {
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         jPanel2 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
@@ -80,7 +79,7 @@ public class ThemChuDeDialog extends javax.swing.JDialog {
         cdParent_cbx.removeAllItems();
         cdParent_cbx.addItem("Không có");
         for (TopicsDTO topic : topics) {
-            if (topicsBUS.checkStatus(topic.getTpStatus())) {
+            if(topicsBUS.checkStatus(topic.getTpStatus())){
                 cdParent_cbx.addItem(topic.getTpTitle()); // Chỉ hiển thị tên chủ đề
             }
         }
@@ -107,7 +106,7 @@ public class ThemChuDeDialog extends javax.swing.JDialog {
         jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR)); // Đổi con trỏ chuột khi di vào
 
         getContentPane().add(jPanel2);
-        jPanel2.setBounds(0, 0, 400, 270);
+        jPanel2.setBounds(0, 0, 400, 210);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -118,11 +117,13 @@ public class ThemChuDeDialog extends javax.swing.JDialog {
 
 private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton1ActionPerformed
     String add_name = title_txt.getText().trim(); // Trim để tránh nhập khoảng trắng vô nghĩa
-    String name_parent = (cdParent_cbx.getSelectedItem() != null) ? cdParent_cbx.getSelectedItem().toString() : ""; // Kiểm tra null
+    String name_parent = cdParent_cbx.getSelectedItem().toString();
 
     TopicsBUS topicsBUS = new TopicsBUS();
-    Integer id_parent = (name_parent.isEmpty()) ? null : topicsBUS.getTopicIdByName(name_parent); // Để null nếu không có parent
-
+    Integer token_parent = topicsBUS.getTopicIdByName(name_parent);
+    Integer id_parent;
+    if(token_parent == -1){ id_parent = null; } //nếu ko có id_parent cho là null
+    id_parent = token_parent;
     int id_topic_old = topicsBUS.getTopicIdByName(add_name);
     TopicsDTO token = topicsBUS.getTopicByID(id_topic_old);
 
