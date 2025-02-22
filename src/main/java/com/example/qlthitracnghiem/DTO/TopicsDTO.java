@@ -3,7 +3,7 @@ package com.example.qlthitracnghiem.DTO;
 public class TopicsDTO {
     private int tpID;
     private String tpTitle;
-    private int tpParent;
+    private Integer tpParent;
     private int tpStatus;
 
     // Cóntructor không tham số
@@ -35,11 +35,11 @@ public class TopicsDTO {
         this.tpTitle = tpTitle;
     }
 
-    public int getTpParent() {
+    public Integer getTpParent() {
         return tpParent;
     }
 
-    public void setTpParent(int tpParent) {
+    public void setTpParent(Integer tpParent) {
         this.tpParent = tpParent;
     }
 

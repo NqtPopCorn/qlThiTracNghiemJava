@@ -116,62 +116,55 @@ public class ThemChuDeDialog extends javax.swing.JDialog {
         // TODO add your handling code here:
     }// GEN-LAST:event_title_txtActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton1ActionPerformed
-        String add_name = title_txt.getText().trim(); // Trim để tránh nhập khoảng trắng vô nghĩa
-        String name_parent = (cdParent_cbx.getSelectedItem() != null) ? cdParent_cbx.getSelectedItem().toString() : ""; // Kiểm
-                                                                                                                        // tra
-                                                                                                                        // null
+private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton1ActionPerformed
+    String add_name = title_txt.getText().trim(); // Trim để tránh nhập khoảng trắng vô nghĩa
+    String name_parent = (cdParent_cbx.getSelectedItem() != null) ? cdParent_cbx.getSelectedItem().toString() : ""; // Kiểm tra null
 
-        TopicsBUS topicsBUS = new TopicsBUS();
-        int id_parent = (name_parent.isEmpty()) ? -1 : topicsBUS.getTopicIdByName(name_parent);
+    TopicsBUS topicsBUS = new TopicsBUS();
+    Integer id_parent = (name_parent.isEmpty()) ? null : topicsBUS.getTopicIdByName(name_parent); // Để null nếu không có parent
 
-        int id_topic_old = topicsBUS.getTopicIdByName(add_name);
-        TopicsDTO token = topicsBUS.getTopicByID(id_topic_old);
+    int id_topic_old = topicsBUS.getTopicIdByName(add_name);
+    TopicsDTO token = topicsBUS.getTopicByID(id_topic_old);
 
-        if (add_name.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Bạn chưa nhập tên chủ đề cần thêm", "Thiếu thông tin!!",
-                    JOptionPane.INFORMATION_MESSAGE);
-        } else if (token != null && token.getTpStatus() == 1) {
-            JOptionPane.showMessageDialog(null, "Chủ đề này đã tồn tại", "Thông tin sai lệch!!",
-                    JOptionPane.INFORMATION_MESSAGE);
-        } else if (token != null && token.getTpStatus() == 0) { // Khi chủ đề có nhưng bị vô hiệu hóa
-            TopicsDTO token1 = new TopicsDTO(token.getTpID(), token.getTpTitle(), token.getTpParent(), 1);
-            boolean updated = topicsBUS.update(token1);
+    if (add_name.isEmpty()) {
+        JOptionPane.showMessageDialog(null, "Bạn chưa nhập tên chủ đề cần thêm", "Thiếu thông tin!!", JOptionPane.INFORMATION_MESSAGE);
+    } else if (token != null && token.getTpStatus() == 1) {
+        JOptionPane.showMessageDialog(null, "Chủ đề này đã tồn tại", "Thông tin sai lệch!!", JOptionPane.INFORMATION_MESSAGE);
+    } else if (token != null && token.getTpStatus() == 0) { // Khi chủ đề có nhưng bị vô hiệu hóa
+        TopicsDTO token1 = new TopicsDTO(token.getTpID(), token.getTpTitle(), token.getTpParent(), 1);
+        boolean updated = topicsBUS.update(token1);
 
-            if (updated) {
-                JOptionPane.showMessageDialog(null, "Chủ đề đã được kích hoạt lại", "Thông báo",
-                        JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(null, "Không thể cập nhật chủ đề", "Lỗi", JOptionPane.ERROR_MESSAGE);
-            }
+        if (updated) {
+            JOptionPane.showMessageDialog(null, "Chủ đề đã được kích hoạt lại", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            TopicsDTO topic = new TopicsDTO();
-            topic.setTpTitle(add_name);
-            topic.setTpStatus(1);
-            topic.setTpParent((id_parent == -1) ? 0 : id_parent);
+            JOptionPane.showMessageDialog(null, "Không thể cập nhật chủ đề", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+    } else {
+        TopicsDTO topic = new TopicsDTO();
+        topic.setTpTitle(add_name);
+        topic.setTpStatus(1);
+        topic.setTpParent(id_parent); // Sử dụng null thay vì 0 nếu không có parent
 
-            // Hiển thị hộp thoại cảnh báo
-            int confirm = JOptionPane.showConfirmDialog(
-                    null,
-                    "Bạn có chắc chắn muốn thêm chủ đề này?",
-                    "Xác nhận",
-                    JOptionPane.YES_NO_OPTION,
-                    JOptionPane.WARNING_MESSAGE);
+        // Hiển thị hộp thoại cảnh báo
+        int confirm = JOptionPane.showConfirmDialog(
+                null,
+                "Bạn có chắc chắn muốn thêm chủ đề này?",
+                "Xác nhận",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE);
 
-            if (confirm == JOptionPane.YES_OPTION) {
-                // Nếu chọn "YES", tiến hành thêm
-                boolean created = topicsBUS.create(topic);
+        if (confirm == JOptionPane.YES_OPTION) {
+            // Nếu chọn "YES", tiến hành thêm
+            boolean created = topicsBUS.create(topic);
 
-                if (created) {
-                    JOptionPane.showMessageDialog(null, "Bạn đã thêm thành công", "Xác nhận",
-                            JOptionPane.INFORMATION_MESSAGE);
-                } else {
-                    JOptionPane.showMessageDialog(null, "Không thể thêm chủ đề", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                }
+            if (created) {
+                JOptionPane.showMessageDialog(null, "Bạn đã thêm thành công", "Xác nhận", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, "Không thể thêm chủ đề", "Lỗi", JOptionPane.ERROR_MESSAGE);
             }
         }
-
-    }// GEN-LAST:event_jButton1ActionPerformed
+    }
+}// GEN-LAST:event_jButton1ActionPerformed
 
     private void cdParent_cbxActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_cdParent_cbxActionPerformed
         // TODO add your handling code here:

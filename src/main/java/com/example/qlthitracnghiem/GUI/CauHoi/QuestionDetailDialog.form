@@ -60,7 +60,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="24" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Th&#xea;m c&#xe2;u h&#x1ecf;i"/>
+            <Property name="text" type="java.lang.String" value="Chi ti&#x1ebf;t c&#xe2;u h&#x1ecf;i"/>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[160, 32]"/>
             </Property>
@@ -70,7 +70,7 @@
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="120" y="10" width="-1" height="-1"/>
+              <AbsoluteConstraints x="120" y="10" width="180" height="-1"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -171,7 +171,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="anh_field">
           <Properties>
-            <Property name="text" type="java.lang.String" value="&#x1ea2;nh c&#xe2;u h&#x1ecf;i " postCode="anh_field.setEditable(false);&#xa;anh_field.setOpaque(false); // Lo&#x1ea1;i b&#x1ecf; m&#xe0;u n&#x1ec1;n"/>
+            <Property name="text" type="java.lang.String" value="&#x1ea2;nh c&#xe2;u h&#x1ecf;i " postCode="anh_field.setOpaque(false); // Lo&#x1ea1;i b&#x1ecf; m&#xe0;u n&#x1ec1;n"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="anh_fieldActionPerformed"/>
@@ -189,9 +189,6 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Ch&#x1ecd;n &#x1ea3;nh"/>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="file_btnActionPerformed"/>
-          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="file_btn.addActionListener(new ActionListener() {&#xa;            @Override&#xa;            public void actionPerformed(ActionEvent e) {&#xa;               NativeFileChooser FileChooser = new NativeFileChooser();&#xa;               FileChooser.openFileChooser();&#xa;               anh_field.setText(FileChooser.getSelectedFilePath());&#xa;            }&#xa;        });&#xa;// T&#xf9;y ch&#x1ec9;nh button&#xa;        file_btn.setFont(new Font(&quot;Arial&quot;, Font.BOLD, 14)); // Font ch&#x1eef; &#x111;&#x1ead;m&#xa;        file_btn.setForeground(Color.WHITE); // Ch&#x1eef; m&#xe0;u tr&#x1eaf;ng&#xa;        file_btn.setBackground(new Color(30, 144, 255)); // M&#xe0;u xanh d&#x1b0;&#x1a1;ng&#xa;        file_btn.setFocusPainted(false); // B&#x1ecf; vi&#x1ec1;n focus&#xa;        file_btn.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10)); // Vi&#x1ec1;n trong su&#x1ed1;t&#xa;&#xa;        // Hi&#x1ec7;u &#x1ee9;ng hover: &#x111;&#x1ed5;i m&#xe0;u khi di chu&#x1ed9;t v&#xe0;o&#xa;        file_btn.addMouseListener(new MouseAdapter() {&#xa;            @Override&#xa;            public void mouseEntered(MouseEvent e) {&#xa;                file_btn.setBackground(new Color(0, 102, 204)); // M&#xe0;u xanh &#x111;&#x1ead;m h&#x1a1;n khi hover&#xa;            }&#xa;&#xa;            @Override&#xa;            public void mouseExited(MouseEvent e) {&#xa;                file_btn.setBackground(new Color(30, 144, 255)); // Quay l&#x1ea1;i m&#xe0;u g&#x1ed1;c&#xa;            }&#xa;        });"/>
           </AuxValues>
@@ -250,7 +247,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="anh_field2ActionPerformed"/>
               </Events>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="anh_field2.setEditable(false);&#xa;anh_field2.setOpaque(false); // Lo&#x1ea1;i b&#x1ecf; m&#xe0;u n&#x1ec1;n&#xa;anh_field2.setBorder(null); // X&#xf3;a vi&#x1ec1;n"/>
+                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="anh_field2.setOpaque(false); // Lo&#x1ea1;i b&#x1ecf; m&#xe0;u n&#x1ec1;n&#xa;anh_field2.setBorder(null); // X&#xf3;a vi&#x1ec1;n"/>
               </AuxValues>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
@@ -262,9 +259,6 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Ch&#x1ecd;n &#x1ea3;nh"/>
               </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="file_btn1ActionPerformed"/>
-              </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="file_btn1.addActionListener(new ActionListener() {&#xa;            @Override&#xa;            public void actionPerformed(ActionEvent e) {&#xa;               NativeFileChooser FileChooser = new NativeFileChooser();&#xa;               FileChooser.openFileChooser();&#xa;               anh_field2.setText(FileChooser.getSelectedFilePath());&#xa;            }&#xa;        });&#xa;// T&#xf9;y ch&#x1ec9;nh button&#xa;        file_btn1.setFont(new Font(&quot;Arial&quot;, Font.BOLD, 14)); // Font ch&#x1eef; &#x111;&#x1ead;m&#xa;        file_btn1.setForeground(Color.WHITE); // Ch&#x1eef; m&#xe0;u tr&#x1eaf;ng&#xa;        file_btn1.setBackground(new Color(30, 144, 255)); // M&#xe0;u xanh d&#x1b0;&#x1a1;ng&#xa;        file_btn1.setFocusPainted(false); // B&#x1ecf; vi&#x1ec1;n focus&#xa;        file_btn1.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10)); // Vi&#x1ec1;n trong su&#x1ed1;t&#xa;&#xa;        // Hi&#x1ec7;u &#x1ee9;ng hover: &#x111;&#x1ed5;i m&#xe0;u khi di chu&#x1ed9;t v&#xe0;o&#xa;        file_btn1.addMouseListener(new MouseAdapter() {&#xa;            @Override&#xa;            public void mouseEntered(MouseEvent e) {&#xa;                file_btn1.setBackground(new Color(0, 102, 204)); // M&#xe0;u xanh &#x111;&#x1ead;m h&#x1a1;n khi hover&#xa;            }&#xa;&#xa;            @Override&#xa;            public void mouseExited(MouseEvent e) {&#xa;                file_btn1.setBackground(new Color(30, 144, 255)); // Quay l&#x1ea1;i m&#xe0;u g&#x1ed1;c&#xa;            }&#xa;        });"/>
               </AuxValues>
@@ -325,7 +319,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="anh_field3ActionPerformed"/>
               </Events>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="anh_field3.setEditable(false);&#xa;anh_field3.setOpaque(false); // Lo&#x1ea1;i b&#x1ecf; m&#xe0;u n&#x1ec1;n&#xa;anh_field3.setBorder(null); // X&#xf3;a vi&#x1ec1;n"/>
+                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="anh_field3.setOpaque(false); // Lo&#x1ea1;i b&#x1ecf; m&#xe0;u n&#x1ec1;n&#xa;anh_field3.setBorder(null); // X&#xf3;a vi&#x1ec1;n"/>
               </AuxValues>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
@@ -397,7 +391,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="anh_field4ActionPerformed"/>
               </Events>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="anh_field4.setEditable(false);&#xa;anh_field4.setOpaque(false); // Lo&#x1ea1;i b&#x1ecf; m&#xe0;u n&#x1ec1;n&#xa;anh_field4.setBorder(null); // X&#xf3;a vi&#x1ec1;n"/>
+                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="anh_field4.setOpaque(false); // Lo&#x1ea1;i b&#x1ecf; m&#xe0;u n&#x1ec1;n&#xa;anh_field4.setBorder(null); // X&#xf3;a vi&#x1ec1;n"/>
               </AuxValues>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
@@ -469,7 +463,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="anh_field5ActionPerformed"/>
               </Events>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="anh_field5.setEditable(false);&#xa;anh_field5.setOpaque(false); // Lo&#x1ea1;i b&#x1ecf; m&#xe0;u n&#x1ec1;n&#xa;anh_field5.setBorder(null); // X&#xf3;a vi&#x1ec1;n"/>
+                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="anh_field5.setOpaque(false); // Lo&#x1ea1;i b&#x1ecf; m&#xe0;u n&#x1ec1;n&#xa;anh_field5.setBorder(null); // X&#xf3;a vi&#x1ec1;n"/>
               </AuxValues>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
@@ -541,7 +535,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="anh_field6ActionPerformed"/>
               </Events>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="anh_field6.setEditable(false);&#xa;anh_field6.setOpaque(false); // Lo&#x1ea1;i b&#x1ecf; m&#xe0;u n&#x1ec1;n&#xa;anh_field6.setBorder(null); // X&#xf3;a vi&#x1ec1;n"/>
+                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="anh_field6.setOpaque(false); // Lo&#x1ea1;i b&#x1ecf; m&#xe0;u n&#x1ec1;n&#xa;anh_field6.setBorder(null); // X&#xf3;a vi&#x1ec1;n"/>
               </AuxValues>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
@@ -566,7 +560,7 @@
         </Container>
         <Component class="javax.swing.JButton" name="file_btn6">
           <Properties>
-            <Property name="text" type="java.lang.String" value="X&#xe1;c nh&#x1ead;n"/>
+            <Property name="text" type="java.lang.String" value="X&#xe1;c nh&#x1ead;n s&#x1eed;a"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="file_btn6ActionPerformed"/>
@@ -576,7 +570,7 @@
           </AuxValues>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="10" y="160" width="110" height="-1"/>
+              <AbsoluteConstraints x="10" y="160" width="120" height="-1"/>
             </Constraint>
           </Constraints>
         </Component>
