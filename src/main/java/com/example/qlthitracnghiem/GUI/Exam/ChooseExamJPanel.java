@@ -8,9 +8,7 @@ import com.example.qlthitracnghiem.BUS.ExamBUS;
 import com.example.qlthitracnghiem.BUS.QuestionsBUS;
 import com.example.qlthitracnghiem.BUS.TestBUS;
 import com.example.qlthitracnghiem.BUS.UserBUS;
-import com.example.qlthitracnghiem.DAO.QaDAO;
 import com.example.qlthitracnghiem.DTO.ExamDTO;
-import com.example.qlthitracnghiem.DTO.ExamDTOq;
 import com.example.qlthitracnghiem.DTO.TestDTO;
 import java.awt.CardLayout;
 import java.util.ArrayList;
@@ -288,7 +286,7 @@ public class ChooseExamJPanel extends javax.swing.JPanel {
 
                 doExJPanel.setExDTO(exam);
                 doExJPanel.setTsDTO(test);
-                doExJPanel.startTimer();
+                doExJPanel.startTest();
                 
             } catch (Exception e) {
                 e.printStackTrace();

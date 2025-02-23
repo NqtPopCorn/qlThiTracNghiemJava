@@ -2,9 +2,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package com.example.qlthitracnghiem.GUI.CauHoi;
+package com.example.qlthitracnghiem.GUI.Exam;
 
-import javax.swing.Icon;
 
 import com.example.qlthitracnghiem.utils.ImageUtil;
 
@@ -12,12 +11,12 @@ import com.example.qlthitracnghiem.utils.ImageUtil;
  *
  * @author truon
  */
-public class Question_old extends javax.swing.JPanel {
+public class QuestionPN extends javax.swing.JPanel {
 
     /**
      * Creates new form QuestionPanel
      */
-    public Question_old() {
+    public QuestionPN() {
         initComponents();
         ImageUtil.setIcon(questContentLB, "/icons/ic_user_30.png", 100, 80);
         questionOption1.setButtonText("A");
@@ -25,7 +24,9 @@ public class Question_old extends javax.swing.JPanel {
         questionOption3.setButtonText("C");
         questionOption4.setButtonText("D");
     }
-
+    public void setQuestionContent() {
+        
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -47,12 +48,12 @@ public class Question_old extends javax.swing.JPanel {
         buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         questContentLB = new javax.swing.JLabel();
-        questionOption1 = new com.example.qlthitracnghiem.GUI.CauHoi.QuestionOption_old();
-        questionOption2 = new com.example.qlthitracnghiem.GUI.CauHoi.QuestionOption_old();
-        questionOption6 = new com.example.qlthitracnghiem.GUI.CauHoi.QuestionOption_old();
-        questionOption5 = new com.example.qlthitracnghiem.GUI.CauHoi.QuestionOption_old();
-        questionOption3 = new com.example.qlthitracnghiem.GUI.CauHoi.QuestionOption_old();
-        questionOption4 = new com.example.qlthitracnghiem.GUI.CauHoi.QuestionOption_old();
+        questionOption1 = new com.example.qlthitracnghiem.GUI.Exam.AnswerOptionPN();
+        questionOption2 = new com.example.qlthitracnghiem.GUI.Exam.AnswerOptionPN();
+        questionOption6 = new com.example.qlthitracnghiem.GUI.Exam.AnswerOptionPN();
+        questionOption5 = new com.example.qlthitracnghiem.GUI.Exam.AnswerOptionPN();
+        questionOption3 = new com.example.qlthitracnghiem.GUI.Exam.AnswerOptionPN();
+        questionOption4 = new com.example.qlthitracnghiem.GUI.Exam.AnswerOptionPN();
 
         setName(""); // NOI18N
         setPreferredSize(new java.awt.Dimension(800, 1000));
@@ -81,7 +82,7 @@ public class Question_old extends javax.swing.JPanel {
         frame.setSize(1200, 800);
         frame.setLayout(new java.awt.FlowLayout());
 
-        Question_old questionPanel = new Question_old();
+        QuestionPN questionPanel = new QuestionPN();
         frame.add(questionPanel);
         System.out.println(questionPanel.getPreferredSize());
         frame.setVisible(true);
@@ -91,11 +92,11 @@ public class Question_old extends javax.swing.JPanel {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel questContentLB;
-    private com.example.qlthitracnghiem.GUI.CauHoi.QuestionOption_old questionOption1;
-    private com.example.qlthitracnghiem.GUI.CauHoi.QuestionOption_old questionOption2;
-    private com.example.qlthitracnghiem.GUI.CauHoi.QuestionOption_old questionOption3;
-    private com.example.qlthitracnghiem.GUI.CauHoi.QuestionOption_old questionOption4;
-    private com.example.qlthitracnghiem.GUI.CauHoi.QuestionOption_old questionOption5;
-    private com.example.qlthitracnghiem.GUI.CauHoi.QuestionOption_old questionOption6;
+    private com.example.qlthitracnghiem.GUI.Exam.AnswerOptionPN questionOption1;
+    private com.example.qlthitracnghiem.GUI.Exam.AnswerOptionPN questionOption2;
+    private com.example.qlthitracnghiem.GUI.Exam.AnswerOptionPN questionOption3;
+    private com.example.qlthitracnghiem.GUI.Exam.AnswerOptionPN questionOption4;
+    private com.example.qlthitracnghiem.GUI.Exam.AnswerOptionPN questionOption5;
+    private com.example.qlthitracnghiem.GUI.Exam.AnswerOptionPN questionOption6;
     // End of variables declaration//GEN-END:variables
 }

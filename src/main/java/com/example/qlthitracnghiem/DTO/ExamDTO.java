@@ -56,4 +56,8 @@ public class ExamDTO {
     public void setEx_quesIDs(String[] ex_quesIDs) {
         this.ex_quesIDs = ex_quesIDs;
     }
+    
+    public List<Integer> getQuesIDList() {
+        return this.quesIDList;
+    }
 }

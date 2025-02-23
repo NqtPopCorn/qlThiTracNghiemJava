@@ -4,14 +4,22 @@
  */
 package com.example.qlthitracnghiem.GUI.Exam;
 
+import com.example.qlthitracnghiem.BUS.AnswersBUS;
 import com.example.qlthitracnghiem.BUS.ExamBUS;
 import com.example.qlthitracnghiem.BUS.QuestionsBUS;
 import com.example.qlthitracnghiem.BUS.TestBUS;
 import com.example.qlthitracnghiem.DTO.ExamDTO;
 import com.example.qlthitracnghiem.DTO.TestDTO;
+import com.example.qlthitracnghiem.GUI.Component.RoundedButton;
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
@@ -23,21 +31,22 @@ public class DoExamJPanel extends javax.swing.JPanel {
     /**
      * Creates new form DoExamJPanel
      */
-    private String userId;
-    private String testCode;
-    private String testOrder;
-    private ArrayList<String> questList;
+    private CardLayout cardLayout;
     private CountdownTimer countdownPN;
     private ExamBUS exBUS;
     private TestBUS tsBUS;
     private QuestionsBUS questBUS;
-//    private AnswerBUS 
-    
+    private AnswersBUS ansBUS;
+
     private ExamDTO exDTO;
     private TestDTO tsDTO;
-    
+
+    private List<Integer> quesList;
+
     public DoExamJPanel() {
-        initComponents();      
+        initComponents();
+        cardLayout = new CardLayout();
+        currentQuestPN.setLayout(cardLayout);
     }
 
     public void setExDTO(ExamDTO exDTO) {
@@ -47,8 +56,6 @@ public class DoExamJPanel extends javax.swing.JPanel {
     public void setTsDTO(TestDTO tsDTO) {
         this.tsDTO = tsDTO;
     }
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -73,12 +80,10 @@ public class DoExamJPanel extends javax.swing.JPanel {
         jPanel4 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jPanel3 = new javax.swing.JPanel();
+        questListPN = new javax.swing.JPanel();
         roundedButton1 = new com.example.qlthitracnghiem.GUI.Component.RoundedButton();
-        roundedButton5 = new com.example.qlthitracnghiem.GUI.Component.RoundedButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        pnlCenter = new javax.swing.JPanel();
-        question1 = new com.example.qlthitracnghiem.GUI.CauHoi.Question_old();
+        currentQuestPN = new javax.swing.JPanel();
 
         setPreferredSize(new java.awt.Dimension(1206, 760));
         setLayout(new java.awt.BorderLayout());
@@ -155,38 +160,29 @@ public class DoExamJPanel extends javax.swing.JPanel {
 
         add(headerPanel, java.awt.BorderLayout.PAGE_START);
 
+        jScrollPane2.setAlignmentX(1.0F);
         jScrollPane2.setPreferredSize(new java.awt.Dimension(204, 565));
 
-        jPanel3.setBackground(new java.awt.Color(102, 255, 204));
-        jPanel3.setPreferredSize(new java.awt.Dimension(200, 563));
-        jPanel3.setRequestFocusEnabled(false);
+        questListPN.setBackground(new java.awt.Color(102, 255, 204));
+        questListPN.setPreferredSize(new java.awt.Dimension(200, 563));
+        questListPN.setRequestFocusEnabled(false);
 
         roundedButton1.setForeground(new java.awt.Color(0, 0, 0));
-        roundedButton1.setText("1");
+        roundedButton1.setText("5");
+        roundedButton1.setActionCommand("");
         roundedButton1.setPreferredSize(new java.awt.Dimension(40, 40));
-        jPanel3.add(roundedButton1);
+        questListPN.add(roundedButton1);
 
-        roundedButton5.setText("2");
-        roundedButton5.setPreferredSize(new java.awt.Dimension(40, 40));
-        roundedButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                roundedButton5ActionPerformed(evt);
-            }
-        });
-        jPanel3.add(roundedButton5);
-
-        jScrollPane2.setViewportView(jPanel3);
+        jScrollPane2.setViewportView(questListPN);
 
         add(jScrollPane2, java.awt.BorderLayout.LINE_END);
 
         jScrollPane1.setViewportBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jScrollPane1.setPreferredSize(new java.awt.Dimension(804, 100));
 
-        pnlCenter.setPreferredSize(new java.awt.Dimension(800, 5000));
-        pnlCenter.setLayout(new javax.swing.BoxLayout(pnlCenter, javax.swing.BoxLayout.Y_AXIS));
-        pnlCenter.add(question1);
-
-        jScrollPane1.setViewportView(pnlCenter);
+        currentQuestPN.setPreferredSize(new java.awt.Dimension(800, 5000));
+        currentQuestPN.setLayout(new java.awt.CardLayout());
+        jScrollPane1.setViewportView(currentQuestPN);
 
         add(jScrollPane1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
@@ -199,36 +195,78 @@ public class DoExamJPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }// GEN-LAST:event_btnNopBaiActionPerformed
 
-    public void myInitComponent() {
-        
-    }
     // use to start the timer count down when pressed
-    public void startTimer() {
-        System.out.println("start");
+    public void startTest() {
         countdownPN = new CountdownTimer(tsDTO.getTestTime());
         timePN.add(countdownPN, BorderLayout.CENTER);
-        
+
         tsNameLabel.setText("Bài thi: " + tsDTO.getTestTitle());
         tsSubjectLabel.setText("Mã bài thi: " + tsDTO.getTestCode());
 //        countdownPN.startTimer();
-        System.out.println("e");
+        renderQuestList();
     }
+
+    private void renderQuestList() {
+
+        quesList = (ArrayList<Integer>) exDTO.getQuesIDList();
+        int counter = 1;
+        
+       
+        
+        for (Integer qId : quesList) {
+            String pnConstrain = String.valueOf(counter);
+            RoundedButton btn = new RoundedButton();
+            btn.setForeground(new java.awt.Color(0, 0, 0));
+            btn.setText(pnConstrain);
+            btn.setPreferredSize(new java.awt.Dimension(40, 40));
+            questListPN.add(btn);
+
+            btn.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    System.out.println("click");
+                    cardLayout.show(currentQuestPN, String.valueOf(qId));
+                }
+            });
+            counter++;
+        }
+
+         addQuestionPN();
+    }
+
+    private void addQuestionPN() {
+        ArrayList<QuestionPN> quesPnList = new ArrayList<>();
+
+        Integer counter = 1;
+        for (Integer qId : quesList) {
+            String pnConstrain = String.valueOf(qId);
+
+            QuestionPN pn = new QuestionPN();
+            quesPnList.add(pn);
+            pn.add(new JLabel( qId+" - Some Long Text"));
+            currentQuestPN.add(pn, pnConstrain);
             
+        }
+        cardLayout.show(currentQuestPN, "2");
+        counter++;
+    }
+
+    private void handleChangeQuestion(String qtId) {
+
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JPanel currentQuestPN;
     private javax.swing.JPanel headerPanel;
     private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPanel pnlBaiThiInfo;
-    private javax.swing.JPanel pnlCenter;
-    private com.example.qlthitracnghiem.GUI.CauHoi.Question_old question1;
+    private javax.swing.JPanel questListPN;
     private com.example.qlthitracnghiem.GUI.Component.RoundedButton roundedButton1;
-    private com.example.qlthitracnghiem.GUI.Component.RoundedButton roundedButton5;
     private javax.swing.JPanel timePN;
     private javax.swing.JLabel tsNameLabel;
     private javax.swing.JLabel tsSubjectLabel;

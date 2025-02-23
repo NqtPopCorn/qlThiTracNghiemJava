@@ -168,6 +168,7 @@
     </Container>
     <Container class="javax.swing.JScrollPane" name="jScrollPane2">
       <Properties>
+        <Property name="alignmentX" type="float" value="1.0"/>
         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[204, 565]"/>
         </Property>
@@ -180,7 +181,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Container class="javax.swing.JPanel" name="jPanel3">
+        <Container class="javax.swing.JPanel" name="questListPN">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="cc" green="ff" red="66" type="rgb"/>
@@ -198,22 +199,12 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="0" green="0" red="0" type="rgb"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="1"/>
+                <Property name="text" type="java.lang.String" value="5"/>
+                <Property name="actionCommand" type="java.lang.String" value=""/>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[40, 40]"/>
                 </Property>
               </Properties>
-            </Component>
-            <Component class="com.example.qlthitracnghiem.GUI.Component.RoundedButton" name="roundedButton5">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="2"/>
-                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[40, 40]"/>
-                </Property>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="roundedButton5ActionPerformed"/>
-              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -238,20 +229,14 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Container class="javax.swing.JPanel" name="pnlCenter">
+        <Container class="javax.swing.JPanel" name="currentQuestPN">
           <Properties>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[800, 5000]"/>
             </Property>
           </Properties>
 
-          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout">
-            <Property name="axis" type="int" value="1"/>
-          </Layout>
-          <SubComponents>
-            <Component class="com.example.qlthitracnghiem.GUI.CauHoi.Question_old" name="question1">
-            </Component>
-          </SubComponents>
+          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignCardLayout"/>
         </Container>
       </SubComponents>
     </Container>

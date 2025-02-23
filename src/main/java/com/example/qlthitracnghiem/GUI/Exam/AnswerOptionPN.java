@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package com.example.qlthitracnghiem.GUI.CauHoi;
+package com.example.qlthitracnghiem.GUI.Exam;
 
 import com.example.qlthitracnghiem.utils.ImageUtil;
 import java.awt.Dimension;
@@ -17,12 +17,12 @@ import javax.swing.SwingUtilities;
  *
  * @author truon
  */
-public class QuestionOption_old extends javax.swing.JPanel {
+public class AnswerOptionPN extends javax.swing.JPanel {
 
     /**
      * Creates new form QuestionOption
      */
-    public QuestionOption_old() {
+    public AnswerOptionPN() {
         initComponents();
         ImageUtil.setIcon(this.paragraph1, "/icons/ic_user_30.png", 80, 60);
         // adjustHeight();
@@ -97,7 +97,7 @@ public class QuestionOption_old extends javax.swing.JPanel {
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1000, 500);
-        frame.add(new QuestionOption_old());
+        frame.add(new AnswerOptionPN());
         frame.setVisible(true);
     }
 }
