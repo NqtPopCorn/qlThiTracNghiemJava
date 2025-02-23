@@ -294,7 +294,24 @@ public class ExamDAO {
         }
         return exQuesIDs;
     }
+     public static ArrayList findExCode(String keyword) throws SQLException{
+        Connection connection = DBConnection.getConnection();
 
+        String sql = "SELECT * FROM exams where exCode Like ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, "%" + keyword + "%");
+            ResultSet rs = ps.executeQuery();
+            ArrayList<String> exCodeList = new ArrayList<>();
+            while (rs.next()) {
+                exCodeList.add(rs.getString("exCode"));
+            }
+            return exCodeList;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
     public List<String> getExamCodesByTestCode(String testCode) throws SQLException { // lấy excode để hiển thị mã đề
         List<String> examCodes = new ArrayList<>();
         Connection connection = DBConnection.getConnection();
@@ -326,4 +343,21 @@ public class ExamDAO {
         }
     }
 
+    public ArrayList<String> getAllExCode() throws SQLException{
+        Connection connection = DBConnection.getConnection();
+
+        String sql = "SELECT DISTINCT exCode FROM exams ";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            ArrayList<String> exCodeList = new ArrayList<>();
+            while (rs.next()) {
+                exCodeList.add(rs.getString("exCode"));
+            }
+            return exCodeList;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
 }

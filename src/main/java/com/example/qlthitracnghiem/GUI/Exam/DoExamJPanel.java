@@ -4,9 +4,15 @@
  */
 package com.example.qlthitracnghiem.GUI.Exam;
 
+import com.example.qlthitracnghiem.BUS.ExamBUS;
+import com.example.qlthitracnghiem.BUS.QuestionsBUS;
+import com.example.qlthitracnghiem.BUS.TestBUS;
+import com.example.qlthitracnghiem.DTO.ExamDTO;
+import com.example.qlthitracnghiem.DTO.TestDTO;
 import java.awt.BorderLayout;
 import java.util.ArrayList;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 /**
  *
@@ -21,42 +27,30 @@ public class DoExamJPanel extends javax.swing.JPanel {
     private String testCode;
     private String testOrder;
     private ArrayList<String> questList;
-
+    private CountdownTimer countdownPN;
+    private ExamBUS exBUS;
+    private TestBUS tsBUS;
+    private QuestionsBUS questBUS;
+//    private AnswerBUS 
+    
+    private ExamDTO exDTO;
+    private TestDTO tsDTO;
+    
     public DoExamJPanel() {
         initComponents();
-        setUserId("1");
-        setTestCode("TST001");
-        setTestOrder("A");
         initComponent();
-
     }
 
-    public String getUserId() {
-        return userId;
+    public void setExDTO(ExamDTO exDTO) {
+        this.exDTO = exDTO;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setTsDTO(TestDTO tsDTO) {
+        this.tsDTO = tsDTO;
     }
-
-    public String getTestCode() {
-        return testCode;
-    }
-
-    public void setTestCode(String testCode) {
-        this.testCode = testCode;
-    }
-
-    public String getTestOrder() {
-        return testOrder;
-    }
-
-    public void setTestOrder(String testOrder) {
-        this.testOrder = testOrder;
-    }
-
-    public void setTimer() {
-    }
+    
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -208,9 +202,14 @@ public class DoExamJPanel extends javax.swing.JPanel {
     }// GEN-LAST:event_btnNopBaiActionPerformed
 
     public void initComponent() {
-//        timePN.add(new CountdownTimer(100), BorderLayout.CENTER);
+        countdownPN = new CountdownTimer(100);
+        timePN.add(countdownPN, BorderLayout.CENTER);
     }
-
+    // use to start the timer count down when pressed
+    private void startTimer() {
+        countdownPN.startTimer();
+    }
+            
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JPanel headerPanel;
