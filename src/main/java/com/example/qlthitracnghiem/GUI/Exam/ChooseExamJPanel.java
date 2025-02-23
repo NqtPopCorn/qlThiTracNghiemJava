@@ -273,8 +273,8 @@ public class ChooseExamJPanel extends javax.swing.JPanel {
     }// GEN-LAST:event_searchBtnActionPerformed
 
     private void doTestBtnActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_doTestBtnActionPerformed
-        String testCode = currentTestCodeJLabel.getText();
-        boolean isChooseTestCode = testCode.startsWith("TST");
+        String exCode = currentTestCodeJLabel.getText();
+        boolean isChooseTestCode = exCode.startsWith("TST");
         if (isChooseTestCode) {
             // move to do exam panel
             System.out.println("move to new frame");
@@ -283,11 +283,13 @@ public class ChooseExamJPanel extends javax.swing.JPanel {
             cardLayout.show(getParent(), "doExamJPanel");
 //            setBorder(BorderFactory.createTitledBorder("Panel B"));
             try {
-                ExamDTO exam = (ExamDTO) exBus.getExamCode(testCode);
-                TestDTO test = tsBus.getTestByTestCode(testCode);
+                ExamDTO exam = (ExamDTO) exBus.getExamByExCode(exCode);
+                TestDTO test = tsBus.getTestByTestCode(exam.getTestCode());
 
                 doExJPanel.setExDTO(exam);
                 doExJPanel.setTsDTO(test);
+                doExJPanel.startTimer();
+                
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -343,6 +343,34 @@ public class ExamDAO {
         }
     }
 
+    public ExamDTO getExamByExCode(String exCode ) throws SQLException {
+        Connection connection = DBConnection.getConnection();
+
+        String sql = "SELECT * FROM exams WHERE exCode = ? ";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, exCode);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                JSONArray quesIDs = new JSONArray(rs.getString("ex_quesIDs"));
+                List<Integer> exQuesIDs= new ArrayList<Integer>();
+                JSONArray json = new JSONArray(rs.getString("ex_quesIDs"));
+                for (int i = 0; i < json.length(); i++) {
+                    exQuesIDs.add(json.getInt(i));
+                }
+                return new ExamDTO(
+                        rs.getString("testCode"),
+                        rs.getString("exOrder"),
+                        rs.getString("exCode"),
+                        exQuesIDs);
+            }
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
+        return null;
+    }
     public ArrayList<String> getAllExCode() throws SQLException{
         Connection connection = DBConnection.getConnection();
 
