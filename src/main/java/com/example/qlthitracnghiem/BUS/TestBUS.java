@@ -39,4 +39,13 @@ public class TestBUS {
       return new ArrayList<>();
     }
   }
+  
+  public TestDTO getTestByTestCode(String tsCode) {
+      try {
+          return testDAO.getTestByTestCode(tsCode);
+      } catch (Exception e) {
+          e.printStackTrace();
+          return null;
+      } 
+  }
 }

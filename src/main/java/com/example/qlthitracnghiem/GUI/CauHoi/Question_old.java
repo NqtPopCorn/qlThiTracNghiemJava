@@ -19,7 +19,7 @@ public class Question_old extends javax.swing.JPanel {
      */
     public Question_old() {
         initComponents();
-        ImageUtil.setIcon(jLabel3, "/icons/ic_user_30.png", 100, 80);
+        ImageUtil.setIcon(questContentLB, "/icons/ic_user_30.png", 100, 80);
         questionOption1.setButtonText("A");
         questionOption2.setButtonText("B");
         questionOption3.setButtonText("C");
@@ -46,7 +46,7 @@ public class Question_old extends javax.swing.JPanel {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
+        questContentLB = new javax.swing.JLabel();
         questionOption1 = new com.example.qlthitracnghiem.GUI.CauHoi.QuestionOption_old();
         questionOption2 = new com.example.qlthitracnghiem.GUI.CauHoi.QuestionOption_old();
         questionOption6 = new com.example.qlthitracnghiem.GUI.CauHoi.QuestionOption_old();
@@ -60,11 +60,11 @@ public class Question_old extends javax.swing.JPanel {
 
         jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.LINE_AXIS));
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_user_30.png"))); // NOI18N
-        jLabel3.setText("<html><p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum</p></html>");
-        jLabel3.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
-        jPanel1.add(jLabel3);
+        questContentLB.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        questContentLB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_user_30.png"))); // NOI18N
+        questContentLB.setText("<html><p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum</p></html>");
+        questContentLB.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        jPanel1.add(questContentLB);
 
         add(jPanel1);
         add(questionOption1);
@@ -89,8 +89,8 @@ public class Question_old extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel questContentLB;
     private com.example.qlthitracnghiem.GUI.CauHoi.QuestionOption_old questionOption1;
     private com.example.qlthitracnghiem.GUI.CauHoi.QuestionOption_old questionOption2;
     private com.example.qlthitracnghiem.GUI.CauHoi.QuestionOption_old questionOption3;

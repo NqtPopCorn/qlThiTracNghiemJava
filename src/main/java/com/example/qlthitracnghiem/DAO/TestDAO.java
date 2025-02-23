@@ -64,7 +64,36 @@ public class TestDAO implements CrudInterface<UserDTO> {
     }
     return tests;
   }
-
+  
+  public TestDTO getTestByTestCode(String tsCode) throws SQLException {
+    Connection connection = DBConnection.getConnection();
+    String sql = "SELECT * FROM test WHERE testCode = ?";
+    try {
+      PreparedStatement ps = connection.prepareStatement(sql);
+      ps.setString(1, tsCode);
+      ResultSet rs = ps.executeQuery();
+      TestDTO test = new TestDTO();
+      if (rs.next()) {
+          test =
+            new TestDTO(
+                rs.getInt("testID"),
+                rs.getString("testCode"),
+                rs.getString("testTitle"),
+                rs.getInt("testTime"),
+                rs.getInt("tpID"),
+                rs.getInt("num_easy"),
+                rs.getInt("num_medium"),
+                rs.getInt("num_diff"),
+                rs.getInt("testLimit"),
+                rs.getObject("testDate", LocalDateTime.class),
+                rs.getInt("testStatus"));
+      }
+      return test;
+    } catch (SQLException e) {
+      e.printStackTrace();
+      throw e;
+    }
+  }
   @Override
   public int create(UserDTO user) throws SQLException {
 
@@ -118,7 +147,16 @@ public class TestDAO implements CrudInterface<UserDTO> {
       throw e;
     }
   }
-
+//    public static void main(String[] args) {
+//        try {
+//            TestDTO a = TestDAO.getTestByTestCode("TST001");
+//            System.out.println(a.toString());
+//        } catch (Exception e) {
+//        }
+//        
+//        
+  
+//    }
   // public ArrayList<TestDTO> getExam() throws SQLException {
   // Connection connection = DBConnection.getConnection();
   // String sql = "SELECT t.*, e.exOrder, e.exCode, e.ex_quesIDs " +
@@ -154,4 +192,5 @@ public class TestDAO implements CrudInterface<UserDTO> {
   // throw e;
   // }
   // }
+  
 }

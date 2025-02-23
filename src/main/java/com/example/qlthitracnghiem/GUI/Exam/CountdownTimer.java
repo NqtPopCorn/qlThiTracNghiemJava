@@ -50,10 +50,10 @@ public class CountdownTimer extends JPanel {
             }
         });
 
-        timer.start(); // Start the timer
-//        setVisible(true);
     }
-
+    public void startTimer() {
+        timer.start();
+    }
     private String formatTime(int seconds) {
         int minutes = seconds / 60;
         int remainingSeconds = seconds % 60;

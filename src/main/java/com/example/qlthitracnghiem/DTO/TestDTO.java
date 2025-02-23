@@ -120,4 +120,10 @@ public class TestDTO {
     public void setTestStatus(int testStatus) {
         this.testStatus = testStatus;
     }
+
+    @Override
+    public String toString() {
+        return "TestDTO{" + "testID=" + testID + ", testCode=" + testCode + ", testTitle=" + testTitle + ", testTime=" + testTime + ", tpID=" + tpID + ", num_easy=" + num_easy + ", num_medium=" + num_medium + ", num_diff=" + num_diff + ", testLimit=" + testLimit + ", testDate=" + testDate + ", testStatus=" + testStatus + '}';
+    }
+    
 }
