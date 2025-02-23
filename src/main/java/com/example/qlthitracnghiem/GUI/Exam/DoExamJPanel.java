@@ -37,8 +37,7 @@ public class DoExamJPanel extends javax.swing.JPanel {
     private TestDTO tsDTO;
     
     public DoExamJPanel() {
-        initComponents();
-        initComponent();
+        initComponents();      
     }
 
     public void setExDTO(ExamDTO exDTO) {
@@ -48,7 +47,6 @@ public class DoExamJPanel extends javax.swing.JPanel {
     public void setTsDTO(TestDTO tsDTO) {
         this.tsDTO = tsDTO;
     }
-    
     
     
 
@@ -201,13 +199,19 @@ public class DoExamJPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }// GEN-LAST:event_btnNopBaiActionPerformed
 
-    public void initComponent() {
-        countdownPN = new CountdownTimer(100);
-        timePN.add(countdownPN, BorderLayout.CENTER);
+    public void myInitComponent() {
+        
     }
     // use to start the timer count down when pressed
-    private void startTimer() {
-        countdownPN.startTimer();
+    public void startTimer() {
+        System.out.println("start");
+        countdownPN = new CountdownTimer(tsDTO.getTestTime());
+        timePN.add(countdownPN, BorderLayout.CENTER);
+        
+        tsNameLabel.setText("Bài thi: " + tsDTO.getTestTitle());
+        tsSubjectLabel.setText("Mã bài thi: " + tsDTO.getTestCode());
+//        countdownPN.startTimer();
+        System.out.println("e");
     }
             
     // Variables declaration - do not modify//GEN-BEGIN:variables

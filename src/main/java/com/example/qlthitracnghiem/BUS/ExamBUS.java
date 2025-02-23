@@ -41,7 +41,9 @@ public class ExamBUS {
     public List<Integer> getExQuesIDs(String testCode) throws Exception {
         return ExamDAO.getExQuesIDs(testCode);
     }
-
+    public ExamDTO getExamByExCode(String exCode) throws SQLException {
+        return ExamDAO.getExamByExCode(exCode);
+    }
     public boolean createExam(TestDTO exam, int examNum) {
         try {
 

@@ -28,7 +28,7 @@ public class CountdownTimer extends JPanel {
         
         setLayout(new BorderLayout());
 
-        secondsRemaining = durationSeconds;
+        secondsRemaining = durationSeconds*60;
 
         timeLabel = new JLabel(formatTime(secondsRemaining));
         timeLabel.setFont(new Font("Arial", Font.BOLD, 48)); // Make it big
