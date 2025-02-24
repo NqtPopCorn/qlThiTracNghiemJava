@@ -7,6 +7,7 @@ package com.example.qlthitracnghiem.GUI;
 import javax.swing.*;
 
 import com.example.qlthitracnghiem.DTO.UserDTO;
+import com.example.qlthitracnghiem.GUI.Auth.AuthFrame;
 import com.example.qlthitracnghiem.GUI.CauHoi.QuestionPanel;
 import com.example.qlthitracnghiem.GUI.Exam.ChooseExamJPanel;
 import com.example.qlthitracnghiem.GUI.Exam.DoExamJPanel;
@@ -111,7 +112,7 @@ public class DashboardFrame extends javax.swing.JFrame {
     this.user = user;
     if (user != null) {
       navBtnUserInfo.setText(user.getUserName());
-      InfoPanel infoPanel = new InfoPanel(user);
+      infoPanel = new InfoPanel(user);
       currentPanel.add(infoPanel, "InfoPanel");
     }
   }
@@ -122,8 +123,8 @@ public class DashboardFrame extends javax.swing.JFrame {
   }
 
   private void handleLogout() {
-    System.out.println("Logged out");
-    // Thực hiện các logic đăng xuất tại đây
+    this.dispose();
+    new AuthFrame().setVisible(true);
   }
 
   private void updateNavigateButton() {
