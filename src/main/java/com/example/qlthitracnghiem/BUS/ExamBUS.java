@@ -60,4 +60,10 @@ public class ExamBUS {
     public int update(TestDTO testDTO, int soDe) throws SQLException{
         return ExamDAO.update(testDTO,soDe);
     }
+    public boolean isExCodeExistInResult(String exCode) throws SQLException{
+        return ExamDAO.isExCodeExistInResult(exCode);
+    }
+    public int delete(String testCode) throws SQLException {
+        return ExamDAO.delete(testCode);
+    }
 }
