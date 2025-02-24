@@ -20,10 +20,6 @@ public class Question_old extends javax.swing.JPanel {
     public Question_old() {
         initComponents();
         ImageUtil.setIcon(jLabel3, "/icons/ic_user_30.png", 100, 80);
-        questionOption1.setButtonText("A");
-        questionOption2.setButtonText("B");
-        questionOption3.setButtonText("C");
-        questionOption4.setButtonText("D");
     }
 
     /**

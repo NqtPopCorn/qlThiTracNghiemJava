@@ -16,6 +16,7 @@ import com.example.qlthitracnghiem.GUI.ThongKe.MainThongKePanel;
 import com.example.qlthitracnghiem.GUI.User.UserPanel;
 import com.example.qlthitracnghiem.GUI.CauHoi.QuestionPanel;
 import com.example.qlthitracnghiem.GUI.DeThi.TestPanel;
+import com.example.qlthitracnghiem.GUI.DeThi.TestPanel2;
 import com.example.qlthitracnghiem.GUI.DeThi.TestPanel;
 import java.awt.*;
 import java.util.ArrayList;
@@ -35,6 +36,8 @@ public class DashboardFrame extends javax.swing.JFrame {
   private QuestionPanel questionPanel = new QuestionPanel();
   private TestPanel testPanel = new TestPanel();
   private InfoPanel infoPanel = new InfoPanel();
+  // demo
+  private TestPanel2 testPanel2 = new TestPanel2();
   private UserDTO user;
 
   // public DashboardFrame(UserDTO user, ButtonGroup buttonGroup, CardLayout
@@ -84,7 +87,8 @@ public class DashboardFrame extends javax.swing.JFrame {
     currentPanel.add(userPanel, navBtnUser.getActionCommand());
     currentPanel.add(thongKePanel, navBtnThongKe.getActionCommand());
     currentPanel.add(questionPanel, navBtnCauHoi.getActionCommand());
-    currentPanel.add(testPanel, navBtnDeThi.getActionCommand());
+    // currentPanel.add(testPanel, navBtnDeThi.getActionCommand());
+    currentPanel.add(testPanel2, navBtnDeThi.getActionCommand());
 
     buttonGroup.add(navBtnDeThi);
     buttonGroup.add(navBtnCauHoi);
