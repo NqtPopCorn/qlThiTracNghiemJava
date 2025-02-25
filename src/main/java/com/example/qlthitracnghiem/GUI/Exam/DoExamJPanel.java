@@ -18,6 +18,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -81,7 +82,6 @@ public class DoExamJPanel extends javax.swing.JPanel {
         jButton1 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         questListPN = new javax.swing.JPanel();
-        roundedButton1 = new com.example.qlthitracnghiem.GUI.Component.RoundedButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         currentQuestPN = new javax.swing.JPanel();
 
@@ -160,19 +160,15 @@ public class DoExamJPanel extends javax.swing.JPanel {
 
         add(headerPanel, java.awt.BorderLayout.PAGE_START);
 
+        jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane2.setAlignmentX(1.0F);
+        jScrollPane2.setHorizontalScrollBar(null);
         jScrollPane2.setPreferredSize(new java.awt.Dimension(204, 565));
 
         questListPN.setBackground(new java.awt.Color(102, 255, 204));
+        questListPN.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 0, 1, 6));
         questListPN.setPreferredSize(new java.awt.Dimension(200, 563));
         questListPN.setRequestFocusEnabled(false);
-
-        roundedButton1.setForeground(new java.awt.Color(0, 0, 0));
-        roundedButton1.setText("5");
-        roundedButton1.setActionCommand("");
-        roundedButton1.setPreferredSize(new java.awt.Dimension(40, 40));
-        questListPN.add(roundedButton1);
-
         jScrollPane2.setViewportView(questListPN);
 
         add(jScrollPane2, java.awt.BorderLayout.LINE_END);
@@ -231,24 +227,25 @@ public class DoExamJPanel extends javax.swing.JPanel {
             counter++;
         }
 
-         addQuestionPN();
+         createQuestionPN();
     }
 
-    private void addQuestionPN() {
+    private void createQuestionPN() {
         ArrayList<QuestionPN> quesPnList = new ArrayList<>();
 
         Integer counter = 1;
         for (Integer qId : quesList) {
             String pnConstrain = String.valueOf(qId);
-
-            QuestionPN pn = new QuestionPN();
+//            JPanel pn = new JPanel();
+//            pn.setLayout(new FlowLayout());
+            QuestionPN pn = new QuestionPN(counter,qId);
             quesPnList.add(pn);
             pn.add(new JLabel( qId+" - Some Long Text"));
             currentQuestPN.add(pn, pnConstrain);
-            
+            counter++;
         }
         cardLayout.show(currentQuestPN, "2");
-        counter++;
+        
     }
 
     private void handleChangeQuestion(String qtId) {
@@ -266,7 +263,6 @@ public class DoExamJPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPanel pnlBaiThiInfo;
     private javax.swing.JPanel questListPN;
-    private com.example.qlthitracnghiem.GUI.Component.RoundedButton roundedButton1;
     private javax.swing.JPanel timePN;
     private javax.swing.JLabel tsNameLabel;
     private javax.swing.JLabel tsSubjectLabel;

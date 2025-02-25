@@ -2,7 +2,7 @@
 
 <Form version="1.8" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
   <NonVisualComponents>
-    <Component class="javax.swing.ButtonGroup" name="buttonGroup1">
+    <Component class="javax.swing.ButtonGroup" name="ansBtnGroup">
     </Component>
   </NonVisualComponents>
   <Properties>
@@ -32,10 +32,10 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JLabel" name="questContentLB">
+        <Component class="javax.swing.JLabel" name="contentLabel">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="12" style="1"/>
+              <Font name="Segoe UI" size="16" style="1"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/icons/ic_user_30.png"/>
@@ -46,17 +46,5 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="com.example.qlthitracnghiem.GUI.Exam.AnswerOptionPN" name="questionOption1">
-    </Component>
-    <Component class="com.example.qlthitracnghiem.GUI.Exam.AnswerOptionPN" name="questionOption2">
-    </Component>
-    <Component class="com.example.qlthitracnghiem.GUI.Exam.AnswerOptionPN" name="questionOption6">
-    </Component>
-    <Component class="com.example.qlthitracnghiem.GUI.Exam.AnswerOptionPN" name="questionOption5">
-    </Component>
-    <Component class="com.example.qlthitracnghiem.GUI.Exam.AnswerOptionPN" name="questionOption3">
-    </Component>
-    <Component class="com.example.qlthitracnghiem.GUI.Exam.AnswerOptionPN" name="questionOption4">
-    </Component>
   </SubComponents>
 </Form>

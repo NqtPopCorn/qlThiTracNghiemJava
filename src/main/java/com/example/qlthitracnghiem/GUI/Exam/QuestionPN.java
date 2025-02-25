@@ -4,8 +4,14 @@
  */
 package com.example.qlthitracnghiem.GUI.Exam;
 
-
+import com.example.qlthitracnghiem.BUS.AnswersBUS;
+import com.example.qlthitracnghiem.BUS.QuestionsBUS;
+import com.example.qlthitracnghiem.DTO.AnswersDTO;
+import com.example.qlthitracnghiem.DTO.QuestionsDTO;
 import com.example.qlthitracnghiem.utils.ImageUtil;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import javax.swing.ButtonGroup;
 
 /**
  *
@@ -16,17 +22,65 @@ public class QuestionPN extends javax.swing.JPanel {
     /**
      * Creates new form QuestionPanel
      */
-    public QuestionPN() {
-        initComponents();
-        ImageUtil.setIcon(questContentLB, "/icons/ic_user_30.png", 100, 80);
-        questionOption1.setButtonText("A");
-        questionOption2.setButtonText("B");
-        questionOption3.setButtonText("C");
-        questionOption4.setButtonText("D");
-    }
-    public void setQuestionContent() {
+    // thiet ke sinh vien listbox combobox label, them xoa sinh vien
+    private final QuestionsBUS quesBUS = new QuestionsBUS();
+    private final AnswersBUS ansBUS = new AnswersBUS();
+    private ButtonGroup  btnGroup;
+    
+    private int questOrder;
+    private int quesId;
+
+    private QuestionsDTO quesDTO;
+
+    public QuestionPN(int numbOrder, int quesId) {
+        this.questOrder = numbOrder;
+        this.quesId = quesId;
         
+        btnGroup = new ButtonGroup();
+        initComponents();
+//        ImageUtil.setIcon(questContentLB, "/icons/ic_user_30.png", 100, 80);
+        myInitComponent();
     }
+
+    public void setQuestionDTO(QuestionsDTO question) {
+        this.quesDTO = question;
+    }
+
+    public void setQuestionOrder(int number) {
+        this.questOrder = number;
+
+    }
+
+    private void setQuestionContent() {
+        contentLabel.setText("Câu " + questOrder + ": ");
+    }
+
+    private void myInitComponent() {
+        setQuestionDTO(quesBUS.getQuestionDTOById(quesId));
+        contentLabel.setText("Câu " + questOrder + ": " + quesDTO.getqContent());
+        ImageUtil.setIcon(contentLabel, quesDTO.getqPicture(), 100, 80);
+        addAnswerForQuestion(quesId);
+    }
+
+    private void addAnswerForQuestion(int quesId) {
+        ArrayList<AnswersDTO> ansList = ansBUS.getAnswersByQuestionID(quesId);
+        int order = 65; // ASCII code for 'A'
+
+        for (AnswersDTO ans : ansList) {
+            
+            AnswerOptionPN ansPN = new AnswerOptionPN(btnGroup);
+            char optText = (char) order;
+            ansPN.setButtonText(String.valueOf(optText)); // Convert char to String
+            ansPN.setParagraph(ans.getAwContent());
+            ansPN.setImge(ans.getAwPictures());
+
+            this.add(ansPN);
+            
+            // Increment order to move to the next letter
+            order++;
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -45,15 +99,9 @@ public class QuestionPN extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        buttonGroup1 = new javax.swing.ButtonGroup();
+        ansBtnGroup = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
-        questContentLB = new javax.swing.JLabel();
-        questionOption1 = new com.example.qlthitracnghiem.GUI.Exam.AnswerOptionPN();
-        questionOption2 = new com.example.qlthitracnghiem.GUI.Exam.AnswerOptionPN();
-        questionOption6 = new com.example.qlthitracnghiem.GUI.Exam.AnswerOptionPN();
-        questionOption5 = new com.example.qlthitracnghiem.GUI.Exam.AnswerOptionPN();
-        questionOption3 = new com.example.qlthitracnghiem.GUI.Exam.AnswerOptionPN();
-        questionOption4 = new com.example.qlthitracnghiem.GUI.Exam.AnswerOptionPN();
+        contentLabel = new javax.swing.JLabel();
 
         setName(""); // NOI18N
         setPreferredSize(new java.awt.Dimension(800, 1000));
@@ -61,19 +109,13 @@ public class QuestionPN extends javax.swing.JPanel {
 
         jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.LINE_AXIS));
 
-        questContentLB.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        questContentLB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_user_30.png"))); // NOI18N
-        questContentLB.setText("<html><p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum</p></html>");
-        questContentLB.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
-        jPanel1.add(questContentLB);
+        contentLabel.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        contentLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_user_30.png"))); // NOI18N
+        contentLabel.setText("<html><p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum</p></html>");
+        contentLabel.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        jPanel1.add(contentLabel);
 
         add(jPanel1);
-        add(questionOption1);
-        add(questionOption2);
-        add(questionOption6);
-        add(questionOption5);
-        add(questionOption3);
-        add(questionOption4);
     }// </editor-fold>//GEN-END:initComponents
 
     public static void main(String[] args) {
@@ -82,21 +124,15 @@ public class QuestionPN extends javax.swing.JPanel {
         frame.setSize(1200, 800);
         frame.setLayout(new java.awt.FlowLayout());
 
-        QuestionPN questionPanel = new QuestionPN();
-        frame.add(questionPanel);
-        System.out.println(questionPanel.getPreferredSize());
-        frame.setVisible(true);
+//        QuestionPN questionPanel = new QuestionPN();
+//        frame.add(questionPanel);
+//        System.out.println(questionPanel.getPreferredSize());
+//        frame.setVisible(true);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.ButtonGroup ansBtnGroup;
+    private javax.swing.JLabel contentLabel;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JLabel questContentLB;
-    private com.example.qlthitracnghiem.GUI.Exam.AnswerOptionPN questionOption1;
-    private com.example.qlthitracnghiem.GUI.Exam.AnswerOptionPN questionOption2;
-    private com.example.qlthitracnghiem.GUI.Exam.AnswerOptionPN questionOption3;
-    private com.example.qlthitracnghiem.GUI.Exam.AnswerOptionPN questionOption4;
-    private com.example.qlthitracnghiem.GUI.Exam.AnswerOptionPN questionOption5;
-    private com.example.qlthitracnghiem.GUI.Exam.AnswerOptionPN questionOption6;
     // End of variables declaration//GEN-END:variables
 }

@@ -7,6 +7,9 @@ package com.example.qlthitracnghiem.GUI.Exam;
 import com.example.qlthitracnghiem.utils.ImageUtil;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.ButtonGroup;
 
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
@@ -22,14 +25,28 @@ public class AnswerOptionPN extends javax.swing.JPanel {
     /**
      * Creates new form QuestionOption
      */
-    public AnswerOptionPN() {
+    public AnswerOptionPN(ButtonGroup group) {
         initComponents();
-        ImageUtil.setIcon(this.paragraph1, "/icons/ic_user_30.png", 80, 60);
-        // adjustHeight();
+        group.add(btnChoose);
+        //   ImageUtil.setIcon(this.paragraph1, "/icons/ic_user_30.png", 80, 60);
+//         adjustHeight();
+
+        this.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                btnChoose.setSelected(true);
+            }
+        });
     }
 
     public void setParagraph(String text) {
         this.paragraph1.setText(text);
+    }
+
+    public void setImge(String src) {
+        if (src != null) {
+            ImageUtil.setIcon(this.paragraph1, src, 80, 60);
+        }
     }
 
     public void setButtonText(String text) {
@@ -44,7 +61,6 @@ public class AnswerOptionPN extends javax.swing.JPanel {
     // revalidate();
     // });
     // }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -71,6 +87,8 @@ public class AnswerOptionPN extends javax.swing.JPanel {
         setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.X_AXIS));
 
         btnChoose.setText("A");
+        btnChoose.setAlignmentX(0.5F);
+        btnChoose.setMargin(new java.awt.Insets(2, 6, 2, 10));
         btnChoose.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnChooseActionPerformed(evt);
@@ -97,7 +115,7 @@ public class AnswerOptionPN extends javax.swing.JPanel {
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1000, 500);
-        frame.add(new AnswerOptionPN());
+//        frame.add(new AnswerOptionPN());
         frame.setVisible(true);
     }
 }
