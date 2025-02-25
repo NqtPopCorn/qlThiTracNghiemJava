@@ -6,6 +6,7 @@ import com.example.qlthitracnghiem.BUS.QuestionsBUS;
 import com.example.qlthitracnghiem.BUS.TestBUS;
 import com.example.qlthitracnghiem.DTO.QuestionsDTO;
 import com.example.qlthitracnghiem.DTO.TestDTO;
+import com.example.qlthitracnghiem.utils.ImageUtil;
 import org.json.JSONArray;
 
 import javax.swing.*;
@@ -139,29 +140,30 @@ public class TestPanel extends JPanel {
     }
 
     private void updateTestPanel(ArrayList<TestDTO> tests) {
-    mainPanel.removeAll();
+        mainPanel.removeAll();
 
-    if (tests == null || tests.isEmpty()) {
-        JLabel emptyLabel = new JLabel("Không tìm thấy kết quả nào.");
-        emptyLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        mainPanel.add(emptyLabel);
-    } else {
-        for (TestDTO test : tests) {
-            mainPanel.add(createTestPanel(
-                    test.getTestTime(),
-                    test.getTestTitle(),
-                    test.getTestDate() != null ? test.getTestDate().toString() : "Không có ngày",
-                    test.getTestStatus() == 1 ? "Đang mở" : "Đã kết thúc",
-                    test.getTestCode(),
-                    test)); // Truyền đối tượng TestDTO vào đây
+        if (tests == null || tests.isEmpty()) {
+            JLabel emptyLabel = new JLabel("Không tìm thấy kết quả nào.");
+            emptyLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+            mainPanel.add(emptyLabel);
+        } else {
+            for (TestDTO test : tests) {
+                mainPanel.add(createTestPanel(
+                        test.getTestTime(),
+                        test.getTestTitle(),
+                        test.getTestDate() != null ? test.getTestDate().toString() : "Không có ngày",
+                        test.getTestStatus() == 1 ? "Đang mở" : "Đã kết thúc",
+                        test.getTestCode(),
+                        test)); // Truyền đối tượng TestDTO vào đây
+            }
         }
+
+        mainPanel.revalidate();
+        mainPanel.repaint();
     }
 
-    mainPanel.revalidate();
-    mainPanel.repaint();
-}
-
-    private JPanel createTestPanel(int testTime, String title, String date, String status, String testCode, TestDTO test) {
+    private JPanel createTestPanel(int testTime, String title, String date, String status, String testCode,
+            TestDTO test) {
         JPanel panel = new JPanel();
         panel.setBackground(new Color(255, 255, 255));
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -237,7 +239,9 @@ public class TestPanel extends JPanel {
 
                             // Hiển thị hình ảnh câu hỏi (nếu có)
                             if (qPictures != null && !qPictures.isEmpty()) {
-                                JLabel qPictureLabel = new JLabel("Hình ảnh: " + qPictures);
+                                JLabel qPictureLabel = new JLabel("");
+                                ImageUtil.setIcon(qPictureLabel, qPictures, 100, 100);
+
                                 qPictureLabel.setFont(new Font("Serif", Font.PLAIN, 12));
                                 questionPanel.add(qPictureLabel);
                             }
@@ -247,7 +251,7 @@ public class TestPanel extends JPanel {
 
                             // Tạo ButtonGroup cho câu hỏi hiện tại
                             ButtonGroup buttonGroup = new ButtonGroup();
-
+                            JLabel answerLabel = new JLabel();
                             for (Map<String, String> answerData : awContents) {
                                 String awContent = answerData.get("awContent");
                                 String awPictures = answerData.get("awPictures");
@@ -259,7 +263,8 @@ public class TestPanel extends JPanel {
 
                                 // Hiển thị hình ảnh câu trả lời (nếu có)
                                 if (awPictures != null && !awPictures.isEmpty()) {
-                                    radioButton.setText(awContent + " (Hình ảnh: " + awPictures + ")");
+                                    answerLabel.setText("");
+                                    ImageUtil.setIcon(answerLabel, awPictures, 100, 100);
                                 }
 
                                 buttonGroup.add(radioButton);
@@ -321,7 +326,7 @@ public class TestPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-             EditTestDialog editTestDialog = new EditTestDialog(null, true, test);
+                EditTestDialog editTestDialog = new EditTestDialog(null, true, test);
                 editTestDialog.setVisible(true);
 
                 // Sau khi đóng dialog, cập nhật lại danh sách bài thi

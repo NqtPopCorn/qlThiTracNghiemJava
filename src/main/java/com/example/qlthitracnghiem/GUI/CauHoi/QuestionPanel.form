@@ -16,28 +16,10 @@
     <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,2,-70,0,0,3,-8"/>
   </AuxValues>
 
-  <Layout>
-    <DimensionLayout dim="0">
-      <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="jSplitPane1" max="32767" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-          </Group>
-      </Group>
-    </DimensionLayout>
-    <DimensionLayout dim="1">
-      <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="jSplitPane1" max="32767" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-          </Group>
-      </Group>
-    </DimensionLayout>
-  </Layout>
+  <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
   <SubComponents>
     <Container class="javax.swing.JSplitPane" name="jSplitPane1">
       <Properties>
@@ -45,6 +27,11 @@
         <Property name="dividerSize" type="int" value="3"/>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
+      <Constraints>
+        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
+          <BorderConstraints direction="Center"/>
+        </Constraint>
+      </Constraints>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JSplitPaneSupportLayout"/>
       <SubComponents>
@@ -63,102 +50,73 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
+                  <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                          </Group>
-                          <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jScrollPane1" max="32767" attributes="0"/>
-                                  <Group type="102" attributes="0">
-                                      <Component id="btnThemChuDe" min="-2" pref="60" max="-2" attributes="0"/>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="jButton5" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="btnSuaChuDe" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="0" pref="60" max="32767" attributes="0"/>
-                                  </Group>
+                          <Component id="jScrollPane3" max="32767" attributes="0"/>
+                          <Group type="102" alignment="1" attributes="0">
+                              <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="btnThemChuDe" pref="100" max="32767" attributes="0"/>
+                                  <Component id="btn_loc" max="32767" attributes="0"/>
                               </Group>
-                              <EmptySpace max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="xoabtn" pref="100" max="32767" attributes="0"/>
+                                  <Component id="Reset" max="32767" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
                           </Group>
                       </Group>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="107" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
                       <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
+<<<<<<< HEAD
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="btnThemChuDe" alignment="1" min="-2" pref="23" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="btnSuaChuDe" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jButton5" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
+=======
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="xoabtn" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnThemChuDe" alignment="3" min="-2" max="-2" attributes="0"/>
+>>>>>>> 75c2fa42f49dd12a889c67f8bb2cf9edf6d3585e
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jScrollPane1" pref="598" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="btn_loc" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="Reset" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jScrollPane3" pref="583" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JButton" name="btnThemChuDe">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Th&#xea;m"/>
-                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                  <Border info="null"/>
-                </Property>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnThemChuDeActionPerformed"/>
-              </Events>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="// Thay &#x111;&#x1ed5;i m&#xe0;u n&#x1ec1;n v&#xe0; m&#xe0;u ch&#x1eef; cho n&#xfa;t b&#xec;nh th&#x1b0;&#x1edd;ng&#xa;btnThemChuDe.setBackground(new java.awt.Color(0, 123, 255));  // M&#xe0;u n&#x1ec1;n xanh d&#x1b0;&#x1a1;ng&#xa;btnThemChuDe.setForeground(new java.awt.Color(255, 255, 255));  // M&#xe0;u ch&#x1eef; tr&#x1eaf;ng&#xa;&#xa;// Thay &#x111;&#x1ed5;i font ch&#x1eef;&#xa;btnThemChuDe.setFont(new java.awt.Font(&quot;Arial&quot;, java.awt.Font.BOLD, 14));&#xa;&#xa;// T&#x1ea1;o hi&#x1ec7;u &#x1ee9;ng khi chu&#x1ed9;t di chuy&#x1ec3;n qua n&#xfa;t (hover)&#xa;btnThemChuDe.setRolloverEnabled(true);  // K&#xed;ch ho&#x1ea1;t hi&#x1ec7;u &#x1ee9;ng khi di chu&#x1ed9;t qua n&#xfa;t&#xa;&#xa;// Thay &#x111;&#x1ed5;i m&#xe0;u n&#x1ec1;n khi hover&#xa;btnThemChuDe.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;    @Override&#xa;    public void mouseEntered(java.awt.event.MouseEvent evt) {&#xa;        btnThemChuDe.setBackground(new java.awt.Color(255, 165, 0));  // M&#xe0;u n&#x1ec1;n cam khi hover&#xa;    }&#xa;&#xa;    @Override&#xa;    public void mouseExited(java.awt.event.MouseEvent evt) {&#xa;        btnThemChuDe.setBackground(new java.awt.Color(0, 123, 255));  // Tr&#x1edf; l&#x1ea1;i m&#xe0;u xanh d&#x1b0;&#x1a1;ng khi kh&#xf4;ng hover&#xa;    }&#xa;});&#xa;&#xa;// Khi n&#xfa;t &#x111;&#x1b0;&#x1ee3;c nh&#x1ea5;n (Pressed)&#xa;btnThemChuDe.addActionListener(new java.awt.event.ActionListener() {&#xa;    public void actionPerformed(java.awt.event.ActionEvent evt) {&#xa;        btnThemChuDeActionPerformed(evt);&#xa;    }&#xa;});"/>
-              </AuxValues>
-            </Component>
-            <Container class="javax.swing.JScrollPane" name="jScrollPane1">
-              <AuxValues>
-                <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
-              </AuxValues>
-
-              <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-              <SubComponents>
-                <Component class="javax.swing.JTree" name="jTree1">
-                  <Properties>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Segoe UI" size="14" style="0"/>
-                    </Property>
-                    <Property name="model" type="javax.swing.tree.TreeModel" editor="org.netbeans.modules.form.editors2.TreeModelEditor">
-                      <TreeModel code="T&#x1ea5;t c&#x1ea3;&#xa; JTree&#xa;  colors&#xa;   blue&#xa;   violet&#xa;   red&#xa;   yellow&#xa;  sports&#xa;   basketball&#xa;   soccer&#xa;   football&#xa;   hockey&#xa;  food&#xa;   hot dogs&#xa;   pizza&#xa;   ravioli&#xa;   bananas&#xa; genres&#xa;  gay&#xa;  men&#xa;  women"/>
-                    </Property>
-                  </Properties>
-                </Component>
-              </SubComponents>
-            </Container>
-            <Component class="javax.swing.JButton" name="jButton5">
+            <Component class="javax.swing.JButton" name="xoabtn">
               <Properties>
                 <Property name="text" type="java.lang.String" value="X&#xf3;a"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton5ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="xoabtnActionPerformed"/>
               </Events>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="// Thay &#x111;&#x1ed5;i m&#xe0;u n&#x1ec1;n v&#xe0; m&#xe0;u ch&#x1eef; cho n&#xfa;t b&#xec;nh th&#x1b0;&#x1edd;ng&#xa;jButton5.setBackground(new java.awt.Color(255, 69, 0));  // M&#xe0;u n&#x1ec1;n &#x111;&#x1ecf; cam (RGB: 255, 69, 0)&#xa;jButton5.setForeground(new java.awt.Color(255, 255, 255));  // M&#xe0;u ch&#x1eef; tr&#x1eaf;ng&#xa;&#xa;// Thay &#x111;&#x1ed5;i font ch&#x1eef;&#xa;jButton5.setFont(new java.awt.Font(&quot;Arial&quot;, java.awt.Font.BOLD, 14));&#xa;&#xa;// T&#x1ea1;o hi&#x1ec7;u &#x1ee9;ng khi chu&#x1ed9;t di chuy&#x1ec3;n qua n&#xfa;t (hover)&#xa;jButton5.setRolloverEnabled(true);  // K&#xed;ch ho&#x1ea1;t hi&#x1ec7;u &#x1ee9;ng khi di chu&#x1ed9;t qua n&#xfa;t&#xa;&#xa;// Khi hover, thay &#x111;&#x1ed5;i m&#xe0;u n&#x1ec1;n c&#x1ee7;a n&#xfa;t&#xa;jButton5.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;    @Override&#xa;    public void mouseEntered(java.awt.event.MouseEvent evt) {&#xa;        jButton5.setBackground(new java.awt.Color(255, 99, 71));  // M&#xe0;u n&#x1ec1;n &#x111;&#x1ecf; s&#xe1;ng khi hover&#xa;    }&#xa;&#xa;    @Override&#xa;    public void mouseExited(java.awt.event.MouseEvent evt) {&#xa;        jButton5.setBackground(new java.awt.Color(255, 69, 0));  // Tr&#x1edf; l&#x1ea1;i m&#xe0;u &#x111;&#x1ecf; cam khi kh&#xf4;ng hover&#xa;    }&#xa;});"/>
-              </AuxValues>
-            </Component>
-            <Component class="javax.swing.JButton" name="btnSuaChuDe">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="S&#x1eed;a"/>
-              </Properties>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="// Thay &#x111;&#x1ed5;i m&#xe0;u n&#x1ec1;n v&#xe0; m&#xe0;u ch&#x1eef; cho n&#xfa;t b&#xec;nh th&#x1b0;&#x1edd;ng&#xa;btnSuaChuDe.setBackground(new java.awt.Color(50, 205, 50));  // M&#xe0;u n&#x1ec1;n xanh l&#xe1; (RGB: 50, 205, 50)&#xa;btnSuaChuDe.setForeground(new java.awt.Color(255, 255, 255));  // M&#xe0;u ch&#x1eef; tr&#x1eaf;ng&#xa;&#xa;// Thay &#x111;&#x1ed5;i font ch&#x1eef;&#xa;btnSuaChuDe.setFont(new java.awt.Font(&quot;Arial&quot;, java.awt.Font.BOLD, 14));&#xa;&#xa;// T&#x1ea1;o hi&#x1ec7;u &#x1ee9;ng khi chu&#x1ed9;t di chuy&#x1ec3;n qua n&#xfa;t (hover)&#xa;btnSuaChuDe.setRolloverEnabled(true);  // K&#xed;ch ho&#x1ea1;t hi&#x1ec7;u &#x1ee9;ng khi di chu&#x1ed9;t qua n&#xfa;t&#xa;&#xa;// Khi hover, thay &#x111;&#x1ed5;i m&#xe0;u n&#x1ec1;n c&#x1ee7;a n&#xfa;t&#xa;btnSuaChuDe.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;    @Override&#xa;    public void mouseEntered(java.awt.event.MouseEvent evt) {&#xa;        btnSuaChuDe.setBackground(new java.awt.Color(34, 139, 34));  // M&#xe0;u n&#x1ec1;n xanh l&#xe1; &#x111;&#x1ead;m khi hover&#xa;    }&#xa;&#xa;    @Override&#xa;    public void mouseExited(java.awt.event.MouseEvent evt) {&#xa;        btnSuaChuDe.setBackground(new java.awt.Color(50, 205, 50));  // Tr&#x1edf; l&#x1ea1;i m&#xe0;u xanh l&#xe1; s&#xe1;ng khi kh&#xf4;ng hover&#xa;    }&#xa;});"/>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="// Thay &#x111;&#x1ed5;i m&#xe0;u n&#x1ec1;n v&#xe0; m&#xe0;u ch&#x1eef; cho n&#xfa;t b&#xec;nh th&#x1b0;&#x1edd;ng&#xa;xoabtn.setBackground(new java.awt.Color(255, 69, 0));  // M&#xe0;u n&#x1ec1;n &#x111;&#x1ecf; cam (RGB: 255, 69, 0)&#xa;xoabtn.setForeground(new java.awt.Color(255, 255, 255));  // M&#xe0;u ch&#x1eef; tr&#x1eaf;ng&#xa;&#xa;// Thay &#x111;&#x1ed5;i font ch&#x1eef;&#xa;xoabtn.setFont(new java.awt.Font(&quot;Arial&quot;, java.awt.Font.BOLD, 14));&#xa;&#xa;// T&#x1ea1;o hi&#x1ec7;u &#x1ee9;ng khi chu&#x1ed9;t di chuy&#x1ec3;n qua n&#xfa;t (hover)&#xa;xoabtn.setRolloverEnabled(true);  // K&#xed;ch ho&#x1ea1;t hi&#x1ec7;u &#x1ee9;ng khi di chu&#x1ed9;t qua n&#xfa;t&#xa;&#xa;// Khi hover, thay &#x111;&#x1ed5;i m&#xe0;u n&#x1ec1;n c&#x1ee7;a n&#xfa;t&#xa;xoabtn.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;    @Override&#xa;    public void mouseEntered(java.awt.event.MouseEvent evt) {&#xa;        xoabtn.setBackground(new java.awt.Color(255, 99, 71));  // M&#xe0;u n&#x1ec1;n &#x111;&#x1ecf; s&#xe1;ng khi hover&#xa;    }&#xa;&#xa;    @Override&#xa;    public void mouseExited(java.awt.event.MouseEvent evt) {&#xa;        xoabtn.setBackground(new java.awt.Color(255, 69, 0));  // Tr&#x1edf; l&#x1ea1;i m&#xe0;u &#x111;&#x1ecf; cam khi kh&#xf4;ng hover&#xa;    }&#xa;});"/>
               </AuxValues>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel2">
@@ -168,6 +126,62 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Ch&#x1ee7; &#x111;&#x1ec1;"/>
               </Properties>
+            </Component>
+            <Container class="javax.swing.JScrollPane" name="jScrollPane3">
+              <AuxValues>
+                <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+              </AuxValues>
+
+              <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+              <SubComponents>
+                <Component class="javax.swing.JTree" name="jTree2">
+                  <Properties>
+                    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                      <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+                        <LineBorder>
+                          <Color PropertyName="color" blue="33" green="33" red="33" type="rgb"/>
+                        </LineBorder>
+                      </Border>
+                    </Property>
+                  </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="loadTopics();"/>
+                  </AuxValues>
+                </Component>
+              </SubComponents>
+            </Container>
+            <Component class="javax.swing.JButton" name="btn_loc">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="L&#x1ecd;c"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_locActionPerformed"/>
+              </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="// Thay &#x111;&#x1ed5;i m&#xe0;u n&#x1ec1;n v&#xe0; m&#xe0;u ch&#x1eef; cho n&#xfa;t b&#xec;nh th&#x1b0;&#x1edd;ng&#xa;btn_loc.setBackground(new java.awt.Color(128,128,128));  // M&#xe0;u n&#x1ec1;n xanh d&#x1b0;&#x1a1;ng&#xa;btn_loc.setForeground(new java.awt.Color(255,255,255));  // M&#xe0;u ch&#x1eef; tr&#x1eaf;ng&#xa;&#xa;// Thay &#x111;&#x1ed5;i font ch&#x1eef;&#xa;btn_loc.setFont(new java.awt.Font(&quot;Arial&quot;, java.awt.Font.BOLD, 14));&#xa;&#xa;// T&#x1ea1;o hi&#x1ec7;u &#x1ee9;ng khi chu&#x1ed9;t di chuy&#x1ec3;n qua n&#xfa;t (hover)&#xa;btn_loc.setRolloverEnabled(true);  // K&#xed;ch ho&#x1ea1;t hi&#x1ec7;u &#x1ee9;ng khi di chu&#x1ed9;t qua n&#xfa;t&#xa;&#xa;// Thay &#x111;&#x1ed5;i m&#xe0;u n&#x1ec1;n khi hover&#xa;btn_loc.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;    @Override&#xa;    public void mouseEntered(java.awt.event.MouseEvent evt) {&#xa;        btn_loc.setBackground(new java.awt.Color(255, 165, 0));  // M&#xe0;u n&#x1ec1;n cam khi hover&#xa;    }&#xa;&#xa;    @Override&#xa;    public void mouseExited(java.awt.event.MouseEvent evt) {&#xa;        btn_loc.setBackground(new java.awt.Color(128,128,128));  // Tr&#x1edf; l&#x1ea1;i m&#xe0;u xanh d&#x1b0;&#x1a1;ng khi kh&#xf4;ng hover&#xa;    }&#xa;});"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JButton" name="btnThemChuDe">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Th&#xea;m"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnThemChuDeActionPerformed"/>
+              </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="// Thay &#x111;&#x1ed5;i m&#xe0;u n&#x1ec1;n v&#xe0; m&#xe0;u ch&#x1eef; cho n&#xfa;t b&#xec;nh th&#x1b0;&#x1edd;ng&#xa;btnThemChuDe.setBackground(new java.awt.Color(0,255,255));  // M&#xe0;u n&#x1ec1;n xanh d&#x1b0;&#x1a1;ng&#xa;btnThemChuDe.setForeground(new java.awt.Color(255,255,255));  // M&#xe0;u ch&#x1eef; tr&#x1eaf;ng&#xa;&#xa;// Thay &#x111;&#x1ed5;i font ch&#x1eef;&#xa;btnThemChuDe.setFont(new java.awt.Font(&quot;Arial&quot;, java.awt.Font.BOLD, 14));&#xa;&#xa;// T&#x1ea1;o hi&#x1ec7;u &#x1ee9;ng khi chu&#x1ed9;t di chuy&#x1ec3;n qua n&#xfa;t (hover)&#xa;btnThemChuDe.setRolloverEnabled(true);  // K&#xed;ch ho&#x1ea1;t hi&#x1ec7;u &#x1ee9;ng khi di chu&#x1ed9;t qua n&#xfa;t&#xa;&#xa;// Thay &#x111;&#x1ed5;i m&#xe0;u n&#x1ec1;n khi hover&#xa;btnThemChuDe.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;    @Override&#xa;    public void mouseEntered(java.awt.event.MouseEvent evt) {&#xa;        btnThemChuDe.setBackground(new java.awt.Color(255, 165, 0));  // M&#xe0;u n&#x1ec1;n cam khi hover&#xa;    }&#xa;&#xa;    @Override&#xa;    public void mouseExited(java.awt.event.MouseEvent evt) {&#xa;        btnThemChuDe.setBackground(new java.awt.Color(0,255,255));  // Tr&#x1edf; l&#x1ea1;i m&#xe0;u xanh d&#x1b0;&#x1a1;ng khi kh&#xf4;ng hover&#xa;    }&#xa;});"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JButton" name="Reset">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="T&#x1ea3;i l&#x1ea1;i"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ResetActionPerformed"/>
+              </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="// Th&#xea;m style cho n&#xfa;t&#xa;Reset.setFont(new java.awt.Font(&quot;Arial&quot;, java.awt.Font.BOLD, 14)); // Ch&#x1eef; &#x111;&#x1ead;m, c&#x1ee1; 14&#xa;Reset.setBackground(new java.awt.Color(255, 102, 102)); // M&#xe0;u n&#x1ec1;n &#x111;&#x1ecf; nh&#x1ea1;t&#xa;Reset.setForeground(Color.WHITE); // Ch&#x1eef; tr&#x1eaf;ng&#xa;Reset.setFocusPainted(false); // B&#x1ecf; vi&#x1ec1;n khi nh&#x1ea5;n&#xa;Reset.setBorder(BorderFactory.createEtchedBorder()); // Vi&#x1ec1;n n&#x1ed5;i nh&#x1eb9;&#xa;Reset.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR)); // &#x110;&#x1ed5;i con tr&#x1ecf; chu&#x1ed9;t khi di v&#xe0;o&#xa;&#xa;// Th&#xea;m hi&#x1ec7;u &#x1ee9;ng hover&#xa;Reset.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;    public void mouseEntered(java.awt.event.MouseEvent evt) {&#xa;        Reset.setBackground(new java.awt.Color(255, 51, 51)); // &#x110;&#x1ecf; &#x111;&#x1ead;m h&#x1a1;n khi hover&#xa;    }&#xa;    public void mouseExited(java.awt.event.MouseEvent evt) {&#xa;        Reset.setBackground(new java.awt.Color(255, 102, 102)); // Quay l&#x1ea1;i m&#xe0;u c&#x169;&#xa;    }&#xa;});"/>
+              </AuxValues>
             </Component>
           </SubComponents>
         </Container>
@@ -186,20 +200,26 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace pref="205" max="32767" attributes="0"/>
-                      <Component id="jLabel1" min="-2" pref="275" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="245" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jScrollPane2" max="32767" attributes="0"/>
-                          <Group type="102" attributes="0">
-                              <Component id="jButton2" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jButton3" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          <Group type="102" alignment="1" attributes="0">
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Component id="jLabel1" max="32767" attributes="0"/>
+                                  <Component id="jScrollPane2" alignment="0" pref="722" max="32767" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
+                              <Component id="themCH_btn" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="xoabtn_question" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="find_txt" min="-2" pref="191" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="find_cbx" min="-2" pref="95" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="import_btn" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -208,16 +228,18 @@
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="jLabel1" min="-2" pref="44" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jLabel1" pref="61" max="32767" attributes="0"/>
-                      <EmptySpace min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jButton2" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jButton3" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="find_txt" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="find_cbx" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="xoabtn_question" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="themCH_btn" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="import_btn" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jScrollPane2" min="-2" pref="574" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jScrollPane2" pref="613" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -229,41 +251,81 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="36" style="1"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="T&#xea;n ch&#x1ee7; &#x111;&#x1ec1;"/>
+                <Property name="horizontalAlignment" type="int" value="0"/>
+                <Property name="text" type="java.lang.String" value="C&#xe2;u H&#x1ecf;i"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton2">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Th&#xea;m"/>
-                <Property name="toolTipText" type="java.lang.String" value="Th&#xea;m v&#xe0;o ch&#x1ee7; &#x111;&#x1ec1; ho&#x1eb7;c th&#xea;m m&#x1edb;i"/>
-              </Properties>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="// Thay &#x111;&#x1ed5;i m&#xe0;u n&#x1ec1;n v&#xe0; m&#xe0;u ch&#x1eef; cho n&#xfa;t b&#xec;nh th&#x1b0;&#x1edd;ng&#xa;jButton2.setBackground(new java.awt.Color(0, 123, 255));  // M&#xe0;u n&#x1ec1;n xanh d&#x1b0;&#x1a1;ng&#xa;jButton2.setForeground(new java.awt.Color(255, 255, 255));  // M&#xe0;u ch&#x1eef; tr&#x1eaf;ng&#xa;&#xa;// Thay &#x111;&#x1ed5;i font ch&#x1eef;&#xa;jButton2.setFont(new java.awt.Font(&quot;Arial&quot;, java.awt.Font.BOLD, 14));&#xa;&#xa;// T&#x1ea1;o hi&#x1ec7;u &#x1ee9;ng khi chu&#x1ed9;t di chuy&#x1ec3;n qua n&#xfa;t (hover)&#xa;jButton2.setRolloverEnabled(true);  // K&#xed;ch ho&#x1ea1;t hi&#x1ec7;u &#x1ee9;ng khi di chu&#x1ed9;t qua n&#xfa;t&#xa;&#xa;// Thay &#x111;&#x1ed5;i m&#xe0;u n&#x1ec1;n khi hover&#xa;jButton2.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;    @Override&#xa;    public void mouseEntered(java.awt.event.MouseEvent evt) {&#xa;        jButton2.setBackground(new java.awt.Color(255, 165, 0));  // M&#xe0;u n&#x1ec1;n cam khi hover&#xa;    }&#xa;&#xa;    @Override&#xa;    public void mouseExited(java.awt.event.MouseEvent evt) {&#xa;        jButton2.setBackground(new java.awt.Color(0, 123, 255));  // Tr&#x1edf; l&#x1ea1;i m&#xe0;u xanh d&#x1b0;&#x1a1;ng khi kh&#xf4;ng hover&#xa;    }&#xa;});"/>
-              </AuxValues>
-            </Component>
-            <Component class="javax.swing.JButton" name="jButton3">
+            <Component class="javax.swing.JButton" name="xoabtn_question">
               <Properties>
                 <Property name="text" type="java.lang.String" value="X&#xf3;a"/>
                 <Property name="toolTipText" type="java.lang.String" value="X&#xf3;a kh&#x1ecf;i ch&#x1ee7; &#x111;&#x1ec1; ho&#x1eb7;c x&#xf3;a h&#x1eb3;n"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton3ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="xoabtn_questionActionPerformed"/>
               </Events>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="// Thay &#x111;&#x1ed5;i m&#xe0;u n&#x1ec1;n v&#xe0; m&#xe0;u ch&#x1eef; cho n&#xfa;t b&#xec;nh th&#x1b0;&#x1edd;ng&#xa;jButton3.setBackground(new java.awt.Color(255, 69, 0));  // M&#xe0;u n&#x1ec1;n &#x111;&#x1ecf; cam (RGB: 255, 69, 0)&#xa;jButton3.setForeground(new java.awt.Color(255, 255, 255));  // M&#xe0;u ch&#x1eef; tr&#x1eaf;ng&#xa;&#xa;// Thay &#x111;&#x1ed5;i font ch&#x1eef;&#xa;jButton3.setFont(new java.awt.Font(&quot;Arial&quot;, java.awt.Font.BOLD, 14));&#xa;&#xa;// T&#x1ea1;o hi&#x1ec7;u &#x1ee9;ng khi chu&#x1ed9;t di chuy&#x1ec3;n qua n&#xfa;t (hover)&#xa;jButton3.setRolloverEnabled(true);  // K&#xed;ch ho&#x1ea1;t hi&#x1ec7;u &#x1ee9;ng khi di chu&#x1ed9;t qua n&#xfa;t&#xa;&#xa;// Khi hover, thay &#x111;&#x1ed5;i m&#xe0;u n&#x1ec1;n c&#x1ee7;a n&#xfa;t&#xa;jButton3.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;    @Override&#xa;    public void mouseEntered(java.awt.event.MouseEvent evt) {&#xa;        jButton3.setBackground(new java.awt.Color(255, 99, 71));  // M&#xe0;u n&#x1ec1;n &#x111;&#x1ecf; s&#xe1;ng khi hover&#xa;    }&#xa;&#xa;    @Override&#xa;    public void mouseExited(java.awt.event.MouseEvent evt) {&#xa;        jButton3.setBackground(new java.awt.Color(255, 69, 0));  // Tr&#x1edf; l&#x1ea1;i m&#xe0;u &#x111;&#x1ecf; cam khi kh&#xf4;ng hover&#xa;    }&#xa;});"/>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="// Thay &#x111;&#x1ed5;i m&#xe0;u n&#x1ec1;n v&#xe0; m&#xe0;u ch&#x1eef; cho n&#xfa;t b&#xec;nh th&#x1b0;&#x1edd;ng&#xa;xoabtn_question.setBackground(new java.awt.Color(255, 69, 0));  // M&#xe0;u n&#x1ec1;n &#x111;&#x1ecf; cam (RGB: 255, 69, 0)&#xa;xoabtn_question.setForeground(new java.awt.Color(255, 255, 255));  // M&#xe0;u ch&#x1eef; tr&#x1eaf;ng&#xa;&#xa;// Thay &#x111;&#x1ed5;i font ch&#x1eef;&#xa;xoabtn_question.setFont(new java.awt.Font(&quot;Arial&quot;, java.awt.Font.BOLD, 14));&#xa;&#xa;// T&#x1ea1;o hi&#x1ec7;u &#x1ee9;ng khi chu&#x1ed9;t di chuy&#x1ec3;n qua n&#xfa;t (hover)&#xa;xoabtn_question.setRolloverEnabled(true);  // K&#xed;ch ho&#x1ea1;t hi&#x1ec7;u &#x1ee9;ng khi di chu&#x1ed9;t qua n&#xfa;t&#xa;&#xa;// Khi hover, thay &#x111;&#x1ed5;i m&#xe0;u n&#x1ec1;n c&#x1ee7;a n&#xfa;t&#xa;xoabtn_question.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;    @Override&#xa;    public void mouseEntered(java.awt.event.MouseEvent evt) {&#xa;        xoabtn_question.setBackground(new java.awt.Color(255, 99, 71));  // M&#xe0;u n&#x1ec1;n &#x111;&#x1ecf; s&#xe1;ng khi hover&#xa;    }&#xa;&#xa;    @Override&#xa;    public void mouseExited(java.awt.event.MouseEvent evt) {&#xa;        xoabtn_question.setBackground(new java.awt.Color(255, 69, 0));  // Tr&#x1edf; l&#x1ea1;i m&#xe0;u &#x111;&#x1ecf; cam khi kh&#xf4;ng hover&#xa;    }&#xa;});"/>
               </AuxValues>
             </Component>
             <Container class="javax.swing.JScrollPane" name="jScrollPane2">
+              <Properties>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+                    <LineBorder>
+                      <Color PropertyName="color" blue="33" green="33" red="33" type="rgb"/>
+                    </LineBorder>
+                  </Border>
+                </Property>
+              </Properties>
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
                 <Component class="javax.swing.JTable" name="table_question">
                   <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="// T&#x1ea1;o model b&#x1ea3;ng v&#x1edb;i c&#xe1;c ti&#xea;u &#x111;&#x1ec1; c&#x1ed9;t&#xa;DefaultTableModel tableModel = new DefaultTableModel(&#xa;    new Object [][] {},&#xa;    new String [] {&#xa;        &quot;&quot;, &quot;&#x1ea2;nh&quot;, &quot;N&#x1ed9;i dung&quot;, &quot;M&#x1ee9;c &#x111;&#x1ed9;&quot;, &quot;Ch&#x1ee7; &#x111;&#x1ec1;&quot;&#xa;    }&#xa;) {&#xa;    @Override&#xa;    public Class&lt;?&gt; getColumnClass(int columnIndex) {&#xa;        return (columnIndex == 0) ? Boolean.class : String.class; // C&#x1ed9;t &#x111;&#x1ea7;u l&#xe0; checkbox&#xa;    }&#xa;&#xa;    @Override&#xa;    public boolean isCellEditable(int row, int column) {&#xa;        return column == 0; // Ch&#x1ec9; ch&#x1ec9;nh s&#x1eed;a checkbox&#xa;    }&#xa;};&#xa;&#xa;// L&#x1ea5;y danh s&#xe1;ch c&#xe2;u h&#x1ecf;i t&#x1eeb; database&#xa;QuestionsBUS questionBUS = new QuestionsBUS();&#xa;ArrayList&lt;QuestionsDTO&gt; questions = questionBUS.getAll();&#xa;&#xa;for (QuestionsDTO question : questions) {&#xa;    // T&#x1ea1;o m&#x1ea3;ng ch&#x1ee9;a d&#x1eef; li&#x1ec7;u cho m&#x1ed7;i c&#xe2;u h&#x1ecf;i&#xa;    Object[] row = new Object[5];&#xa;    row[0] = false; // Checkbox m&#x1eb7;c &#x111;&#x1ecb;nh l&#xe0; ch&#x1b0;a ch&#x1ecd;n&#xa;    row[1] = question.getqPicture(); // &#x1ea2;nh (n&#x1ebf;u c&#xf3; &#x111;&#x1b0;&#x1edd;ng d&#x1eab;n &#x1ea3;nh, b&#x1ea1;n c&#xf3; th&#x1ec3; hi&#x1ec3;n th&#x1ecb; n&#xf3; ho&#x1eb7;c &#x111;&#x1ec3; tr&#x1ed1;ng)&#xa;    row[2] = question.getqContent(); // N&#x1ed9;i dung c&#xe2;u h&#x1ecf;i&#xa;    row[3] = question.getqLevel(); // M&#x1ee9;c &#x111;&#x1ed9; (c&#xf3; th&#x1ec3; l&#xe0; &quot;D&#x1ec5;&quot;, &quot;Trung B&#xec;nh&quot;, &quot;Kh&#xf3;&quot;, t&#xf9;y theo d&#x1eef; li&#x1ec7;u c&#x1ee7;a b&#x1ea1;n)&#xa;    row[4] = question.getqTopicID(); // Ch&#x1ee7; &#x111;&#x1ec1; (c&#xf3; th&#x1ec3; thay th&#x1ebf; b&#x1eb1;ng t&#xea;n ch&#x1ee7; &#x111;&#x1ec1; n&#x1ebf;u b&#x1ea1;n c&#xf3; th&#xea;m th&#xf4;ng tin)&#xa;&#xa;    // Th&#xea;m h&#xe0;ng v&#xe0;o model b&#x1ea3;ng&#xa;    tableModel.addRow(row);&#xa;}&#xa;&#xa;// G&#xe1;n model cho JTable&#xa;table_question.setModel(tableModel);&#xa;&#xa;// 1&#xfe0f;&#x20e3; C&#x103;n gi&#x1eef;a ti&#xea;u &#x111;&#x1ec1; c&#x1ed9;t&#xa;DefaultTableCellRenderer headerRenderer = (DefaultTableCellRenderer) table_question.getTableHeader().getDefaultRenderer();&#xa;headerRenderer.setHorizontalAlignment(JLabel.CENTER);&#xa;&#xa;// 2&#xfe0f;&#x20e3; C&#x103;n gi&#x1eef;a n&#x1ed9;i dung c&#x1ee7;a c&#x1ed9;t cu&#x1ed1;i c&#xf9;ng (&quot;M&#x1ee9;c &#x111;&#x1ed9;&quot;)&#xa;DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();&#xa;centerRenderer.setHorizontalAlignment(JLabel.CENTER);&#xa;&#xa;// X&#xe1;c &#x111;&#x1ecb;nh c&#x1ed9;t cu&#x1ed1;i c&#xf9;ng (c&#x1ed9;t &quot;M&#x1ee9;c &#x111;&#x1ed9;&quot;)&#xa;int lastColumnIndex = table_question.getColumnCount() - 1;&#xa;table_question.getColumnModel().getColumn(lastColumnIndex).setCellRenderer(centerRenderer);&#xa;&#xa;// C&#x103;n gi&#x1eef;a n&#x1ed9;i dung c&#x1ee7;a c&#x1ed9;t &quot;M&#x1ee9;c &#x111;&#x1ed9;&quot;&#xa;table_question.getColumnModel().getColumn(lastColumnIndex-1).setCellRenderer(centerRenderer);&#xa;&#xa;// Thu h&#x1eb9;p &#x111;&#x1ed9; r&#x1ed9;ng c&#x1ee7;a c&#x1ed9;t &quot;Ch&#x1ee7; &#x111;&#x1ec1;&quot;&#xa;table_question.getColumnModel().getColumn(lastColumnIndex).setPreferredWidth(80);  // &#x110;&#x1ed9; r&#x1ed9;ng mong mu&#x1ed1;n&#xa;table_question.getColumnModel().getColumn(lastColumnIndex).setMaxWidth(100);       // &#x110;&#x1ed9; r&#x1ed9;ng t&#x1ed1;i &#x111;a&#xa;table_question.getColumnModel().getColumn(lastColumnIndex).setMinWidth(60);        // &#x110;&#x1ed9; r&#x1ed9;ng t&#x1ed1;i thi&#x1ec3;u&#xa;&#xa;// C&#x103;n gi&#x1eef;a n&#x1ed9;i dung c&#x1ee7;a c&#x1ed9;t &quot;Ch&#x1ee7; &#x111;&#x1ec1;&quot;&#xa;table_question.getColumnModel().getColumn(lastColumnIndex).setCellRenderer(centerRenderer);&#xa;&#xa;// Thu h&#x1eb9;p &#x111;&#x1ed9; r&#x1ed9;ng c&#x1ee7;a c&#x1ed9;t &quot;M&#x1ee9;c &#x111;&#x1ed9;&quot;&#xa;table_question.getColumnModel().getColumn(lastColumnIndex-1).setPreferredWidth(80);  // &#x110;&#x1ed9; r&#x1ed9;ng mong mu&#x1ed1;n&#xa;table_question.getColumnModel().getColumn(lastColumnIndex-1).setMaxWidth(100);       // &#x110;&#x1ed9; r&#x1ed9;ng t&#x1ed1;i &#x111;a&#xa;table_question.getColumnModel().getColumn(lastColumnIndex-1).setMinWidth(60);        // &#x110;&#x1ed9; r&#x1ed9;ng t&#x1ed1;i thi&#x1ec3;u&#xa;&#xa;// 5&#xfe0f;&#x20e3; Thu h&#x1eb9;p &#x111;&#x1ed9; r&#x1ed9;ng c&#x1ee7;a c&#x1ed9;t &quot;&#x1ea2;nh&quot;&#xa;table_question.getColumnModel().getColumn(1).setPreferredWidth(100);  // &#x110;&#x1ed9; r&#x1ed9;ng mong mu&#x1ed1;n cho c&#x1ed9;t &quot;&#x1ea2;nh&quot;&#xa;table_question.getColumnModel().getColumn(1).setMaxWidth(200);        // &#x110;&#x1ed9; r&#x1ed9;ng t&#x1ed1;i &#x111;a cho c&#x1ed9;t &quot;&#x1ea2;nh&quot;&#xa;table_question.getColumnModel().getColumn(1).setMinWidth(50);        // &#x110;&#x1ed9; r&#x1ed9;ng t&#x1ed1;i thi&#x1ec3;u cho c&#x1ed9;t &quot;&#x1ea2;nh&quot;&#xa;&#xa;// 4&#xfe0f;&#x20e3; Thu h&#x1eb9;p &#x111;&#x1ed9; r&#x1ed9;ng c&#x1ee7;a c&#x1ed9;t checkbox&#xa;table_question.getColumnModel().getColumn(0).setPreferredWidth(40);  // &#x110;&#x1ed9; r&#x1ed9;ng mong mu&#x1ed1;n cho c&#x1ed9;t checkbox&#xa;table_question.getColumnModel().getColumn(0).setMaxWidth(50);       // &#x110;&#x1ed9; r&#x1ed9;ng t&#x1ed1;i &#x111;a cho c&#x1ed9;t checkbox&#xa;table_question.getColumnModel().getColumn(0).setMinWidth(30);        // &#x110;&#x1ed9; r&#x1ed9;ng t&#x1ed1;i thi&#x1ec3;u cho c&#x1ed9;t checkbox"/>
+                    <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="display_questions(-1);&#xa;&#xa;table_question.addMouseListener(new MouseAdapter() {&#xa;    @Override&#xa;    public void mousePressed(MouseEvent e) {&#xa;        if (e.getClickCount() == 2) { // Ki&#x1ec3;m tra n&#x1ebf;u l&#xe0; double-click&#xa;            int selectedRow = table_question.getSelectedRow(); // L&#x1ea5;y h&#xe0;ng &#x111;&#x1b0;&#x1ee3;c ch&#x1ecd;n&#xa;            if (selectedRow != -1) { // Ki&#x1ec3;m tra c&#xf3; h&#xe0;ng n&#xe0;o &#x111;&#x1b0;&#x1ee3;c ch&#x1ecd;n kh&#xf4;ng&#xa;              String name = table_question.getValueAt(selectedRow, 2).toString();&#xa;                    &#xa;    QuestionDetailDialog dialog = new QuestionDetailDialog(null, true,name);&#xa;    dialog.setLocationRelativeTo(null); // Place the dialog in the center of the screen&#xa;    dialog.setVisible(true);&#xa;       }&#xa;        }&#xa;    }&#xa;});"/>
+                    <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
                   </AuxValues>
                 </Component>
               </SubComponents>
             </Container>
+            <Component class="javax.swing.JTextField" name="find_txt">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="T&#xec;m ki&#x1ebf;m"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="find_txtActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="find_cbx">
+              <Properties>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[] {&quot;N&#x1ed9;i dung&quot;, &quot;M&#x1ee9;c &#x111;&#x1ed9;&quot;, &quot;Id&quot; })" type="code"/>
+                </Property>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JButton" name="themCH_btn">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Th&#xea;m"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="themCH_btnActionPerformed"/>
+              </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="// Thay &#x111;&#x1ed5;i m&#xe0;u n&#x1ec1;n v&#xe0; m&#xe0;u ch&#x1eef; cho n&#xfa;t b&#xec;nh th&#x1b0;&#x1edd;ng&#xa;themCH_btn.setBackground(new java.awt.Color(0, 123, 255));  // M&#xe0;u n&#x1ec1;n xanh d&#x1b0;&#x1a1;ng&#xa;themCH_btn.setForeground(new java.awt.Color(255, 255, 255));  // M&#xe0;u ch&#x1eef; tr&#x1eaf;ng&#xa;&#xa;// Thay &#x111;&#x1ed5;i font ch&#x1eef;&#xa;themCH_btn.setFont(new java.awt.Font(&quot;Arial&quot;, java.awt.Font.BOLD, 14));&#xa;&#xa;// T&#x1ea1;o hi&#x1ec7;u &#x1ee9;ng khi chu&#x1ed9;t di chuy&#x1ec3;n qua n&#xfa;t (hover)&#xa;themCH_btn.setRolloverEnabled(true);  // K&#xed;ch ho&#x1ea1;t hi&#x1ec7;u &#x1ee9;ng khi di chu&#x1ed9;t qua n&#xfa;t&#xa;&#xa;// Thay &#x111;&#x1ed5;i m&#xe0;u n&#x1ec1;n khi hover&#xa;themCH_btn.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;    @Override&#xa;    public void mouseEntered(java.awt.event.MouseEvent evt) {&#xa;        themCH_btn.setBackground(new java.awt.Color(255, 165, 0));  // M&#xe0;u n&#x1ec1;n cam khi hover&#xa;    }&#xa;&#xa;    @Override&#xa;    public void mouseExited(java.awt.event.MouseEvent evt) {&#xa;        themCH_btn.setBackground(new java.awt.Color(0, 123, 255));  // Tr&#x1edf; l&#x1ea1;i m&#xe0;u xanh d&#x1b0;&#x1a1;ng khi kh&#xf4;ng hover&#xa;    }&#xa;});"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JButton" name="import_btn">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Nh&#x1ead;p file"/>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="// Thay &#x111;&#x1ed5;i m&#xe0;u n&#x1ec1;n v&#xe0; m&#xe0;u ch&#x1eef; cho n&#xfa;t b&#xec;nh th&#x1b0;&#x1edd;ng&#xa;import_btn.setBackground(new java.awt.Color(123, 123, 255));  // M&#xe0;u n&#x1ec1;n xanh d&#x1b0;&#xa;import_btn.setForeground(new java.awt.Color(255, 255, 255));  // M&#xe0;u ch&#x1eef; tr&#x1eaf;ng&#xa;&#xa;// Thay &#x111;&#x1ed5;i font ch&#x1eef;&#xa;import_btn.setFont(new java.awt.Font(&quot;Arial&quot;, java.awt.Font.BOLD, 14));&#xa;&#xa;// T&#x1ea1;o hi&#x1ec7;u &#x1ee9;ng khi chu&#x1ed9;t di chuy&#x1ec3;n qua n&#xfa;t (hover)&#xa;import_btn.setRolloverEnabled(true);  // K&#xed;ch ho&#x1ea1;t hi&#x1ec7;u &#x1ee9;ng khi di chu&#x1ed9;t qua n&#xfa;t&#xa;&#xa;// Thay &#x111;&#x1ed5;i m&#xe0;u n&#x1ec1;n khi hover&#xa;import_btn.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;    @Override&#xa;    public void mouseEntered(java.awt.event.MouseEvent evt) {&#xa;        import_btn.setBackground(new java.awt.Color(255, 165, 0));  // M&#xe0;u n&#x1ec1;n cam khi hover&#xa;    }&#xa;&#xa;    @Override&#xa;    public void mouseExited(java.awt.event.MouseEvent evt) {&#xa;        import_btn.setBackground(new java.awt.Color(123, 123, 255));  // Tr&#x1edf; l&#x1ea1;i m&#xe0;u xanh d&#x1b0;&#x1a1;ng khi kh&#xf4;ng hover&#xa;    }&#xa;});"/>
+                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="import_btn.addActionListener(new ActionListener() {&#xa;            @Override&#xa;            public void actionPerformed(ActionEvent e) {&#xa;               NativeFileChooser_import FileChooser = new NativeFileChooser_import();&#xa;        }&#xa;        });"/>
+              </AuxValues>
+            </Component>
           </SubComponents>
         </Container>
       </SubComponents>

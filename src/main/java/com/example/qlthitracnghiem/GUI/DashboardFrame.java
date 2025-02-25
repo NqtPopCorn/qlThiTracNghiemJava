@@ -7,13 +7,19 @@ package com.example.qlthitracnghiem.GUI;
 import javax.swing.*;
 
 import com.example.qlthitracnghiem.DTO.UserDTO;
+import com.example.qlthitracnghiem.GUI.Auth.AuthFrame;
+import com.example.qlthitracnghiem.GUI.CauHoi.QuestionPanel;
+import com.example.qlthitracnghiem.GUI.Exam.ChooseExamJPanel;
 import com.example.qlthitracnghiem.GUI.Exam.DoExamJPanel;
+import com.example.qlthitracnghiem.GUI.Info.InfoPanel;
 import com.example.qlthitracnghiem.GUI.ThongKe.MainThongKePanel;
 import com.example.qlthitracnghiem.GUI.User.UserPanel;
 import com.example.qlthitracnghiem.GUI.CauHoi.QuestionPanel;
 import com.example.qlthitracnghiem.GUI.DeThi.TestPanel;
 import com.example.qlthitracnghiem.GUI.DeThi.TestPanel;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  *
@@ -25,33 +31,39 @@ public class DashboardFrame extends javax.swing.JFrame {
   private JPanel userPanel = new UserPanel(this);
   private JPanel thongKePanel = new MainThongKePanel();
   private DoExamJPanel doExamJPanel = new DoExamJPanel();
+  private ChooseExamJPanel chooseExamJPanel = new ChooseExamJPanel(doExamJPanel);
   private QuestionPanel questionPanel = new QuestionPanel();
-  private UserDTO user;
   private TestPanel testPanel = new TestPanel();
+  private InfoPanel infoPanel = new InfoPanel();
+  private UserDTO user;
 
-  public DashboardFrame(UserDTO user, ButtonGroup buttonGroup, CardLayout cardLayout, JPanel currentPanel,
-      JPanel examplePanel1, JLabel jLabel2, JLabel jLabel7, JPanel jPanel4, JLabel lblUsername,
-      JToggleButton navBtnCauHoi, JToggleButton navBtnDangXuat, JToggleButton navBtnDeThi, JToggleButton navBtnThi,
-      JToggleButton navBtnThongKe, JToggleButton navBtnUser, JPanel navigationPanel, JPanel sidePanel)
-      throws HeadlessException {
-    this.user = user;
-    this.buttonGroup = buttonGroup;
-    this.cardLayout = cardLayout;
-    this.currentPanel = currentPanel;
-    this.examplePanel1 = examplePanel1;
-    this.jLabel2 = jLabel2;
-    this.jLabel7 = jLabel7;
-    this.jPanel4 = jPanel4;
-    this.lblUsername = lblUsername;
-    this.navBtnCauHoi = navBtnCauHoi;
-    this.navBtnDangXuat = navBtnDangXuat;
-    this.navBtnDeThi = navBtnDeThi;
-    this.navBtnThi = navBtnThi;
-    this.navBtnThongKe = navBtnThongKe;
-    this.navBtnUser = navBtnUser;
-    this.navigationPanel = navigationPanel;
-    this.sidePanel = sidePanel;
-  }
+  // public DashboardFrame(UserDTO user, ButtonGroup buttonGroup, CardLayout
+  // cardLayout, JPanel currentPanel,
+  // JPanel examplePanel1, JLabel jLabel2, JLabel jLabel7, JPanel jPanel4, JLabel
+  // lblUsername,
+  // JToggleButton navBtnCauHoi, JToggleButton navBtnDangXuat, JToggleButton
+  // navBtnDeThi, JToggleButton navBtnThi,
+  // JToggleButton navBtnThongKe, JToggleButton navBtnUser, JPanel
+  // navigationPanel, JPanel sidePanel)
+  // throws HeadlessException {
+  // this.user = user;
+  // this.buttonGroup = buttonGroup;
+  // this.cardLayout = cardLayout;
+  // this.currentPanel = currentPanel;
+  // this.examplePanel1 = examplePanel1;
+  // this.jLabel2 = jLabel2;
+  // this.jLabel7 = jLabel7;
+  // this.jPanel4 = jPanel4;
+  // this.lblUsername = lblUsername;
+  // this.navBtnCauHoi = navBtnCauHoi;
+  // this.navBtnDangXuat = navBtnDangXuat;
+  // this.navBtnDeThi = navBtnDeThi;
+  // this.navBtnThi = navBtnThi;
+  // this.navBtnThongKe = navBtnThongKe;
+  // this.navBtnUser = navBtnUser;
+  // this.navigationPanel = navigationPanel;
+  // this.sidePanel = sidePanel;
+  // }
 
   /**
    * Creates new form DashboardFrame
@@ -66,24 +78,28 @@ public class DashboardFrame extends javax.swing.JFrame {
     cardLayout = new CardLayout();
     currentPanel.setLayout(cardLayout);
     // add panel moi tai dayday
-    currentPanel.add(doExamJPanel, navBtnThi.getActionCommand());
+    currentPanel.add(chooseExamJPanel, navBtnThi.getActionCommand());
+    currentPanel.add(doExamJPanel, "doExamJPanel");
     currentPanel.add(cauHoiPanel, navBtnCauHoi.getActionCommand());
     currentPanel.add(userPanel, navBtnUser.getActionCommand());
     currentPanel.add(thongKePanel, navBtnThongKe.getActionCommand());
     currentPanel.add(questionPanel, navBtnCauHoi.getActionCommand());
     currentPanel.add(testPanel, navBtnDeThi.getActionCommand());
+
     buttonGroup.add(navBtnDeThi);
     buttonGroup.add(navBtnCauHoi);
     buttonGroup.add(navBtnUser);
     buttonGroup.add(navBtnThongKe);
     buttonGroup.add(navBtnDangXuat);
     buttonGroup.add(navBtnThi);
+    buttonGroup.add(navBtnUserInfo);
 
     navBtnDeThi.addActionListener(e -> switchPanel(navBtnDeThi.getActionCommand()));
     navBtnThi.addActionListener(e -> switchPanel(navBtnThi.getActionCommand()));
     navBtnCauHoi.addActionListener(e -> switchPanel(navBtnCauHoi.getActionCommand()));
     navBtnUser.addActionListener(e -> switchPanel(navBtnUser.getActionCommand()));
     navBtnThongKe.addActionListener(e -> switchPanel(navBtnThongKe.getActionCommand()));
+    navBtnUserInfo.addActionListener(e -> switchPanel("InfoPanel"));
     navBtnDangXuat.addActionListener(e -> handleLogout());
     navBtnDeThi.setSelected(true);
 
@@ -95,7 +111,9 @@ public class DashboardFrame extends javax.swing.JFrame {
     this();
     this.user = user;
     if (user != null) {
-      lblUsername.setText(user.getUserName());
+      navBtnUserInfo.setText(user.getUserName());
+      infoPanel = new InfoPanel(user);
+      currentPanel.add(infoPanel, "InfoPanel");
     }
   }
 
@@ -105,12 +123,15 @@ public class DashboardFrame extends javax.swing.JFrame {
   }
 
   private void handleLogout() {
-    System.out.println("Logged out");
-    // Thực hiện các logic đăng xuất tại đây
+    this.dispose();
+    new AuthFrame().setVisible(true);
   }
 
   private void updateNavigateButton() {
-    for (Component component : navigationPanel.getComponents()) {
+    ArrayList<Component> components = new ArrayList<>(Arrays.asList(navigationPanel.getComponents()));
+    components.add(navBtnUserInfo);
+
+    for (Component component : components) {
       if (component instanceof JToggleButton) {
         JToggleButton button = (JToggleButton) component;
         if (button.isSelected()) {
@@ -150,6 +171,9 @@ public class DashboardFrame extends javax.swing.JFrame {
   // <editor-fold defaultstate="collapsed" desc="Generated
   // <editor-fold defaultstate="collapsed" desc="Generated
   // <editor-fold defaultstate="collapsed" desc="Generated
+  // <editor-fold defaultstate="collapsed" desc="Generated
+  // <editor-fold defaultstate="collapsed" desc="Generated
+  // <editor-fold defaultstate="collapsed" desc="Generated
   // Code">//GEN-BEGIN:initComponents
   private void initComponents() {
 
@@ -157,8 +181,8 @@ public class DashboardFrame extends javax.swing.JFrame {
     cardLayout = new java.awt.CardLayout();
     sidePanel = new javax.swing.JPanel();
     jPanel4 = new javax.swing.JPanel();
-    lblUsername = new javax.swing.JLabel();
     jLabel2 = new javax.swing.JLabel();
+    navBtnUserInfo = new javax.swing.JToggleButton();
     navigationPanel = new javax.swing.JPanel();
     navBtnDeThi = new javax.swing.JToggleButton();
     navBtnThi = new javax.swing.JToggleButton();
@@ -179,29 +203,27 @@ public class DashboardFrame extends javax.swing.JFrame {
     jPanel4.setMaximumSize(new java.awt.Dimension(160, 180));
     jPanel4.setPreferredSize(new java.awt.Dimension(160, 180));
 
-    lblUsername.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-    lblUsername.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-    lblUsername.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_user_30.png"))); // NOI18N
-    lblUsername.setText("Your User Name");
-    lblUsername.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-    lblUsername.setMaximumSize(new java.awt.Dimension(144, 144));
-    lblUsername.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-
     jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
     jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
     jLabel2.setText("SGU");
+
+    navBtnUserInfo.setBackground(new java.awt.Color(60, 63, 65));
+    navBtnUserInfo.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+    navBtnUserInfo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_user_30.png"))); // NOI18N
+    navBtnUserInfo.setText("Your User Name");
+    navBtnUserInfo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+    navBtnUserInfo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
     javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
     jPanel4.setLayout(jPanel4Layout);
     jPanel4Layout.setHorizontalGroup(
         jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblUsername, javax.swing.GroupLayout.Alignment.TRAILING,
-                        javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
-                        Short.MAX_VALUE))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(navBtnUserInfo, javax.swing.GroupLayout.DEFAULT_SIZE,
+                        javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE))
                 .addContainerGap()));
     jPanel4Layout.setVerticalGroup(
         jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -210,9 +232,8 @@ public class DashboardFrame extends javax.swing.JFrame {
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 37,
                     javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 116,
-                    javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(15, Short.MAX_VALUE)));
+                .addComponent(navBtnUserInfo, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
+                .addContainerGap()));
 
     sidePanel.add(jPanel4, java.awt.BorderLayout.NORTH);
 
@@ -340,13 +361,13 @@ public class DashboardFrame extends javax.swing.JFrame {
   private javax.swing.JLabel jLabel2;
   private javax.swing.JLabel jLabel7;
   private javax.swing.JPanel jPanel4;
-  private javax.swing.JLabel lblUsername;
   private javax.swing.JToggleButton navBtnCauHoi;
   private javax.swing.JToggleButton navBtnDangXuat;
   private javax.swing.JToggleButton navBtnDeThi;
   private javax.swing.JToggleButton navBtnThi;
   private javax.swing.JToggleButton navBtnThongKe;
   private javax.swing.JToggleButton navBtnUser;
+  private javax.swing.JToggleButton navBtnUserInfo;
   private javax.swing.JPanel navigationPanel;
   private javax.swing.JPanel sidePanel;
   // End of variables declaration//GEN-END:variables

@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -67,19 +68,27 @@ public class TopicsDAO {
         }
     }
 
-    public boolean create(TopicsDTO topic) throws SQLException {
-        Connection connection = DBConnection.getConnection();
-        String sql = "INSERT INTO topics (tpTitle, tpParent, tpStatus) VALUES (?, ?, ?)";
+public boolean create(TopicsDTO topic) throws SQLException {
+    Connection connection = DBConnection.getConnection();
+    String sql = "INSERT INTO topics (tpTitle, tpParent, tpStatus) VALUES (?, ?, ?)";
 
-        try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            ps.setString(1, topic.getTpTitle());
+    try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        ps.setString(1, topic.getTpTitle());
+
+        // Nếu tpParent là null, đặt NULL vào cột thay vì số nguyên
+        if (topic.getTpParent() == null) {
+            ps.setNull(2, Types.INTEGER);
+        } else {
             ps.setInt(2, topic.getTpParent());
-            ps.setInt(3, topic.getTpStatus());
-
-            int affectedRows = ps.executeUpdate();
-            return affectedRows > 0;
         }
+
+        ps.setInt(3, topic.getTpStatus());
+
+        int affectedRows = ps.executeUpdate();
+        return affectedRows > 0;
     }
+}
+
 
     public boolean update(TopicsDTO topic) throws SQLException {
         Connection connection = DBConnection.getConnection();

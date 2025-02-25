@@ -157,16 +157,6 @@ public class RegisterPanel extends javax.swing.JPanel {
     if (!validateForm()) {
       return;
     }
-    // int result = userBUS.register(username, password, email);
-    // if (result == UserBUS.ACTION_SUCCESS) {
-    // JOptionPane.showMessageDialog(this, "Đăng kí thành công");
-    // authPanel.showLoginPanel();
-    // } else {
-    // JOptionPane.showMessageDialog(this, "Đăng kí thất bại");
-    // txtUserEmail.setText("");
-    // txtPassword.setText("");
-    // txtPassword1.setText("");
-    // }
     try {
       int result = userBUS.register(username, password, email);
       JOptionPane.showMessageDialog(this, "Đăng kí thành công");
