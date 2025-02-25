@@ -8,6 +8,7 @@ import com.example.qlthitracnghiem.BUS.AnswersBUS;
 import com.example.qlthitracnghiem.BUS.ExamBUS;
 import com.example.qlthitracnghiem.BUS.QuestionsBUS;
 import com.example.qlthitracnghiem.BUS.TestBUS;
+import com.example.qlthitracnghiem.DTO.AnswersDTO;
 import com.example.qlthitracnghiem.DTO.ExamDTO;
 import com.example.qlthitracnghiem.DTO.TestDTO;
 import com.example.qlthitracnghiem.GUI.Component.RoundedButton;
@@ -17,7 +18,9 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -32,8 +35,11 @@ public class DoExamJPanel extends javax.swing.JPanel {
     /**
      * Creates new form DoExamJPanel
      */
+ 
+    
     private CardLayout cardLayout;
     private CountdownTimer countdownPN;
+    
     private ExamBUS exBUS;
     private TestBUS tsBUS;
     private QuestionsBUS questBUS;
@@ -43,11 +49,16 @@ public class DoExamJPanel extends javax.swing.JPanel {
     private TestDTO tsDTO;
 
     private List<Integer> quesList;
-
+    ArrayList<QuestionPN> quesPnList ;
+    
+    private boolean isTakingTest = false;
+    Map<Integer, AnswersDTO> recordedAns = new HashMap<>();
+    
     public DoExamJPanel() {
         initComponents();
         cardLayout = new CardLayout();
         currentQuestPN.setLayout(cardLayout);
+        quesPnList = new ArrayList<>();
     }
 
     public void setExDTO(ExamDTO exDTO) {
@@ -57,7 +68,9 @@ public class DoExamJPanel extends javax.swing.JPanel {
     public void setTsDTO(TestDTO tsDTO) {
         this.tsDTO = tsDTO;
     }
-
+    public boolean getTakingTestStatus(){
+        return isTakingTest;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -79,7 +92,7 @@ public class DoExamJPanel extends javax.swing.JPanel {
         jPanel2 = new javax.swing.JPanel();
         timePN = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        submitBtn = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         questListPN = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -135,7 +148,12 @@ public class DoExamJPanel extends javax.swing.JPanel {
 
         jPanel4.setBackground(new java.awt.Color(204, 255, 255));
 
-        jButton1.setText("jButton1");
+        submitBtn.setText("Nộp bài");
+        submitBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                submitBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -143,14 +161,14 @@ public class DoExamJPanel extends javax.swing.JPanel {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap(95, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(submitBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(74, 74, 74))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(50, 50, 50)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(submitBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(54, Short.MAX_VALUE))
         );
 
@@ -183,16 +201,15 @@ public class DoExamJPanel extends javax.swing.JPanel {
         add(jScrollPane1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void roundedButton5ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_roundedButton5ActionPerformed
+    private void submitBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitBtnActionPerformed
         // TODO add your handling code here:
-    }// GEN-LAST:event_roundedButton5ActionPerformed
+        submitTest();
+    }//GEN-LAST:event_submitBtnActionPerformed
 
-    private void btnNopBaiActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnNopBaiActionPerformed
-        // TODO add your handling code here:
-    }// GEN-LAST:event_btnNopBaiActionPerformed
-
+    
     // use to start the timer count down when pressed
     public void startTest() {
+        isTakingTest = true;
         countdownPN = new CountdownTimer(tsDTO.getTestTime());
         timePN.add(countdownPN, BorderLayout.CENTER);
 
@@ -207,8 +224,6 @@ public class DoExamJPanel extends javax.swing.JPanel {
         quesList = (ArrayList<Integer>) exDTO.getQuesIDList();
         int counter = 1;
         
-       
-        
         for (Integer qId : quesList) {
             String pnConstrain = String.valueOf(counter);
             RoundedButton btn = new RoundedButton();
@@ -216,7 +231,9 @@ public class DoExamJPanel extends javax.swing.JPanel {
             btn.setText(pnConstrain);
             btn.setPreferredSize(new java.awt.Dimension(40, 40));
             questListPN.add(btn);
-
+            
+            recordedAns.put(counter,null);
+            
             btn.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -231,31 +248,37 @@ public class DoExamJPanel extends javax.swing.JPanel {
     }
 
     private void createQuestionPN() {
-        ArrayList<QuestionPN> quesPnList = new ArrayList<>();
-
         Integer counter = 1;
         for (Integer qId : quesList) {
             String pnConstrain = String.valueOf(qId);
-//            JPanel pn = new JPanel();
-//            pn.setLayout(new FlowLayout());
             QuestionPN pn = new QuestionPN(counter,qId);
+            
             quesPnList.add(pn);
-            pn.add(new JLabel( qId+" - Some Long Text"));
             currentQuestPN.add(pn, pnConstrain);
             counter++;
         }
-        cardLayout.show(currentQuestPN, "2");
+        cardLayout.show(currentQuestPN, "1");
         
     }
-
-    private void handleChangeQuestion(String qtId) {
-
+    
+    private void submitTest () {
+        int counter = 1;
+        int resultMark = 0;
+        for (QuestionPN quesPn: quesPnList) {
+            AnswersDTO ans = quesPn.getSelectedAnswer();
+            
+            if (ans.getIsRight() == 1) {
+                resultMark++;
+            }
+            counter++;
+        }
+        System.out.println("complte "+ resultMark);
     }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JPanel currentQuestPN;
     private javax.swing.JPanel headerPanel;
-    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
@@ -263,6 +286,7 @@ public class DoExamJPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPanel pnlBaiThiInfo;
     private javax.swing.JPanel questListPN;
+    private javax.swing.JButton submitBtn;
     private javax.swing.JPanel timePN;
     private javax.swing.JLabel tsNameLabel;
     private javax.swing.JLabel tsSubjectLabel;

@@ -11,7 +11,13 @@ import com.example.qlthitracnghiem.DTO.QuestionsDTO;
 import com.example.qlthitracnghiem.utils.ImageUtil;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
+import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
+import javax.swing.ButtonModel;
+import javax.swing.JRadioButton;
 
 /**
  *
@@ -25,8 +31,10 @@ public class QuestionPN extends javax.swing.JPanel {
     // thiet ke sinh vien listbox combobox label, them xoa sinh vien
     private final QuestionsBUS quesBUS = new QuestionsBUS();
     private final AnswersBUS ansBUS = new AnswersBUS();
-    private ButtonGroup  btnGroup;
-    
+
+    private ButtonGroup btnGroup;
+    private Map<JRadioButton, AnswersDTO> mapValues;
+
     private int questOrder;
     private int quesId;
 
@@ -35,28 +43,15 @@ public class QuestionPN extends javax.swing.JPanel {
     public QuestionPN(int numbOrder, int quesId) {
         this.questOrder = numbOrder;
         this.quesId = quesId;
-        
+        mapValues = new HashMap<>();
         btnGroup = new ButtonGroup();
         initComponents();
 //        ImageUtil.setIcon(questContentLB, "/icons/ic_user_30.png", 100, 80);
         myInitComponent();
     }
 
-    public void setQuestionDTO(QuestionsDTO question) {
-        this.quesDTO = question;
-    }
-
-    public void setQuestionOrder(int number) {
-        this.questOrder = number;
-
-    }
-
-    private void setQuestionContent() {
-        contentLabel.setText("Câu " + questOrder + ": ");
-    }
-
     private void myInitComponent() {
-        setQuestionDTO(quesBUS.getQuestionDTOById(quesId));
+        this.quesDTO = quesBUS.getQuestionDTOById(quesId);
         contentLabel.setText("Câu " + questOrder + ": " + quesDTO.getqContent());
         ImageUtil.setIcon(contentLabel, quesDTO.getqPicture(), 100, 80);
         addAnswerForQuestion(quesId);
@@ -67,18 +62,32 @@ public class QuestionPN extends javax.swing.JPanel {
         int order = 65; // ASCII code for 'A'
 
         for (AnswersDTO ans : ansList) {
-            
-            AnswerOptionPN ansPN = new AnswerOptionPN(btnGroup);
             char optText = (char) order;
+            AnswerOptionPN ansPN = new AnswerOptionPN(btnGroup, ans);
             ansPN.setButtonText(String.valueOf(optText)); // Convert char to String
             ansPN.setParagraph(ans.getAwContent());
             ansPN.setImge(ans.getAwPictures());
-
+//            System.out.println(ansPN.getJRadioButton());
+            mapValues.put(ansPN.getJRadioButton(), ans);
             this.add(ansPN);
-            
+
             // Increment order to move to the next letter
             order++;
         }
+    }
+
+    public AnswersDTO getSelectedAnswer() {
+        ButtonModel selectedModel = btnGroup.getSelection();
+        if (selectedModel != null) {
+            Enumeration<AbstractButton> buttons = btnGroup.getElements();
+            while (buttons.hasMoreElements()) {
+                AbstractButton btn = buttons.nextElement();
+                if (btn.getModel() == selectedModel) {
+                    return mapValues.get(btn);
+                }
+            }
+        }
+        return null;
     }
 
     /**
