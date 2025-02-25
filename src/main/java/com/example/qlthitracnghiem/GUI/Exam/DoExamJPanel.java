@@ -24,6 +24,7 @@ import java.util.Map;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -35,11 +36,9 @@ public class DoExamJPanel extends javax.swing.JPanel {
     /**
      * Creates new form DoExamJPanel
      */
- 
-    
     private CardLayout cardLayout;
     private CountdownTimer countdownPN;
-    
+
     private ExamBUS exBUS;
     private TestBUS tsBUS;
     private QuestionsBUS questBUS;
@@ -49,11 +48,10 @@ public class DoExamJPanel extends javax.swing.JPanel {
     private TestDTO tsDTO;
 
     private List<Integer> quesList;
-    ArrayList<QuestionPN> quesPnList ;
-    
+    ArrayList<QuestionPN> quesPnList;
+
     private boolean isTakingTest = false;
-    Map<Integer, AnswersDTO> recordedAns = new HashMap<>();
-    
+
     public DoExamJPanel() {
         initComponents();
         cardLayout = new CardLayout();
@@ -68,9 +66,11 @@ public class DoExamJPanel extends javax.swing.JPanel {
     public void setTsDTO(TestDTO tsDTO) {
         this.tsDTO = tsDTO;
     }
-    public boolean getTakingTestStatus(){
+
+    public boolean getTakingTestStatus() {
         return isTakingTest;
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -206,7 +206,6 @@ public class DoExamJPanel extends javax.swing.JPanel {
         submitTest();
     }//GEN-LAST:event_submitBtnActionPerformed
 
-    
     // use to start the timer count down when pressed
     public void startTest() {
         isTakingTest = true;
@@ -223,7 +222,7 @@ public class DoExamJPanel extends javax.swing.JPanel {
 
         quesList = (ArrayList<Integer>) exDTO.getQuesIDList();
         int counter = 1;
-        
+
         for (Integer qId : quesList) {
             String pnConstrain = String.valueOf(counter);
             RoundedButton btn = new RoundedButton();
@@ -231,9 +230,7 @@ public class DoExamJPanel extends javax.swing.JPanel {
             btn.setText(pnConstrain);
             btn.setPreferredSize(new java.awt.Dimension(40, 40));
             questListPN.add(btn);
-            
-            recordedAns.put(counter,null);
-            
+
             btn.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -244,37 +241,39 @@ public class DoExamJPanel extends javax.swing.JPanel {
             counter++;
         }
 
-         createQuestionPN();
+        createQuestionPN();
     }
 
     private void createQuestionPN() {
         Integer counter = 1;
         for (Integer qId : quesList) {
             String pnConstrain = String.valueOf(qId);
-            QuestionPN pn = new QuestionPN(counter,qId);
-            
+            QuestionPN pn = new QuestionPN(counter, qId);
+
             quesPnList.add(pn);
             currentQuestPN.add(pn, pnConstrain);
             counter++;
         }
         cardLayout.show(currentQuestPN, "1");
-        
+
     }
-    
-    private void submitTest () {
+
+    private void submitTest() {
         int counter = 1;
         int resultMark = 0;
-        for (QuestionPN quesPn: quesPnList) {
+        for (QuestionPN quesPn : quesPnList) {
             AnswersDTO ans = quesPn.getSelectedAnswer();
-            
-            if (ans.getIsRight() == 1) {
-                resultMark++;
+            if (ans != null) {
+                if (ans.getIsRight() == 1) {
+                    resultMark++;
+                }
+                counter++;
             }
-            counter++;
         }
-        System.out.println("complte "+ resultMark);
+        JOptionPane.showMessageDialog(null, "Điểm: "+ resultMark);
+        System.out.println("complte " + resultMark);
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JPanel currentQuestPN;
