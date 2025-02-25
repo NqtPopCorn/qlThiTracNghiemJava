@@ -5,8 +5,17 @@ import com.example.qlthitracnghiem.DAO.QuestionsDAO;
 import com.example.qlthitracnghiem.DTO.QuestionsDTO;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class QuestionsBUS {
+    
+    private static QuestionsBUS instance;
+
+    public static QuestionsBUS getInstance() {
+        if(instance == null)
+            instance = new QuestionsBUS();
+        return instance;
+    }
 
     private final QuestionsDAO questionsDAO;
 

@@ -7,10 +7,18 @@ import java.util.ArrayList;
 
 public class TopicsBUS {
     private TopicsDAO topicsDAO;
+    private static TopicsBUS instance;
 
     // Constructor
     public TopicsBUS() {
         topicsDAO = new TopicsDAO();
+    }
+    
+    // create instance
+    public static TopicsBUS getInstance() {
+        if(instance == null)
+            instance = new TopicsBUS();
+        return instance;
     }
 
     // Hàm kiểm tra trạng thái của chủ đề dựa vào tpID
@@ -25,12 +33,7 @@ public class TopicsBUS {
 
     // Phương thức để lấy tất cả câu hỏi
     public ArrayList<TopicsDTO> getAll() {
-        try {
-            return topicsDAO.getAll(); // Gọi phương thức getAll() từ QuestionDAO
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null; // Hoặc bạn có thể xử lý lỗi theo cách khác
-        }
+        return topicsDAO.getAll(); // Gọi phương thức getAll() từ QuestionDAO
     }
 
     public boolean isTitleExist(String tpTitle) {

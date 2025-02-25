@@ -318,20 +318,20 @@ public class TestPanel extends JPanel {
         editButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/wrench.png")));
         editButton.setBackground(new Color(175, 205, 235));
         editButton.addActionListener(new ActionListener() {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-      
-     EditTestDialog editTestDialog = new EditTestDialog(null, true, test);
-        editTestDialog.setVisible(true);
+            @Override
+            public void actionPerformed(ActionEvent e) {
 
-        // Sau khi đóng dialog, cập nhật lại danh sách bài thi
-        try {
-            updateTestPanel(testBUS.getAll());
-        } catch (Exception ex) {
-            Logger.getLogger(TestPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-});
+             EditTestDialog editTestDialog = new EditTestDialog(null, true, test);
+                editTestDialog.setVisible(true);
+
+                // Sau khi đóng dialog, cập nhật lại danh sách bài thi
+                try {
+                    updateTestPanel(testBUS.getAll());
+                } catch (Exception ex) {
+                    Logger.getLogger(TestPanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
         JButton deleteButton = new JButton("Xóa đề");
         deleteButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/multiply.png")));
         deleteButton.setBackground(new Color(248, 220, 209));

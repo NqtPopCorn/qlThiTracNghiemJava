@@ -7,6 +7,7 @@ package com.example.qlthitracnghiem.DAO;
 import com.example.qlthitracnghiem.DTO.ExamDTO;
 import com.example.qlthitracnghiem.DTO.TestDTO;
 import com.example.qlthitracnghiem.DTO.UserDTO;
+import com.example.qlthitracnghiem.utils.ConvertUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -226,7 +227,7 @@ public class ExamDAO {
                                                                                   // ảnh
         Connection connection = DBConnection.getConnection();
         List<Map<String, String>> awContents = new ArrayList<>();
-        String sql = "SELECT aw.awContent, aw.awPictures FROM answers aw JOIN questions q ON aw.qID=q.qID WHERE q.qID = ?";
+        String sql = "SELECT aw.awContent, aw.awPictures, aw.awID FROM answers aw JOIN questions q ON aw.qID=q.qID WHERE q.qID = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setInt(1, qID);
             ResultSet rs = pstmt.executeQuery();
@@ -234,6 +235,7 @@ public class ExamDAO {
                 Map<String, String> answerData = new HashMap<>();
                 answerData.put("awContent", rs.getString("awContent"));
                 answerData.put("awPictures", rs.getString("awPictures")); // Lấy hình ảnh của câu trả lời
+                answerData.put("awID", String.valueOf(rs.getInt("awID")));
                 awContents.add(answerData);
             }
         }
@@ -303,5 +305,60 @@ public class ExamDAO {
             }
         }
         return examCodes;
+    }
+    
+    public ArrayList<ExamDTO> getAll() throws SQLException {
+        Connection connection = DBConnection.getConnection();
+        String sql = "SELECT * FROM exams";
+        try {
+          PreparedStatement ps = connection.prepareStatement(sql);
+          ResultSet rs = ps.executeQuery();
+          ArrayList<ExamDTO> exams = new ArrayList<>();
+          while (rs.next()) {
+            exams.add(
+                new ExamDTO(
+                        rs.getString("testCode"), 
+                        rs.getString("exOrder"), 
+                        rs.getString("exCode"),
+                        ConvertUtil.convertJSONArrayToArrayString(new JSONArray(rs.getString("ex_quesIDs"))
+                    )));
+          }
+          return exams;
+        } catch (SQLException e) {
+          e.printStackTrace();
+          throw e;
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
+    public ExamDTO getExamDtoByExamCode(String examCode) throws SQLException {
+        ExamDTO examDto = new ExamDTO();
+        Connection connection = DBConnection.getConnection();
+        String sql = "SELECT * FROM exams WHERE exCode = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, examCode);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                String questions = rs.getString("ex_quesIDs");
+                String[] quesIDs = (questions != null) ? ConvertUtil.convertJSONArrayToArrayString(new JSONArray(questions)) : new String[0];
+                examDto.setTestCode(rs.getString("testCode"));
+                examDto.setExOrder(rs.getString("exOrder"));
+                examDto.setExCode(rs.getString("exCode"));
+                examDto.setExCode(rs.getString("exCode"));
+                examDto.setEx_quesIDs(quesIDs);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return examDto;
     }
 }

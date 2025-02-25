@@ -9,8 +9,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 public class AnswersDAO {
+    
+    private static AnswersDAO instance;
+    
+    public static AnswersDAO getInstance() {
+        if(instance == null)
+            instance = new AnswersDAO();
+        return instance;
+    }
 
     public AnswersDTO getAnswerByID(int awID) throws SQLException {
         Connection connection = DBConnection.getConnection();
@@ -92,6 +101,26 @@ public class AnswersDAO {
 
             return ps.executeUpdate() > 0;
         }
+    }
+
+    public List<AnswersDTO> getAnswerByQuestionID(String questionID) throws SQLException {
+        Connection connection = DBConnection.getConnection();
+        String sql = "SELECT * FROM answers WHERE qID = ?";
+        ArrayList<AnswersDTO> answersList = new ArrayList<>();
+
+        try (PreparedStatement ps = connection.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                answersList.add(new AnswersDTO(
+                        rs.getInt("awID"),
+                        rs.getInt("qID"),
+                        rs.getString("awContent"),
+                        rs.getString("awPictures"),
+                        rs.getInt("isRight"),
+                        rs.getInt("awStatus")));
+            }
+        }
+        return answersList;
     }
 
 }

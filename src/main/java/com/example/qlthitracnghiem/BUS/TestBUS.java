@@ -13,11 +13,18 @@ import java.sql.SQLException;
 public class TestBUS {
   public static final int ACTION_SUCCESS = 1;
   public static final int ACTION_ERROR = -9999;
+  private static TestBUS instance;
 
   private TestDAO testDAO;
 
   public TestBUS() {
     testDAO = new TestDAO();
+  }
+  
+  public static TestBUS getInstance() {
+      if(instance == null)
+          instance = new TestBUS();
+      return instance;
   }
 
   public ArrayList<TestDTO> getAll() throws Exception {
@@ -38,5 +45,9 @@ public class TestBUS {
       e.printStackTrace();
       return new ArrayList<>();
     }
+  }
+  
+  public TestDTO getTestDtoByTestCode(String testCode) throws SQLException {
+      return testDAO.getTestDtoByTestCode(testCode);
   }
 }

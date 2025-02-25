@@ -4,6 +4,7 @@
  */
 package com.example.qlthitracnghiem.DAO;
 
+import com.example.qlthitracnghiem.DTO.ExamDTO;
 import com.example.qlthitracnghiem.DTO.TestDTO;
 import com.example.qlthitracnghiem.DTO.UserDTO;
 
@@ -14,8 +15,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.example.qlthitracnghiem.interfaces.CrudInterface;
+import com.example.qlthitracnghiem.utils.ConvertUtil;
 import com.example.qlthitracnghiem.utils.DBConnection;
 import java.time.LocalDateTime;
+import org.json.JSONArray;
 
 // chưa sửa lại mấy phương thức create,update,delete 
 public class TestDAO implements CrudInterface<UserDTO> {
@@ -154,4 +157,39 @@ public class TestDAO implements CrudInterface<UserDTO> {
   // throw e;
   // }
   // }
+
+    public TestDTO getTestDtoByTestCode(String testCode) throws SQLException {
+        TestDTO testDto = null;
+        Connection connection = DBConnection.getConnection();
+        String sql = "SELECT * FROM test WHERE testCode = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, testCode);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                testDto = new TestDTO(
+                    rs.getInt("testID"),
+                    rs.getString("testCode"),
+                    rs.getString("testTitle"),
+                    rs.getInt("testTime"),
+                    rs.getInt("tpID"),
+                    rs.getInt("num_easy"),
+                    rs.getInt("num_medium"),
+                    rs.getInt("num_diff"),
+                    rs.getInt("testLimit"),
+                    rs.getObject("testDate", LocalDateTime.class),
+                    rs.getInt("testStatus"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return testDto;
+    }
+  
+  
 }

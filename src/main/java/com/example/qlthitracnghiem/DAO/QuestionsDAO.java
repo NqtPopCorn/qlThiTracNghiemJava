@@ -16,7 +16,7 @@ public class QuestionsDAO {
 
     public ArrayList<QuestionsDTO> getAll() throws SQLException {
         // Get the database connection
-
+        Connection connection = DBConnection.getConnection();
         // SQL query to fetch all questions
         String sql = "SELECT * FROM questions";
 

@@ -153,10 +153,11 @@ public class QuestionPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSuaChuDe)
-                    .addComponent(btnThemChuDe, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton5))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnThemChuDe, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnSuaChuDe)
+                        .addComponent(jButton5)))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 598, Short.MAX_VALUE)
                 .addContainerGap())
@@ -241,8 +242,7 @@ public class QuestionPanel extends javax.swing.JPanel {
         jPanel2.setBackground(new java.awt.Color(204, 204, 204));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Câu Hỏi");
+        jLabel1.setText("Tên chủ đề");
 
         jButton2.setText("Thêm");
         jButton2.setToolTipText("Thêm vào chủ đề hoặc thêm mới");
