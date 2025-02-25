@@ -209,12 +209,16 @@ public class DoExamJPanel extends javax.swing.JPanel {
     // use to start the timer count down when pressed
     public void startTest() {
         isTakingTest = true;
-        countdownPN = new CountdownTimer(tsDTO.getTestTime());
+        
+        Runnable action = () -> {
+            submitTest();
+        };
+        countdownPN = new CountdownTimer(tsDTO.getTestTime(), action);
         timePN.add(countdownPN, BorderLayout.CENTER);
 
         tsNameLabel.setText("Bài thi: " + tsDTO.getTestTitle());
         tsSubjectLabel.setText("Mã bài thi: " + tsDTO.getTestCode());
-//        countdownPN.startTimer();
+        countdownPN.startTimer();
         renderQuestList();
     }
 
@@ -270,10 +274,17 @@ public class DoExamJPanel extends javax.swing.JPanel {
                 counter++;
             }
         }
-        JOptionPane.showMessageDialog(null, "Điểm: "+ resultMark);
+        JOptionPane.showMessageDialog(null, "Điểm: " + resultMark);
         System.out.println("complte " + resultMark);
+        clearPanelComponents();
     }
-
+    
+    public  void clearPanelComponents() {
+        
+            this.removeAll(); // Remove all components
+            this.revalidate(); // Revalidate the layout
+            this.repaint();    // Repaint the panel
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JPanel currentQuestPN;
