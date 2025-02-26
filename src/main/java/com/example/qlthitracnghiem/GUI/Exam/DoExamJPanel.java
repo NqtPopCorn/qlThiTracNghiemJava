@@ -7,9 +7,11 @@ package com.example.qlthitracnghiem.GUI.Exam;
 import com.example.qlthitracnghiem.BUS.AnswersBUS;
 import com.example.qlthitracnghiem.BUS.ExamBUS;
 import com.example.qlthitracnghiem.BUS.QuestionsBUS;
+import com.example.qlthitracnghiem.BUS.ResultBUS;
 import com.example.qlthitracnghiem.BUS.TestBUS;
 import com.example.qlthitracnghiem.DTO.AnswersDTO;
 import com.example.qlthitracnghiem.DTO.ExamDTO;
+import com.example.qlthitracnghiem.DTO.ResultDTO;
 import com.example.qlthitracnghiem.DTO.TestDTO;
 import com.example.qlthitracnghiem.GUI.Component.RoundedButton;
 import java.awt.BorderLayout;
@@ -17,6 +19,8 @@ import java.awt.CardLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +30,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import org.json.JSONArray;
 
 /**
  *
@@ -41,8 +46,7 @@ public class DoExamJPanel extends javax.swing.JPanel {
 
     private ExamBUS exBUS;
     private TestBUS tsBUS;
-    private QuestionsBUS questBUS;
-    private AnswersBUS ansBUS;
+    private ResultBUS rsBUS = new ResultBUS();
 
     private ExamDTO exDTO;
     private TestDTO tsDTO;
@@ -51,6 +55,8 @@ public class DoExamJPanel extends javax.swing.JPanel {
     ArrayList<QuestionPN> quesPnList;
 
     private boolean isTakingTest = false;
+    private int rsNum = 1;
+    private int userId = 2;
 
     public DoExamJPanel() {
         initComponents();
@@ -265,6 +271,8 @@ public class DoExamJPanel extends javax.swing.JPanel {
     private void submitTest() {
         int counter = 1;
         int resultMark = 0;
+        JSONArray ansJSONArray = new JSONArray();
+        
         for (QuestionPN quesPn : quesPnList) {
             AnswersDTO ans = quesPn.getSelectedAnswer();
             if (ans != null) {
@@ -272,8 +280,17 @@ public class DoExamJPanel extends javax.swing.JPanel {
                     resultMark++;
                 }
                 counter++;
+                ansJSONArray.put(ans.getAwID());
             }
         }
+        ResultDTO rsDTO = new ResultDTO();
+        rsDTO.setExCode(exDTO.getExCode());
+        rsDTO.setRsMark(BigDecimal.ONE);
+        rsDTO.setRsDate(new Timestamp(System.currentTimeMillis()));
+        rsDTO.setRsAnswers(ansJSONArray.toString());
+        rsDTO.setRsNum(rsNum);
+        rsDTO.setUserID(userId);
+        rsBUS.addResult(rsDTO);
         JOptionPane.showMessageDialog(null, "Điểm: " + resultMark);
         System.out.println("complte " + resultMark);
         clearPanelComponents();
@@ -284,6 +301,7 @@ public class DoExamJPanel extends javax.swing.JPanel {
             this.removeAll(); // Remove all components
             this.revalidate(); // Revalidate the layout
             this.repaint();    // Repaint the panel
+            
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
