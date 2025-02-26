@@ -4,9 +4,7 @@
  */
 package com.example.qlthitracnghiem.GUI.Exam;
 
-import com.example.qlthitracnghiem.BUS.AnswersBUS;
 import com.example.qlthitracnghiem.BUS.ExamBUS;
-import com.example.qlthitracnghiem.BUS.QuestionsBUS;
 import com.example.qlthitracnghiem.BUS.ResultBUS;
 import com.example.qlthitracnghiem.BUS.TestBUS;
 import com.example.qlthitracnghiem.DTO.AnswersDTO;
@@ -14,22 +12,17 @@ import com.example.qlthitracnghiem.DTO.ExamDTO;
 import com.example.qlthitracnghiem.DTO.ResultDTO;
 import com.example.qlthitracnghiem.DTO.TestDTO;
 import com.example.qlthitracnghiem.GUI.Component.RoundedButton;
+import com.example.qlthitracnghiem.GUI.DashboardFrame;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import javax.swing.BoxLayout;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import org.json.JSONArray;
 
 /**
@@ -41,6 +34,7 @@ public class DoExamJPanel extends javax.swing.JPanel {
     /**
      * Creates new form DoExamJPanel
      */
+    private DashboardFrame dbFrame;
     private CardLayout cardLayout;
     private CountdownTimer countdownPN;
 
@@ -55,10 +49,12 @@ public class DoExamJPanel extends javax.swing.JPanel {
     ArrayList<QuestionPN> quesPnList;
 
     private boolean isTakingTest = false;
-    private int rsNum = 1;
+
     private int userId = 2;
 
-    public DoExamJPanel() {
+    public DoExamJPanel(DashboardFrame dbFrame) {
+        this.dbFrame = dbFrame;
+        
         initComponents();
         cardLayout = new CardLayout();
         currentQuestPN.setLayout(cardLayout);
@@ -215,7 +211,7 @@ public class DoExamJPanel extends javax.swing.JPanel {
     // use to start the timer count down when pressed
     public void startTest() {
         isTakingTest = true;
-        
+        dbFrame.disableAllNavButtons();
         Runnable action = () -> {
             submitTest();
         };
@@ -244,7 +240,6 @@ public class DoExamJPanel extends javax.swing.JPanel {
             btn.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    System.out.println("click");
                     cardLayout.show(currentQuestPN, String.valueOf(qId));
                 }
             });
@@ -269,6 +264,8 @@ public class DoExamJPanel extends javax.swing.JPanel {
     }
 
     private void submitTest() {
+        isTakingTest = false;
+        dbFrame.enableAllNavButtons();
         int counter = 1;
         int resultMark = 0;
         JSONArray ansJSONArray = new JSONArray();
@@ -283,24 +280,29 @@ public class DoExamJPanel extends javax.swing.JPanel {
                 ansJSONArray.put(ans.getAwID());
             }
         }
+        int currentTakingTestTime = rsBUS.getHighestRsNum(userId, exDTO.getExCode());
         ResultDTO rsDTO = new ResultDTO();
         rsDTO.setExCode(exDTO.getExCode());
         rsDTO.setRsMark(BigDecimal.ONE);
         rsDTO.setRsDate(new Timestamp(System.currentTimeMillis()));
         rsDTO.setRsAnswers(ansJSONArray.toString());
-        rsDTO.setRsNum(rsNum);
+        rsDTO.setRsNum(currentTakingTestTime + 1);
         rsDTO.setUserID(userId);
         rsBUS.addResult(rsDTO);
         JOptionPane.showMessageDialog(null, "Điểm: " + resultMark);
-        System.out.println("complte " + resultMark);
         clearPanelComponents();
     }
     
     public  void clearPanelComponents() {
         
             this.removeAll(); // Remove all components
+            initComponents();
+            cardLayout = new CardLayout();
+            currentQuestPN.setLayout(cardLayout);
+            quesPnList = new ArrayList<>();
             this.revalidate(); // Revalidate the layout
             this.repaint();    // Repaint the panel
+            
             
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -324,7 +326,7 @@ public class DoExamJPanel extends javax.swing.JPanel {
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1200, 800);
-        frame.add(new DoExamJPanel());
+//        frame.add(new DoExamJPanel());
         frame.setVisible(true);
     }
 }
