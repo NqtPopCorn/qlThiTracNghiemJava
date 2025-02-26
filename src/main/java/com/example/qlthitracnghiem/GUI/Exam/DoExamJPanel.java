@@ -4,9 +4,33 @@
  */
 package com.example.qlthitracnghiem.GUI.Exam;
 
+import com.example.qlthitracnghiem.BUS.AnswersBUS;
+import com.example.qlthitracnghiem.BUS.ExamBUS;
+import com.example.qlthitracnghiem.BUS.QuestionsBUS;
+import com.example.qlthitracnghiem.BUS.ResultBUS;
+import com.example.qlthitracnghiem.BUS.TestBUS;
+import com.example.qlthitracnghiem.DTO.AnswersDTO;
+import com.example.qlthitracnghiem.DTO.ExamDTO;
+import com.example.qlthitracnghiem.DTO.ResultDTO;
+import com.example.qlthitracnghiem.DTO.TestDTO;
+import com.example.qlthitracnghiem.GUI.Component.RoundedButton;
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import org.json.JSONArray;
 
 /**
  *
@@ -17,45 +41,40 @@ public class DoExamJPanel extends javax.swing.JPanel {
     /**
      * Creates new form DoExamJPanel
      */
-    private String userId;
-    private String testCode;
-    private String testOrder;
-    private ArrayList<String> questList;
+    private CardLayout cardLayout;
+    private CountdownTimer countdownPN;
+
+    private ExamBUS exBUS;
+    private TestBUS tsBUS;
+    private ResultBUS rsBUS = new ResultBUS();
+
+    private ExamDTO exDTO;
+    private TestDTO tsDTO;
+
+    private List<Integer> quesList;
+    ArrayList<QuestionPN> quesPnList;
+
+    private boolean isTakingTest = false;
+    private int rsNum = 1;
+    private int userId = 2;
 
     public DoExamJPanel() {
         initComponents();
-        setUserId("1");
-        setTestCode("TST001");
-        setTestOrder("A");
-        initComponent();
-
+        cardLayout = new CardLayout();
+        currentQuestPN.setLayout(cardLayout);
+        quesPnList = new ArrayList<>();
     }
 
-    public String getUserId() {
-        return userId;
+    public void setExDTO(ExamDTO exDTO) {
+        this.exDTO = exDTO;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setTsDTO(TestDTO tsDTO) {
+        this.tsDTO = tsDTO;
     }
 
-    public String getTestCode() {
-        return testCode;
-    }
-
-    public void setTestCode(String testCode) {
-        this.testCode = testCode;
-    }
-
-    public String getTestOrder() {
-        return testOrder;
-    }
-
-    public void setTestOrder(String testOrder) {
-        this.testOrder = testOrder;
-    }
-
-    public void setTimer() {
+    public boolean getTakingTestStatus() {
+        return isTakingTest;
     }
 
     /**
@@ -79,14 +98,11 @@ public class DoExamJPanel extends javax.swing.JPanel {
         jPanel2 = new javax.swing.JPanel();
         timePN = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        submitBtn = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jPanel3 = new javax.swing.JPanel();
-        roundedButton1 = new com.example.qlthitracnghiem.GUI.Component.RoundedButton();
-        roundedButton5 = new com.example.qlthitracnghiem.GUI.Component.RoundedButton();
+        questListPN = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        pnlCenter = new javax.swing.JPanel();
-        question1 = new com.example.qlthitracnghiem.GUI.CauHoi.Question_old();
+        currentQuestPN = new javax.swing.JPanel();
 
         setPreferredSize(new java.awt.Dimension(1206, 760));
         setLayout(new java.awt.BorderLayout());
@@ -138,7 +154,12 @@ public class DoExamJPanel extends javax.swing.JPanel {
 
         jPanel4.setBackground(new java.awt.Color(204, 255, 255));
 
-        jButton1.setText("jButton1");
+        submitBtn.setText("Nộp bài");
+        submitBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                submitBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -146,14 +167,14 @@ public class DoExamJPanel extends javax.swing.JPanel {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap(95, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(submitBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(74, 74, 74))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(50, 50, 50)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(submitBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(54, Short.MAX_VALUE))
         );
 
@@ -163,69 +184,137 @@ public class DoExamJPanel extends javax.swing.JPanel {
 
         add(headerPanel, java.awt.BorderLayout.PAGE_START);
 
+        jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane2.setAlignmentX(1.0F);
+        jScrollPane2.setHorizontalScrollBar(null);
         jScrollPane2.setPreferredSize(new java.awt.Dimension(204, 565));
 
-        jPanel3.setBackground(new java.awt.Color(102, 255, 204));
-        jPanel3.setPreferredSize(new java.awt.Dimension(200, 563));
-        jPanel3.setRequestFocusEnabled(false);
-
-        roundedButton1.setForeground(new java.awt.Color(0, 0, 0));
-        roundedButton1.setText("1");
-        roundedButton1.setPreferredSize(new java.awt.Dimension(40, 40));
-        jPanel3.add(roundedButton1);
-
-        roundedButton5.setText("2");
-        roundedButton5.setPreferredSize(new java.awt.Dimension(40, 40));
-        roundedButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                roundedButton5ActionPerformed(evt);
-            }
-        });
-        jPanel3.add(roundedButton5);
-
-        jScrollPane2.setViewportView(jPanel3);
+        questListPN.setBackground(new java.awt.Color(102, 255, 204));
+        questListPN.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 0, 1, 6));
+        questListPN.setPreferredSize(new java.awt.Dimension(200, 563));
+        questListPN.setRequestFocusEnabled(false);
+        jScrollPane2.setViewportView(questListPN);
 
         add(jScrollPane2, java.awt.BorderLayout.LINE_END);
 
         jScrollPane1.setViewportBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jScrollPane1.setPreferredSize(new java.awt.Dimension(804, 100));
 
-        pnlCenter.setPreferredSize(new java.awt.Dimension(800, 5000));
-        pnlCenter.setLayout(new javax.swing.BoxLayout(pnlCenter, javax.swing.BoxLayout.Y_AXIS));
-        pnlCenter.add(question1);
-
-        jScrollPane1.setViewportView(pnlCenter);
+        currentQuestPN.setPreferredSize(new java.awt.Dimension(800, 5000));
+        currentQuestPN.setLayout(new java.awt.CardLayout());
+        jScrollPane1.setViewportView(currentQuestPN);
 
         add(jScrollPane1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void roundedButton5ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_roundedButton5ActionPerformed
+    private void submitBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitBtnActionPerformed
         // TODO add your handling code here:
-    }// GEN-LAST:event_roundedButton5ActionPerformed
+        submitTest();
+    }//GEN-LAST:event_submitBtnActionPerformed
 
-    private void btnNopBaiActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnNopBaiActionPerformed
-        // TODO add your handling code here:
-    }// GEN-LAST:event_btnNopBaiActionPerformed
+    // use to start the timer count down when pressed
+    public void startTest() {
+        isTakingTest = true;
+        
+        Runnable action = () -> {
+            submitTest();
+        };
+        countdownPN = new CountdownTimer(tsDTO.getTestTime(), action);
+        timePN.add(countdownPN, BorderLayout.CENTER);
 
-    public void initComponent() {
-//        timePN.add(new CountdownTimer(100), BorderLayout.CENTER);
+        tsNameLabel.setText("Bài thi: " + tsDTO.getTestTitle());
+        tsSubjectLabel.setText("Mã bài thi: " + tsDTO.getTestCode());
+        countdownPN.startTimer();
+        renderQuestList();
     }
 
+    private void renderQuestList() {
+
+        quesList = (ArrayList<Integer>) exDTO.getQuesIDList();
+        int counter = 1;
+
+        for (Integer qId : quesList) {
+            String pnConstrain = String.valueOf(counter);
+            RoundedButton btn = new RoundedButton();
+            btn.setForeground(new java.awt.Color(0, 0, 0));
+            btn.setText(pnConstrain);
+            btn.setPreferredSize(new java.awt.Dimension(40, 40));
+            questListPN.add(btn);
+
+            btn.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    System.out.println("click");
+                    cardLayout.show(currentQuestPN, String.valueOf(qId));
+                }
+            });
+            counter++;
+        }
+
+        createQuestionPN();
+    }
+
+    private void createQuestionPN() {
+        Integer counter = 1;
+        for (Integer qId : quesList) {
+            String pnConstrain = String.valueOf(qId);
+            QuestionPN pn = new QuestionPN(counter, qId);
+
+            quesPnList.add(pn);
+            currentQuestPN.add(pn, pnConstrain);
+            counter++;
+        }
+        cardLayout.show(currentQuestPN, "1");
+
+    }
+
+    private void submitTest() {
+        int counter = 1;
+        int resultMark = 0;
+        JSONArray ansJSONArray = new JSONArray();
+        
+        for (QuestionPN quesPn : quesPnList) {
+            AnswersDTO ans = quesPn.getSelectedAnswer();
+            if (ans != null) {
+                if (ans.getIsRight() == 1) {
+                    resultMark++;
+                }
+                counter++;
+                ansJSONArray.put(ans.getAwID());
+            }
+        }
+        ResultDTO rsDTO = new ResultDTO();
+        rsDTO.setExCode(exDTO.getExCode());
+        rsDTO.setRsMark(BigDecimal.ONE);
+        rsDTO.setRsDate(new Timestamp(System.currentTimeMillis()));
+        rsDTO.setRsAnswers(ansJSONArray.toString());
+        rsDTO.setRsNum(rsNum);
+        rsDTO.setUserID(userId);
+        rsBUS.addResult(rsDTO);
+        JOptionPane.showMessageDialog(null, "Điểm: " + resultMark);
+        System.out.println("complte " + resultMark);
+        clearPanelComponents();
+    }
+    
+    public  void clearPanelComponents() {
+        
+            this.removeAll(); // Remove all components
+            this.revalidate(); // Revalidate the layout
+            this.repaint();    // Repaint the panel
+            
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JPanel currentQuestPN;
     private javax.swing.JPanel headerPanel;
-    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPanel pnlBaiThiInfo;
-    private javax.swing.JPanel pnlCenter;
-    private com.example.qlthitracnghiem.GUI.CauHoi.Question_old question1;
-    private com.example.qlthitracnghiem.GUI.Component.RoundedButton roundedButton1;
-    private com.example.qlthitracnghiem.GUI.Component.RoundedButton roundedButton5;
+    private javax.swing.JPanel questListPN;
+    private javax.swing.JButton submitBtn;
     private javax.swing.JPanel timePN;
     private javax.swing.JLabel tsNameLabel;
     private javax.swing.JLabel tsSubjectLabel;

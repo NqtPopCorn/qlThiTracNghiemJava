@@ -72,4 +72,9 @@ public class QuestionsDTO {
         this.qStatus = qStatus;
     }
 
+    @Override
+    public String toString() {
+        return "QuestionsDTO{" + "qID=" + qID + ", qContent=" + qContent + ", qPicture=" + qPicture + ", qTopicID=" + qTopicID + ", qLevel=" + qLevel + ", qStatus=" + qStatus + '}';
+    }
+    
 }
