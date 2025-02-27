@@ -86,6 +86,7 @@ public class DashboardFrame extends javax.swing.JFrame {
         currentPanel.add(thongKePanel, navBtnThongKe.getActionCommand());
         currentPanel.add(questionPanel, navBtnCauHoi.getActionCommand());
         currentPanel.add(testPanel, navBtnDeThi.getActionCommand());
+        currentPanel.add(infoPanel,"InfoPanel");
 
         buttonGroup.add(navBtnDeThi);
         buttonGroup.add(navBtnCauHoi);
