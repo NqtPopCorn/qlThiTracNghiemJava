@@ -5,6 +5,7 @@
 package com.example.qlthitracnghiem.GUI;
 
 import javax.swing.*;
+import javax.swing.tree.TreePath;
 
 import com.example.qlthitracnghiem.DTO.UserDTO;
 import com.example.qlthitracnghiem.GUI.Auth.AuthFrame;
@@ -174,6 +175,8 @@ public class DashboardFrame extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
 
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
     // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
