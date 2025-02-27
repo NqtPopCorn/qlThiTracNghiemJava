@@ -4,7 +4,10 @@
  */
 package com.example.qlthitracnghiem.GUI.Component;
 
+import java.awt.FontMetrics;
+
 import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 /**
  *

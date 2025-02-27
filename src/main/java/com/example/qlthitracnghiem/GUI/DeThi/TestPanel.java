@@ -2,12 +2,10 @@
 package com.example.qlthitracnghiem.GUI.DeThi;
 
 import com.example.qlthitracnghiem.BUS.ExamBUS;
-import com.example.qlthitracnghiem.BUS.QuestionsBUS;
 import com.example.qlthitracnghiem.BUS.TestBUS;
-import com.example.qlthitracnghiem.DTO.QuestionsDTO;
+import com.example.qlthitracnghiem.DAO.ExamDAO;
 import com.example.qlthitracnghiem.DTO.TestDTO;
 import com.example.qlthitracnghiem.utils.ImageUtil;
-import org.json.JSONArray;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,11 +15,13 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 public class TestPanel extends JPanel {
     private JPanel mainPanel;
     private JScrollPane scrollPane;
@@ -153,7 +153,7 @@ public class TestPanel extends JPanel {
                         test.getTestDate() != null ? test.getTestDate().toString() : "Không có ngày",
                         test.getTestStatus() == 1 ? "Đang mở" : "Đã kết thúc",
                         test.getTestCode(),
-                        test)); // Truyền đối tượng TestDTO vào đây
+                        test));
             }
         }
 
@@ -190,10 +190,44 @@ public class TestPanel extends JPanel {
                     List<String> examCodes = examBUS.getExamCode(testCode);
                     System.err.println("examCode: " + examCodes);
 
+                    // Tạo detailPanel
                     JPanel detailPanel = new JPanel(new BorderLayout());
                     detailPanel.setBackground(new Color(255, 255, 255));
 
-                    // Panel chứa thông tin bài thi và câu hỏi
+                    // Tạo buttonPanel chứa các nút
+                    JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+                    buttonPanel.setBackground(Color.WHITE);
+
+                    // Tạo nút Export
+                    JButton exportButton = new JButton("Export to DOCX");
+                    exportButton.setBackground(new Color(28, 58, 118));
+                    exportButton.setForeground(Color.WHITE);
+                    exportButton.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            String filePath = ExportDOCX.chooseFileToSave();
+                            System.err.println("filePath: " + filePath);
+                            if (filePath != null) {
+                                try {
+                                    ExportDOCX.exportToDocx(test, examCodes, filePath);
+                                    JOptionPane.showMessageDialog(TestPanel.this, "Xuất file thành công!", "Thành công",
+                                            JOptionPane.INFORMATION_MESSAGE);
+                                } catch (Exception ex) {
+                                    ex.printStackTrace();
+                                    JOptionPane.showMessageDialog(TestPanel.this, "Lỗi khi xuất file!", "Lỗi",
+                                            JOptionPane.ERROR_MESSAGE);
+                                }
+                            } else {
+                                JOptionPane.showMessageDialog(TestPanel.this, "Không có file được chọn!", "Thông báo",
+                                        JOptionPane.WARNING_MESSAGE);
+                            }
+                        }
+                    });
+
+                    buttonPanel.add(exportButton);
+
+                    detailPanel.add(buttonPanel, BorderLayout.NORTH);
+
                     JPanel contentPanel = new JPanel();
                     contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
                     contentPanel.setBackground(new Color(255, 255, 255));
@@ -215,60 +249,53 @@ public class TestPanel extends JPanel {
                         contentPanel.add(Box.createVerticalStrut(20)); // Khoảng cách giữa phần thời gian và mã đề đầu
                                                                        // tiên
 
-                        // Lấy danh sách câu hỏi và câu trả lời cho exCode hiện tại
                         List<Integer> exQuesIDs = examBUS.getExQuesIDsByExCode(exCode);
                         System.err.println("ex_quesIDs: " + exQuesIDs);
 
                         int questionNumber = 1;
                         for (int qID : exQuesIDs) {
-                            // Lấy nội dung câu hỏi và hình ảnh
                             Map<String, String> questionData = examBUS.getQuestionContent(qID);
                             String qContent = questionData.get("qContent");
                             String qPictures = questionData.get("qPictures");
-                         
 
-                            // Tạo panel cho câu hỏi
                             JPanel questionPanel = new JPanel();
                             questionPanel.setLayout(new BoxLayout(questionPanel, BoxLayout.Y_AXIS));
                             questionPanel.setBackground(new Color(255, 255, 255));
 
-                            // Hiển thị nội dung câu hỏi
                             JLabel qContentLabel = new JLabel("Câu " + questionNumber + ": " + qContent);
                             qContentLabel.setFont(new Font("Serif", Font.BOLD, 12));
                             questionPanel.add(qContentLabel);
-
-                            // Hiển thị hình ảnh câu hỏi (nếu có)
                             if (qPictures != null && !qPictures.isEmpty()) {
                                 JLabel qPictureLabel = new JLabel("");
                                 ImageUtil.setIcon(qPictureLabel, qPictures, 100, 100);
-                                
                                 qPictureLabel.setFont(new Font("Serif", Font.PLAIN, 12));
                                 questionPanel.add(qPictureLabel);
                             }
 
-                            // Lấy danh sách câu trả lời và hình ảnh
                             List<Map<String, String>> awContents = examBUS.getAnswerContent(qID);
 
-                            // Tạo ButtonGroup cho câu hỏi hiện tại
                             ButtonGroup buttonGroup = new ButtonGroup();
-                            JLabel answerLabel=new JLabel();
                             for (Map<String, String> answerData : awContents) {
                                 String awContent = answerData.get("awContent");
                                 String awPictures = answerData.get("awPictures");
 
-                                // Tạo JRadioButton cho mỗi câu trả lời
+                                JPanel answerPanel = new JPanel();
+                                answerPanel.setLayout(new BoxLayout(answerPanel, BoxLayout.Y_AXIS));
+                                answerPanel.setBackground(new Color(255, 255, 255));
+
+                                if (awPictures != null && !awPictures.isEmpty()) {
+                                    JLabel answerImageLabel = new JLabel();
+                                    ImageUtil.setIcon(answerImageLabel, awPictures, 100, 100); // Điều chỉnh kích thước
+                                                                                               // ảnh nếu cần
+                                    answerPanel.add(answerImageLabel);
+                                }
+
                                 JRadioButton radioButton = new JRadioButton(awContent);
                                 radioButton.setFont(new Font("Serif", Font.PLAIN, 12));
                                 radioButton.setBackground(new Color(255, 255, 255));
-
-                                // Hiển thị hình ảnh câu trả lời (nếu có)
-                                if (awPictures != null && !awPictures.isEmpty()) {
-                                    answerLabel.setText("");
-                                    ImageUtil.setIcon(answerLabel, awPictures, 100, 100);
-                                }
-
                                 buttonGroup.add(radioButton);
-                                questionPanel.add(radioButton);
+                                answerPanel.add(radioButton);
+                                questionPanel.add(answerPanel);
                             }
 
                             contentPanel.add(questionPanel);
@@ -303,12 +330,10 @@ public class TestPanel extends JPanel {
 
                     bottomPanel.add(btnBack);
                     detailPanel.add(bottomPanel, BorderLayout.SOUTH);
-
                     JScrollPane scrollPane = new JScrollPane(detailPanel);
                     scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
                     scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-                    // Cập nhật mainPanel với JScrollPane
                     mainPanel.removeAll();
                     mainPanel.add(scrollPane);
                     mainPanel.revalidate();
@@ -325,21 +350,51 @@ public class TestPanel extends JPanel {
         editButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                EditTestDialog editTestDialog = new EditTestDialog(null, true, test);
-                editTestDialog.setVisible(true);
-
-                // Sau khi đóng dialog, cập nhật lại danh sách bài thi
+                List<String> examCodes;
                 try {
-                    updateTestPanel(testBUS.getAll());
-                } catch (Exception ex) {
-                    Logger.getLogger(TestPanel.class.getName()).log(Level.SEVERE, null, ex);
+                    examCodes = examBUS.getExamCode(testCode);
+                    boolean canEdit = true;
+                    for (String exCode : examCodes) {
+                        if (examBUS.isExCodeExistInResult(exCode)) {
+                            JOptionPane.showMessageDialog(
+                                    TestPanel.this,
+                                    "Đã có học sinh làm bài kiểm tra, không thể chỉnh sửa!",
+                                    "Thông báo",
+                                    JOptionPane.WARNING_MESSAGE);
+                            canEdit = false;
+                            break;
+                        }
+                    }
+
+                    if (canEdit) {
+                        EditTestDialog editTestDialog = new EditTestDialog(null, true, test);
+                        editTestDialog.setVisible(true);
+                        try {
+                            updateTestPanel(testBUS.getAll());
+                        } catch (Exception ex) {
+                            Logger.getLogger(TestPanel.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(
+                            TestPanel.this,
+                            "Lỗi khi kiểm tra mã đề thi!",
+                            "Lỗi",
+                            JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
         JButton deleteButton = new JButton("Xóa đề");
         deleteButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/multiply.png")));
         deleteButton.setBackground(new Color(248, 220, 209));
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                deleteButtonActionPerformed(testCode);
+            }
+        });
+
         buttonPanel.add(viewButton);
         buttonPanel.add(editButton);
         buttonPanel.add(deleteButton);
@@ -351,6 +406,36 @@ public class TestPanel extends JPanel {
         panel.add(buttonPanel);
 
         return panel;
+    }
+
+    private void deleteButtonActionPerformed(String testCode) {
+        System.err.println("TestCode khi xóa " + testCode);
+        try {
+            ExamDAO examDAO = new ExamDAO();
+            int result = examDAO.delete(testCode);
+
+            if (result == 1) {
+                JOptionPane.showMessageDialog(this, "Xóa đề thi thành công!", "Thành công",
+                        JOptionPane.INFORMATION_MESSAGE);
+                // Cập nhật lại danh sách bài thi sau khi xóa
+                updateTestPanel(testBUS.getAll());
+            } else {
+                JOptionPane.showMessageDialog(
+                        TestPanel.this,
+                        "Đã có học sinh làm bài kiểm tra, không thể xóa!",
+                        "Thông báo",
+                        JOptionPane.WARNING_MESSAGE);
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(
+                    TestPanel.this,
+                    "Đã có học sinh làm bài kiểm tra, không thể xóa!",
+                    "Thông báo",
+                    JOptionPane.WARNING_MESSAGE);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Đã xảy ra lỗi khi xóa đề thi!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     public static void main(String[] args) {

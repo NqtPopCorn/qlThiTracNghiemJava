@@ -23,7 +23,6 @@ public class ResultDAO {
 
     public Connection connection = DBConnection.getConnection();
 
-
     public boolean addResult(ResultDTO result) throws SQLException {
         String sql = "INSERT INTO result (rs_num, userID, exCode, rs_anwsers, rs_mark, rs_date) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -34,6 +33,9 @@ public class ResultDAO {
             statement.setBigDecimal(5, result.getRsMark());
             statement.setTimestamp(6, result.getRsDate());
             return statement.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
         }
     }
 
@@ -63,7 +65,7 @@ public class ResultDAO {
         String sql = "SELECT * FROM result";
         List<ResultDTO> results = new ArrayList<>();
         try (Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(sql)) {
+                ResultSet resultSet = statement.executeQuery(sql)) {
             while (resultSet.next()) {
                 ResultDTO result = new ResultDTO();
                 result.setRsNum(resultSet.getInt("rs_num"));
@@ -100,7 +102,7 @@ public class ResultDAO {
             return statement.executeUpdate() > 0;
         }
     }
-    
+
     public int getHighestRsNum(int userID, String exCode) throws SQLException {
         String sql = "SELECT MAX(rs_num) FROM result WHERE userID = ? AND exCode = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {

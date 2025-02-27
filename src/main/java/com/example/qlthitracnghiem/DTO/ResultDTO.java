@@ -12,7 +12,7 @@ import java.sql.Timestamp;
  * @author light
  */
 public class ResultDTO {
-      private int rsNum;
+    private int rsNum;
     private int userID;
     private String exCode;
     private String rsAnswers;

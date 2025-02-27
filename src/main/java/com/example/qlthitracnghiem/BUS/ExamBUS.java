@@ -12,7 +12,6 @@ import java.util.Map;
 import javax.swing.JOptionPane;
 
 public class ExamBUS {
-
     public static final int ACTION_SUCCESS = 1;
     public static final int ACTION_ERROR = -9999;
 
@@ -41,9 +40,11 @@ public class ExamBUS {
     public List<Integer> getExQuesIDs(String testCode) throws Exception {
         return ExamDAO.getExQuesIDs(testCode);
     }
+
     public ExamDTO getExamByExCode(String exCode) throws SQLException {
         return ExamDAO.getExamByExCode(exCode);
     }
+
     public boolean createExam(TestDTO exam, int examNum) {
         try {
 
@@ -72,5 +73,17 @@ public class ExamBUS {
 
     public int update(TestDTO testDTO, int soDe) throws SQLException {
         return ExamDAO.update(testDTO, soDe);
+    }
+
+    public boolean isExCodeExistInResult(String exCode) throws SQLException {
+        return ExamDAO.isExCodeExistInResult(exCode);
+    }
+
+    public int delete(String testCode) throws SQLException {
+        return ExamDAO.delete(testCode);
+    }
+
+    public ArrayList<ExamDTO> getAll() throws SQLException {
+        return ExamDAO.getAll();
     }
 }

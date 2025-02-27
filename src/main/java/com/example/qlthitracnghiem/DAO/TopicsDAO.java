@@ -10,6 +10,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Types;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class TopicsDAO {
     public TopicsDTO getTopicByID(int tpID) throws SQLException {
@@ -30,13 +32,18 @@ public class TopicsDAO {
         return null; // Trả về null nếu không tìm thấy
     }
 
-    public ArrayList<TopicsDTO> getAll() throws SQLException {
-        Connection connection = DBConnection.getConnection();
+    public ArrayList<TopicsDTO> getAll() {
         String sql = "SELECT * FROM topics";
         ArrayList<TopicsDTO> topicsList = new ArrayList<>();
 
-        try (PreparedStatement ps = connection.prepareStatement(sql);
+        try (Connection connection = DBConnection.getConnection();
+                PreparedStatement ps = connection.prepareStatement(sql);
                 ResultSet rs = ps.executeQuery()) {
+
+            if (connection == null) {
+                throw new SQLException("Không thể kết nối đến database");
+            }
+
             while (rs.next()) {
                 topicsList.add(new TopicsDTO(
                         rs.getInt("tpID"),
@@ -44,6 +51,8 @@ public class TopicsDAO {
                         rs.getInt("tpParent"),
                         rs.getInt("tpStatus")));
             }
+        } catch (SQLException ex) {
+            Logger.getLogger(TopicsDAO.class.getName()).log(Level.SEVERE, "Lỗi truy vấn topics", ex);
         }
         return topicsList;
     }
@@ -58,27 +67,26 @@ public class TopicsDAO {
         }
     }
 
-public boolean create(TopicsDTO topic) throws SQLException {
-    Connection connection = DBConnection.getConnection();
-    String sql = "INSERT INTO topics (tpTitle, tpParent, tpStatus) VALUES (?, ?, ?)";
+    public boolean create(TopicsDTO topic) throws SQLException {
+        System.out.println("parent: " + topic.getTpParent());
+        Connection connection = DBConnection.getConnection();
+        String sql = "INSERT INTO topics (tpTitle, tpParent, tpStatus) VALUES (?, ?, ?)";
 
-    try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-        ps.setString(1, topic.getTpTitle());
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, topic.getTpTitle());
 
-        // Nếu tpParent là null, đặt NULL vào cột thay vì số nguyên
-        if (topic.getTpParent() == null) {
-            ps.setNull(2, Types.INTEGER);
-        } else {
-            ps.setInt(2, topic.getTpParent());
+            // Nếu tpParent là null, đặt NULL vào cột thay vì số nguyên
+            if (topic.getTpParent() == -1) {
+                ps.setNull(2, Types.INTEGER);
+            } else {
+                ps.setInt(2, topic.getTpParent());
+            }
+
+            ps.setInt(3, topic.getTpStatus());
+            int affectedRows = ps.executeUpdate();
+            return affectedRows > 0;
         }
-
-        ps.setInt(3, topic.getTpStatus());
-
-        int affectedRows = ps.executeUpdate();
-        return affectedRows > 0;
     }
-}
-
 
     public boolean update(TopicsDTO topic) throws SQLException {
         Connection connection = DBConnection.getConnection();
