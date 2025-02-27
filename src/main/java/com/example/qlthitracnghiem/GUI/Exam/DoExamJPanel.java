@@ -5,6 +5,7 @@
 package com.example.qlthitracnghiem.GUI.Exam;
 
 import com.example.qlthitracnghiem.BUS.ExamBUS;
+import com.example.qlthitracnghiem.BUS.LogBUS;
 import com.example.qlthitracnghiem.BUS.ResultBUS;
 import com.example.qlthitracnghiem.BUS.TestBUS;
 import com.example.qlthitracnghiem.DTO.AnswersDTO;
@@ -41,13 +42,13 @@ public class DoExamJPanel extends javax.swing.JPanel {
     private ExamBUS exBUS;
     private TestBUS tsBUS;
     private ResultBUS rsBUS = new ResultBUS();
-
+    private LogBUS lgBUS = new LogBUS();
     private ExamDTO exDTO;
     private TestDTO tsDTO;
 
     private List<Integer> quesList;
     ArrayList<QuestionPN> quesPnList;
-
+    
     private boolean isTakingTest = false;
 
     private int userId = 2;
