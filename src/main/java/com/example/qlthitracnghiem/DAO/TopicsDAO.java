@@ -94,6 +94,12 @@ public class TopicsDAO {
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, topic.getTpTitle());
+            if(topic.getTpParent() == null){
+            ps.setNull(2,Types.INTEGER);
+            }
+            else{
+            ps.setInt(2,topic.getTpParent());
+            }
             ps.setInt(2, topic.getTpParent());
             ps.setInt(3, topic.getTpStatus());
             ps.setInt(4, topic.getTpID());
