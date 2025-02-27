@@ -26,23 +26,6 @@ public class Paragraph extends JLabel {
 
   @Override
   public void setText(String text) {
-    super.setText(String.format("<html><p>%s</p></html>", text));
-  }
-
-  public void setWidth(int width) {
-    if (getFont() != null) {
-      FontMetrics fm = getFontMetrics(getFont());
-      int fontWidth = fm.stringWidth(getText());
-
-      int lines = (int) Math.ceil(fontWidth / width);
-      int height = fm.getHeight() * lines;
-      System.out.println("Width: " + width);
-      System.out.println("Height: " + height);
-
-      setPreferredSize(new java.awt.Dimension(width, height));
-    } else {
-      System.out.println("Font is null");
-    }
-    revalidate();
+    super.setText("<html><p> " + text + "</p></html>");
   }
 }

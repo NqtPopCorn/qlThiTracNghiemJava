@@ -4,8 +4,12 @@
  */
 package com.example.qlthitracnghiem.GUI.Exam;
 
-import com.example.qlthitracnghiem.DAO.QaDAO;
-import com.example.qlthitracnghiem.DTO.ExamDTOq;
+import com.example.qlthitracnghiem.BUS.ExamBUS;
+import com.example.qlthitracnghiem.BUS.QuestionsBUS;
+import com.example.qlthitracnghiem.BUS.TestBUS;
+import com.example.qlthitracnghiem.BUS.UserBUS;
+import com.example.qlthitracnghiem.DTO.ExamDTO;
+import com.example.qlthitracnghiem.DTO.TestDTO;
 import java.awt.CardLayout;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
@@ -29,6 +33,9 @@ public class ChooseExamJPanel extends javax.swing.JPanel {
      */
     DefaultTableModel tbModel = new DefaultTableModel();
     private DoExamJPanel doExJPanel;
+    private QuestionsBUS questBus = new QuestionsBUS();
+    private ExamBUS exBus = new ExamBUS();
+    private TestBUS tsBus = new TestBUS();
 
     public ChooseExamJPanel(DoExamJPanel doExamJPanel) {
         this.doExJPanel = doExamJPanel;
@@ -81,7 +88,7 @@ public class ChooseExamJPanel extends javax.swing.JPanel {
 
     private void loadDataTable() {
         try {
-            ArrayList<String> testCodeList = QaDAO.getExams();
+            ArrayList<String> testCodeList = exBus.getAllExCode();
             loadDataTable(testCodeList);
 
         } catch (Exception e) {
@@ -94,7 +101,7 @@ public class ChooseExamJPanel extends javax.swing.JPanel {
         tbModel.setRowCount(0);
         for (String tsCode : testCodeList) {
             tbModel.addRow(
-                    new Object[] { tsCode });
+                    new Object[]{tsCode});
         }
     }
 
@@ -253,7 +260,7 @@ public class ChooseExamJPanel extends javax.swing.JPanel {
             loadDataTable();
         } else {
             try {
-                ArrayList<String> result = QaDAO.getExams(keyword);
+                ArrayList<String> result = exBus.searchExCode(keyword);
                 loadDataTable(result);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -264,16 +271,27 @@ public class ChooseExamJPanel extends javax.swing.JPanel {
     }// GEN-LAST:event_searchBtnActionPerformed
 
     private void doTestBtnActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_doTestBtnActionPerformed
-        String testCode = currentTestCodeJLabel.getText();
-        boolean isChooseTestCode = testCode.startsWith("TST");
+        String exCode = currentTestCodeJLabel.getText();
+        boolean isChooseTestCode = exCode.startsWith("TST");
         if (isChooseTestCode) {
             // move to do exam panel
             System.out.println("move to new frame");
 
             CardLayout cardLayout = (CardLayout) getParent().getLayout();
             cardLayout.show(getParent(), "doExamJPanel");
+//            setBorder(BorderFactory.createTitledBorder("Panel B"));
+            try {
+                ExamDTO exam = (ExamDTO) exBus.getExamByExCode(exCode);
+                TestDTO test = tsBus.getTestByTestCode(exam.getTestCode());
 
-            setBorder(BorderFactory.createTitledBorder("Panel B"));
+                doExJPanel.setExDTO(exam);
+                doExJPanel.setTsDTO(test);
+                doExJPanel.startTest();
+                
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         } else {
             JOptionPane.showMessageDialog(doTestBtn, "Chưa chọn bài thi");
         }

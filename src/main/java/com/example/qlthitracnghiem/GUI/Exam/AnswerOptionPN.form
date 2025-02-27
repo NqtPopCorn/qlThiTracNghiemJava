@@ -26,6 +26,10 @@
     <Component class="javax.swing.JRadioButton" name="btnChoose">
       <Properties>
         <Property name="text" type="java.lang.String" value="A"/>
+        <Property name="alignmentX" type="float" value="0.5"/>
+        <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
+          <Insets value="[2, 6, 2, 10]"/>
+        </Property>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnChooseActionPerformed"/>

@@ -180,72 +180,74 @@ public class ExamDAO {
     }
 
     public int update(TestDTO testDTO, int soDe) throws SQLException {
-    Connection connection = DBConnection.getConnection();
-    System.err.println("TestCode khi sửa" + testDTO.getTestCode());
+        Connection connection = DBConnection.getConnection();
+        System.err.println("TestCode khi sửa" + testDTO.getTestCode());
 
-//    List<String> currentExamCodes = getExamCodesByTestCode(testDTO.getTestCode());
-//    for (String exCode : currentExamCodes) {
-//        if (isExCodeExistInResult(exCode)) {
-//            throw new SQLException("Không thể cập nhật vì exCode " + exCode + " đã tồn tại trong bảng result.");
-//        }
-//    }
-    deleteExamsByTestCode(testDTO.getTestCode());
+        // List<String> currentExamCodes =
+        // getExamCodesByTestCode(testDTO.getTestCode());
+        // for (String exCode : currentExamCodes) {
+        // if (isExCodeExistInResult(exCode)) {
+        // throw new SQLException("Không thể cập nhật vì exCode " + exCode + " đã tồn
+        // tại trong bảng result.");
+        // }
+        // }
+        deleteExamsByTestCode(testDTO.getTestCode());
 
-    String sql = "UPDATE test SET num_easy= ?, num_medium = ?, num_diff = ? WHERE testCode = ?";
-    try (PreparedStatement ps = connection.prepareStatement(sql)) {
-        ps.setInt(1, testDTO.getNum_easy());
-        ps.setInt(2, testDTO.getNum_medium());
-        ps.setInt(3, testDTO.getNum_diff());
-        ps.setString(4, testDTO.getTestCode());
-        ps.executeUpdate();
+        String sql = "UPDATE test SET num_easy= ?, num_medium = ?, num_diff = ? WHERE testCode = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, testDTO.getNum_easy());
+            ps.setInt(2, testDTO.getNum_medium());
+            ps.setInt(3, testDTO.getNum_diff());
+            ps.setString(4, testDTO.getTestCode());
+            ps.executeUpdate();
 
-        generateExams(connection, testDTO.getTestCode(), testDTO, soDe);
+            generateExams(connection, testDTO.getTestCode(), testDTO, soDe);
 
-        return 1;
-    } catch (SQLException e) {
-        e.printStackTrace();
-        throw e;
-    }
-    finally {
+            return 1;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
             if (connection != null) {
                 connection.close();
             }
         }
-}
-    public int delete(String testCode) throws SQLException {
-    Connection connection = DBConnection.getConnection();
-    try {
-        List<String> examCodes = getExamCodesByTestCode(testCode);
+    }
 
-        for (String exCode : examCodes) {
-            if (isExCodeExistInResult(exCode)) {
-                throw new SQLException("Đã có học sinh làm bài kiểm tra, không thể xóa.");
+    public int delete(String testCode) throws SQLException {
+        Connection connection = DBConnection.getConnection();
+        try {
+            List<String> examCodes = getExamCodesByTestCode(testCode);
+
+            for (String exCode : examCodes) {
+                if (isExCodeExistInResult(exCode)) {
+                    throw new SQLException("Đã có học sinh làm bài kiểm tra, không thể xóa.");
+                }
+            }
+            // Xóa bảng exam
+            String deleteExamsSQL = "DELETE FROM exams WHERE testCode = ?";
+            try (PreparedStatement psExams = connection.prepareStatement(deleteExamsSQL)) {
+                psExams.setString(1, testCode);
+                psExams.executeUpdate();
+            }
+
+            // Xóa bảng test
+            String deleteTestSQL = "DELETE FROM test WHERE testCode = ?";
+            try (PreparedStatement psTest = connection.prepareStatement(deleteTestSQL)) {
+                psTest.setString(1, testCode);
+                psTest.executeUpdate();
+            }
+
+            return 1;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (connection != null) {
+                connection.close();
             }
         }
-        // Xóa bảng exam
-        String deleteExamsSQL = "DELETE FROM exams WHERE testCode = ?";
-        try (PreparedStatement psExams = connection.prepareStatement(deleteExamsSQL)) {
-            psExams.setString(1, testCode);
-            psExams.executeUpdate();
-        }
-
-        // Xóa  bảng test
-        String deleteTestSQL = "DELETE FROM test WHERE testCode = ?";
-        try (PreparedStatement psTest = connection.prepareStatement(deleteTestSQL)) {
-            psTest.setString(1, testCode);
-            psTest.executeUpdate();
-        }
-
-        return 1; 
-    } catch (SQLException e) {
-        e.printStackTrace();
-        throw e; 
-    } finally {
-        if (connection != null) {
-            connection.close();
-        }
     }
-}
 
     // đm quả lấy data nhìn rườm ra luộm thuộm vcl
     public Map<String, String> getQuestionContent(int qID) throws Exception { // lấy nội dung câu hỏi và hình ảnh
@@ -318,9 +320,31 @@ public class ExamDAO {
                     exQuesIDs.add(json.getInt(i));
                 }
             }
-        } 
-        
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
         return exQuesIDs;
+    }
+
+    public static ArrayList findExCode(String keyword) throws SQLException {
+        Connection connection = DBConnection.getConnection();
+
+        String sql = "SELECT * FROM exams where exCode Like ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, "%" + keyword + "%");
+            ResultSet rs = ps.executeQuery();
+            ArrayList<String> exCodeList = new ArrayList<>();
+            while (rs.next()) {
+                exCodeList.add(rs.getString("exCode"));
+            }
+            return exCodeList;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
     }
 
     public List<String> getExamCodesByTestCode(String testCode) throws SQLException { // lấy excode để hiển thị mã đề
@@ -337,7 +361,7 @@ public class ExamDAO {
         } catch (SQLException e) {
             e.printStackTrace();
             throw e;
-        } 
+        }
         return examCodes;
     }
 
@@ -349,17 +373,51 @@ public class ExamDAO {
             ps.executeUpdate();
         }
     }
-    public boolean isExCodeExistInResult(String exCode) throws SQLException {
-    Connection connection = DBConnection.getConnection();
-    String sql = "SELECT COUNT(*) FROM result WHERE exCode = ?";
-    try (PreparedStatement ps = connection.prepareStatement(sql)) {
-        ps.setString(1, exCode);
-        ResultSet rs = ps.executeQuery();
-        if (rs.next()) {
-            return rs.getInt(1) > 0;
+
+    public ExamDTO getExamByExCode(String exCode) throws SQLException {
+        Connection connection = DBConnection.getConnection();
+
+        String sql = "SELECT * FROM exams WHERE exCode = ? ";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, exCode);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                JSONArray quesIDs = new JSONArray(rs.getString("ex_quesIDs"));
+                List<Integer> exQuesIDs = new ArrayList<Integer>();
+                JSONArray json = new JSONArray(rs.getString("ex_quesIDs"));
+                for (int i = 0; i < json.length(); i++) {
+                    exQuesIDs.add(json.getInt(i));
+                }
+                return new ExamDTO(
+                        rs.getString("testCode"),
+                        rs.getString("exOrder"),
+                        rs.getString("exCode"),
+                        exQuesIDs);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
         }
-    } 
-    
-    return false;
-}
+        return null;
+    }
+
+    public ArrayList<String> getAllExCode() throws SQLException {
+        Connection connection = DBConnection.getConnection();
+
+        String sql = "SELECT DISTINCT exCode FROM exams ";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            ArrayList<String> exCodeList = new ArrayList<>();
+            while (rs.next()) {
+                exCodeList.add(rs.getString("exCode"));
+            }
+            return exCodeList;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
 }
