@@ -7,6 +7,7 @@ package com.example.qlthitracnghiem.GUI;
 import javax.swing.*;
 
 import com.example.qlthitracnghiem.DTO.UserDTO;
+import com.example.qlthitracnghiem.GUI.Auth.AuthFrame;
 import com.example.qlthitracnghiem.GUI.CauHoi.QuestionPanel;
 import com.example.qlthitracnghiem.GUI.Exam.ChooseExamJPanel;
 import com.example.qlthitracnghiem.GUI.Exam.DoExamJPanel;
@@ -26,153 +27,152 @@ import java.util.Arrays;
  */
 public class DashboardFrame extends javax.swing.JFrame {
 
-  private JPanel cauHoiPanel = new JPanel();
-  private JPanel userPanel = new UserPanel(this);
-  private JPanel thongKePanel = new MainThongKePanel();
-  private DoExamJPanel doExamJPanel = new DoExamJPanel();
-  private ChooseExamJPanel chooseExamJPanel = new ChooseExamJPanel(doExamJPanel);
-  private QuestionPanel questionPanel = new QuestionPanel();
-  private TestPanel testPanel = new TestPanel();
-  private InfoPanel infoPanel = new InfoPanel();
-  private UserDTO user;
+    private JPanel cauHoiPanel = new JPanel();
+    private JPanel userPanel = new UserPanel(this);
+    private JPanel thongKePanel = new MainThongKePanel();
+    private DoExamJPanel doExamJPanel = new DoExamJPanel(this);
+    private ChooseExamJPanel chooseExamJPanel = new ChooseExamJPanel(doExamJPanel);
+    private QuestionPanel questionPanel = new QuestionPanel();
+    private TestPanel testPanel = new TestPanel();
+    private InfoPanel infoPanel = new InfoPanel();
+    private UserDTO user;
 
-  // public DashboardFrame(UserDTO user, ButtonGroup buttonGroup, CardLayout
-  // cardLayout, JPanel currentPanel,
-  // JPanel examplePanel1, JLabel jLabel2, JLabel jLabel7, JPanel jPanel4, JLabel
-  // lblUsername,
-  // JToggleButton navBtnCauHoi, JToggleButton navBtnDangXuat, JToggleButton
-  // navBtnDeThi, JToggleButton navBtnThi,
-  // JToggleButton navBtnThongKe, JToggleButton navBtnUser, JPanel
-  // navigationPanel, JPanel sidePanel)
-  // throws HeadlessException {
-  // this.user = user;
-  // this.buttonGroup = buttonGroup;
-  // this.cardLayout = cardLayout;
-  // this.currentPanel = currentPanel;
-  // this.examplePanel1 = examplePanel1;
-  // this.jLabel2 = jLabel2;
-  // this.jLabel7 = jLabel7;
-  // this.jPanel4 = jPanel4;
-  // this.lblUsername = lblUsername;
-  // this.navBtnCauHoi = navBtnCauHoi;
-  // this.navBtnDangXuat = navBtnDangXuat;
-  // this.navBtnDeThi = navBtnDeThi;
-  // this.navBtnThi = navBtnThi;
-  // this.navBtnThongKe = navBtnThongKe;
-  // this.navBtnUser = navBtnUser;
-  // this.navigationPanel = navigationPanel;
-  // this.sidePanel = sidePanel;
-  // }
+    // public DashboardFrame(UserDTO user, ButtonGroup buttonGroup, CardLayout
+    // cardLayout, JPanel currentPanel,
+    // JPanel examplePanel1, JLabel jLabel2, JLabel jLabel7, JPanel jPanel4, JLabel
+    // lblUsername,
+    // JToggleButton navBtnCauHoi, JToggleButton navBtnDangXuat, JToggleButton
+    // navBtnDeThi, JToggleButton navBtnThi,
+    // JToggleButton navBtnThongKe, JToggleButton navBtnUser, JPanel
+    // navigationPanel, JPanel sidePanel)
+    // throws HeadlessException {
+    // this.user = user;
+    // this.buttonGroup = buttonGroup;
+    // this.cardLayout = cardLayout;
+    // this.currentPanel = currentPanel;
+    // this.examplePanel1 = examplePanel1;
+    // this.jLabel2 = jLabel2;
+    // this.jLabel7 = jLabel7;
+    // this.jPanel4 = jPanel4;
+    // this.lblUsername = lblUsername;
+    // this.navBtnCauHoi = navBtnCauHoi;
+    // this.navBtnDangXuat = navBtnDangXuat;
+    // this.navBtnDeThi = navBtnDeThi;
+    // this.navBtnThi = navBtnThi;
+    // this.navBtnThongKe = navBtnThongKe;
+    // this.navBtnUser = navBtnUser;
+    // this.navigationPanel = navigationPanel;
+    // this.sidePanel = sidePanel;
+    // }
+    /**
+     * Creates new form DashboardFrame
+     */
+    public DashboardFrame() {
+        initComponents();
+        currentPanel.removeAll();
+        cauHoiPanel.setBackground(Color.GREEN);
+        userPanel.setBackground(Color.BLUE);
+        thongKePanel.setBackground(Color.white);
 
-  /**
-   * Creates new form DashboardFrame
-   */
-  public DashboardFrame() {
-    initComponents();
-    currentPanel.removeAll();
-    cauHoiPanel.setBackground(Color.GREEN);
-    userPanel.setBackground(Color.BLUE);
-    thongKePanel.setBackground(Color.white);
+        cardLayout = new CardLayout();
+        currentPanel.setLayout(cardLayout);
+        // add panel moi tai dayday
+        currentPanel.add(chooseExamJPanel, navBtnThi.getActionCommand());
+        currentPanel.add(doExamJPanel, "doExamJPanel");
+        currentPanel.add(cauHoiPanel, navBtnCauHoi.getActionCommand());
+        currentPanel.add(userPanel, navBtnUser.getActionCommand());
+        currentPanel.add(thongKePanel, navBtnThongKe.getActionCommand());
+        currentPanel.add(questionPanel, navBtnCauHoi.getActionCommand());
+        currentPanel.add(testPanel, navBtnDeThi.getActionCommand());
 
-    cardLayout = new CardLayout();
-    currentPanel.setLayout(cardLayout);
-    // add panel moi tai dayday
-    currentPanel.add(chooseExamJPanel, navBtnThi.getActionCommand());
-    currentPanel.add(doExamJPanel, "doExamJPanel");
-    currentPanel.add(cauHoiPanel, navBtnCauHoi.getActionCommand());
-    currentPanel.add(userPanel, navBtnUser.getActionCommand());
-    currentPanel.add(thongKePanel, navBtnThongKe.getActionCommand());
-    currentPanel.add(questionPanel, navBtnCauHoi.getActionCommand());
-    currentPanel.add(testPanel, navBtnDeThi.getActionCommand());
+        buttonGroup.add(navBtnDeThi);
+        buttonGroup.add(navBtnCauHoi);
+        buttonGroup.add(navBtnUser);
+        buttonGroup.add(navBtnThongKe);
+        buttonGroup.add(navBtnDangXuat);
+        buttonGroup.add(navBtnThi);
+        buttonGroup.add(navBtnUserInfo);
 
-    buttonGroup.add(navBtnDeThi);
-    buttonGroup.add(navBtnCauHoi);
-    buttonGroup.add(navBtnUser);
-    buttonGroup.add(navBtnThongKe);
-    buttonGroup.add(navBtnDangXuat);
-    buttonGroup.add(navBtnThi);
-    buttonGroup.add(navBtnUserInfo);
+        navBtnDeThi.addActionListener(e -> switchPanel(navBtnDeThi.getActionCommand()));
+        navBtnThi.addActionListener(e -> switchPanel(navBtnThi.getActionCommand()));
+        navBtnCauHoi.addActionListener(e -> switchPanel(navBtnCauHoi.getActionCommand()));
+        navBtnUser.addActionListener(e -> switchPanel(navBtnUser.getActionCommand()));
+        navBtnThongKe.addActionListener(e -> switchPanel(navBtnThongKe.getActionCommand()));
+        navBtnUserInfo.addActionListener(e -> switchPanel("InfoPanel"));
+        navBtnDangXuat.addActionListener(e -> handleLogout());
+        navBtnDeThi.setSelected(true);
 
-    navBtnDeThi.addActionListener(e -> switchPanel(navBtnDeThi.getActionCommand()));
-    navBtnThi.addActionListener(e -> switchPanel(navBtnThi.getActionCommand()));
-    navBtnCauHoi.addActionListener(e -> switchPanel(navBtnCauHoi.getActionCommand()));
-    navBtnUser.addActionListener(e -> switchPanel(navBtnUser.getActionCommand()));
-    navBtnThongKe.addActionListener(e -> switchPanel(navBtnThongKe.getActionCommand()));
-    navBtnUserInfo.addActionListener(e -> switchPanel("InfoPanel"));
-    navBtnDangXuat.addActionListener(e -> handleLogout());
-    navBtnDeThi.setSelected(true);
-
-    cardLayout.show(currentPanel, navBtnDeThi.getActionCommand());
-    updateNavigateButton();
-  }
-
-  public DashboardFrame(UserDTO user) {
-    this();
-    this.user = user;
-    if (user != null) {
-      navBtnUserInfo.setText(user.getUserName());
-      InfoPanel infoPanel = new InfoPanel(user);
-      currentPanel.add(infoPanel, "InfoPanel");
+        cardLayout.show(currentPanel, navBtnDeThi.getActionCommand());
+        updateNavigateButton();
     }
-  }
 
-  private void switchPanel(String panelName) {
-    updateNavigateButton();
-    cardLayout.show(currentPanel, panelName);
-  }
-
-  private void handleLogout() {
-    System.out.println("Logged out");
-    // Thực hiện các logic đăng xuất tại đây
-  }
-
-  private void updateNavigateButton() {
-    ArrayList<Component> components = new ArrayList<>(Arrays.asList(navigationPanel.getComponents()));
-    components.add(navBtnUserInfo);
-
-    for (Component component : components) {
-      if (component instanceof JToggleButton) {
-        JToggleButton button = (JToggleButton) component;
-        if (button.isSelected()) {
-          button.setBackground(Color.BLUE);
-          button.setForeground(Color.WHITE);
-        } else {
-          button.setBackground(Color.WHITE);
-          button.setForeground(Color.BLACK);
+    public DashboardFrame(UserDTO user) {
+        this();
+        this.user = user;
+        if (user != null) {
+            navBtnUserInfo.setText(user.getUserName());
+            infoPanel = new InfoPanel(user);
+            currentPanel.add(infoPanel, "InfoPanel");
         }
-      }
     }
-  }
 
-  /**
-   * This method is called from within the constructor to initialize the form.
-   * WARNING: Do NOT modify this code. The content of this method is always
-   * regenerated by the Form Editor.
-   */
-  @SuppressWarnings("unchecked")
-  // <editor-fold defaultstate="collapsed" desc="Generated
-  // <editor-fold defaultstate="collapsed" desc="Generated
-  // <editor-fold defaultstate="collapsed" desc="Generated
-  // <editor-fold defaultstate="collapsed" desc="Generated
-  // <editor-fold defaultstate="collapsed" desc="Generated
-  // <editor-fold defaultstate="collapsed" desc="Generated
-  // <editor-fold defaultstate="collapsed" desc="Generated
-  // <editor-fold defaultstate="collapsed" desc="Generated
-  // <editor-fold defaultstate="collapsed" desc="Generated
-  // <editor-fold defaultstate="collapsed" desc="Generated
-  // <editor-fold defaultstate="collapsed" desc="Generated
-  // <editor-fold defaultstate="collapsed" desc="Generated
-  // <editor-fold defaultstate="collapsed" desc="Generated
-  // <editor-fold defaultstate="collapsed" desc="Generated
-  // <editor-fold defaultstate="collapsed" desc="Generated
-  // <editor-fold defaultstate="collapsed" desc="Generated
-  // <editor-fold defaultstate="collapsed" desc="Generated
-  // <editor-fold defaultstate="collapsed" desc="Generated
-  // <editor-fold defaultstate="collapsed" desc="Generated
-  // <editor-fold defaultstate="collapsed" desc="Generated
-  // <editor-fold defaultstate="collapsed" desc="Generated
-  // <editor-fold defaultstate="collapsed" desc="Generated
-  // <editor-fold defaultstate="collapsed" desc="Generated
+    public void disableAllNavButtons() {
+        // Get all components from the panel
+        Component[] components = navigationPanel.getComponents();
+        for (Component component : components) {
+            if (component instanceof JToggleButton) {
+                JToggleButton button = (JToggleButton) component;
+                button.setEnabled(false); // Disable the button
+            }
+        }
+    }
+
+    public void enableAllNavButtons() {
+        Component[] components = navigationPanel.getComponents();
+
+        for (Component component : components) {
+           if (component instanceof JToggleButton) {
+                JToggleButton button = (JToggleButton) component;
+                button.setEnabled(true); // Disable the button
+            }
+        }
+    }
+
+    private void switchPanel(String panelName) {
+        updateNavigateButton();
+        cardLayout.show(currentPanel, panelName);
+    }
+
+    private void handleLogout() {
+        this.dispose();
+        new AuthFrame().setVisible(true);
+    }
+
+    private void updateNavigateButton() {
+        ArrayList<Component> components = new ArrayList<>(Arrays.asList(navigationPanel.getComponents()));
+        components.add(navBtnUserInfo);
+
+        for (Component component : components) {
+            if (component instanceof JToggleButton) {
+                JToggleButton button = (JToggleButton) component;
+                if (button.isSelected()) {
+                    button.setBackground(Color.BLUE);
+                    button.setForeground(Color.WHITE);
+                } else {
+                    button.setBackground(Color.WHITE);
+                    button.setForeground(Color.BLACK);
+                }
+            }
+        }
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+   
   // Code">//GEN-BEGIN:initComponents
   private void initComponents() {
 
@@ -300,57 +300,57 @@ public class DashboardFrame extends javax.swing.JFrame {
     pack();
   }// </editor-fold>//GEN-END:initComponents
 
-  private void navBtnThiActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_navBtnThiActionPerformed
-    // TODO add your handling code here:
-  }// GEN-LAST:event_navBtnThiActionPerformed
+    private void navBtnThiActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_navBtnThiActionPerformed
+        // TODO add your handling code here:
+    }// GEN-LAST:event_navBtnThiActionPerformed
 
-  /**
-   * @param args the command line arguments
-   */
-  public static void main(String args[]) {
-    /* Set the Nimbus look and feel */
-    // <editor-fold defaultstate="collapsed" desc=" Look and feel setting code
-    // (optional) ">
-    /*
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        // <editor-fold defaultstate="collapsed" desc=" Look and feel setting code
+        // (optional) ">
+        /*
      * If Nimbus (introduced in Java SE 6) is not available, stay with the default
      * look and feel.
      * For details see
      * http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-     */
-    try {
-      for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager
-          .getInstalledLookAndFeels()) {
-        if ("Nimbus".equals(info.getName())) {
-          javax.swing.UIManager.setLookAndFeel(info.getClassName());
-          break;
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager
+                    .getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(DashboardFrame.class.getName()).log(
+                    java.util.logging.Level.SEVERE,
+                    null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(DashboardFrame.class.getName()).log(
+                    java.util.logging.Level.SEVERE,
+                    null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(DashboardFrame.class.getName()).log(
+                    java.util.logging.Level.SEVERE,
+                    null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(DashboardFrame.class.getName()).log(
+                    java.util.logging.Level.SEVERE,
+                    null, ex);
         }
-      }
-    } catch (ClassNotFoundException ex) {
-      java.util.logging.Logger.getLogger(DashboardFrame.class.getName()).log(
-          java.util.logging.Level.SEVERE,
-          null, ex);
-    } catch (InstantiationException ex) {
-      java.util.logging.Logger.getLogger(DashboardFrame.class.getName()).log(
-          java.util.logging.Level.SEVERE,
-          null, ex);
-    } catch (IllegalAccessException ex) {
-      java.util.logging.Logger.getLogger(DashboardFrame.class.getName()).log(
-          java.util.logging.Level.SEVERE,
-          null, ex);
-    } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-      java.util.logging.Logger.getLogger(DashboardFrame.class.getName()).log(
-          java.util.logging.Level.SEVERE,
-          null, ex);
-    }
-    // </editor-fold>
+        // </editor-fold>
 
-    /* Create and display the form */
-    java.awt.EventQueue.invokeLater(new Runnable() {
-      public void run() {
-        new DashboardFrame().setVisible(true);
-      }
-    });
-  }
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new DashboardFrame().setVisible(true);
+            }
+        });
+    }
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.ButtonGroup buttonGroup;

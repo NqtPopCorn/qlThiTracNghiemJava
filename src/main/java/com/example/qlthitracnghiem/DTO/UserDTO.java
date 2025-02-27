@@ -67,4 +67,17 @@ public class UserDTO {
   public void setIsAdmin(int admin) {
     isAdmin = admin;
   }
+
+  @Override
+  public String toString() {
+    // json
+    return "{" +
+        "\"userID\":" + userID +
+        ", \"userPassword\":\"" + userPassword + '\"' +
+        ", \"userName\":\"" + userName + '\"' +
+        ", \"userEmail\":\"" + userEmail + '\"' +
+        ", \"userFullName\":\"" + userFullName + '\"' +
+        ", \"isAdmin\":" + isAdmin +
+        '}';
+  }
 }

@@ -20,6 +20,7 @@
             <url>file:${project.basedir}/lib</url>
         </repository>
     </repositories>
+
     <dependencies>
         <dependency>
             <groupId>com.mysql</groupId>
@@ -28,16 +29,16 @@
         </dependency>
 
         <dependency>
-    <groupId>org.mindrot</groupId>
-    <artifactId>jbcrypt</artifactId>
-    <version>0.4</version>
-</dependency>
+            <groupId>org.mindrot</groupId>
+            <artifactId>jbcrypt</artifactId>
+            <version>0.4</version>
+        </dependency>
+
         <dependency>
             <groupId>org.netbeans.external</groupId>
             <artifactId>AbsoluteLayout</artifactId>
             <version>RELEASE220</version>
         </dependency>
-
 
         <dependency>
             <groupId>org.json</groupId>
@@ -50,11 +51,13 @@
             <artifactId>jcalendar</artifactId>
             <version>1.4</version>
         </dependency>
+
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>
             <version>5.2.2</version>
             <type>jar</type>
         </dependency>
+
     </dependencies>
 </project>
