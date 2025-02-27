@@ -4,6 +4,7 @@
  */
 package com.example.qlthitracnghiem.DAO;
 
+import com.example.qlthitracnghiem.DTO.ExamDTO;
 import com.example.qlthitracnghiem.DTO.TestDTO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
