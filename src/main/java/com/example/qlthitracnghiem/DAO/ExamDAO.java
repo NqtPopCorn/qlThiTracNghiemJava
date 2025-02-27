@@ -4,6 +4,7 @@
  */
 package com.example.qlthitracnghiem.DAO;
 
+import com.example.qlthitracnghiem.DTO.ExamDTO;
 import com.example.qlthitracnghiem.DTO.TestDTO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -363,6 +364,20 @@ public class ExamDAO {
             throw e;
         }
         return examCodes;
+    }
+
+    public boolean isExCodeExistInResult(String exCode) throws SQLException {
+        Connection connection = DBConnection.getConnection();
+        String sql = "SELECT COUNT(*) FROM result WHERE exCode = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, exCode);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        }
+
+        return false;
     }
 
     public void deleteExamsByTestCode(String testCode) throws SQLException {
