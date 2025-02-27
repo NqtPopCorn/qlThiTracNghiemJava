@@ -16,6 +16,7 @@ import com.example.qlthitracnghiem.GUI.ThongKe.MainThongKePanel;
 import com.example.qlthitracnghiem.GUI.User.UserPanel;
 import com.example.qlthitracnghiem.GUI.CauHoi.QuestionPanel;
 import com.example.qlthitracnghiem.GUI.DeThi.TestPanel;
+import com.example.qlthitracnghiem.GUI.DeThi.TestPanel2;
 import com.example.qlthitracnghiem.GUI.DeThi.TestPanel;
 import java.awt.*;
 import java.util.ArrayList;
@@ -27,15 +28,17 @@ import java.util.Arrays;
  */
 public class DashboardFrame extends javax.swing.JFrame {
 
-    private JPanel cauHoiPanel = new JPanel();
-    private JPanel userPanel = new UserPanel(this);
-    private JPanel thongKePanel = new MainThongKePanel();
-    private DoExamJPanel doExamJPanel = new DoExamJPanel(this);
-    private ChooseExamJPanel chooseExamJPanel = new ChooseExamJPanel(doExamJPanel);
-    private QuestionPanel questionPanel = new QuestionPanel();
-    private TestPanel testPanel = new TestPanel();
-    private InfoPanel infoPanel = new InfoPanel();
-    private UserDTO user;
+  private JPanel cauHoiPanel = new JPanel();
+  private JPanel userPanel = new UserPanel(this);
+  private JPanel thongKePanel = new MainThongKePanel();
+  private DoExamJPanel doExamJPanel = new DoExamJPanel();
+  private ChooseExamJPanel chooseExamJPanel = new ChooseExamJPanel(doExamJPanel);
+  private QuestionPanel questionPanel = new QuestionPanel();
+  private TestPanel testPanel = new TestPanel();
+  private InfoPanel infoPanel = new InfoPanel();
+  // demo
+  private TestPanel2 testPanel2 = new TestPanel2();
+  private UserDTO user;
 
     // public DashboardFrame(UserDTO user, ButtonGroup buttonGroup, CardLayout
     // cardLayout, JPanel currentPanel,
@@ -84,14 +87,25 @@ public class DashboardFrame extends javax.swing.JFrame {
         currentPanel.add(thongKePanel, navBtnThongKe.getActionCommand());
         currentPanel.add(questionPanel, navBtnCauHoi.getActionCommand());
         currentPanel.add(testPanel, navBtnDeThi.getActionCommand());
+    cardLayout = new CardLayout();
+    currentPanel.setLayout(cardLayout);
+    // add panel moi tai dayday
+    currentPanel.add(chooseExamJPanel, navBtnThi.getActionCommand());
+    currentPanel.add(doExamJPanel, "doExamJPanel");
+    currentPanel.add(cauHoiPanel, navBtnCauHoi.getActionCommand());
+    currentPanel.add(userPanel, navBtnUser.getActionCommand());
+    currentPanel.add(thongKePanel, navBtnThongKe.getActionCommand());
+    currentPanel.add(questionPanel, navBtnCauHoi.getActionCommand());
+    // currentPanel.add(testPanel, navBtnDeThi.getActionCommand());
+    currentPanel.add(testPanel2, navBtnDeThi.getActionCommand());
 
-        buttonGroup.add(navBtnDeThi);
-        buttonGroup.add(navBtnCauHoi);
-        buttonGroup.add(navBtnUser);
-        buttonGroup.add(navBtnThongKe);
-        buttonGroup.add(navBtnDangXuat);
-        buttonGroup.add(navBtnThi);
-        buttonGroup.add(navBtnUserInfo);
+    buttonGroup.add(navBtnDeThi);
+    buttonGroup.add(navBtnCauHoi);
+    buttonGroup.add(navBtnUser);
+    buttonGroup.add(navBtnThongKe);
+    buttonGroup.add(navBtnDangXuat);
+    buttonGroup.add(navBtnThi);
+    buttonGroup.add(navBtnUserInfo);
 
         navBtnDeThi.addActionListener(e -> switchPanel(navBtnDeThi.getActionCommand()));
         navBtnThi.addActionListener(e -> switchPanel(navBtnThi.getActionCommand()));

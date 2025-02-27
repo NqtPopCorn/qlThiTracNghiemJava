@@ -1414,6 +1414,10 @@
                     </Component>
                     <Component class="com.example.qlthitracnghiem.GUI.Info.ExamResultPanel" name="examResultPanel3">
                     </Component>
+                    <Component class="com.example.qlthitracnghiem.GUI.Info.ExamResultPanel" name="examResultPanel4">
+                    </Component>
+                    <Component class="com.example.qlthitracnghiem.GUI.Info.ExamResultPanel" name="examResultPanel5">
+                    </Component>
                   </SubComponents>
                 </Container>
               </SubComponents>
