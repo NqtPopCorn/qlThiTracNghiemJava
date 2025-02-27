@@ -118,4 +118,81 @@ public class UserDAO implements CrudInterface<UserDTO> {
       throw e;
     }
   }
+
+  public int updateUserInfo(String userID, String email, String fullName) {
+    String sql = "UPDATE users SET userEmail = ?, userFullName = ? WHERE userID = ?";
+    try (PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql)) {
+      ps.setString(1, email);
+      ps.setString(2, fullName);
+      ps.setString(3, userID);
+      return ps.executeUpdate();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return 0;
+  }
+
+  public int updatePassword(String userID, String password) {
+    String sql = "UPDATE users SET userPassword = ? WHERE userID = ?";
+    try (PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql)) {
+      ps.setString(1, password);
+      ps.setString(2, userID);
+      return ps.executeUpdate();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return 0;
+  }
+
+  public ArrayList<ArrayList<String>> getLichSuLamBai(String userID) {
+    // rs_num, exCode, title, rs_mark, rs_date, topic
+    ArrayList<ArrayList<String>> list = new ArrayList<>();
+    String sql = "SELECT r.*, t.testTitle AS title, tp.tpTitle AS topic\r\n" + //
+        "FROM result r, exams e, test t, topics tp\r\n" + //
+        "WHERE e.testCode = t.testCode AND r.exCode = e.exCode AND t.tpID = tp.tpID AND r.userID = ?";
+    try (PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql)) {
+      ps.setString(1, userID);
+      ResultSet rs = ps.executeQuery();
+      while (rs.next()) {
+        ArrayList<String> row = new ArrayList<>();
+        row.add(rs.getString("rs_num"));
+        row.add(rs.getString("exCode"));
+        row.add(rs.getString("title"));
+        row.add(rs.getString("rs_mark"));
+        row.add(rs.getString("rs_date"));
+        row.add(rs.getString("topic"));
+        list.add(row);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return list;
+  }
+
+  public ArrayList<ArrayList<String>> searchLichSuLamBai(String userID, String keyword) {
+    // rs_num, exCode, title, rs_mark, rs_date, topic
+    ArrayList<ArrayList<String>> list = new ArrayList<>();
+    String sql = "SELECT r.*, t.testTitle AS title, tp.tpTitle AS topic\r\n" + //
+        "FROM result r, exams e, test t, topics tp\r\n" + //
+        "WHERE e.testCode = t.testCode AND r.exCode = e.exCode AND t.tpID = tp.tpID AND r.userID = ? AND (t.testTitle LIKE ? OR tp.tpTitle LIKE ?)";
+    try (PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql)) {
+      ps.setString(1, userID);
+      ps.setString(2, "%" + keyword + "%");
+      ps.setString(3, "%" + keyword + "%");
+      ResultSet rs = ps.executeQuery();
+      while (rs.next()) {
+        ArrayList<String> row = new ArrayList<>();
+        row.add(rs.getString("rs_num"));
+        row.add(rs.getString("exCode"));
+        row.add(rs.getString("title"));
+        row.add(rs.getString("rs_mark"));
+        row.add(rs.getString("rs_date"));
+        row.add(rs.getString("topic"));
+        list.add(row);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return list;
+  }
 }

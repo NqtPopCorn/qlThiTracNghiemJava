@@ -23,6 +23,6 @@ public class Paragraph extends JLabel {
 
   @Override
   public void setText(String text) {
-    super.setText("<html><p>" + text + "</p></html>");
+    super.setText("<html><p> " + text + "</p></html>");
   }
 }

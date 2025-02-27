@@ -1,4 +1,3 @@
-
 package com.example.qlthitracnghiem.BUS;
 
 import com.example.qlthitracnghiem.DAO.QuestionsDAO;
@@ -21,6 +20,17 @@ public class QuestionsBUS {
             return questionsDAO.update(question); // Gọi phương thức getAll() từ QuestionDAO
         } catch (SQLException e) {
             return false; // Hoặc bạn có thể xử lý lỗi theo cách khác
+        }
+    }
+
+    //lay 1 doi tuong cau hoi
+    public QuestionsDTO getQuestionDTOById(Integer quesId) {
+        try {
+
+            return questionsDAO.getQuestionByID(quesId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null; // Hoặc bạn có thể xử lý lỗi theo cách khác
         }
     }
 
@@ -49,35 +59,35 @@ public class QuestionsBUS {
             return questionsDAO.getQuestionByContent(content);
         } catch (SQLException e) {
             return null;
-            }
-}
-         
-         public int createInt(QuestionsDTO question) {
-            try{
+        }
+    }
+
+    public int createInt(QuestionsDTO question) {
+        try {
             return questionsDAO.createInt(question);
-            } catch (SQLException e){
+        } catch (SQLException e) {
             return -1;
-            }
-              }
-        
-         //phương thức tìm kiếm câu hỏi theo key
-         public List<QuestionsDTO> find(String content, String key) {        
-    try {
-        return questionsDAO.find(content, key);
-    } catch (SQLException e) {
-        e.printStackTrace(); // In lỗi để dễ debug
-        return new ArrayList<>(); // Trả về danh sách rỗng nếu có lỗi
+        }
     }
-}
-         
-               //phương thức kiểm tra câu hỏi có tồn tại ko
+
+    //phương thức tìm kiếm câu hỏi theo key
+    public List<QuestionsDTO> find(String content, String key) {
+        try {
+            return questionsDAO.find(content, key);
+        } catch (SQLException e) {
+            e.printStackTrace(); // In lỗi để dễ debug
+            return new ArrayList<>(); // Trả về danh sách rỗng nếu có lỗi
+        }
+    }
+
+    //phương thức kiểm tra câu hỏi có tồn tại ko
     public boolean isQuestionExists(String content) throws SQLException {
-    try {
-        return questionsDAO.isQuestionExists(content);
-    } catch (SQLException e) {
-        e.printStackTrace(); // In lỗi để dễ debug
-        return false;
+        try {
+            return questionsDAO.isQuestionExists(content);
+        } catch (SQLException e) {
+            e.printStackTrace(); // In lỗi để dễ debug
+            return false;
+        }
     }
-}   
-         
+
 }
