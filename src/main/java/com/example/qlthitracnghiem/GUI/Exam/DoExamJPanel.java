@@ -54,7 +54,7 @@ public class DoExamJPanel extends javax.swing.JPanel {
 
     public DoExamJPanel(DashboardFrame dbFrame) {
         this.dbFrame = dbFrame;
-        
+
         initComponents();
         cardLayout = new CardLayout();
         currentQuestPN.setLayout(cardLayout);
@@ -269,7 +269,7 @@ public class DoExamJPanel extends javax.swing.JPanel {
         int counter = 1;
         int resultMark = 0;
         JSONArray ansJSONArray = new JSONArray();
-        
+
         for (QuestionPN quesPn : quesPnList) {
             AnswersDTO ans = quesPn.getSelectedAnswer();
             if (ans != null) {
@@ -292,18 +292,17 @@ public class DoExamJPanel extends javax.swing.JPanel {
         JOptionPane.showMessageDialog(null, "Điểm: " + resultMark);
         clearPanelComponents();
     }
-    
-    public  void clearPanelComponents() {
-        
-            this.removeAll(); // Remove all components
-            initComponents();
-            cardLayout = new CardLayout();
-            currentQuestPN.setLayout(cardLayout);
-            quesPnList = new ArrayList<>();
-            this.revalidate(); // Revalidate the layout
-            this.repaint();    // Repaint the panel
-            
-            
+
+    public void clearPanelComponents() {
+
+        this.removeAll(); // Remove all components
+        initComponents();
+        cardLayout = new CardLayout();
+        currentQuestPN.setLayout(cardLayout);
+        quesPnList = new ArrayList<>();
+        this.revalidate(); // Revalidate the layout
+        this.repaint();    // Repaint the panel
+
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
