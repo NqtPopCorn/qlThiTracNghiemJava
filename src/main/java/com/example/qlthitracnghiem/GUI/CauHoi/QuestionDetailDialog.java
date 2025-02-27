@@ -274,7 +274,7 @@ for (int i = 0; i < size; i++) {
             public void actionPerformed(ActionEvent e) {
                 NativeFileChooser FileChooser = new NativeFileChooser();
                 FileChooser.openFileChooser();
-                anh_field2.setText(FileChooser.getSelectedFilePath());
+                anh_field2.setText("/pictures/" + FileChooser.getSelectedFilePath());
             }
         });
         // Tùy chỉnh button
@@ -336,7 +336,7 @@ for (int i = 0; i < size; i++) {
             public void actionPerformed(ActionEvent e) {
                 NativeFileChooser FileChooser = new NativeFileChooser();
                 FileChooser.openFileChooser();
-                anh_field3.setText(FileChooser.getSelectedFilePath());
+                anh_field3.setText("/pictures/" + FileChooser.getSelectedFilePath());
             }
         });
         // Tùy chỉnh button
@@ -398,7 +398,7 @@ for (int i = 0; i < size; i++) {
             public void actionPerformed(ActionEvent e) {
                 NativeFileChooser FileChooser = new NativeFileChooser();
                 FileChooser.openFileChooser();
-                anh_field4.setText(FileChooser.getSelectedFilePath());
+                anh_field4.setText("/pictures/" + FileChooser.getSelectedFilePath());
             }
         });
         // Tùy chỉnh button
@@ -460,7 +460,7 @@ for (int i = 0; i < size; i++) {
             public void actionPerformed(ActionEvent e) {
                 NativeFileChooser FileChooser = new NativeFileChooser();
                 FileChooser.openFileChooser();
-                anh_field5.setText(FileChooser.getSelectedFilePath());
+                anh_field5.setText("/pictures/" + FileChooser.getSelectedFilePath());
             }
         });
         // Tùy chỉnh button
@@ -522,7 +522,7 @@ for (int i = 0; i < size; i++) {
             public void actionPerformed(ActionEvent e) {
                 NativeFileChooser FileChooser = new NativeFileChooser();
                 FileChooser.openFileChooser();
-                anh_field6.setText(FileChooser.getSelectedFilePath());
+                anh_field6.setText("/pictures/" + FileChooser.getSelectedFilePath());
             }
         });
         // Tùy chỉnh button
@@ -653,7 +653,7 @@ for (int i = 0; i < size; i++) {
             }
           switch(pic){
               case "Ảnh câu hỏi " -> new_question.setqPicture("");
-              default -> new_question.setqPicture(pic);
+              default -> new_question.setqPicture("/pictures/" + pic);
 
           }
           
