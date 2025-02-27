@@ -37,8 +37,8 @@ public class TopicsDAO {
         ArrayList<TopicsDTO> topicsList = new ArrayList<>();
 
         try (Connection connection = DBConnection.getConnection();
-             PreparedStatement ps = connection.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+                PreparedStatement ps = connection.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
 
             if (connection == null) {
                 throw new SQLException("Không thể kết nối đến database");
@@ -57,7 +57,6 @@ public class TopicsDAO {
         return topicsList;
     }
 
-
     public boolean delete(int tpID) throws SQLException {
         Connection connection = DBConnection.getConnection();
         String sql = "DELETE FROM topics WHERE tpID = ?";
@@ -68,27 +67,26 @@ public class TopicsDAO {
         }
     }
 
-public boolean create(TopicsDTO topic) throws SQLException {
-    Connection connection = DBConnection.getConnection();
-    String sql = "INSERT INTO topics (tpTitle, tpParent, tpStatus) VALUES (?, ?, ?)";
+    public boolean create(TopicsDTO topic) throws SQLException {
+        System.out.println("parent: " + topic.getTpParent());
+        Connection connection = DBConnection.getConnection();
+        String sql = "INSERT INTO topics (tpTitle, tpParent, tpStatus) VALUES (?, ?, ?)";
 
-    try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-        ps.setString(1, topic.getTpTitle());
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, topic.getTpTitle());
 
-        // Nếu tpParent là null, đặt NULL vào cột thay vì số nguyên
-        if (topic.getTpParent() == null) {
-            ps.setNull(2, Types.INTEGER);
-        } else {
-            ps.setInt(2, topic.getTpParent());
+            // Nếu tpParent là null, đặt NULL vào cột thay vì số nguyên
+            if (topic.getTpParent() == -1) {
+                ps.setNull(2, Types.INTEGER);
+            } else {
+                ps.setInt(2, topic.getTpParent());
+            }
+
+            ps.setInt(3, topic.getTpStatus());
+            int affectedRows = ps.executeUpdate();
+            return affectedRows > 0;
         }
-
-        ps.setInt(3, topic.getTpStatus());
-
-        int affectedRows = ps.executeUpdate();
-        return affectedRows > 0;
     }
-}
-
 
     public boolean update(TopicsDTO topic) throws SQLException {
         Connection connection = DBConnection.getConnection();

@@ -82,4 +82,8 @@ public class ExamBUS {
     public int delete(String testCode) throws SQLException {
         return ExamDAO.delete(testCode);
     }
+
+    public ArrayList<ExamDTO> getAll() throws SQLException {
+        return ExamDAO.getAll();
+    }
 }

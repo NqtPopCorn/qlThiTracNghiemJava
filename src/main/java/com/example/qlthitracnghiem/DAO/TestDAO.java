@@ -61,9 +61,6 @@ public class TestDAO implements CrudInterface<UserDTO> {
       e.printStackTrace();
       throw e;
     } finally {
-      if (connection != null) {
-        connection.close();
-      }
     }
     return tests;
   }
@@ -222,9 +219,6 @@ public class TestDAO implements CrudInterface<UserDTO> {
       e.printStackTrace();
       throw e;
     } finally {
-      if (connection != null) {
-        connection.close();
-      }
     }
     return testDto;
   }

@@ -211,9 +211,6 @@ public class ExamDAO {
             e.printStackTrace();
             throw e;
         } finally {
-            if (connection != null) {
-                connection.close();
-            }
         }
     }
 
@@ -246,9 +243,6 @@ public class ExamDAO {
             e.printStackTrace();
             throw e;
         } finally {
-            if (connection != null) {
-                connection.close();
-            }
         }
     }
 
@@ -325,9 +319,6 @@ public class ExamDAO {
                 }
             }
         } finally {
-            if (connection != null) {
-                connection.close();
-            }
         }
         return exQuesIDs;
     }
@@ -389,9 +380,6 @@ public class ExamDAO {
             e.printStackTrace();
             throw e;
         } finally {
-            if (connection != null) {
-                connection.close();
-            }
         }
     }
 
@@ -418,9 +406,6 @@ public class ExamDAO {
             e.printStackTrace();
             throw e;
         } finally {
-            if (connection != null) {
-                connection.close();
-            }
         }
         return examDto;
     }

@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.example.qlthitracnghiem.DAO;
+
 import com.example.qlthitracnghiem.DTO.ExamDTO;
 import com.example.qlthitracnghiem.DTO.ResultDTO;
 import com.example.qlthitracnghiem.utils.ConvertUtil;
@@ -34,19 +35,19 @@ public class ResultDAOImpl {
             String sql = "SELECT * FROM result";
             pst = connection.prepareStatement(sql);
             rs = pst.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 String answers = rs.getString("rs_anwsers");
-                String[] rsAnswerArray = (answers != null) ? ConvertUtil.convertJSONArrayToArrayString(new JSONArray(answers)) : new String[0];
+                String[] rsAnswerArray = (answers != null)
+                        ? ConvertUtil.convertJSONArrayToArrayString(new JSONArray(answers))
+                        : new String[0];
                 results.add(
                         new ResultDTO(
                                 rs.getInt("rs_num"),
                                 rs.getInt("userID"),
                                 rs.getString("exCode"),
-                                rsAnswerArray,
-                                rs.getLong("rs_mark"),
-                                rs.getTimestamp("rs_date").toLocalDateTime()
-                        )
-                );
+                                rs.getString("rs_anwsers"),
+                                rs.getBigDecimal("rs_mark"),
+                                rs.getTimestamp("rs_date")));
             }
             return results;
         } catch (SQLException ex) {
@@ -55,16 +56,17 @@ public class ResultDAOImpl {
         } finally {
             if (connection != null) {
                 try {
-                    if (rs != null) rs.close();
-                    if (pst != null) pst.close();
-                    if (connection != null) connection.close();
+                    if (rs != null)
+                        rs.close();
+                    if (pst != null)
+                        pst.close();
                 } catch (SQLException ex) {
                     Logger.getLogger(ResultDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
     }
-    
+
     public int getSoLuongThiSinhByExamCode(String examCode) {
         Connection connection = DBConnection.getConnection();
         int count = 0;
@@ -85,16 +87,17 @@ public class ResultDAOImpl {
         } finally {
             if (connection != null) {
                 try {
-                    if (rs != null) rs.close();
-                    if (pst != null) pst.close();
-                    if (connection != null) connection.close();
+                    if (rs != null)
+                        rs.close();
+                    if (pst != null)
+                        pst.close();
                 } catch (SQLException ex) {
                     Logger.getLogger(ResultDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
     }
-    
+
     public int getMaxScoreByExamCode(String examCode) {
         Connection connection = DBConnection.getConnection();
         int maxScore = 0;
@@ -115,16 +118,17 @@ public class ResultDAOImpl {
         } finally {
             if (connection != null) {
                 try {
-                    if (rs != null) rs.close();
-                    if (pst != null) pst.close();
-                    if (connection != null) connection.close();
+                    if (rs != null)
+                        rs.close();
+                    if (pst != null)
+                        pst.close();
                 } catch (SQLException ex) {
                     Logger.getLogger(ResultDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
     }
-    
+
     public int getMinScoreByExamCode(String examCode) {
         Connection connection = DBConnection.getConnection();
         int minScore = 0;
@@ -145,16 +149,17 @@ public class ResultDAOImpl {
         } finally {
             if (connection != null) {
                 try {
-                    if (rs != null) rs.close();
-                    if (pst != null) pst.close();
-                    if (connection != null) connection.close();
+                    if (rs != null)
+                        rs.close();
+                    if (pst != null)
+                        pst.close();
                 } catch (SQLException ex) {
                     Logger.getLogger(ResultDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
     }
-    
+
     public int getSoLuongThiSinhDatHoacKhongDatByExamCode(String examCode, String type) {
         Connection connection = DBConnection.getConnection();
         int count = 0;
@@ -164,7 +169,7 @@ public class ResultDAOImpl {
             String sql = "";
             if ("DAT".equals(type))
                 sql = "SELECT COUNT(*) FROM result WHERE exCode = ? AND rs_mark >= 5";
-            else 
+            else
                 sql = "SELECT COUNT(*) FROM result WHERE exCode = ? AND rs_mark < 5";
             pst = connection.prepareStatement(sql);
             pst.setString(1, examCode);
@@ -179,16 +184,17 @@ public class ResultDAOImpl {
         } finally {
             if (connection != null) {
                 try {
-                    if (rs != null) rs.close();
-                    if (pst != null) pst.close();
-                    if (connection != null) connection.close();
+                    if (rs != null)
+                        rs.close();
+                    if (pst != null)
+                        pst.close();
                 } catch (SQLException ex) {
                     Logger.getLogger(ResultDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
     }
-    
+
     public int getSoLuongThiSinhXuatSacByExamCode(String examCode) {
         Connection connection = DBConnection.getConnection();
         int count = 0;
@@ -209,9 +215,10 @@ public class ResultDAOImpl {
         } finally {
             if (connection != null) {
                 try {
-                    if (rs != null) rs.close();
-                    if (pst != null) pst.close();
-                    if (connection != null) connection.close();
+                    if (rs != null)
+                        rs.close();
+                    if (pst != null)
+                        pst.close();
                 } catch (SQLException ex) {
                     Logger.getLogger(ResultDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -231,17 +238,14 @@ public class ResultDAOImpl {
             rs = pst.executeQuery();
             while (rs.next()) {
                 String answers = rs.getString("rs_anwsers");
-                String[] rsAnswerArray = (answers != null) ? ConvertUtil.convertJSONArrayToArrayString(new JSONArray(answers)) : new String[0];
                 results.add(
                         new ResultDTO(
                                 rs.getInt("rs_num"),
                                 rs.getInt("userID"),
                                 rs.getString("exCode"),
-                                rsAnswerArray,
-                                rs.getLong("rs_mark"),
-                                rs.getTimestamp("rs_date").toLocalDateTime()
-                        )
-                );
+                                rs.getString("rs_anwsers"),
+                                rs.getBigDecimal("rs_mark"),
+                                rs.getTimestamp("rs_date")));
             }
             return results;
         } catch (SQLException ex) {
@@ -250,9 +254,10 @@ public class ResultDAOImpl {
         } finally {
             if (connection != null) {
                 try {
-                    if (rs != null) rs.close();
-                    if (pst != null) pst.close();
-                    if (connection != null) connection.close();
+                    if (rs != null)
+                        rs.close();
+                    if (pst != null)
+                        pst.close();
                 } catch (SQLException ex) {
                     Logger.getLogger(ResultDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
                 }

@@ -14,15 +14,16 @@ import com.example.qlthitracnghiem.utils.DBConnection;
 public class UserDAO implements CrudInterface<UserDTO> {
 
   public UserDTO getByUserEmail(String email) throws SQLException {
-    Connection connection = DBConnection.getConnection();
     String sql = "SELECT * FROM users WHERE userEmail = ?";
-    try {
-      PreparedStatement ps = connection.prepareStatement(sql);
+    try (Connection connection = DBConnection.getConnection();
+        PreparedStatement ps = connection.prepareStatement(sql);) {
+
       ps.setString(1, email);
       ResultSet rs = ps.executeQuery();
       if (rs.next()) {
-        return new UserDTO(rs.getInt("userID"), rs.getString("userName"), rs.getString("userPassword"),
+        UserDTO user = new UserDTO(rs.getInt("userID"), rs.getString("userName"), rs.getString("userPassword"),
             rs.getString("userEmail"), rs.getString("userFullName"), rs.getInt("isAdmin"));
+        return user;
       }
       return null;
     } catch (SQLException e) {
@@ -33,10 +34,10 @@ public class UserDAO implements CrudInterface<UserDTO> {
 
   @Override
   public int create(UserDTO user) throws SQLException {
-    Connection connection = DBConnection.getConnection();
     String sql = "INSERT INTO users (userName, userPassword, userFullName, userEmail, isAdmin) VALUES (?, ?, ?, ?, ?)";
-    try {
-      PreparedStatement ps = connection.prepareStatement(sql);
+    try (Connection connection = DBConnection.getConnection();
+        PreparedStatement ps = connection.prepareStatement(sql);) {
+
       ps.setString(1, user.getUserName());
       ps.setString(2, user.getUserPassword());
       ps.setString(3, user.getUserFullName());
@@ -51,10 +52,10 @@ public class UserDAO implements CrudInterface<UserDTO> {
 
   @Override
   public int update(UserDTO user) throws SQLException {
-    Connection connection = DBConnection.getConnection();
+
     String sql = "UPDATE users SET userPassword = ?, userFullName = ?, userEmail = ?, isAdmin = ? WHERE userID = ?";
-    try {
-      PreparedStatement ps = connection.prepareStatement(sql);
+    try (Connection connection = DBConnection.getConnection();
+        PreparedStatement ps = connection.prepareStatement(sql);) {
       ps.setString(1, user.getUserPassword());
       ps.setString(2, user.getUserFullName());
       ps.setString(3, user.getUserEmail());
@@ -69,10 +70,10 @@ public class UserDAO implements CrudInterface<UserDTO> {
 
   @Override
   public int delete(int id) throws SQLException {
-    Connection connection = DBConnection.getConnection();
+
     String sql = "DELETE FROM users WHERE userID = ?";
-    try {
-      PreparedStatement ps = connection.prepareStatement(sql);
+    try (Connection connection = DBConnection.getConnection();
+        PreparedStatement ps = connection.prepareStatement(sql);) {
       ps.setInt(1, id);
       return ps.executeUpdate();
     } catch (SQLException e) {
@@ -83,10 +84,10 @@ public class UserDAO implements CrudInterface<UserDTO> {
 
   @Override
   public UserDTO read(int id) throws SQLException {
-    Connection connection = DBConnection.getConnection();
+
     String sql = "SELECT * FROM users WHERE userID=?";
-    try {
-      PreparedStatement ps = connection.prepareStatement(sql);
+    try (Connection connection = DBConnection.getConnection();
+        PreparedStatement ps = connection.prepareStatement(sql);) {
       ps.setInt(1, id);
       ResultSet rs = ps.executeQuery();
       if (rs.next()) {
@@ -101,10 +102,10 @@ public class UserDAO implements CrudInterface<UserDTO> {
   }
 
   public ArrayList<UserDTO> getAll() throws SQLException {
-    Connection connection = DBConnection.getConnection();
+
     String sql = "SELECT * FROM users";
-    try {
-      PreparedStatement ps = connection.prepareStatement(sql);
+    try (Connection connection = DBConnection.getConnection();
+        PreparedStatement ps = connection.prepareStatement(sql);) {
       ResultSet rs = ps.executeQuery();
       ArrayList<UserDTO> users = new ArrayList<>();
       while (rs.next()) {
@@ -149,7 +150,8 @@ public class UserDAO implements CrudInterface<UserDTO> {
     ArrayList<ArrayList<String>> list = new ArrayList<>();
     String sql = "SELECT r.*, t.testTitle AS title, tp.tpTitle AS topic\r\n" + //
         "FROM result r, exams e, test t, topics tp\r\n" + //
-        "WHERE e.testCode = t.testCode AND r.exCode = e.exCode AND t.tpID = tp.tpID AND r.userID = ?";
+        "WHERE e.testCode = t.testCode AND r.exCode = e.exCode AND t.tpID = tp.tpID AND r.userID = ?" +
+        "ORDER BY rs_date DESC";
     try (PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql)) {
       ps.setString(1, userID);
       ResultSet rs = ps.executeQuery();

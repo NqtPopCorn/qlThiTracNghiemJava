@@ -28,7 +28,7 @@ import java.util.logging.Logger;
  * @author Asus
  */
 public class ThongKeDAOImpl implements ThongKeDAO {
-    
+
     private ResultDAOImpl resultDao = new ResultDAOImpl();
 
     @Override
@@ -45,12 +45,12 @@ public class ThongKeDAOImpl implements ThongKeDAO {
     @Override
     public List<ExamDTO> getExamList() {
         try {
-            List<ExamDTO> examList = ExamBUS.getInstance().getAll();
+            List<ExamDTO> examList = new ExamBUS().getAll();
             return examList;
         } catch (Exception ex) {
             Logger.getLogger(ThongKeDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
             return List.of();
-        }       
+        }
     }
 
     @Override
@@ -61,7 +61,7 @@ public class ThongKeDAOImpl implements ThongKeDAO {
         } catch (Exception ex) {
             Logger.getLogger(ThongKeDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
             return List.of();
-        }       
+        }
     }
 
     @Override
@@ -72,7 +72,7 @@ public class ThongKeDAOImpl implements ThongKeDAO {
         } catch (Exception ex) {
             Logger.getLogger(ThongKeDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
             return List.of();
-        }       
+        }
     }
 
     @Override
@@ -83,7 +83,7 @@ public class ThongKeDAOImpl implements ThongKeDAO {
         } catch (Exception ex) {
             Logger.getLogger(ThongKeDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
             return List.of();
-        }      
+        }
     }
 
     @Override
@@ -94,14 +94,14 @@ public class ThongKeDAOImpl implements ThongKeDAO {
         } catch (Exception ex) {
             Logger.getLogger(ThongKeDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
             return List.of();
-        }      
+        }
     }
-    
+
     @Override
     public int getSoLuongThiSinhLamBaiByExamCode(String examCode) {
         return resultDao.getSoLuongThiSinhByExamCode(examCode);
     }
-    
+
     @Override
     public int getMaxScoreByExamCode(String examCode) {
         return resultDao.getMaxScoreByExamCode(examCode);
@@ -130,7 +130,7 @@ public class ThongKeDAOImpl implements ThongKeDAO {
         } catch (Exception ex) {
             Logger.getLogger(ThongKeDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
             return List.of();
-        }       
+        }
     }
 
     @Override
@@ -141,16 +141,16 @@ public class ThongKeDAOImpl implements ThongKeDAO {
         } catch (Exception ex) {
             Logger.getLogger(ThongKeDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
             return List.of();
-        }       
+        }
     }
 
     @Override
     public ExamDTO getExamDtoByExamCode(String examCode) {
         try {
-            return ExamBUS.getInstance().getExamDtoByExamCode(examCode);
+            return new ExamBUS().getExamByExCode(examCode);
         } catch (Exception ex) {
             Logger.getLogger(ThongKeDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }       
+        }
         return null;
     }
 
@@ -161,13 +161,13 @@ public class ThongKeDAOImpl implements ThongKeDAO {
         } catch (Exception ex) {
             Logger.getLogger(ThongKeDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
             return List.of();
-        }       
+        }
     }
 
     @Override
     public QuestionsDTO getQuestionDtoByQuestionID(String questionID) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from
+                                                                       // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    
 }

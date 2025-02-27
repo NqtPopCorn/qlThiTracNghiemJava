@@ -4,8 +4,6 @@
  */
 package com.example.qlthitracnghiem.GUI.ThongKe;
 
-
-
 import com.example.qlthitracnghiem.BUS.ExamBUS;
 import com.example.qlthitracnghiem.BUS.TestBUS;
 import com.example.qlthitracnghiem.BUS.ThongKeBUS;
@@ -24,6 +22,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -33,6 +32,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
 
+import org.json.JSONArray;
+
 /**
  *
  * @author Asus
@@ -41,14 +42,14 @@ public class LichSuPanel extends JPanel {
     private JPanel examListPanel;
     private String userID;
     private String searchText = "";
-    
+
     private List<ExamDTO> listExamDto = new ArrayList<>();
-    private List<ResultDTO> listResultDto = new ArrayList<>();    
+    private List<ResultDTO> listResultDto = new ArrayList<>();
 
     public LichSuPanel(String userID, String searchText) {
         this.userID = userID;
         this.searchText = searchText;
-        
+
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBackground(Color.WHITE);
 
@@ -62,7 +63,7 @@ public class LichSuPanel extends JPanel {
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
         add(scrollPane, BorderLayout.CENTER);
-        
+
         try {
             loadDataForAll();
             loadExamList();
@@ -70,22 +71,22 @@ public class LichSuPanel extends JPanel {
             Logger.getLogger(LichSuPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public void loadDataForAll() throws SQLException {
-        if(!listResultDto.isEmpty())
+        if (!listResultDto.isEmpty())
             listResultDto.clear();
-        if(!listExamDto.isEmpty())
+        if (!listExamDto.isEmpty())
             listExamDto.clear();
         listResultDto = ThongKeBUS.getInstance().getResultDtoByUserID(userID);
-        for(ResultDTO result : listResultDto) {
+        for (ResultDTO result : listResultDto) {
             if (searchString(result.getExCode(), searchText)) {
-                ExamDTO exam = ExamBUS.getInstance().getExamDtoByExamCode(result.getExCode());
+                ExamDTO exam = new ExamBUS().getExamByExCode(result.getExCode());
                 listExamDto.add(exam);
             }
         }
     }
-    
-     public boolean searchString(String text, String keyword) {
+
+    public boolean searchString(String text, String keyword) {
         if (keyword == null || keyword.isEmpty()) {
             return true;
         }
@@ -98,19 +99,17 @@ public class LichSuPanel extends JPanel {
     public void loadExamList() throws SQLException {
         examListPanel.removeAll();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        
+
         for (ExamDTO exam : listExamDto) {
-            TestDTO test = TestBUS.getInstance().getTestDtoByTestCode(exam.getTestCode());
+            TestDTO test = TestBUS.getInstance().getTestByTestCode(exam.getTestCode());
             JPanel examPanel;
             examPanel = createExamPanel(
                     test.getTestCode(),
                     exam.getExCode(),
                     test.getTestTitle(),
                     test.getTestDate().toLocalDate().format(formatter),
-                    ThongKeBUS.getInstance().
-                            searchResultDtoByExamCode(listResultDto, exam.getExCode()).getRsMark(),
-                    String.valueOf(test.getTestTime())
-            );
+                    ThongKeBUS.getInstance().searchResultDtoByExamCode(listResultDto, exam.getExCode()).getRsMark(),
+                    String.valueOf(test.getTestTime()));
             examListPanel.add(examPanel);
             examListPanel.add(Box.createVerticalStrut(10)); // Thêm khoảng cách giữa các panel
         }
@@ -118,7 +117,8 @@ public class LichSuPanel extends JPanel {
         examListPanel.repaint();
     }
 
-    private JPanel createExamPanel(String testCode, String exCode, String title, String date, Long score, String testTime) {
+    private JPanel createExamPanel(String testCode, String exCode, String title, String date, BigDecimal score,
+            String testTime) {
         // Tạo panel chứa thông tin
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout(0, 0)); // Tạo khoảng cách giữa các phần tử
@@ -127,7 +127,6 @@ public class LichSuPanel extends JPanel {
                 BorderFactory.createLineBorder(Color.BLACK, 1),
                 BorderFactory.createEmptyBorder(10, 10, 10, 10)));
 
-        
         // Giới hạn kích thước panel để thu nhỏ lại
         panel.setMaximumSize(new Dimension(1000, 150));
         panel.setMinimumSize(new Dimension(400, 130));
@@ -194,12 +193,12 @@ public class LichSuPanel extends JPanel {
                     contentPanel.add(Box.createVerticalStrut(20)); // Khoảng cách giữa phần thời gian và mã đề đầu tiên
 
                     // Lấy danh sách câu hỏi và câu trả lời cho exCode hiện tại
-                    List<Integer> exQuesIDs = ExamBUS.getInstance().getExQuesIDsByExCode(exCode);
+                    List<Integer> exQuesIDs = new ExamBUS().getExQuesIDsByExCode(exCode);
 
                     int questionNumber = 1;
                     for (int qID : exQuesIDs) {
                         // Lấy nội dung câu hỏi và hình ảnh
-                        Map<String, String> questionData = ExamBUS.getInstance().getQuestionContent(qID);
+                        Map<String, String> questionData = new ExamBUS().getQuestionContent(qID);
                         String qContent = questionData.get("qContent");
                         String qPictures = questionData.get("qPictures");
 
@@ -221,7 +220,7 @@ public class LichSuPanel extends JPanel {
                         }
 
                         // Lấy danh sách câu trả lời và hình ảnh
-                        List<Map<String, String>> awContents = ExamBUS.getInstance().getAnswerContent(qID);
+                        List<Map<String, String>> awContents = new ExamBUS().getAnswerContent(qID);
 
                         // Tạo ButtonGroup cho câu hỏi hiện tại
                         ButtonGroup buttonGroup = new ButtonGroup();
@@ -242,11 +241,12 @@ public class LichSuPanel extends JPanel {
                             if (awPictures != null && !awPictures.isEmpty()) {
                                 radioButton.setText(awContent + " (Hình ảnh: " + awPictures + ")");
                             }
-                            
+
                             // Chon cau tra loi cua thanh vien
-                            for (ResultDTO result: listResultDto) {
+                            for (ResultDTO result : listResultDto) {
                                 if (result.getExCode().equals(exCode)) {
-                                    for(String answer: result.getRsAnswer()) {
+                                    for (String answer : new JSONArray(result.getRsAnswers()).toList().stream()
+                                            .map(Object::toString).toList()) {
                                         if (answer.equals(awID)) {
                                             radioButton.setSelected(true);
                                             break;
@@ -317,5 +317,3 @@ public class LichSuPanel extends JPanel {
         return examListPanel;
     }
 }
-
-
