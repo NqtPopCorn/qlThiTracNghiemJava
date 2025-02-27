@@ -245,8 +245,7 @@ public class QuestionPanel extends javax.swing.JPanel {
         jPanel2.setBackground(new java.awt.Color(204, 204, 204));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Câu Hỏi");
+        jLabel1.setText("Tên chủ đề");
 
         xoabtn_question.setText("Xóa");
         xoabtn_question.setToolTipText("Xóa khỏi chủ đề hoặc xóa hẳn");

@@ -153,7 +153,7 @@ public class TestPanel extends JPanel {
                         test.getTestDate() != null ? test.getTestDate().toString() : "Không có ngày",
                         test.getTestStatus() == 1 ? "Đang mở" : "Đã kết thúc",
                         test.getTestCode(),
-                        test)); 
+                        test));
             }
         }
 
@@ -183,208 +183,208 @@ public class TestPanel extends JPanel {
         viewButton.setBackground(new Color(220, 230, 205));
 
         viewButton.addActionListener(new ActionListener() {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        try {
-            // Lấy danh sách exCode từ bảng exams dựa trên testCode
-            List<String> examCodes = examBUS.getExamCode(testCode);
-            System.err.println("examCode: " + examCodes);
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    // Lấy danh sách exCode từ bảng exams dựa trên testCode
+                    List<String> examCodes = examBUS.getExamCode(testCode);
+                    System.err.println("examCode: " + examCodes);
 
-            // Tạo detailPanel
-            JPanel detailPanel = new JPanel(new BorderLayout());
-            detailPanel.setBackground(new Color(255, 255, 255));
+                    // Tạo detailPanel
+                    JPanel detailPanel = new JPanel(new BorderLayout());
+                    detailPanel.setBackground(new Color(255, 255, 255));
 
-            // Tạo buttonPanel chứa các nút
-            JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-            buttonPanel.setBackground(Color.WHITE);
+                    // Tạo buttonPanel chứa các nút
+                    JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+                    buttonPanel.setBackground(Color.WHITE);
 
-            // Tạo nút Export
-            JButton exportButton = new JButton("Export to DOCX");
-            exportButton.setBackground(new Color(28, 58, 118));
-            exportButton.setForeground(Color.WHITE);
-            exportButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    String filePath = ExportDOCX.chooseFileToSave();
-                    System.err.println("filePath: " + filePath);
-                    if (filePath != null) {
-                        try {
-                            ExportDOCX.exportToDocx(test, examCodes, filePath);
-                            JOptionPane.showMessageDialog(TestPanel.this, "Xuất file thành công!", "Thành công",
-                                    JOptionPane.INFORMATION_MESSAGE);
-                        } catch (Exception ex) {
-                            ex.printStackTrace();
-                            JOptionPane.showMessageDialog(TestPanel.this, "Lỗi khi xuất file!", "Lỗi",
-                                    JOptionPane.ERROR_MESSAGE);
+                    // Tạo nút Export
+                    JButton exportButton = new JButton("Export to DOCX");
+                    exportButton.setBackground(new Color(28, 58, 118));
+                    exportButton.setForeground(Color.WHITE);
+                    exportButton.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            String filePath = ExportDOCX.chooseFileToSave();
+                            System.err.println("filePath: " + filePath);
+                            if (filePath != null) {
+                                try {
+                                    ExportDOCX.exportToDocx(test, examCodes, filePath);
+                                    JOptionPane.showMessageDialog(TestPanel.this, "Xuất file thành công!", "Thành công",
+                                            JOptionPane.INFORMATION_MESSAGE);
+                                } catch (Exception ex) {
+                                    ex.printStackTrace();
+                                    JOptionPane.showMessageDialog(TestPanel.this, "Lỗi khi xuất file!", "Lỗi",
+                                            JOptionPane.ERROR_MESSAGE);
+                                }
+                            } else {
+                                JOptionPane.showMessageDialog(TestPanel.this, "Không có file được chọn!", "Thông báo",
+                                        JOptionPane.WARNING_MESSAGE);
+                            }
                         }
-                    } else {
-                        JOptionPane.showMessageDialog(TestPanel.this, "Không có file được chọn!", "Thông báo",
-                                JOptionPane.WARNING_MESSAGE);
-                    }
-                }
-            });
+                    });
 
-            buttonPanel.add(exportButton);
+                    buttonPanel.add(exportButton);
 
-            detailPanel.add(buttonPanel, BorderLayout.NORTH);
+                    detailPanel.add(buttonPanel, BorderLayout.NORTH);
 
-            JPanel contentPanel = new JPanel();
-            contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
-            contentPanel.setBackground(new Color(255, 255, 255));
-            contentPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0)); // top, left, bottom, right
+                    JPanel contentPanel = new JPanel();
+                    contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
+                    contentPanel.setBackground(new Color(255, 255, 255));
+                    contentPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0)); // top, left, bottom, right
 
-            JLabel jtfTestTitle = new JLabel("Bài thi môn: " + title);
-            jtfTestTitle.setFont(new Font("Serif", Font.BOLD, 18));
-            contentPanel.add(jtfTestTitle);
+                    JLabel jtfTestTitle = new JLabel("Bài thi môn: " + title);
+                    jtfTestTitle.setFont(new Font("Serif", Font.BOLD, 18));
+                    contentPanel.add(jtfTestTitle);
 
-            JLabel jtfTestTime = new JLabel("Thời gian: " + testTime + " phút");
-            jtfTestTime.setFont(new Font("Serif", Font.BOLD, 18));
-            contentPanel.add(jtfTestTime);
+                    JLabel jtfTestTime = new JLabel("Thời gian: " + testTime + " phút");
+                    jtfTestTime.setFont(new Font("Serif", Font.BOLD, 18));
+                    contentPanel.add(jtfTestTime);
 
-            for (String exCode : examCodes) {
-                // Hiển thị mã đề
-                JLabel exCodeLabel = new JLabel("Mã đề: " + exCode);
-                exCodeLabel.setFont(new Font("Serif", Font.BOLD, 16));
-                contentPanel.add(exCodeLabel);
-                contentPanel.add(Box.createVerticalStrut(20)); // Khoảng cách giữa phần thời gian và mã đề đầu tiên
+                    for (String exCode : examCodes) {
+                        // Hiển thị mã đề
+                        JLabel exCodeLabel = new JLabel("Mã đề: " + exCode);
+                        exCodeLabel.setFont(new Font("Serif", Font.BOLD, 16));
+                        contentPanel.add(exCodeLabel);
+                        contentPanel.add(Box.createVerticalStrut(20)); // Khoảng cách giữa phần thời gian và mã đề đầu
+                                                                       // tiên
 
-                List<Integer> exQuesIDs = examBUS.getExQuesIDsByExCode(exCode);
-                System.err.println("ex_quesIDs: " + exQuesIDs);
+                        List<Integer> exQuesIDs = examBUS.getExQuesIDsByExCode(exCode);
+                        System.err.println("ex_quesIDs: " + exQuesIDs);
 
-                int questionNumber = 1;
-                for (int qID : exQuesIDs) {
-                    Map<String, String> questionData = examBUS.getQuestionContent(qID);
-                    String qContent = questionData.get("qContent");
-                    String qPictures = questionData.get("qPictures");
+                        int questionNumber = 1;
+                        for (int qID : exQuesIDs) {
+                            Map<String, String> questionData = examBUS.getQuestionContent(qID);
+                            String qContent = questionData.get("qContent");
+                            String qPictures = questionData.get("qPictures");
 
-                    JPanel questionPanel = new JPanel();
-                    questionPanel.setLayout(new BoxLayout(questionPanel, BoxLayout.Y_AXIS));
-                    questionPanel.setBackground(new Color(255, 255, 255));
+                            JPanel questionPanel = new JPanel();
+                            questionPanel.setLayout(new BoxLayout(questionPanel, BoxLayout.Y_AXIS));
+                            questionPanel.setBackground(new Color(255, 255, 255));
 
-                    JLabel qContentLabel = new JLabel("Câu " + questionNumber + ": " + qContent);
-                    qContentLabel.setFont(new Font("Serif", Font.BOLD, 12));
-                    questionPanel.add(qContentLabel);
-                    if (qPictures != null && !qPictures.isEmpty()) {
-                        JLabel qPictureLabel = new JLabel("");
-                        ImageUtil.setIcon(qPictureLabel, qPictures, 100, 100);
-                        qPictureLabel.setFont(new Font("Serif", Font.PLAIN, 12));
-                        questionPanel.add(qPictureLabel);
-                    }
+                            JLabel qContentLabel = new JLabel("Câu " + questionNumber + ": " + qContent);
+                            qContentLabel.setFont(new Font("Serif", Font.BOLD, 12));
+                            questionPanel.add(qContentLabel);
+                            if (qPictures != null && !qPictures.isEmpty()) {
+                                JLabel qPictureLabel = new JLabel("");
+                                ImageUtil.setIcon(qPictureLabel, qPictures, 100, 100);
+                                qPictureLabel.setFont(new Font("Serif", Font.PLAIN, 12));
+                                questionPanel.add(qPictureLabel);
+                            }
 
-                    List<Map<String, String>> awContents = examBUS.getAnswerContent(qID);
+                            List<Map<String, String>> awContents = examBUS.getAnswerContent(qID);
 
-                    ButtonGroup buttonGroup = new ButtonGroup();
-                    for (Map<String, String> answerData : awContents) {
-                        String awContent = answerData.get("awContent");
-                        String awPictures = answerData.get("awPictures");
+                            ButtonGroup buttonGroup = new ButtonGroup();
+                            for (Map<String, String> answerData : awContents) {
+                                String awContent = answerData.get("awContent");
+                                String awPictures = answerData.get("awPictures");
 
-                        JPanel answerPanel = new JPanel();
-                        answerPanel.setLayout(new BoxLayout(answerPanel, BoxLayout.Y_AXIS));
-                        answerPanel.setBackground(new Color(255, 255, 255));
+                                JPanel answerPanel = new JPanel();
+                                answerPanel.setLayout(new BoxLayout(answerPanel, BoxLayout.Y_AXIS));
+                                answerPanel.setBackground(new Color(255, 255, 255));
 
-                        if (awPictures != null && !awPictures.isEmpty()) {
-                            JLabel answerImageLabel = new JLabel();
-                            ImageUtil.setIcon(answerImageLabel, awPictures, 100, 100); // Điều chỉnh kích thước ảnh nếu cần
-                            answerPanel.add(answerImageLabel);
+                                if (awPictures != null && !awPictures.isEmpty()) {
+                                    JLabel answerImageLabel = new JLabel();
+                                    ImageUtil.setIcon(answerImageLabel, awPictures, 100, 100); // Điều chỉnh kích thước
+                                                                                               // ảnh nếu cần
+                                    answerPanel.add(answerImageLabel);
+                                }
+
+                                JRadioButton radioButton = new JRadioButton(awContent);
+                                radioButton.setFont(new Font("Serif", Font.PLAIN, 12));
+                                radioButton.setBackground(new Color(255, 255, 255));
+                                buttonGroup.add(radioButton);
+                                answerPanel.add(radioButton);
+                                questionPanel.add(answerPanel);
+                            }
+
+                            contentPanel.add(questionPanel);
+                            contentPanel.add(Box.createVerticalStrut(10)); // Khoảng cách giữa các câu hỏi
+                            questionNumber++;
                         }
 
-                        JRadioButton radioButton = new JRadioButton(awContent);
-                        radioButton.setFont(new Font("Serif", Font.PLAIN, 12));
-                        radioButton.setBackground(new Color(255, 255, 255));
-                        buttonGroup.add(radioButton);
-                        answerPanel.add(radioButton);
-                        questionPanel.add(answerPanel);
+                        contentPanel.add(Box.createVerticalStrut(20)); // Khoảng cách giữa các mã đề
                     }
 
-                    contentPanel.add(questionPanel);
-                    contentPanel.add(Box.createVerticalStrut(10)); // Khoảng cách giữa các câu hỏi
-                    questionNumber++;
-                }
+                    detailPanel.add(contentPanel, BorderLayout.CENTER);
 
-                contentPanel.add(Box.createVerticalStrut(20)); // Khoảng cách giữa các mã đề
-            }
+                    JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+                    bottomPanel.setBackground(new Color(255, 255, 255));
 
-            detailPanel.add(contentPanel, BorderLayout.CENTER);
+                    JButton btnBack = new JButton("Back");
+                    btnBack.setBackground(new Color(28, 58, 118));
+                    btnBack.setForeground(Color.WHITE);
+                    btnBack.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            mainPanel.removeAll();
+                            try {
+                                updateTestPanel(testBUS.getAll());
+                            } catch (Exception ex) {
+                                Logger.getLogger(TestPanel.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            mainPanel.revalidate();
+                            mainPanel.repaint();
+                        }
+                    });
 
-            JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-            bottomPanel.setBackground(new Color(255, 255, 255));
+                    bottomPanel.add(btnBack);
+                    detailPanel.add(bottomPanel, BorderLayout.SOUTH);
+                    JScrollPane scrollPane = new JScrollPane(detailPanel);
+                    scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+                    scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-            JButton btnBack = new JButton("Back");
-            btnBack.setBackground(new Color(28, 58, 118));
-            btnBack.setForeground(Color.WHITE);
-            btnBack.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
                     mainPanel.removeAll();
-                    try {
-                        updateTestPanel(testBUS.getAll());
-                    } catch (Exception ex) {
-                        Logger.getLogger(TestPanel.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                    mainPanel.add(scrollPane);
                     mainPanel.revalidate();
                     mainPanel.repaint();
-                }
-            });
-
-            bottomPanel.add(btnBack);
-            detailPanel.add(bottomPanel, BorderLayout.SOUTH);
-            JScrollPane scrollPane = new JScrollPane(detailPanel);
-            scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-            scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-
-            mainPanel.removeAll(); 
-            mainPanel.add(scrollPane); 
-            mainPanel.revalidate();
-            mainPanel.repaint();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(TestPanel.this, "Lỗi khi lấy dữ liệu!");
-        }
-    }
-});
-        JButton editButton = new JButton("Chỉnh sửa");
-editButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/wrench.png")));
-editButton.setBackground(new Color(175, 205, 235));
-editButton.addActionListener(new ActionListener() {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        List<String> examCodes;
-        try {
-            examCodes = examBUS.getExamCode(testCode);
-            boolean canEdit = true; 
-            for (String exCode : examCodes) {
-                if (examBUS.isExCodeExistInResult(exCode)) {
-                    JOptionPane.showMessageDialog(
-                        TestPanel.this, 
-                        "Đã có học sinh làm bài kiểm tra, không thể chỉnh sửa!", 
-                        "Thông báo", 
-                        JOptionPane.WARNING_MESSAGE
-                    );
-                    canEdit = false;
-                    break; 
-                }
-            }
-
-            if (canEdit) {
-                EditTestDialog editTestDialog = new EditTestDialog(null, true, test);
-                editTestDialog.setVisible(true);
-                try {
-                    updateTestPanel(testBUS.getAll());
                 } catch (Exception ex) {
-                    Logger.getLogger(TestPanel.class.getName()).log(Level.SEVERE, null, ex);
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(TestPanel.this, "Lỗi khi lấy dữ liệu!");
                 }
             }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(
-                TestPanel.this, 
-                "Lỗi khi kiểm tra mã đề thi!", 
-                "Lỗi", 
-                JOptionPane.ERROR_MESSAGE
-            );
-        }
-    }
-});
+        });
+        JButton editButton = new JButton("Chỉnh sửa");
+        editButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/wrench.png")));
+        editButton.setBackground(new Color(175, 205, 235));
+        editButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                List<String> examCodes;
+                try {
+                    examCodes = examBUS.getExamCode(testCode);
+                    boolean canEdit = true;
+                    for (String exCode : examCodes) {
+                        if (examBUS.isExCodeExistInResult(exCode)) {
+                            JOptionPane.showMessageDialog(
+                                    TestPanel.this,
+                                    "Đã có học sinh làm bài kiểm tra, không thể chỉnh sửa!",
+                                    "Thông báo",
+                                    JOptionPane.WARNING_MESSAGE);
+                            canEdit = false;
+                            break;
+                        }
+                    }
+
+                    if (canEdit) {
+                        EditTestDialog editTestDialog = new EditTestDialog(null, true, test);
+                        editTestDialog.setVisible(true);
+                        try {
+                            updateTestPanel(testBUS.getAll());
+                        } catch (Exception ex) {
+                            Logger.getLogger(TestPanel.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(
+                            TestPanel.this,
+                            "Lỗi khi kiểm tra mã đề thi!",
+                            "Lỗi",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
         JButton deleteButton = new JButton("Xóa đề");
         deleteButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/multiply.png")));
         deleteButton.setBackground(new Color(248, 220, 209));
@@ -421,19 +421,17 @@ editButton.addActionListener(new ActionListener() {
                 updateTestPanel(testBUS.getAll());
             } else {
                 JOptionPane.showMessageDialog(
-                        TestPanel.this, 
-                        "Đã có học sinh làm bài kiểm tra, không thể xóa!", 
-                        "Thông báo", 
-                        JOptionPane.WARNING_MESSAGE
-                    );
+                        TestPanel.this,
+                        "Đã có học sinh làm bài kiểm tra, không thể xóa!",
+                        "Thông báo",
+                        JOptionPane.WARNING_MESSAGE);
             }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(
-                        TestPanel.this, 
-                        "Đã có học sinh làm bài kiểm tra, không thể xóa!", 
-                        "Thông báo", 
-                        JOptionPane.WARNING_MESSAGE
-                    );
+                    TestPanel.this,
+                    "Đã có học sinh làm bài kiểm tra, không thể xóa!",
+                    "Thông báo",
+                    JOptionPane.WARNING_MESSAGE);
         } catch (Exception ex) {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(this, "Đã xảy ra lỗi khi xóa đề thi!", "Lỗi", JOptionPane.ERROR_MESSAGE);

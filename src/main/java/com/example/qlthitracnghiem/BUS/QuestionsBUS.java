@@ -7,6 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class QuestionsBUS {
+    
+    private static QuestionsBUS instance;
+
+    public static QuestionsBUS getInstance() {
+        if(instance == null)
+            instance = new QuestionsBUS();
+        return instance;
+    }
 
     private final QuestionsDAO questionsDAO;
 

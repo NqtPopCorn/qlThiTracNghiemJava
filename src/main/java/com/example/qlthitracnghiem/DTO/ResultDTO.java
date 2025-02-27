@@ -4,29 +4,31 @@
  */
 package com.example.qlthitracnghiem.DTO;
 
-import java.math.BigDecimal;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.Objects;
 
 /**
  *
- * @author light
+ * @author Asus
  */
 public class ResultDTO {
-      private int rsNum;
+
+    private int rsNum;
     private int userID;
     private String exCode;
-    private String rsAnswers;
-    private BigDecimal rsMark;
-    private Timestamp rsDate;
+    private String[] rsAnswer;
+    private Long rsMark;
+    private LocalDateTime rsDate;
 
     public ResultDTO() {
+
     }
 
-    public ResultDTO(int rsNum, int userID, String exCode, String rsAnswers, BigDecimal rsMark, Timestamp rsDate) {
+    public ResultDTO(int rsNum, int userID, String exCode, String[] rsAnswer, Long rsMark, LocalDateTime rsDate) {
         this.rsNum = rsNum;
         this.userID = userID;
         this.exCode = exCode;
-        this.rsAnswers = rsAnswers;
+        this.rsAnswer = rsAnswer;
         this.rsMark = rsMark;
         this.rsDate = rsDate;
     }
@@ -55,39 +57,64 @@ public class ResultDTO {
         this.exCode = exCode;
     }
 
-    public String getRsAnswers() {
-        return rsAnswers;
+    public String[] getRsAnswer() {
+        return rsAnswer;
     }
 
-    public void setRsAnswers(String rsAnswers) {
-        this.rsAnswers = rsAnswers;
+    public void setRsAnswer(String[] rsAnswer) {
+        this.rsAnswer = rsAnswer;
     }
 
-    public BigDecimal getRsMark() {
+    public Long getRsMark() {
         return rsMark;
     }
 
-    public void setRsMark(BigDecimal rsMark) {
+    public void setRsMark(Long rsMark) {
         this.rsMark = rsMark;
     }
 
-    public Timestamp getRsDate() {
+    public LocalDateTime getRsDate() {
         return rsDate;
     }
 
-    public void setRsDate(Timestamp rsDate) {
+    public void setRsDate(LocalDateTime rsDate) {
         this.rsDate = rsDate;
     }
 
     @Override
-    public String toString() {
-        return "ResultDTO{" +
-                "rsNum=" + rsNum +
-                ", userID=" + userID +
-                ", exCode='" + exCode + '\'' +
-                ", rsAnswers='" + rsAnswers + '\'' +
-                ", rsMark=" + rsMark +
-                ", rsDate=" + rsDate +
-                '}';
+    public int hashCode() {
+        int hash = 5;
+        return hash;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ResultDTO other = (ResultDTO) obj;
+        if (this.rsNum != other.rsNum) {
+            return false;
+        }
+        if (this.userID != other.userID) {
+            return false;
+        }
+        if (!Objects.equals(this.exCode, other.exCode)) {
+            return false;
+        }
+        if (!Objects.equals(this.rsAnswer, other.rsAnswer)) {
+            return false;
+        }
+        if (!Objects.equals(this.rsMark, other.rsMark)) {
+            return false;
+        }
+        return Objects.equals(this.rsDate, other.rsDate);
+    }
+
 }
