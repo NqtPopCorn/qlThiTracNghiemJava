@@ -85,7 +85,7 @@ public class ExamResultPanel extends javax.swing.JPanel {
         gridBagConstraints.weighty = 0.1;
         add(txtDate, gridBagConstraints);
 
-        txtMark.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        txtMark.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         txtMark.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         txtMark.setText("9.0");
         gridBagConstraints = new java.awt.GridBagConstraints();

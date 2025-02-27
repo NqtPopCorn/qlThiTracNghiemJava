@@ -7,6 +7,7 @@ package com.example.qlthitracnghiem.DAO;
 import com.example.qlthitracnghiem.DTO.ExamDTO;
 import com.example.qlthitracnghiem.DTO.TestDTO;
 import com.example.qlthitracnghiem.DTO.UserDTO;
+import com.example.qlthitracnghiem.utils.ConvertUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -185,10 +186,16 @@ public class ExamDAO {
         Connection connection = DBConnection.getConnection();
         System.err.println("TestCode khi sửa" + testDTO.getTestCode());
 
-        // Xóa các dòng cũ trong bảng exams
+        // List<String> currentExamCodes =
+        // getExamCodesByTestCode(testDTO.getTestCode());
+        // for (String exCode : currentExamCodes) {
+        // if (isExCodeExistInResult(exCode)) {
+        // throw new SQLException("Không thể cập nhật vì exCode " + exCode + " đã tồn
+        // tại trong bảng result.");
+        // }
+        // }
         deleteExamsByTestCode(testDTO.getTestCode());
 
-        // Cập nhật thông tin trong bảng test
         String sql = "UPDATE test SET num_easy= ?, num_medium = ?, num_diff = ? WHERE testCode = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, testDTO.getNum_easy());
@@ -197,7 +204,6 @@ public class ExamDAO {
             ps.setString(4, testDTO.getTestCode());
             ps.executeUpdate();
 
-            // Tạo lại các đề thi mới
             generateExams(connection, testDTO.getTestCode(), testDTO, soDe);
 
             return 1;
@@ -205,15 +211,39 @@ public class ExamDAO {
             e.printStackTrace();
             throw e;
         } finally {
-            if (connection != null) {
-                connection.close();
-            }
         }
     }
 
-    public int delete(int id) throws SQLException {
+    public int delete(String testCode) throws SQLException {
+        Connection connection = DBConnection.getConnection();
+        try {
+            List<String> examCodes = getExamCodesByTestCode(testCode);
 
-        return 0;
+            for (String exCode : examCodes) {
+                if (isExCodeExistInResult(exCode)) {
+                    throw new SQLException("Đã có học sinh làm bài kiểm tra, không thể xóa.");
+                }
+            }
+            // Xóa bảng exam
+            String deleteExamsSQL = "DELETE FROM exams WHERE testCode = ?";
+            try (PreparedStatement psExams = connection.prepareStatement(deleteExamsSQL)) {
+                psExams.setString(1, testCode);
+                psExams.executeUpdate();
+            }
+
+            // Xóa bảng test
+            String deleteTestSQL = "DELETE FROM test WHERE testCode = ?";
+            try (PreparedStatement psTest = connection.prepareStatement(deleteTestSQL)) {
+                psTest.setString(1, testCode);
+                psTest.executeUpdate();
+            }
+
+            return 1;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+        }
     }
 
     // đm quả lấy data nhìn rườm ra luộm thuộm vcl
@@ -238,7 +268,7 @@ public class ExamDAO {
                                                                                   // ảnh
         Connection connection = DBConnection.getConnection();
         List<Map<String, String>> awContents = new ArrayList<>();
-        String sql = "SELECT aw.awContent, aw.awPictures FROM answers aw JOIN questions q ON aw.qID=q.qID WHERE q.qID = ?";
+        String sql = "SELECT aw.awContent, aw.awPictures, aw.awID FROM answers aw JOIN questions q ON aw.qID=q.qID WHERE q.qID = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setInt(1, qID);
             ResultSet rs = pstmt.executeQuery();
@@ -246,6 +276,7 @@ public class ExamDAO {
                 Map<String, String> answerData = new HashMap<>();
                 answerData.put("awContent", rs.getString("awContent"));
                 answerData.put("awPictures", rs.getString("awPictures")); // Lấy hình ảnh của câu trả lời
+                answerData.put("awID", String.valueOf(rs.getInt("awID")));
                 awContents.add(answerData);
             }
         }
@@ -288,11 +319,27 @@ public class ExamDAO {
                 }
             }
         } finally {
-            if (connection != null) {
-                connection.close();
-            }
         }
         return exQuesIDs;
+    }
+
+    public static ArrayList findExCode(String keyword) throws SQLException {
+        Connection connection = DBConnection.getConnection();
+
+        String sql = "SELECT * FROM exams where exCode Like ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, "%" + keyword + "%");
+            ResultSet rs = ps.executeQuery();
+            ArrayList<String> exCodeList = new ArrayList<>();
+            while (rs.next()) {
+                exCodeList.add(rs.getString("exCode"));
+            }
+            return exCodeList;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
     }
 
     public List<String> getExamCodesByTestCode(String testCode) throws SQLException { // lấy excode để hiển thị mã đề
@@ -309,12 +356,72 @@ public class ExamDAO {
         } catch (SQLException e) {
             e.printStackTrace();
             throw e;
-        } finally {
-            if (connection != null) {
-                connection.close();
-            }
         }
         return examCodes;
+    }
+
+    public ArrayList<ExamDTO> getAll() throws SQLException {
+        Connection connection = DBConnection.getConnection();
+        String sql = "SELECT * FROM exams";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            ArrayList<ExamDTO> exams = new ArrayList<>();
+            while (rs.next()) {
+                exams.add(
+                        new ExamDTO(
+                                rs.getString("testCode"),
+                                rs.getString("exOrder"),
+                                rs.getString("exCode"),
+                                ConvertUtil.convertJSONArrayToArrayString(new JSONArray(rs.getString("ex_quesIDs")))));
+            }
+            return exams;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+        }
+    }
+
+    public ExamDTO getExamDtoByExamCode(String examCode) throws SQLException {
+        ExamDTO examDto = new ExamDTO();
+        Connection connection = DBConnection.getConnection();
+        String sql = "SELECT * FROM exams WHERE exCode = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, examCode);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                String questions = rs.getString("ex_quesIDs");
+                String[] quesIDs = (questions != null)
+                        ? ConvertUtil.convertJSONArrayToArrayString(new JSONArray(questions))
+                        : new String[0];
+                examDto.setTestCode(rs.getString("testCode"));
+                examDto.setExOrder(rs.getString("exOrder"));
+                examDto.setExCode(rs.getString("exCode"));
+                examDto.setExCode(rs.getString("exCode"));
+                examDto.setEx_quesIDs(quesIDs);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+        }
+        return examDto;
+    }
+
+    public boolean isExCodeExistInResult(String exCode) throws SQLException {
+        Connection connection = DBConnection.getConnection();
+        String sql = "SELECT COUNT(*) FROM result WHERE exCode = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, exCode);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        }
+
+        return false;
     }
 
     public void deleteExamsByTestCode(String testCode) throws SQLException {
@@ -326,4 +433,50 @@ public class ExamDAO {
         }
     }
 
+    public ExamDTO getExamByExCode(String exCode) throws SQLException {
+        Connection connection = DBConnection.getConnection();
+
+        String sql = "SELECT * FROM exams WHERE exCode = ? ";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, exCode);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                JSONArray quesIDs = new JSONArray(rs.getString("ex_quesIDs"));
+                List<Integer> exQuesIDs = new ArrayList<Integer>();
+                JSONArray json = new JSONArray(rs.getString("ex_quesIDs"));
+                for (int i = 0; i < json.length(); i++) {
+                    exQuesIDs.add(json.getInt(i));
+                }
+                return new ExamDTO(
+                        rs.getString("testCode"),
+                        rs.getString("exOrder"),
+                        rs.getString("exCode"),
+                        exQuesIDs);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
+        return null;
+    }
+
+    public ArrayList<String> getAllExCode() throws SQLException {
+        Connection connection = DBConnection.getConnection();
+
+        String sql = "SELECT DISTINCT exCode FROM exams ";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            ArrayList<String> exCodeList = new ArrayList<>();
+            while (rs.next()) {
+                exCodeList.add(rs.getString("exCode"));
+            }
+            return exCodeList;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
 }

@@ -4,7 +4,10 @@
  */
 package com.example.qlthitracnghiem.GUI.Component;
 
+import java.awt.FontMetrics;
+
 import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 /**
  *
@@ -23,6 +26,6 @@ public class Paragraph extends JLabel {
 
   @Override
   public void setText(String text) {
-    super.setText("<html><p>" + text + "</p></html>");
+    super.setText("<html><p> " + text + "</p></html>");
   }
 }
