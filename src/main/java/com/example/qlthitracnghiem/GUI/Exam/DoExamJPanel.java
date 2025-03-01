@@ -53,12 +53,12 @@ public class DoExamJPanel extends javax.swing.JPanel {
     private LogDTO logDTO;
     private List<Integer> quesList;
     ArrayList<QuestionPN> quesPnList;
-    
-    private boolean isTakingTest = false;
 
+    private boolean isTakingTest = false;
+    // dang set cung userID ---sua bao
     private int userId = 2;
     private int logId = -1;
-    
+
     public DoExamJPanel(DashboardFrame dbFrame) {
         this.dbFrame = dbFrame;
         initializePN();
@@ -214,8 +214,7 @@ public class DoExamJPanel extends javax.swing.JPanel {
     // use to start the timer count down when pressed
     public void startTest() {
         isTakingTest = true;
-        
-        
+
         logDTO = new LogDTO();
         logDTO.setLogExCode(exDTO.getExCode());
         logDTO.setLogUserID(userId);
@@ -223,7 +222,7 @@ public class DoExamJPanel extends javax.swing.JPanel {
         logDTO.setLogContent("");
         logId = logBUS.addLog(logDTO);
         logDTO.setLogID(logId);
-        
+
         dbFrame.disableAllNavButtons();
         Runnable action = () -> {
             submitTest();
@@ -261,12 +260,13 @@ public class DoExamJPanel extends javax.swing.JPanel {
 
         createQuestionPN();
     }
+
     //lam ham luu loc
     private void createQuestionPN() {
         Integer counter = 1;
         for (Integer qId : quesList) {
             String pnConstrain = String.valueOf(qId);
-            QuestionPN pn = new QuestionPN(counter, qId,this);
+            QuestionPN pn = new QuestionPN(counter, qId, this);
 
             quesPnList.add(pn);
             currentQuestPN.add(pn, pnConstrain);
@@ -275,27 +275,32 @@ public class DoExamJPanel extends javax.swing.JPanel {
         cardLayout.show(currentQuestPN, "1");
 
     }
+
     public void updateLog() {
-        JSONArray ansJSONArray = new JSONArray();
-        
-        for (QuestionPN quesPn : quesPnList) {
-            AnswersDTO ans = quesPn.getSelectedAnswer();
-            if (ans != null) {              
-                ansJSONArray.put(ans.getAwID());
+        if (logDTO.getLogID() >= 1) {
+            JSONArray ansJSONArray = new JSONArray();
+
+            for (QuestionPN quesPn : quesPnList) {
+                AnswersDTO ans = quesPn.getSelectedAnswer();
+                if (ans != null) {
+                    ansJSONArray.put(ans.getAwID());
+                }
             }
+            logDTO.setLogContent(ansJSONArray.toString());
+            logBUS.updateLog(logDTO);
+        } else {
+            System.out.println("update log error");
         }
-        logDTO.setLogContent(ansJSONArray.toString());
-        logBUS.updateLog(logDTO);
-        
     }
+
     private void submitTest() {
         isTakingTest = false;
         dbFrame.enableAllNavButtons();
         int counter = 1;
         int resultMark = 0;
-        
+
         int[] ansIDS = Converter.jsonArrayToStringArray(logDTO.getLogContent());
-         for (int ansId : ansIDS) {
+        for (int ansId : ansIDS) {
             AnswersDTO ans = ansBUS.getAnswersDTOByAnswerID(ansId);
             if (ans != null) {
                 if (ans.getIsRight() == 1) {
@@ -305,7 +310,7 @@ public class DoExamJPanel extends javax.swing.JPanel {
 //                ansJSONArray.put(ans.getAwID());
             }
         }
-       
+
         int currentTakingTestTime = rsBUS.getHighestRsNum(userId, exDTO.getExCode());
         ResultDTO rsDTO = new ResultDTO();
         rsDTO.setExCode(exDTO.getExCode());
@@ -327,6 +332,7 @@ public class DoExamJPanel extends javax.swing.JPanel {
         this.repaint();    // Repaint the panel
 
     }
+
     private void initializePN() {
         initComponents();
         cardLayout = new CardLayout();
