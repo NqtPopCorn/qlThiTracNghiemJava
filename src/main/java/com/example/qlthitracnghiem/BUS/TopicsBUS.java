@@ -13,10 +13,10 @@ public class TopicsBUS {
     public TopicsBUS() {
         topicsDAO = new TopicsDAO();
     }
-    
+
     // create instance
     public static TopicsBUS getInstance() {
-        if(instance == null)
+        if (instance == null)
             instance = new TopicsBUS();
         return instance;
     }
@@ -85,6 +85,15 @@ public class TopicsBUS {
     public ArrayList<TopicsDTO> getAllSortedByName() {
         try {
             return topicsDAO.getAllSortedByName();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new ArrayList<>(); // Trả về danh sách rỗng nếu có lỗi
+        }
+    }
+
+    public ArrayList<TopicsDTO> getTestTopic(int testID) {
+        try {
+            return topicsDAO.getTestTopic(testID);
         } catch (SQLException e) {
             e.printStackTrace();
             return new ArrayList<>(); // Trả về danh sách rỗng nếu có lỗi

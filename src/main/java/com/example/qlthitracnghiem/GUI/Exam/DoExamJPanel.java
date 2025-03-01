@@ -54,7 +54,7 @@ public class DoExamJPanel extends javax.swing.JPanel {
 
     public DoExamJPanel(DashboardFrame dbFrame) {
         this.dbFrame = dbFrame;
-        
+
         initComponents();
         cardLayout = new CardLayout();
         currentQuestPN.setLayout(cardLayout);
@@ -82,7 +82,8 @@ public class DoExamJPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
@@ -132,19 +133,19 @@ public class DoExamJPanel extends javax.swing.JPanel {
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(66, 66, 66)
-                .addComponent(timePN, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(35, Short.MAX_VALUE))
-        );
+                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(66, 66, 66)
+                                .addComponent(timePN, javax.swing.GroupLayout.PREFERRED_SIZE, 159,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(35, Short.MAX_VALUE)));
         jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addComponent(timePN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(31, Short.MAX_VALUE))
-        );
+                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(29, 29, 29)
+                                .addComponent(timePN, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                        javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(31, Short.MAX_VALUE)));
 
         jPanel1.add(jPanel2);
 
@@ -160,19 +161,19 @@ public class DoExamJPanel extends javax.swing.JPanel {
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(95, Short.MAX_VALUE)
-                .addComponent(submitBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(74, 74, 74))
-        );
+                jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                                .addContainerGap(95, Short.MAX_VALUE)
+                                .addComponent(submitBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 91,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(74, 74, 74)));
         jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(50, 50, 50)
-                .addComponent(submitBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(54, Short.MAX_VALUE))
-        );
+                jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGap(50, 50, 50)
+                                .addComponent(submitBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 36,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(54, Short.MAX_VALUE)));
 
         jPanel1.add(jPanel4);
 
@@ -194,19 +195,17 @@ public class DoExamJPanel extends javax.swing.JPanel {
         add(jScrollPane2, java.awt.BorderLayout.LINE_END);
 
         jScrollPane1.setViewportBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jScrollPane1.setPreferredSize(new java.awt.Dimension(804, 100));
 
-        currentQuestPN.setPreferredSize(new java.awt.Dimension(800, 5000));
         currentQuestPN.setLayout(new java.awt.CardLayout());
         jScrollPane1.setViewportView(currentQuestPN);
 
         add(jScrollPane1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void submitBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitBtnActionPerformed
+    private void submitBtnActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_submitBtnActionPerformed
         // TODO add your handling code here:
         submitTest();
-    }//GEN-LAST:event_submitBtnActionPerformed
+    }// GEN-LAST:event_submitBtnActionPerformed
 
     // use to start the timer count down when pressed
     public void startTest() {
@@ -240,6 +239,7 @@ public class DoExamJPanel extends javax.swing.JPanel {
             btn.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
+                    btn.setState(RoundedButton.NOT_DONE);
                     cardLayout.show(currentQuestPN, String.valueOf(qId));
                 }
             });
@@ -269,7 +269,7 @@ public class DoExamJPanel extends javax.swing.JPanel {
         int counter = 1;
         int resultMark = 0;
         JSONArray ansJSONArray = new JSONArray();
-        
+
         for (QuestionPN quesPn : quesPnList) {
             AnswersDTO ans = quesPn.getSelectedAnswer();
             if (ans != null) {
@@ -292,19 +292,19 @@ public class DoExamJPanel extends javax.swing.JPanel {
         JOptionPane.showMessageDialog(null, "Điểm: " + resultMark);
         clearPanelComponents();
     }
-    
-    public  void clearPanelComponents() {
-        
-            this.removeAll(); // Remove all components
-            initComponents();
-            cardLayout = new CardLayout();
-            currentQuestPN.setLayout(cardLayout);
-            quesPnList = new ArrayList<>();
-            this.revalidate(); // Revalidate the layout
-            this.repaint();    // Repaint the panel
-            
-            
+
+    public void clearPanelComponents() {
+
+        this.removeAll(); // Remove all components
+        initComponents();
+        cardLayout = new CardLayout();
+        currentQuestPN.setLayout(cardLayout);
+        quesPnList = new ArrayList<>();
+        this.revalidate(); // Revalidate the layout
+        this.repaint(); // Repaint the panel
+
     }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JPanel currentQuestPN;
@@ -326,7 +326,7 @@ public class DoExamJPanel extends javax.swing.JPanel {
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1200, 800);
-//        frame.add(new DoExamJPanel());
+        // frame.add(new DoExamJPanel());
         frame.setVisible(true);
     }
 }

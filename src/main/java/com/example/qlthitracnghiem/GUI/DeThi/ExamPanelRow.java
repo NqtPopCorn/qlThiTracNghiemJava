@@ -61,7 +61,8 @@ public class ExamPanelRow extends javax.swing.JPanel {
 
         setBackground(new java.awt.Color(255, 255, 255));
         setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.gray, java.awt.Color.gray, java.awt.Color.gray, java.awt.Color.gray));
-        setMaximumSize(new java.awt.Dimension(10000, 140));
+        setMaximumSize(new java.awt.Dimension(10000, 100));
+        setPreferredSize(new java.awt.Dimension(607, 120));
         java.awt.GridBagLayout layout = new java.awt.GridBagLayout();
         layout.columnWidths = new int[] {0, 8, 0, 8, 0, 8, 0, 8, 0};
         layout.rowHeights = new int[] {0, 10, 0, 10, 0, 10, 0};
@@ -76,8 +77,10 @@ public class ExamPanelRow extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         add(txtExamCode, gridBagConstraints);
 
-        btnXem.setBackground(new java.awt.Color(28, 58, 118));
+        btnXem.setBackground(new java.awt.Color(0, 0, 204));
+        btnXem.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnXem.setForeground(new java.awt.Color(255, 255, 255));
+        btnXem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/eye.png"))); // NOI18N
         btnXem.setText("Xem");
         btnXem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -88,16 +91,17 @@ public class ExamPanelRow extends javax.swing.JPanel {
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.gridheight = 5;
-        gridBagConstraints.insets = new java.awt.Insets(0, 7, 0, 0);
         add(btnXem, gridBagConstraints);
 
-        jButton2.setBackground(new java.awt.Color(28, 58, 118));
+        jButton2.setBackground(new java.awt.Color(255, 102, 102));
+        jButton2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Xóa");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.gridheight = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         add(jButton2, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
 

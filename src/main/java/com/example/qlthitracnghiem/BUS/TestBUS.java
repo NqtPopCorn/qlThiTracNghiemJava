@@ -55,4 +55,17 @@ public class TestBUS {
       return null;
     }
   }
+
+  public int update(TestDTO test) throws Exception {
+    return testDAO.update(test);
+
+  }
+
+  public int updateTestTopics(int testID, Integer[] topics) throws Exception {
+    return testDAO.updateTestTopics(testID, topics);
+  }
+
+  public int create(TestDTO test, Integer[] topics) throws Exception {
+    return testDAO.create(test, topics);
+  }
 }

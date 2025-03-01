@@ -7,7 +7,6 @@ public class TestDTO {
     private String testCode;
     private String testTitle;
     private int testTime;
-    private int tpID;
     private int num_easy;
     private int num_medium;
     private int num_diff;
@@ -18,13 +17,12 @@ public class TestDTO {
     public TestDTO() {
     }
 
-    public TestDTO(int testID, String testCode, String testTitle, int testTime, int tpID, int num_easy, int num_medium,
+    public TestDTO(int testID, String testCode, String testTitle, int testTime, int num_easy, int num_medium,
             int num_diff, int testLimit, LocalDateTime testDate, int testStatus) {
         this.testID = testID;
         this.testCode = testCode;
         this.testTitle = testTitle;
         this.testTime = testTime;
-        this.tpID = tpID;
         this.num_easy = num_easy;
         this.num_medium = num_medium;
         this.num_diff = num_diff;
@@ -63,14 +61,6 @@ public class TestDTO {
 
     public void setTestTime(int testTime) {
         this.testTime = testTime;
-    }
-
-    public int getTpID() {
-        return tpID;
-    }
-
-    public void setTpID(int tpID) {
-        this.tpID = tpID;
     }
 
     public int getNum_easy() {
@@ -123,7 +113,9 @@ public class TestDTO {
 
     @Override
     public String toString() {
-        return "TestDTO{" + "testID=" + testID + ", testCode=" + testCode + ", testTitle=" + testTitle + ", testTime=" + testTime + ", tpID=" + tpID + ", num_easy=" + num_easy + ", num_medium=" + num_medium + ", num_diff=" + num_diff + ", testLimit=" + testLimit + ", testDate=" + testDate + ", testStatus=" + testStatus + '}';
+        return "TestDTO{" + "testID=" + testID + ", testCode=" + testCode + ", testTitle=" + testTitle + ", testTime="
+                + testTime + ", num_easy=" + num_easy + ", num_medium=" + num_medium + ", num_diff=" + num_diff
+                + ", testLimit=" + testLimit + ", testDate=" + testDate + ", testStatus=" + testStatus + '}';
     }
-    
+
 }

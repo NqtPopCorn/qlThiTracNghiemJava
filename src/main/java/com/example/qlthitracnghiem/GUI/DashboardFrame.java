@@ -71,6 +71,7 @@ public class DashboardFrame extends javax.swing.JFrame {
      */
     public DashboardFrame() {
         initComponents();
+        setLocationRelativeTo(null);
         currentPanel.removeAll();
         cauHoiPanel.setBackground(Color.GREEN);
         userPanel.setBackground(Color.BLUE);
@@ -86,6 +87,7 @@ public class DashboardFrame extends javax.swing.JFrame {
         currentPanel.add(thongKePanel, navBtnThongKe.getActionCommand());
         currentPanel.add(questionPanel, navBtnCauHoi.getActionCommand());
         currentPanel.add(testPanel, navBtnDeThi.getActionCommand());
+        currentPanel.add(infoPanel, "InfoPanel");
 
         buttonGroup.add(navBtnDeThi);
         buttonGroup.add(navBtnCauHoi);

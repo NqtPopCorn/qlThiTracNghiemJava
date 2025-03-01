@@ -8,6 +8,8 @@ import com.example.qlthitracnghiem.DTO.ExamDTO;
 import com.example.qlthitracnghiem.DTO.TestDTO;
 import com.example.qlthitracnghiem.DTO.UserDTO;
 import com.example.qlthitracnghiem.utils.ConvertUtil;
+
+import java.lang.reflect.Array;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,146 +21,223 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 import org.json.JSONArray;
 
 // chưa sửa lại mấy phương thức create,update,delete 
 // cần gì thì thêm vào nha
 public class ExamDAO {
     private int currentIndex = 0;
+    private ArrayList<Character> exOrderList = new ArrayList<>(
+            List.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'));
 
-    public int create(TestDTO exam, int soDe) throws SQLException {
-        Connection connection = DBConnection.getConnection();
-        try {
-            // tạo testCode mới
-            String newTestCode = generateNewTestCode(connection);
+    // ???? - lam gi day
+    // public int create(TestDTO exam, int soDe) throws SQLException {
+    // Connection connection = DBConnection.getConnection();
+    // try {
+    // // tạo testCode mới
+    // String newTestCode = generateNewTestCode(connection);
 
-            String insertTestSQL = "INSERT INTO test (testCode, testTitle, testTime, tpID, num_easy, num_medium, num_diff, testLimit, testDate, testStatus) "
-                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            try (PreparedStatement psTest = connection.prepareStatement(insertTestSQL)) {
-                psTest.setString(1, newTestCode);
-                psTest.setString(2, exam.getTestTitle());
-                psTest.setInt(3, exam.getTestTime());
-                psTest.setInt(4, exam.getTpID());
-                psTest.setInt(5, exam.getNum_easy());
-                psTest.setInt(6, exam.getNum_medium());
-                psTest.setInt(7, exam.getNum_diff());
-                psTest.setInt(8, exam.getTestLimit());
-                psTest.setTimestamp(9, Timestamp.valueOf(exam.getTestDate()));
-                psTest.setInt(10, 1);
-                psTest.executeUpdate();
-            }
-            generateExams(connection, newTestCode, exam, soDe);
+    // String insertTestSQL = "INSERT INTO test (testCode, testTitle, testTime,
+    // num_easy, num_medium, num_diff, testLimit, testDate, testStatus) "
+    // + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    // try (PreparedStatement psTest = connection.prepareStatement(insertTestSQL)) {
+    // psTest.setString(1, newTestCode);
+    // psTest.setString(2, exam.getTestTitle());
+    // psTest.setInt(3, exam.getTestTime());
+    // psTest.setInt(4, exam.getNum_easy());
+    // psTest.setInt(5, exam.getNum_medium());
+    // psTest.setInt(6, exam.getNum_diff());
+    // psTest.setInt(7, exam.getTestLimit());
+    // psTest.setTimestamp(8, Timestamp.valueOf(exam.getTestDate()));
+    // psTest.setInt(9, 1);
+    // psTest.executeUpdate();
+    // }
+    // generateExams(connection, newTestCode, exam, soDe);
 
+    // return 1;
+    // } catch (SQLException e) {
+    // e.printStackTrace();
+    // throw new SQLException("Không đủ câu hỏi để tạo đề thi. Vui lòng thêm câu
+    // hỏi.");
+    // }
+    // }
+
+    // private void generateExams(Connection connection, String testCode, TestDTO
+    // exam, int soDe) throws SQLException {
+    // String insertExamSQL = "INSERT INTO exams (testCode, exOrder, exCode,
+    // ex_quesIDs) VALUES (?, ?, ?, ?)";
+
+    // // Reset currentIndex về 0 trước khi bắt đầu tạo đề thi
+    // currentIndex = 0;
+
+    // // Lấy một bộ câu hỏi duy nhất
+    // JSONArray baseExQuesIDs = generateExQuesIDs(exam.getTestID(),
+    // exam.getNum_easy(),
+    // exam.getNum_medium(), exam.getNum_diff());
+    // System.err.println("baseExquesIDs" + baseExQuesIDs);
+    // try (PreparedStatement psExam = connection.prepareStatement(insertExamSQL)) {
+    // for (int i = 1; i <= soDe; i++) {
+    // String exOrder = generateRandomExOrder();
+    // String exCode = testCode + exOrder;
+    // System.err.println("ExCode: " + exCode);
+
+    // // Tạo một bản sao của baseExQuesIDs và xáo trộn thứ tự
+    // JSONArray shuffledExQuesIDs = new JSONArray(baseExQuesIDs.toString()); // Tạo
+    // bản sao
+    // shuffleJSONArray(shuffledExQuesIDs); // Xáo trộn thứ tự
+    // System.err.println("shuffledExQuesIDs: " + shuffledExQuesIDs);
+
+    // psExam.setString(1, testCode);
+    // psExam.setString(2, exOrder);
+    // psExam.setString(3, exCode);
+    // psExam.setString(4, shuffledExQuesIDs.toString());
+    // psExam.addBatch();
+    // currentIndex++;
+    // }
+    // psExam.executeBatch();
+    // }
+    // }
+
+    public int generateExams(TestDTO test, int soLuong) throws Exception {
+        for (int i = 0; i < soLuong; i++) {
+            generateExam(test);
             return 1;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new SQLException("Không đủ câu hỏi để tạo đề thi. Vui lòng thêm câu hỏi.");
         }
+        return 0;
     }
 
-    private void generateExams(Connection connection, String testCode, TestDTO exam, int soDe) throws SQLException {
-        String insertExamSQL = "INSERT INTO exams (testCode, exOrder, exCode, ex_quesIDs) VALUES (?, ?, ?, ?)";
-
+    public int generateExam(TestDTO test) throws Exception {
+        Connection connection = DBConnection.getConnection();
+        String insertExam = "INSERT INTO exams (testCode, exOrder, exCode, ex_quesIDs) VALUES (?, ?, ?, ?)";
         // Reset currentIndex về 0 trước khi bắt đầu tạo đề thi
         currentIndex = 0;
 
         // Lấy một bộ câu hỏi duy nhất
-        JSONArray baseExQuesIDs = generateExQuesIDs(connection, exam.getTpID(), exam.getNum_easy(),
-                exam.getNum_medium(), exam.getNum_diff());
-        System.err.println("baseExquesIDs" + baseExQuesIDs);
-        try (PreparedStatement psExam = connection.prepareStatement(insertExamSQL)) {
-            for (int i = 1; i <= soDe; i++) {
-                String exOrder = generateRandomExOrder();
-                String exCode = testCode + exOrder;
-                System.err.println("ExCode: " + exCode);
+        JSONArray baseExQuesIDs = generateExQuesIDs(test.getTestID(), test.getNum_easy(),
+                test.getNum_medium(), test.getNum_diff());
+        int index = getNumExam(test.getTestCode());
+        String exOrder = exOrderList.get(index) + "";
+        String exCode = test.getTestCode() + exOrder;
 
-                // Tạo một bản sao của baseExQuesIDs và xáo trộn thứ tự
-                JSONArray shuffledExQuesIDs = new JSONArray(baseExQuesIDs.toString()); // Tạo bản sao
-                shuffleJSONArray(shuffledExQuesIDs); // Xáo trộn thứ tự
-                System.err.println("shuffledExQuesIDs: " + shuffledExQuesIDs);
-
-                psExam.setString(1, testCode);
-                psExam.setString(2, exOrder);
-                psExam.setString(3, exCode);
-                psExam.setString(4, shuffledExQuesIDs.toString());
-                psExam.addBatch();
-                currentIndex++;
-            }
-            psExam.executeBatch();
+        System.out.println("index: " + index);
+        System.out.println("baseExQuesIDs: " + baseExQuesIDs);
+        System.out.println("exOrder: " + exOrder);
+        System.out.println("exCode: " + exCode);
+        System.out.println("testCode: " + test.getTestCode());
+        try (PreparedStatement ps = connection.prepareStatement(insertExam)) {
+            ps.setString(1, test.getTestCode());
+            ps.setString(2, exOrder);
+            ps.setString(3, exCode);
+            ps.setString(4, baseExQuesIDs.toString());
+            ps.executeUpdate();
+            return 1;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            connection.close();
         }
     }
 
-    private void shuffleJSONArray(JSONArray jsonArray) { // đổi thành list => xáo trộn => tạo 1 mảng json mới => xóa
-                                                         // mảng cũ đi thay vô đó là mảng json vừa mới đc xáo trộn
-        // Chuyển JSONArray thành danh sách
-        List<Object> list = new ArrayList<>();
-        for (int i = 0; i < jsonArray.length(); i++) {
-            list.add(jsonArray.get(i));
-        }
+    // private void shuffleJSONArray(JSONArray jsonArray) { // đổi thành list => xáo
+    // trộn => tạo 1 mảng json mới => xóa
+    // // mảng cũ đi thay vô đó là mảng json vừa mới đc xáo trộn
+    // // Chuyển JSONArray thành danh sách
+    // List<Object> list = new ArrayList<>();
+    // for (int i = 0; i < jsonArray.length(); i++) {
+    // list.add(jsonArray.get(i));
+    // }
 
-        // Xáo trộn danh sách
-        Collections.shuffle(list);
+    // // Xáo trộn danh sách
+    // Collections.shuffle(list);
 
-        // Tạo một JSONArray mới từ danh sách đã xáo trộn
-        JSONArray shuffledArray = new JSONArray(list);
+    // // Tạo một JSONArray mới từ danh sách đã xáo trộn
+    // JSONArray shuffledArray = new JSONArray(list);
 
-        // Xóa toàn bộ phần tử trong JSONArray cũ và thêm lại từ JSONArray mới
-        jsonArray.clear();
-        for (int i = 0; i < shuffledArray.length(); i++) {
-            jsonArray.put(shuffledArray.get(i));
-        }
-    }
+    // // Xóa toàn bộ phần tử trong JSONArray cũ và thêm lại từ JSONArray mới
+    // jsonArray.clear();
+    // for (int i = 0; i < shuffledArray.length(); i++) {
+    // jsonArray.put(shuffledArray.get(i));
+    // }
+    // }
 
     // Phương thức tạo testCode mới
-    private String generateNewTestCode(Connection connection) throws SQLException {
-        String sql = "SELECT testCode FROM test ORDER BY testCode DESC LIMIT 1";
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+    // private String generateNewTestCode(Connection connection) throws SQLException
+    // {
+    // String sql = "SELECT testCode FROM test ORDER BY testCode DESC LIMIT 1";
+    // try (PreparedStatement ps = connection.prepareStatement(sql)) {
+    // ResultSet rs = ps.executeQuery();
+    // if (rs.next()) {
+    // String lastTestCode = rs.getString("testCode");
+    // int lastNumber = Integer.parseInt(lastTestCode.replace("TST", ""));
+    // return "TST" + String.format("%03d", lastNumber + 1);
+    // } else {
+    // return "TST001";
+    // }
+    // }
+    // }
+
+    private int getNumExam(String testCode) throws SQLException {
+        String sql = "SELECT COUNT(ex.exCode) as count\r\n" + //
+                "FROM exams ex\r\n" + //
+                "WHERE ex.testCode LIKE ?";
+        try (Connection connection = DBConnection.getConnection();
+                PreparedStatement ps = connection.prepareStatement(sql);) {
+            ps.setString(1, testCode);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                String lastTestCode = rs.getString("testCode");
-                int lastNumber = Integer.parseInt(lastTestCode.replace("TST", ""));
-                return "TST" + String.format("%03d", lastNumber + 1);
-            } else {
-                return "TST001";
+                return rs.getInt("count");
             }
+            return 0;
         }
     }
 
     // tạo exOrder bắt đầu từ A (A, B, C, ..., J)
-    private String generateRandomExOrder() {
-        List<String> letters = new ArrayList<>(
-                List.of("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N")); /// hơi dư mà thôi kệ đi
-        String exOrder = letters.get(currentIndex);
-        // currentIndex = (currentIndex + 1) % letters.size(); // Đảm bảo quay lại đầu
-        // danh sách nếu vượt quá kích thước -----------dòng này k cần vì giới hạn số đè
-        // tạo là 10 rồi---------
+    // private String generateRandomExOrder() {
+    // List<String> letters = new ArrayList<>(
+    // List.of("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
+    // "N")); /// hơi dư mà thôi kệ đi
+    // String exOrder = letters.get(currentIndex);
+    // // currentIndex = (currentIndex + 1) % letters.size(); // Đảm bảo quay lại
+    // đầu
+    // // danh sách nếu vượt quá kích thước -----------dòng này k cần vì giới hạn số
+    // đè
+    // // tạo là 10 rồi---------
 
-        return exOrder;
-    }
+    // return exOrder;
+    // }
 
     // Tạo câu hỏi dựa vô số câu dễ, khó, tb
-    private JSONArray generateExQuesIDs(Connection connection, int tpID, int numEasy, int numMedium, int numDiff)
+    private JSONArray generateExQuesIDs(int testID, int numEasy, int numMedium, int numDiff)
             throws SQLException {
+        // System.out.println("generateExQuesIDs");
+        // System.out.println("testID: " + testID);
+        // System.out.println("numEasy: " + numEasy);
+        // System.out.println("numMedium: " + numMedium);
+        // System.out.println("numDiff: " + numDiff);
         JSONArray exQuesIDs = new JSONArray();
+        Connection connection = DBConnection.getConnection();
 
         // Lấy câu hỏi dễ
-        List<Integer> easyQuestions = getQuestionIDsByLevel(connection, tpID, 1, numEasy);
+        List<Integer> easyQuestions = getQuestionIDsByLevel(connection, testID, 1, numEasy);
         if (easyQuestions.size() < numEasy) {
-            throw new SQLException("Không đủ câu hỏi dễ cho chủ đề này. Vui lòng thêm câu hỏi.");
+            throw new SQLException("Không có đủ câu hỏi dễ. Vui lòng thêm câu hỏi.");
         }
         exQuesIDs.putAll(easyQuestions);
 
         // Lấy câu hỏi trung bình
-        List<Integer> mediumQuestions = getQuestionIDsByLevel(connection, tpID, 2, numMedium);
+        List<Integer> mediumQuestions = getQuestionIDsByLevel(connection, testID, 2, numMedium);
         if (mediumQuestions.size() < numMedium) {
-            throw new SQLException("Không đủ câu hỏi trung bình cho chủ đề này. Vui lòng thêm câu hỏi.");
+            throw new SQLException("Không có đủ câu hỏi trung bình. Vui lòng thêm câu hỏi.");
         }
         exQuesIDs.putAll(mediumQuestions);
 
         // Lấy câu hỏi khó
-        List<Integer> diffQuestions = getQuestionIDsByLevel(connection, tpID, 3, numDiff);
+        List<Integer> diffQuestions = getQuestionIDsByLevel(connection, testID, 3, numDiff);
         if (diffQuestions.size() < numDiff) {
-            throw new SQLException("Không đủ câu hỏi khó cho chủ đề này. Vui lòng thêm câu hỏi.");
+            throw new SQLException("Không có đủ câu hỏi khó. Vui lòng thêm câu hỏi.");
         }
         exQuesIDs.putAll(diffQuestions);
 
@@ -166,12 +245,12 @@ public class ExamDAO {
     }
 
     // lấy danh sách câu hỏi theo mức độ dễ/tb/khó
-    private List<Integer> getQuestionIDsByLevel(Connection connection, int tpID, int level, int limit)
+    private List<Integer> getQuestionIDsByLevel(Connection connection, int testID, int level, int limit)
             throws SQLException {
         List<Integer> questionIDs = new ArrayList<>();
-        String sql = "SELECT qID FROM questions WHERE qTopicID = ? AND qLevel = ? ORDER BY RAND() LIMIT ?";
+        String sql = "SELECT qID FROM questions WHERE qTopicID IN (SELECT topicID FROM test_topic WHERE testID = ?) AND qLevel = ? ORDER BY RAND() LIMIT ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setInt(1, tpID); // Lọc theo tpID
+            ps.setInt(1, testID);
             ps.setInt(2, level); // Lọc theo mức độ
             ps.setInt(3, limit); // Giới hạn số lượng câu hỏi
             ResultSet rs = ps.executeQuery();
@@ -182,6 +261,7 @@ public class ExamDAO {
         return questionIDs;
     }
 
+    // k cho update exam chi cho update test
     public int update(TestDTO testDTO, int soDe) throws SQLException {
         Connection connection = DBConnection.getConnection();
         System.err.println("TestCode khi sửa" + testDTO.getTestCode());
@@ -203,8 +283,6 @@ public class ExamDAO {
             ps.setInt(3, testDTO.getNum_diff());
             ps.setString(4, testDTO.getTestCode());
             ps.executeUpdate();
-
-            generateExams(connection, testDTO.getTestCode(), testDTO, soDe);
 
             return 1;
         } catch (SQLException e) {
@@ -479,5 +557,5 @@ public class ExamDAO {
             throw e;
         }
     }
-    
+
 }

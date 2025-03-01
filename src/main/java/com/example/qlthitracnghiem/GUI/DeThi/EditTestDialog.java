@@ -5,6 +5,7 @@
 package com.example.qlthitracnghiem.GUI.DeThi;
 
 import com.example.qlthitracnghiem.BUS.ExamBUS;
+import com.example.qlthitracnghiem.BUS.TestBUS;
 import com.example.qlthitracnghiem.BUS.TopicsBUS;
 import com.example.qlthitracnghiem.DTO.TestDTO;
 import com.example.qlthitracnghiem.DTO.TopicsDTO;
@@ -16,13 +17,18 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
+
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 
 public class EditTestDialog extends javax.swing.JDialog {
-    private HashMap<String, Integer> topicMap = new HashMap<>();
-    private String testCode;
+    private TestDTO test;
+    private Map<Integer, DefaultMutableTreeNode> topicMap = new HashMap<>();
 
     public EditTestDialog() {
 
@@ -31,13 +37,14 @@ public class EditTestDialog extends javax.swing.JDialog {
     public EditTestDialog(Frame parent, boolean modal, TestDTO test) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(null);
         addAutoCalculateHardQuestionsListener();
+        loadTopics();
 
         if (test != null) {
-            testCode = test.getTestCode();
-
+            this.test = test;
+            setSelectedTopicNode();
             jtfTitle.setText(test.getTestTitle());
-            loadTopics(test.getTpID());
             jsTime.setValue(test.getTestTime());
             jsQuestionNum.setValue(test.getNum_easy() + test.getNum_medium() + test.getNum_diff());
             jtfEasyNum.setText(String.valueOf(test.getNum_easy()));
@@ -56,12 +63,43 @@ public class EditTestDialog extends javax.swing.JDialog {
         }
     }
 
-    private void loadTopics(int tpID) {
-        // TopicsBUS tpBUS = new TopicsBUS();
-        // TopicsDTO topics = tpBUS.getTopicByID(tpID);
-        // jcbTopic.removeAllItems(); // Xóa dữ liệu cũ
-        // jcbTopic.addItem(topics.getTpTitle());
-        // topicMap.put(topics.getTpTitle(), topics.getTpID());
+    private void loadTopics() {
+        TopicsBUS tpBUS = new TopicsBUS();
+        ArrayList<TopicsDTO> topics = tpBUS.getAll();
+        // Tạo node gốc
+        DefaultMutableTreeNode root = new DefaultMutableTreeNode("Tất cả");
+        // Sử dụng HashMap để lưu node theo ID
+        topicMap = new HashMap<>();
+        topicMap.put(0, root); // Gốc có tpParent = 0
+        // Lặp qua danh sách các chủ đề
+        for (TopicsDTO topic : topics) {
+            if (topic.getTpStatus() == 1) {
+                DefaultMutableTreeNode node = new DefaultMutableTreeNode(topic.getTpTitle());
+                topicMap.put(topic.getTpID(), node);
+
+                // Thêm vào node cha dựa vào tpParent
+                DefaultMutableTreeNode parent = topicMap.get(topic.getTpParent());
+                if (parent != null) {
+                    parent.add(node);
+                } else {
+                    // Nếu không tìm thấy parent, có thể là lỗi dữ liệu hoặc tpParent là 0
+                    root.add(node); // Thêm vào root nếu không có parent
+                }
+            }
+        }
+        // Gán dữ liệu vào JTree
+        tpTree.setModel(new DefaultTreeModel(root));
+    }
+
+    private void setSelectedTopicNode() {
+        ArrayList<TopicsDTO> topics = new TopicsBUS().getTestTopic(test.getTestID());
+        for (TopicsDTO topic : topics) {
+            DefaultMutableTreeNode node = topicMap.get(topic.getTpID());
+            if (node != null) {
+                tpTree.addSelectionPath(new javax.swing.tree.TreePath(node.getPath()));
+            }
+        }
+
     }
 
     @SuppressWarnings("unchecked")
@@ -74,15 +112,22 @@ public class EditTestDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
     // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTree1 = new javax.swing.JTree();
+        tpTree = new javax.swing.JTree();
         jTextField14 = new javax.swing.JTextField();
         jTextField15 = new javax.swing.JTextField();
-        jTextField16 = new javax.swing.JTextField();
-        jTextField17 = new javax.swing.JTextField();
+        lblTgThi = new javax.swing.JTextField();
         jTextField18 = new javax.swing.JTextField();
         jTextField19 = new javax.swing.JTextField();
         jTextField20 = new javax.swing.JTextField();
@@ -97,13 +142,14 @@ public class EditTestDialog extends javax.swing.JDialog {
         jTextField1 = new javax.swing.JTextField();
         jtfTitle = new javax.swing.JTextField();
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        lblSLCauHoi = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Sửa ma trận đề");
         setBackground(new java.awt.Color(255, 255, 255));
 
         jScrollPane1.setPreferredSize(new java.awt.Dimension(61, 100));
-        jScrollPane1.setViewportView(jTree1);
+        jScrollPane1.setViewportView(tpTree);
 
         jTextField14.setEditable(false);
         jTextField14.setText("Tên bài thi:");
@@ -113,23 +159,9 @@ public class EditTestDialog extends javax.swing.JDialog {
         jTextField15.setText("Chọn topic:");
         jTextField15.setFocusable(false);
 
-        jTextField16.setEditable(false);
-        jTextField16.setText("Thời gian thi:");
-        jTextField16.setFocusable(false);
-        jTextField16.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField16ActionPerformed(evt);
-            }
-        });
-
-        jTextField17.setEditable(false);
-        jTextField17.setText("Số lượng câu hỏi:");
-        jTextField17.setFocusable(false);
-        jTextField17.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField17ActionPerformed(evt);
-            }
-        });
+        lblTgThi.setEditable(false);
+        lblTgThi.setText("Thời gian thi:");
+        lblTgThi.setFocusable(false);
 
         jTextField18.setEditable(false);
         jTextField18.setText("Số câu dễ:");
@@ -143,6 +175,11 @@ public class EditTestDialog extends javax.swing.JDialog {
         jTextField19.setEditable(false);
         jTextField19.setText("Số câu trung bình:");
         jTextField19.setFocusable(false);
+        jTextField19.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField19ActionPerformed(evt);
+            }
+        });
 
         jTextField20.setEditable(false);
         jTextField20.setText("Số câu khó: ");
@@ -198,10 +235,16 @@ public class EditTestDialog extends javax.swing.JDialog {
 
         jsQuestionNum.setMajorTickSpacing(10);
         jsQuestionNum.setMaximum(50);
-        jsQuestionNum.setMinimum(10);
+        jsQuestionNum.setMinimum(3);
+        jsQuestionNum.setMinorTickSpacing(1);
         jsQuestionNum.setPaintLabels(true);
         jsQuestionNum.setPaintTicks(true);
         jsQuestionNum.setSnapToTicks(true);
+        jsQuestionNum.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jsQuestionNumStateChanged(evt);
+            }
+        });
 
         jTextField1.setEditable(false);
         jTextField1.setText("Ngày làm bài:");
@@ -218,6 +261,8 @@ public class EditTestDialog extends javax.swing.JDialog {
             }
         });
 
+        lblSLCauHoi.setText("Số lượng câu hỏi:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -226,26 +271,23 @@ public class EditTestDialog extends javax.swing.JDialog {
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 87,
                                         javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(180, 180, 180))
+                                .addGap(190, 190, 190))
                         .addGroup(layout.createSequentialGroup()
-                                .addGap(76, 76, 76)
+                                .addGap(40, 40, 40)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addGroup(layout.createSequentialGroup()
                                                 .addGroup(layout
                                                         .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addGroup(layout.createSequentialGroup()
-                                                                .addComponent(jTextField15,
-                                                                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                .addPreferredGap(
-                                                                        javax.swing.LayoutStyle.ComponentPlacement.RELATED,
-                                                                        35, Short.MAX_VALUE))
-                                                        .addGroup(layout.createSequentialGroup()
-                                                                .addComponent(jTextField14,
-                                                                        javax.swing.GroupLayout.DEFAULT_SIZE, 72,
-                                                                        Short.MAX_VALUE)
-                                                                .addGap(38, 38, 38)))
+                                                        .addComponent(jTextField15,
+                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(jTextField14,
+                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED,
+                                                        javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                 .addGroup(layout
                                                         .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING,
                                                                 false)
@@ -254,112 +296,95 @@ public class EditTestDialog extends javax.swing.JDialog {
                                                         .addComponent(jScrollPane1,
                                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
                                                                 javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                                .addContainerGap(92, Short.MAX_VALUE))
+                                                .addGap(61, 61, 61))
                                         .addGroup(layout.createSequentialGroup()
                                                 .addGroup(layout
-                                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                        .addGroup(layout
-                                                                .createParallelGroup(
-                                                                        javax.swing.GroupLayout.Alignment.LEADING,
-                                                                        false)
-                                                                .addGroup(layout.createSequentialGroup()
+                                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addGroup(layout.createSequentialGroup()
+                                                                .addComponent(lblSLCauHoi,
+                                                                        javax.swing.GroupLayout.PREFERRED_SIZE, 125,
+                                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addPreferredGap(
+                                                                        javax.swing.LayoutStyle.ComponentPlacement.RELATED,
+                                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                        Short.MAX_VALUE)
+                                                                .addComponent(jsQuestionNum,
+                                                                        javax.swing.GroupLayout.PREFERRED_SIZE, 272,
+                                                                        javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                        .addGroup(layout.createSequentialGroup()
+                                                                .addComponent(jTextField18,
+                                                                        javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addPreferredGap(
+                                                                        javax.swing.LayoutStyle.ComponentPlacement.RELATED,
+                                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                        Short.MAX_VALUE)
+                                                                .addComponent(jtfEasyNum,
+                                                                        javax.swing.GroupLayout.PREFERRED_SIZE, 267,
+                                                                        javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                        .addGroup(layout.createSequentialGroup()
+                                                                .addGroup(layout.createParallelGroup(
+                                                                        javax.swing.GroupLayout.Alignment.TRAILING)
                                                                         .addComponent(jTextField20,
+                                                                                javax.swing.GroupLayout.Alignment.LEADING,
                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE,
                                                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                        .addPreferredGap(
-                                                                                javax.swing.LayoutStyle.ComponentPlacement.RELATED,
-                                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                                Short.MAX_VALUE)
-                                                                        .addComponent(jtfHardNum,
+                                                                        .addComponent(jTextField19,
+                                                                                javax.swing.GroupLayout.Alignment.LEADING,
                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                                267,
+                                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                        .addComponent(jTextField21,
+                                                                                javax.swing.GroupLayout.Alignment.LEADING,
+                                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                                106,
+                                                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                        .addComponent(jTextField1,
+                                                                                javax.swing.GroupLayout.Alignment.LEADING,
+                                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                                106,
                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                .addGap(30, 30, 30)
                                                                 .addGroup(layout.createParallelGroup(
                                                                         javax.swing.GroupLayout.Alignment.TRAILING)
-                                                                        .addGroup(layout.createSequentialGroup()
-                                                                                .addComponent(jTextField21,
+                                                                        .addGroup(layout.createParallelGroup(
+                                                                                javax.swing.GroupLayout.Alignment.LEADING)
+                                                                                .addComponent(jtfHardNum,
+                                                                                        javax.swing.GroupLayout.Alignment.TRAILING,
                                                                                         javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                                        106,
+                                                                                        267,
                                                                                         javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                .addGap(18, 18, 18)
+                                                                                .addComponent(jtfMediumNum,
+                                                                                        javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                                        267,
+                                                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
                                                                                 .addComponent(jcbLimit,
+                                                                                        javax.swing.GroupLayout.Alignment.TRAILING,
                                                                                         javax.swing.GroupLayout.PREFERRED_SIZE,
                                                                                         267,
                                                                                         javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                                        .addGroup(layout.createSequentialGroup()
-                                                                                .addComponent(jTextField1,
-                                                                                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                                        106,
-                                                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                .addGap(18, 18, 18)
-                                                                                .addComponent(jDateChooser1,
-                                                                                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                                        267,
-                                                                                        javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                                        .addGroup(layout
-                                                                .createParallelGroup(
-                                                                        javax.swing.GroupLayout.Alignment.LEADING,
-                                                                        false)
-                                                                .addGroup(layout.createSequentialGroup()
-                                                                        .addComponent(jTextField18,
-                                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                        .addPreferredGap(
-                                                                                javax.swing.LayoutStyle.ComponentPlacement.RELATED,
-                                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                                Short.MAX_VALUE)
-                                                                        .addComponent(jtfEasyNum,
-                                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                                267,
-                                                                                javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                                .addGroup(layout.createSequentialGroup()
-                                                                        .addComponent(jTextField19,
-                                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                        .addPreferredGap(
-                                                                                javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                                        .addComponent(jtfMediumNum,
+                                                                        .addComponent(jDateChooser1,
                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE,
                                                                                 267,
                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                                        .addGroup(layout
-                                                                .createParallelGroup(
-                                                                        javax.swing.GroupLayout.Alignment.LEADING,
-                                                                        false)
-                                                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING,
-                                                                        layout.createSequentialGroup()
-                                                                                .addComponent(jTextField16,
-                                                                                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                                        93,
-                                                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                .addPreferredGap(
-                                                                                        javax.swing.LayoutStyle.ComponentPlacement.RELATED,
-                                                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                                        Short.MAX_VALUE)
-                                                                                .addComponent(jsTime,
-                                                                                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                                        266,
-                                                                                        javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING,
-                                                                        layout.createSequentialGroup()
-                                                                                .addComponent(jTextField17,
-                                                                                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                .addPreferredGap(
-                                                                                        javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                                                .addComponent(jsQuestionNum,
-                                                                                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                                        272,
-                                                                                        javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                                .addGap(0, 0, Short.MAX_VALUE)))));
+                                                        .addGroup(layout.createSequentialGroup()
+                                                                .addComponent(lblTgThi,
+                                                                        javax.swing.GroupLayout.PREFERRED_SIZE, 94,
+                                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addPreferredGap(
+                                                                        javax.swing.LayoutStyle.ComponentPlacement.RELATED,
+                                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                        Short.MAX_VALUE)
+                                                                .addComponent(jsTime,
+                                                                        javax.swing.GroupLayout.PREFERRED_SIZE, 292,
+                                                                        javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                .addGap(63, 63, 63)))));
         layout.setVerticalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
-                                .addGap(29, 29, 29)
+                                .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(jTextField14, javax.swing.GroupLayout.PREFERRED_SIZE,
                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
@@ -367,36 +392,32 @@ public class EditTestDialog extends javax.swing.JDialog {
                                         .addComponent(jtfTitle, javax.swing.GroupLayout.PREFERRED_SIZE,
                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
                                                 javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addComponent(jTextField15, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(0, 0, Short.MAX_VALUE))
-                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 203,
+                                        .addComponent(jTextField15, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 223,
                                                 Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jsTime, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGroup(layout.createSequentialGroup()
-                                                .addComponent(jsTime, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(18, 18, 18))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout
-                                                .createSequentialGroup()
-                                                .addComponent(jTextField16, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(27, 27, 27)))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                .addGap(2, 2, 2)
+                                                .addComponent(lblTgThi, javax.swing.GroupLayout.PREFERRED_SIZE, 47,
+                                                        javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                         .addComponent(jsQuestionNum, javax.swing.GroupLayout.PREFERRED_SIZE,
                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
                                                 javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jTextField17, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addGap(1, 1, 1)
+                                                .addComponent(lblSLCauHoi, javax.swing.GroupLayout.DEFAULT_SIZE, 49,
+                                                        Short.MAX_VALUE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(jtfEasyNum, javax.swing.GroupLayout.PREFERRED_SIZE,
                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
@@ -404,7 +425,7 @@ public class EditTestDialog extends javax.swing.JDialog {
                                         .addComponent(jTextField18, javax.swing.GroupLayout.PREFERRED_SIZE,
                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
                                                 javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(jtfMediumNum, javax.swing.GroupLayout.PREFERRED_SIZE,
                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
@@ -412,7 +433,7 @@ public class EditTestDialog extends javax.swing.JDialog {
                                         .addComponent(jTextField19, javax.swing.GroupLayout.PREFERRED_SIZE,
                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
                                                 javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(jTextField20, javax.swing.GroupLayout.PREFERRED_SIZE,
                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
@@ -420,7 +441,7 @@ public class EditTestDialog extends javax.swing.JDialog {
                                         .addComponent(jtfHardNum, javax.swing.GroupLayout.PREFERRED_SIZE,
                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
                                                 javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(jcbLimit, javax.swing.GroupLayout.PREFERRED_SIZE,
                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
@@ -428,7 +449,7 @@ public class EditTestDialog extends javax.swing.JDialog {
                                         .addComponent(jTextField21, javax.swing.GroupLayout.PREFERRED_SIZE,
                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
                                                 javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.TRAILING,
                                                 javax.swing.GroupLayout.PREFERRED_SIZE,
@@ -438,13 +459,21 @@ public class EditTestDialog extends javax.swing.JDialog {
                                                 javax.swing.GroupLayout.PREFERRED_SIZE,
                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
                                                 javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(3, 3, 3)
+                                .addGap(18, 18, 18)
                                 .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 36,
                                         javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(29, 29, 29)));
+                                .addGap(14, 14, 14)));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jTextField19ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jTextField19ActionPerformed
+        // TODO add your handling code here:
+    }// GEN-LAST:event_jTextField19ActionPerformed
+
+    private void jsQuestionNumStateChanged(javax.swing.event.ChangeEvent evt) {// GEN-FIRST:event_jsQuestionNumStateChanged
+        lblSLCauHoi.setText("Số lượng câu hỏi: " + jsQuestionNum.getValue());
+    }// GEN-LAST:event_jsQuestionNumStateChanged
 
     private void jTextField21ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jTextField21ActionPerformed
         // TODO add your handling code here:
@@ -479,73 +508,55 @@ public class EditTestDialog extends javax.swing.JDialog {
     }// GEN-LAST:event_jtfEasyNumActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnEditActionPerformed
-        // System.err.println("total q" + jsQuestionNum.getValue());
-        // String title = jtfTitle.getText().trim();
-        //// String topic = (String) jcbTopic.getSelectedItem();
-        // int topicID = topicMap.getOrDefault(topic, -1);
-        // int timeLimit = jsTime.getValue();
-        // int totalQuestions = jsQuestionNum.getValue();
-        // int easyQuestions = Integer.parseInt(jtfEasyNum.getText().trim());
-        // int mediumQuestions = Integer.parseInt(jtfMediumNum.getText().trim());
-        // int hardQuestions = totalQuestions - easyQuestions - mediumQuestions;
-        // System.err.println("total hard" + hardQuestions);
-        // Date selectedDate = jDateChooser1.getDate();
-        //
-        // LocalDateTime localDateTime = selectedDate.toInstant()
-        // .atZone(ZoneId.systemDefault())
-        // .toLocalDateTime();
-        // String attemptLimit = (String) jcbLimit.getSelectedItem();
-        //// int examNum = jsExamNum.getValue();
-        // System.err.println("Exam_Num" + examNum);
-        // try {
-        //
-        // ExamBUS examBUS = new ExamBUS();
-        // TestDTO exam = new TestDTO();
-        // exam.setTestCode(testCode);
-        // exam.setTestTitle(title);
-        // exam.setTpID(topicID);
-        // exam.setTestTime(timeLimit);
-        //
-        // exam.setNum_easy(easyQuestions);
-        // exam.setNum_medium(mediumQuestions);
-        // exam.setNum_diff(hardQuestions);
-        // exam.setTestLimit(Integer.parseInt(attemptLimit));
-        // exam.setTestDate(localDateTime);
-        // int isEdit = examBUS.update(exam, examNum);
-        //
-        // if (isEdit == 1) {
-        // JOptionPane.showMessageDialog(this, "Sửa đề thi thành công!", "Thành công",
-        // JOptionPane.INFORMATION_MESSAGE);
-        // dispose();
-        // } else {
-        // JOptionPane.showMessageDialog(this, "Sửa đề thi thất bại!", "Lỗi",
-        // JOptionPane.ERROR_MESSAGE);
-        // }
-        // } catch (SQLException ex) {
-        // JOptionPane.showMessageDialog(this, ex.getMessage(), "Lỗi",
-        // JOptionPane.ERROR_MESSAGE);
-        // } catch (NumberFormatException ex) {
-        // JOptionPane.showMessageDialog(this, "Vui lòng nhập lại số câu hỏi dễ và trung
-        // bình!", "Lỗi",
-        // JOptionPane.ERROR_MESSAGE);
-        // } catch (Exception ex) {
-        // ex.printStackTrace();
-        // JOptionPane.showMessageDialog(this, "Đã xảy ra lỗi khi sửa đề thi!", "Lỗi",
-        // JOptionPane.ERROR_MESSAGE);
-        // }
+        String title = jtfTitle.getText().trim();
+        ArrayList<Integer> topics = getIDsOfSelectedTopics();
+        int timeLimit = jsTime.getValue();
+        int totalQuestions = jsQuestionNum.getValue();
+        int easyQuestions = Integer.parseInt(jtfEasyNum.getText().trim());
+        int mediumQuestions = Integer.parseInt(jtfMediumNum.getText().trim());
+        int hardQuestions = totalQuestions - easyQuestions - mediumQuestions;
+        Date selectedDate = jDateChooser1.getDate();
+
+        LocalDateTime localDateTime = selectedDate.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime();
+        String attemptLimit = (String) jcbLimit.getSelectedItem();
+        try {
+            TestBUS testBUS = new TestBUS();
+            TestDTO test = new TestDTO();
+            test.setTestCode(this.test.getTestCode());
+            test.setTestTitle(title);
+            test.setTestTime(timeLimit);
+            test.setNum_easy(easyQuestions);
+            test.setNum_medium(mediumQuestions);
+            test.setNum_diff(hardQuestions);
+            test.setTestLimit(Integer.parseInt(attemptLimit));
+            test.setTestDate(localDateTime);
+            testBUS.updateTestTopics(this.test.getTestID(), topics.toArray(new Integer[0]));
+            testBUS.update(test);
+            JOptionPane.showMessageDialog(this, "Sửa bài thi thành công!", "Thành công",
+                    JOptionPane.INFORMATION_MESSAGE);
+            this.dispose();
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Hành động thất bại, có lỗi xảy ra!\n" + e.getMessage(), "Lỗi",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+
+    }
+
+    public ArrayList<Integer> getIDsOfSelectedTopics() {
+        ArrayList<Integer> topicIDs = new ArrayList<>();
+        for (int i = 0; i < tpTree.getSelectionCount(); i++) {
+            TopicsBUS tpBUS = new TopicsBUS();
+            topicIDs.add(tpBUS.getTopicIdByName(tpTree.getSelectionPaths()[i].getLastPathComponent().toString()));
+        }
+        return topicIDs;
     }
 
     private void jtfHardNumActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jtfHardNumActionPerformed
         // TODO add your handling code here:
     }// GEN-LAST:event_jtfHardNumActionPerformed
-
-    private void jTextField22ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jTextField22ActionPerformed
-        // TODO add your handling code here:
-    }// GEN-LAST:event_jTextField22ActionPerformed
-
-    private void jcbTopicActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jcbTopicActionPerformed
-        // TODO add your handling code here:
-    }// GEN-LAST:event_jcbTopicActionPerformed
 
     private void addAutoCalculateHardQuestionsListener() {
         DocumentListener listener = new DocumentListener() {
@@ -592,6 +603,7 @@ public class EditTestDialog extends javax.swing.JDialog {
                     break;
                 }
             }
+            new EditTestDialog(new JFrame(), true, null).setVisible(true);
         } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(EditTestDialog.class.getName()).log(
                     java.util.logging.Level.SEVERE,
@@ -622,13 +634,10 @@ public class EditTestDialog extends javax.swing.JDialog {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField14;
     private javax.swing.JTextField jTextField15;
-    private javax.swing.JTextField jTextField16;
-    private javax.swing.JTextField jTextField17;
     private javax.swing.JTextField jTextField18;
     private javax.swing.JTextField jTextField19;
     private javax.swing.JTextField jTextField20;
     private javax.swing.JTextField jTextField21;
-    private javax.swing.JTree jTree1;
     private javax.swing.JComboBox<String> jcbLimit;
     private javax.swing.JSlider jsQuestionNum;
     private javax.swing.JSlider jsTime;
@@ -636,5 +645,8 @@ public class EditTestDialog extends javax.swing.JDialog {
     private javax.swing.JTextField jtfHardNum;
     private javax.swing.JTextField jtfMediumNum;
     private javax.swing.JTextField jtfTitle;
+    private javax.swing.JLabel lblSLCauHoi;
+    private javax.swing.JTextField lblTgThi;
+    private javax.swing.JTree tpTree;
     // End of variables declaration//GEN-END:variables
 }

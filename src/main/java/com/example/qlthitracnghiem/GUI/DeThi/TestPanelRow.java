@@ -82,7 +82,7 @@ public class TestPanelRow extends javax.swing.JPanel {
 
         btnXem.setBackground(new java.awt.Color(220, 230, 205));
         btnXem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/eye.png"))); // NOI18N
-        btnXem.setText("Xem");
+        btnXem.setText("Xem đề thi");
         btnXem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnXemActionPerformed(evt);
@@ -97,7 +97,7 @@ public class TestPanelRow extends javax.swing.JPanel {
 
         btnSua.setBackground(new java.awt.Color(248, 220, 209));
         btnSua.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/wrench.png"))); // NOI18N
-        btnSua.setText("Sửa");
+        btnSua.setText("Chi tiết");
         btnSua.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSuaActionPerformed(evt);

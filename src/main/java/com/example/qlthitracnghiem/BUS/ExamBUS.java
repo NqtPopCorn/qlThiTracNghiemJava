@@ -45,27 +45,14 @@ public class ExamBUS {
         return ExamDAO.getExamByExCode(exCode);
     }
 
-    public boolean createExam(TestDTO exam, int examNum) {
-        try {
-
-            int result = ExamDAO.create(exam, examNum);
-
-            // Trả về true nếu tạo thành công
-            return result == 1;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
-    }
-
     public List<String> getExamCode(String testcode) throws SQLException {
         return ExamDAO.getExamCodesByTestCode(testcode);
     }
-    
+
     public List<String> getExamCodesByTestCode(String testcode) throws SQLException {
         return ExamDAO.getExamCodesByTestCode(testcode);
     }
+
     public ArrayList<String> getAllExCode() throws SQLException {
         return ExamDAO.getAllExCode();
     }
@@ -88,5 +75,9 @@ public class ExamBUS {
 
     public ArrayList<ExamDTO> getAll() throws SQLException {
         return ExamDAO.getAll();
+    }
+
+    public int generate(TestDTO testDTO, int soDe) throws Exception {
+        return ExamDAO.generateExams(testDTO, soDe);
     }
 }

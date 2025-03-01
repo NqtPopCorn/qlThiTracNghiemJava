@@ -6,7 +6,7 @@ package com.example.qlthitracnghiem.DAO;
 
 import com.example.qlthitracnghiem.DTO.ExamDTO;
 import com.example.qlthitracnghiem.DTO.TestDTO;
-import com.example.qlthitracnghiem.DTO.UserDTO;
+import com.example.qlthitracnghiem.DTO.TestDTO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 import org.json.JSONArray;
 
 // chưa sửa lại mấy phương thức create,update,delete 
-public class TestDAO implements CrudInterface<UserDTO> {
+public class TestDAO implements CrudInterface<TestDTO> {
   /// ý tưởng là hiển thị test dựa trên testcode tham chiếu từ bảng exams, lúc ấn
   /// vô xem chi tiết thì hiện chi tiết đề ra
   public ArrayList<TestDTO> search(String keyword, int status) throws SQLException {
@@ -47,7 +47,6 @@ public class TestDAO implements CrudInterface<UserDTO> {
             rs.getString("testCode"),
             rs.getString("testTitle"),
             rs.getInt("testTime"),
-            rs.getInt("tpID"),
             rs.getInt("num_easy"),
             rs.getInt("num_medium"),
             rs.getInt("num_diff"),
@@ -79,7 +78,6 @@ public class TestDAO implements CrudInterface<UserDTO> {
             rs.getString("testCode"),
             rs.getString("testTitle"),
             rs.getInt("testTime"),
-            rs.getInt("tpID"),
             rs.getInt("num_easy"),
             rs.getInt("num_medium"),
             rs.getInt("num_diff"),
@@ -95,16 +93,85 @@ public class TestDAO implements CrudInterface<UserDTO> {
   }
 
   @Override
-  public int create(UserDTO user) throws SQLException {
+  public int create(TestDTO test) throws SQLException {
 
     return 0;
+  }
 
+  public int create(TestDTO test, Integer[] topics) throws SQLException {
+    Connection connection = DBConnection.getConnection();
+    connection.setAutoCommit(false); // Bắt đầu transaction
+    int rowsInserted = 0;
+    String testCode = String.format("TST%04d", getAutoIncrement());
+    String createTest = "INSERT INTO test(testCode, testTitle, testTime, num_easy, num_medium, num_diff, testLimit, testDate, testStatus) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    String createTestTopic = "INSERT INTO test_topic(testID, topicID) VALUES(?, ?)";
+    try (
+        PreparedStatement psCreateTest = connection.prepareStatement(createTest,
+            PreparedStatement.RETURN_GENERATED_KEYS);
+        PreparedStatement psCreateTestTopic = connection.prepareStatement(createTestTopic);) {
+      psCreateTest.setString(1, testCode);
+      psCreateTest.setString(2, test.getTestTitle());
+      psCreateTest.setInt(3, test.getTestTime());
+      psCreateTest.setInt(4, test.getNum_easy());
+      psCreateTest.setInt(5, test.getNum_medium());
+      psCreateTest.setInt(6, test.getNum_diff());
+      psCreateTest.setInt(7, test.getTestLimit());
+      psCreateTest.setObject(8, test.getTestDate());
+      psCreateTest.setInt(9, test.getTestStatus());
+      rowsInserted = psCreateTest.executeUpdate();
+      ResultSet rs = psCreateTest.getGeneratedKeys();
+      if (rs.next()) {
+        int testID = rs.getInt(1);
+        test.setTestID(testID);
+        for (Integer topicID : topics) {
+          psCreateTestTopic.setInt(1, testID);
+          psCreateTestTopic.setInt(2, topicID);
+          psCreateTestTopic.executeUpdate();
+        }
+      }
+      connection.commit();
+      return rowsInserted;
+    } catch (SQLException e) {
+      connection.rollback();
+      throw e;
+    } finally {
+      connection.setAutoCommit(true);
+      connection.close();
+    }
   }
 
   @Override
-  public int update(UserDTO user) throws SQLException {
+  public int update(TestDTO test) throws SQLException {
+    System.out.println("update test: " + test.toString());
+    String sql = "UPDATE test SET testTitle = ?, testTime = ?, num_easy = ?, num_medium = ?, num_diff = ?, testLimit = ?, testDate = ?, testStatus = ? WHERE testCode = ?";
+    try (Connection connection = DBConnection.getConnection();
+        PreparedStatement ps = connection.prepareStatement(sql)) {
+      ps.setString(1, test.getTestTitle());
+      ps.setInt(2, test.getTestTime());
+      ps.setInt(3, test.getNum_easy());
+      ps.setInt(4, test.getNum_medium());
+      ps.setInt(5, test.getNum_diff());
+      ps.setInt(6, test.getTestLimit());
+      ps.setObject(7, test.getTestDate());
+      ps.setInt(8, test.getTestStatus());
+      ps.setString(9, test.getTestCode());
+      return ps.executeUpdate();
+    }
+  }
 
-    return 0;
+  public int getAutoIncrement() throws SQLException {
+    Connection connection = DBConnection.getConnection();
+    String sql = "SELECT MAX(testID) AS AUTO_INCREMENT FROM test";
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+      ResultSet rs = ps.executeQuery();
+      if (rs.next()) {
+        return rs.getInt("AUTO_INCREMENT") + 1;
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+      throw e;
+    }
+    return -1;
   }
 
   @Override
@@ -114,7 +181,7 @@ public class TestDAO implements CrudInterface<UserDTO> {
   }
 
   @Override
-  public UserDTO read(int id) throws SQLException {
+  public TestDTO read(int id) throws SQLException {
 
     return null;
   }
@@ -133,7 +200,6 @@ public class TestDAO implements CrudInterface<UserDTO> {
                 rs.getString("testCode"),
                 rs.getString("testTitle"),
                 rs.getInt("testTime"),
-                rs.getInt("tpID"),
                 rs.getInt("num_easy"),
                 rs.getInt("num_medium"),
                 rs.getInt("num_diff"),
@@ -147,51 +213,45 @@ public class TestDAO implements CrudInterface<UserDTO> {
       throw e;
     }
   }
-  // public static void main(String[] args) {
-  // try {
-  // TestDTO a = TestDAO.getTestByTestCode("TST001");
-  // System.out.println(a.toString());
-  // } catch (Exception e) {
-  // }
-  //
-  //
 
-  // }
-  // public ArrayList<TestDTO> getExam() throws SQLException {
-  // Connection connection = DBConnection.getConnection();
-  // String sql = "SELECT t.*, e.exOrder, e.exCode, e.ex_quesIDs " +
-  // "FROM test t " +
-  // "JOIN exams e ON t.testCode = e.testCode";
-  // try {
-  // PreparedStatement ps = connection.prepareStatement(sql);
-  // ResultSet rs = ps.executeQuery();
-  // ArrayList<TestDTO> tests = new ArrayList<>();
-  // while (rs.next()) {
-  // // Lấy thông tin từ bảng test
-  // int testID = rs.getInt("testID");
-  // String testCode = rs.getString("testCode");
-  // String testTitle = rs.getString("testTitle");
-  // int testTime = rs.getInt("testTime");
-  // int tpID = rs.getInt("tpID");
-  // int num_easy = rs.getInt("num_easy");
-  // int num_medium = rs.getInt("num_medium");
-  // int num_diff = rs.getInt("num_diff");
-  // int testLimit = rs.getInt("testLimit");
-  // LocalDateTime testDate = rs.getObject("testDate", LocalDateTime.class);
-  // int testStatus = rs.getInt("testStatus");
-  //
-  // TestDTO testDTO = new TestDTO(
-  // testID, testCode, testTitle, testTime, tpID, num_easy, num_medium, num_diff,
-  // testLimit, testDate, testStatus);
-  //
-  // tests.add(testDTO);
-  // }
-  // return tests;
-  // } catch (SQLException e) {
-  // e.printStackTrace();
-  // throw e;
-  // }
-  // }
+  public int updateTestTopics(int testID, Integer[] topics) throws SQLException {
+    System.out.print("update test: testID = " + testID + ", topics = ");
+    for (Integer topic : topics) {
+      System.out.print(topic + ", ");
+    }
+    System.out.println();
+    Connection connection = DBConnection.getConnection();
+    connection.setAutoCommit(false); // Bắt đầu transaction
+    int rowsInserted = 0;
+
+    String deleteSql = "DELETE FROM test_topic WHERE testID = ?";
+    String insertSql = "INSERT INTO test_topic(testID, topicID) VALUES(?, ?)";
+
+    try (PreparedStatement psDelete = connection.prepareStatement(deleteSql);
+        PreparedStatement psInsert = connection.prepareStatement(insertSql)) {
+
+      // Xóa các chủ đề cũ
+      psDelete.setInt(1, testID);
+      psDelete.executeUpdate();
+
+      // Thêm các chủ đề mới
+      for (Integer topicID : topics) {
+        psInsert.setInt(1, testID);
+        psInsert.setInt(2, topicID);
+        rowsInserted += psInsert.executeUpdate();
+      }
+
+      // Nếu không có lỗi, commit transaction
+      connection.commit();
+      return rowsInserted;
+
+    } catch (SQLException e) {
+      connection.rollback(); // Hoàn tác nếu có lỗi
+      throw e;
+    } finally {
+      connection.setAutoCommit(true); // Bật lại auto-commit
+    }
+  }
 
   public TestDTO getTestDtoByTestCode(String testCode) throws SQLException {
     TestDTO testDto = null;
@@ -207,7 +267,6 @@ public class TestDAO implements CrudInterface<UserDTO> {
             rs.getString("testCode"),
             rs.getString("testTitle"),
             rs.getInt("testTime"),
-            rs.getInt("tpID"),
             rs.getInt("num_easy"),
             rs.getInt("num_medium"),
             rs.getInt("num_diff"),

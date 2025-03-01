@@ -94,11 +94,10 @@ public class TopicsDAO {
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, topic.getTpTitle());
-            if(topic.getTpParent() == null){
-            ps.setNull(2,Types.INTEGER);
-            }
-            else{
-            ps.setInt(2,topic.getTpParent());
+            if (topic.getTpParent() == null) {
+                ps.setNull(2, Types.INTEGER);
+            } else {
+                ps.setInt(2, topic.getTpParent());
             }
             ps.setInt(2, topic.getTpParent());
             ps.setInt(3, topic.getTpStatus());
@@ -171,4 +170,22 @@ public class TopicsDAO {
         return topicsList;
     }
 
+    public ArrayList<TopicsDTO> getTestTopic(int testID) throws SQLException {
+        Connection connection = DBConnection.getConnection();
+        String sql = "SELECT * FROM topics WHERE tpID IN (SELECT topicID FROM test_topic WHERE testID = ?)";
+        ArrayList<TopicsDTO> topicsList = new ArrayList<>();
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, testID);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                topicsList.add(new TopicsDTO(
+                        rs.getInt("tpID"),
+                        rs.getString("tpTitle"),
+                        rs.getInt("tpParent"),
+                        rs.getInt("tpStatus")));
+            }
+        }
+        return topicsList;
+    }
 }
