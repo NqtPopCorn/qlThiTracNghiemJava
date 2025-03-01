@@ -29,8 +29,8 @@ public class AnswerOptionPN extends javax.swing.JPanel {
      */
     private AnswersDTO ansDTO;
 
-    public AnswerOptionPN(ButtonGroup group, AnswersDTO ans) {
-        this.ansDTO = ans;
+    public AnswerOptionPN(ButtonGroup group, AnswersDTO ansDTO, QuestionPN questionPN) {
+        this.ansDTO = ansDTO;
         initComponents();
         group.add(btnChoose);
         //   ImageUtil.setIcon(this.paragraph1, "/icons/ic_user_30.png", 80, 60);
@@ -40,6 +40,7 @@ public class AnswerOptionPN extends javax.swing.JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 btnChoose.setSelected(true);
+                questionPN.upateLog();
             }
         });
     }

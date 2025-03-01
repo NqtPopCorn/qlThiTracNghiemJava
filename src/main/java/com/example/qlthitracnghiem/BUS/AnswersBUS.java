@@ -41,7 +41,13 @@ public class AnswersBUS {
             return null;
         }
     }
-
+    public AnswersDTO getAnswersDTOByAnswerID(int awId) {
+        try {
+            return answersDAO.getAnswerByID(awId);
+        } catch (SQLException e) {
+            return null;
+        }
+    }
     public boolean deleteByQuestionID(int qID) {
         try {
             return answersDAO.deleteByQuestionID(qID);
