@@ -21,12 +21,12 @@ public class LogBUS {
         this.logDAO = new LogDAO();
     }
 
-    public boolean addLog(LogDTO log) {
+    public int addLog(LogDTO log) {
         try {
-            return logDAO.addLog(log);
+            return logDAO.addLog(log); // return id of the row was inserted
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
+            return -1; //  return error index
         }
     }
 
@@ -53,6 +53,7 @@ public class LogBUS {
             return logDAO.updateLog(log);
         } catch (SQLException e) {
             e.printStackTrace();
+            
             return false;
         }
     }

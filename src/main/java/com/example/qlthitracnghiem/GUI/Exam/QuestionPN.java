@@ -17,6 +17,7 @@ import java.util.Map;
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 import javax.swing.ButtonModel;
+import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
 /**
@@ -39,10 +40,11 @@ public class QuestionPN extends javax.swing.JPanel {
     private int quesId;
 
     private QuestionsDTO quesDTO;
-
-    public QuestionPN(int numbOrder, int quesId) {
+    private DoExamJPanel doExamPN;
+    public QuestionPN(int numbOrder, int quesId, DoExamJPanel doExamPN) {
         this.questOrder = numbOrder;
         this.quesId = quesId;
+        this.doExamPN = doExamPN;
         mapValues = new HashMap<>();
         btnGroup = new ButtonGroup();
         initComponents();
@@ -63,7 +65,7 @@ public class QuestionPN extends javax.swing.JPanel {
 
         for (AnswersDTO ans : ansList) {
             char optText = (char) order;
-            AnswerOptionPN ansPN = new AnswerOptionPN(btnGroup, ans);
+            AnswerOptionPN ansPN = new AnswerOptionPN(btnGroup, ans,this);
             ansPN.setButtonText(String.valueOf(optText)); // Convert char to String
             ansPN.setParagraph(ans.getAwContent());
             ansPN.setImge(ans.getAwPictures());
@@ -75,7 +77,9 @@ public class QuestionPN extends javax.swing.JPanel {
             order++;
         }
     }
-
+    public void upateLog() {
+        doExamPN.updateLog();
+    }
     public AnswersDTO getSelectedAnswer() {
         ButtonModel selectedModel = btnGroup.getSelection();
         if (selectedModel != null) {

@@ -39,4 +39,52 @@ public class Converter {
         }
         return stringArray;
     }
+     public static Object[] jsonArrayToArray(String jsonArrayString) {
+        try {
+            JSONArray jsonArray = new JSONArray(jsonArrayString);
+            Object[] array = new Object[jsonArray.length()];
+            for (int i = 0; i < jsonArray.length(); i++) {
+                array[i] = jsonArray.get(i);
+            }
+            return array;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null; // Handle error appropriately
+        }
+    }
+
+     public static int[] jsonArrayToStringArray(String jsonArrayString) {
+         try {
+             JSONArray jsonArray = new JSONArray(jsonArrayString);
+             int[] array = new int[jsonArray.length()];
+             for (int i = 0; i < jsonArray.length(); i++) {
+                 array[i] = jsonArray.getInt(i);
+             }
+             return array;
+         } catch (JSONException e) {
+             e.printStackTrace();
+             return null; // Handle error appropriately
+         }
+     }
+
+    public static void main(String[] args) {
+        String jsonString = "[1, 2, \"three\", true]";
+
+        Object[] objectArray = jsonArrayToArray(jsonString);
+        if (objectArray != null) {
+            System.out.println("Object Array:");
+            for (Object element : objectArray) {
+                System.out.println(element);
+            }
+        }
+
+        String jsonString2 = "[1, 2, 2]";
+        int[] stringArray = jsonArrayToStringArray(jsonString2);
+        if(stringArray != null){
+            System.out.println("String Array:");
+            for(int element: stringArray){
+                System.out.println(element);
+            }
+        }
+    }
 }
