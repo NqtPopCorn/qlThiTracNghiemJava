@@ -62,7 +62,10 @@ public class ExamBUS {
     public List<String> getExamCode(String testcode) throws SQLException {
         return ExamDAO.getExamCodesByTestCode(testcode);
     }
-
+    
+    public List<String> getExamCodesByTestCode(String testcode) throws SQLException {
+        return ExamDAO.getExamCodesByTestCode(testcode);
+    }
     public ArrayList<String> getAllExCode() throws SQLException {
         return ExamDAO.getAllExCode();
     }

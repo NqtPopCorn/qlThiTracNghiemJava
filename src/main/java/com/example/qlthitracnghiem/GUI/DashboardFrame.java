@@ -35,7 +35,7 @@ public class DashboardFrame extends javax.swing.JFrame {
     private DoExamJPanel doExamJPanel = new DoExamJPanel(this);
     private ChooseExamJPanel chooseExamJPanel = new ChooseExamJPanel(doExamJPanel);
     private QuestionPanel questionPanel = new QuestionPanel();
-    private TestPanel testPanel = new TestPanel();
+    private TestPanel2 testPanel = new TestPanel2();
     private InfoPanel infoPanel = new InfoPanel();
     private UserDTO user;
 

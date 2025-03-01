@@ -4,19 +4,47 @@
  */
 package com.example.qlthitracnghiem.GUI.DeThi;
 
+import com.example.qlthitracnghiem.BUS.ExamBUS;
+import com.example.qlthitracnghiem.utils.ImageUtil;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Font;
+import java.util.List;
+import java.util.Map;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+
 /**
  *
  * @author truon
  */
 public class ExamPanelRow extends javax.swing.JPanel {
-
-    /**
-     * Creates new form TestPanelRow
-     */
+    private String examCode;
+       private TestPanel2 parentPanel;
+     private String testCode; 
+     private JPanel jpnViewChiTiet;
     public ExamPanelRow() {
+        
         initComponents();
     }
+    public ExamPanelRow(String examCode, JPanel jpnViewChiTiet, TestPanel2 parentPanel) { 
+    this.examCode = examCode;
+    this.jpnViewChiTiet = jpnViewChiTiet;
+    this.parentPanel = parentPanel; 
+    initComponents();
+    setExamInfo(examCode); 
+}
 
+
+   
+      void setExamInfo(String examCode) {
+        txtExamCode.setText("Mã đề: "+examCode); 
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -27,13 +55,12 @@ public class ExamPanelRow extends javax.swing.JPanel {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        txtTitle = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        txtExamCode = new javax.swing.JLabel();
+        btnXem = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
 
+        setBackground(new java.awt.Color(255, 255, 255));
+        setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.gray, java.awt.Color.gray, java.awt.Color.gray, java.awt.Color.gray));
         setMaximumSize(new java.awt.Dimension(10000, 140));
         java.awt.GridBagLayout layout = new java.awt.GridBagLayout();
         layout.columnWidths = new int[] {0, 8, 0, 8, 0, 8, 0, 8, 0};
@@ -41,58 +68,115 @@ public class ExamPanelRow extends javax.swing.JPanel {
         layout.columnWeights = new double[] {1.0};
         setLayout(layout);
 
-        txtTitle.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
-        txtTitle.setText("Exam A");
+        txtExamCode.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
+        txtExamCode.setText("Exam A");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        add(txtTitle, gridBagConstraints);
+        add(txtExamCode, gridBagConstraints);
 
-        jLabel1.setText("jLabel1");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        add(jLabel1, gridBagConstraints);
-
-        jLabel2.setText("jLabel2");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        add(jLabel2, gridBagConstraints);
-
-        jButton1.setText("jButton1");
+        btnXem.setBackground(new java.awt.Color(28, 58, 118));
+        btnXem.setForeground(new java.awt.Color(255, 255, 255));
+        btnXem.setText("Xem");
+        btnXem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXemActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.gridheight = 5;
         gridBagConstraints.insets = new java.awt.Insets(0, 7, 0, 0);
-        add(jButton1, gridBagConstraints);
+        add(btnXem, gridBagConstraints);
 
-        jButton2.setText("jButton2");
+        jButton2.setBackground(new java.awt.Color(28, 58, 118));
+        jButton2.setForeground(new java.awt.Color(255, 255, 255));
+        jButton2.setText("Xóa");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.gridheight = 5;
         add(jButton2, gridBagConstraints);
-
-        jButton3.setText("jButton3");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 8;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridheight = 5;
-        add(jButton3, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnXemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXemActionPerformed
+        showExamDetails(examCode);
+    }//GEN-LAST:event_btnXemActionPerformed
+    private void showExamDetails(String examCode) {
+    jpnViewChiTiet.removeAll(); 
+
+    try {
+        ExamBUS examBUS = new ExamBUS();
+        List<Integer> exQuesIDs = examBUS.getExQuesIDsByExCode(examCode);
+        System.err.println("ex_quesIDs: " + exQuesIDs);
+
+        int questionNumber = 1;
+        for (int qID : exQuesIDs) {
+            Map<String, String> questionData = examBUS.getQuestionContent(qID);
+            String qContent = questionData.get("qContent");
+            String qPictures = questionData.get("qPictures");
+            System.err.println("qContent"+qContent);
+            JPanel questionPanel = new JPanel();
+            questionPanel.setLayout(new BoxLayout(questionPanel, BoxLayout.Y_AXIS));
+            questionPanel.setBackground(new Color(255, 255, 255));
+
+            JLabel qContentLabel = new JLabel("Câu " + questionNumber + ": " + qContent);
+            qContentLabel.setFont(new Font("Serif", Font.BOLD, 12));
+            questionPanel.add(qContentLabel);
+            if (qPictures != null && !qPictures.isEmpty()) {
+                JLabel qPictureLabel = new JLabel("");
+                ImageUtil.setIcon(qPictureLabel, qPictures, 100, 100);
+                qPictureLabel.setFont(new Font("Serif", Font.PLAIN, 12));
+                questionPanel.add(qPictureLabel);
+            }
+
+            List<Map<String, String>> awContents = examBUS.getAnswerContent(qID);
+
+            ButtonGroup buttonGroup = new ButtonGroup();
+            for (Map<String, String> answerData : awContents) {
+                String awContent = answerData.get("awContent");
+                String awPictures = answerData.get("awPictures");
+                System.err.println("awContent"+awContent);
+                JPanel answerPanel = new JPanel();
+                answerPanel.setLayout(new BoxLayout(answerPanel, BoxLayout.Y_AXIS));
+                answerPanel.setBackground(new Color(255, 255, 255));
+
+                if (awPictures != null && !awPictures.isEmpty()) {
+                    JLabel answerImageLabel = new JLabel();
+                    ImageUtil.setIcon(answerImageLabel, awPictures, 100, 100); 
+                    answerPanel.add(answerImageLabel);
+                }
+
+                JRadioButton radioButton = new JRadioButton(awContent);
+                radioButton.setFont(new Font("Serif", Font.PLAIN, 12));
+                radioButton.setBackground(new Color(255, 255, 255));
+                buttonGroup.add(radioButton);
+                answerPanel.add(radioButton);
+                questionPanel.add(answerPanel);
+            }
+
+            jpnViewChiTiet.add(questionPanel);
+            jpnViewChiTiet.add(Box.createVerticalStrut(10)); // Khoảng cách giữa các câu hỏi
+            questionNumber++;
+        }
+
+        jpnViewChiTiet.revalidate();
+        jpnViewChiTiet.repaint();
+
+        CardLayout cardLayout = (CardLayout) parentPanel.getLayout();
+        cardLayout.show(parentPanel, "card3");
+
+    } catch (Exception ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Lỗi khi tải thông tin đề thi!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+    }
+}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnXem;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel txtTitle;
+    private javax.swing.JLabel txtExamCode;
     // End of variables declaration//GEN-END:variables
 }
