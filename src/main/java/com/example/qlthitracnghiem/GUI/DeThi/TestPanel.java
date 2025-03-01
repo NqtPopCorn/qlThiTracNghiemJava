@@ -62,31 +62,31 @@ public class TestPanel extends JPanel {
             }
         });
 
-        searchField = new JTextField("Tìm kiếm đề thi", 15);
-        searchField.setForeground(Color.GRAY);
-        searchField.addFocusListener(new FocusListener() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                if (searchField.getText().equals("Tìm kiếm đề thi")) {
-                    searchField.setText("");
-                    searchField.setForeground(Color.BLACK);
-                }
-            }
-
-            @Override
-            public void focusLost(FocusEvent e) {
-                if (searchField.getText().trim().isEmpty()) {
-                    searchField.setText("Tìm kiếm đề thi");
-                    searchField.setForeground(Color.GRAY);
-                }
-            }
-        });
-        searchField.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyReleased(KeyEvent e) {
-                Search();
-            }
-        });
+//        searchField = new JTextField("Tìm kiếm đề thi", 15);
+//        searchField.setForeground(Color.GRAY);
+//        searchField.addFocusListener(new FocusListener() {
+//            @Override
+//            public void focusGained(FocusEvent e) {
+//                if (searchField.getText().equals("Tìm kiếm đề thi")) {
+//                    searchField.setText("");
+//                    searchField.setForeground(Color.BLACK);
+//                }
+//            }
+//
+//            @Override
+//            public void focusLost(FocusEvent e) {
+//                if (searchField.getText().trim().isEmpty()) {
+//                    searchField.setText("Tìm kiếm đề thi");
+//                    searchField.setForeground(Color.GRAY);
+//                }
+//            }
+//        });
+//        searchField.addKeyListener(new KeyAdapter() {
+//            @Override
+//            public void keyReleased(KeyEvent e) {
+//                Search();
+//            }
+//        });
 
         JButton createButton = new JButton("Tạo đề thi");
         createButton.addActionListener(new ActionListener() {
