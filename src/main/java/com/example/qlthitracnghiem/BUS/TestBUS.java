@@ -61,11 +61,19 @@ public class TestBUS {
 
   }
 
+  public int delete(TestDTO testCode) throws SQLException {
+    return testDAO.delete(testCode);
+  }
+
   public int updateTestTopics(int testID, Integer[] topics) throws Exception {
     return testDAO.updateTestTopics(testID, topics);
   }
 
   public int create(TestDTO test, Integer[] topics) throws Exception {
     return testDAO.create(test, topics);
+  }
+
+  public boolean isTestCodeExistExam(String testCode) throws SQLException {
+    return testDAO.isTestCodeExistExam(testCode);
   }
 }
