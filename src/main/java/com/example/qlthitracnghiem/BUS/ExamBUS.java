@@ -1,15 +1,12 @@
 package com.example.qlthitracnghiem.BUS;
 
 import com.example.qlthitracnghiem.DAO.ExamDAO;
-import com.example.qlthitracnghiem.DAO.TestDAO;
 import com.example.qlthitracnghiem.DTO.ExamDTO;
 import com.example.qlthitracnghiem.DTO.TestDTO;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import javax.swing.JOptionPane;
 
 public class ExamBUS {
     public static final int ACTION_SUCCESS = 1;
@@ -61,9 +58,9 @@ public class ExamBUS {
         return ExamDAO.getExQuesIDsByExCode(exCode);
     }
 
-    public int update(TestDTO testDTO, int soDe) throws SQLException {
-        return ExamDAO.update(testDTO, soDe);
-    }
+    // public int update(TestDTO testDTO, int soDe) throws SQLException {
+    // return ExamDAO.update(testDTO, soDe);
+    // }
 
     public boolean isExCodeExistInResult(String exCode) throws SQLException {
         return ExamDAO.isExCodeExistInResult(exCode);
@@ -79,5 +76,13 @@ public class ExamBUS {
 
     public int generate(TestDTO testDTO, int soDe) throws Exception {
         return ExamDAO.generateExams(testDTO, soDe);
+    }
+
+    public ArrayList<String> search(String keyword, String testCode) throws Exception {
+        return ExamDAO.search(keyword, testCode);
+    }
+
+    public String getTestCodeByExamCode(String examCode) throws SQLException {
+        return ExamDAO.getTestCodeByExamCode(examCode);
     }
 }
