@@ -97,6 +97,7 @@ public class ExamPanelRow extends javax.swing.JPanel {
         jButton2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Xóa");
+        jButton2.setPreferredSize(new java.awt.Dimension(85, 31));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 2;
