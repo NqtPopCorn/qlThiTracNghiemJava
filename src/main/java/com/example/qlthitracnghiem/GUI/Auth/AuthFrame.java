@@ -97,7 +97,9 @@ public class AuthFrame extends javax.swing.JFrame {
 
         txtPassword_login.setBorder(javax.swing.BorderFactory.createTitledBorder("Mật khẩu"));
 
+        btnLogin.setBackground(new java.awt.Color(51, 51, 255));
         btnLogin.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnLogin.setForeground(new java.awt.Color(255, 255, 255));
         btnLogin.setText("Xác nhận");
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -105,7 +107,11 @@ public class AuthFrame extends javax.swing.JFrame {
             }
         });
 
+        btnNavResgister.setBackground(new java.awt.Color(0, 255, 255));
+        btnNavResgister.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnNavResgister.setForeground(new java.awt.Color(51, 51, 51));
         btnNavResgister.setText("Đăng kí");
+        btnNavResgister.setBorderPainted(false);
         btnNavResgister.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNavResgisterActionPerformed(evt);
@@ -127,13 +133,13 @@ public class AuthFrame extends javax.swing.JFrame {
                 .addComponent(lblLogin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(pnlDangNhapLayout.createSequentialGroup()
-                .addGap(98, 98, 98)
-                .addGroup(pnlDangNhapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnLogin)
-                    .addGroup(pnlDangNhapLayout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(btnNavResgister)))
-                .addContainerGap(114, Short.MAX_VALUE))
+                .addGap(104, 104, 104)
+                .addComponent(btnNavResgister, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(pnlDangNhapLayout.createSequentialGroup()
+                .addGap(84, 84, 84)
+                .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(90, Short.MAX_VALUE))
         );
         pnlDangNhapLayout.setVerticalGroup(
             pnlDangNhapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -155,6 +161,9 @@ public class AuthFrame extends javax.swing.JFrame {
 
         pnlDangKi.setPreferredSize(new java.awt.Dimension(300, 500));
 
+        btnNavDangNhap.setBackground(new java.awt.Color(255, 102, 102));
+        btnNavDangNhap.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnNavDangNhap.setForeground(new java.awt.Color(255, 255, 255));
         btnNavDangNhap.setText("Về đăng nhập");
         btnNavDangNhap.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -162,14 +171,17 @@ public class AuthFrame extends javax.swing.JFrame {
             }
         });
 
+        btnResgister.setBackground(new java.awt.Color(102, 255, 255));
+        btnResgister.setForeground(new java.awt.Color(51, 51, 51));
         btnResgister.setText("Tạo tài khoản");
+        btnResgister.setFocusPainted(false);
         btnResgister.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnResgisterActionPerformed(evt);
             }
         });
 
-        lblDangKi.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblDangKi.setFont(new java.awt.Font("Arial", 3, 18)); // NOI18N
         lblDangKi.setText("Đăng kí");
 
         txtPassword1_register.setBorder(javax.swing.BorderFactory.createTitledBorder("Mật khẩu"));
@@ -198,13 +210,14 @@ public class AuthFrame extends javax.swing.JFrame {
                             .addComponent(txtUserEmail_register, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(pnlDangKiLayout.createSequentialGroup()
                         .addGap(119, 119, 119)
-                        .addComponent(lblDangKi))
-                    .addGroup(pnlDangKiLayout.createSequentialGroup()
-                        .addGap(97, 97, 97)
-                        .addGroup(pnlDangKiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnResgister)
-                            .addComponent(btnNavDangNhap))))
+                        .addComponent(lblDangKi)))
                 .addContainerGap(12, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlDangKiLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(pnlDangKiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnResgister, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnNavDangNhap, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(96, 96, 96))
         );
         pnlDangKiLayout.setVerticalGroup(
             pnlDangKiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -221,11 +234,11 @@ public class AuthFrame extends javax.swing.JFrame {
                 .addComponent(txtPassword1_register, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(txtPassword2_register, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33)
-                .addComponent(btnResgister)
                 .addGap(18, 18, 18)
+                .addComponent(btnResgister, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnNavDangNhap)
-                .addContainerGap(34, Short.MAX_VALUE))
+                .addContainerGap(48, Short.MAX_VALUE))
         );
 
         cardPanel.add(pnlDangKi, "DangKi");
