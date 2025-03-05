@@ -54,6 +54,7 @@
                         <TitledBorder title="T&#xea;n &#x111;&#x103;ng nh&#x1ead;p"/>
                       </Border>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -114,6 +115,7 @@
                 <Component class="javax.swing.JButton" name="btnUpdateInfo">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="S&#x1eed;a"/>
+                    <Property name="focusPainted" type="boolean" value="false"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnUpdateInfoActionPerformed"/>
@@ -128,6 +130,7 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Cancel"/>
                     <Property name="enabled" type="boolean" value="false"/>
+                    <Property name="focusPainted" type="boolean" value="false"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCancelActionPerformed"/>

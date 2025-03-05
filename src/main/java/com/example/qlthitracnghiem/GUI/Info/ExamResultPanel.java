@@ -24,7 +24,6 @@ public class ExamResultPanel extends javax.swing.JPanel {
         txtTitle.setText(propValues[2]);
         txtMark.setText(propValues[3]);
         txtDate.setText("Ngày thi: " + propValues[4]);
-        txtTopic.setText("Môn: " + propValues[5]);
     }
 
     /**
@@ -35,7 +34,8 @@ public class ExamResultPanel extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
@@ -43,7 +43,6 @@ public class ExamResultPanel extends javax.swing.JPanel {
         txtResultNum = new javax.swing.JLabel();
         txtDate = new javax.swing.JLabel();
         txtMark = new javax.swing.JLabel();
-        txtTopic = new javax.swing.JLabel();
         txtExCode = new javax.swing.JLabel();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(""));
@@ -51,8 +50,8 @@ public class ExamResultPanel extends javax.swing.JPanel {
         setMaximumSize(new java.awt.Dimension(1000000, 116));
         setPreferredSize(new java.awt.Dimension(465, 116));
         java.awt.GridBagLayout layout = new java.awt.GridBagLayout();
-        layout.columnWidths = new int[] {0, 8, 0, 8, 0, 8, 0};
-        layout.rowHeights = new int[] {0, 5, 0, 5, 0};
+        layout.columnWidths = new int[] { 0, 8, 0, 8, 0, 8, 0 };
+        layout.rowHeights = new int[] { 0, 5, 0, 5, 0 };
         setLayout(layout);
 
         txtTitle.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
@@ -63,24 +62,22 @@ public class ExamResultPanel extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.4;
         gridBagConstraints.weighty = 0.1;
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
         add(txtTitle, gridBagConstraints);
 
         txtResultNum.setText("Lần thi: 1");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.weighty = 0.1;
         add(txtResultNum, gridBagConstraints);
 
         txtDate.setText("Ngày thi: 01/01/2001");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.weightx = 0.4;
         gridBagConstraints.weighty = 0.1;
         add(txtDate, gridBagConstraints);
@@ -97,22 +94,11 @@ public class ExamResultPanel extends javax.swing.JPanel {
         gridBagConstraints.weighty = 0.1;
         add(txtMark, gridBagConstraints);
 
-        txtTopic.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        txtTopic.setText("Môn: Cơ sở lập trình");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weighty = 0.1;
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
-        add(txtTopic, gridBagConstraints);
-
         txtExCode.setText("Mã đề thi: TST001A");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
         add(txtExCode, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -122,6 +108,5 @@ public class ExamResultPanel extends javax.swing.JPanel {
     private javax.swing.JLabel txtMark;
     private javax.swing.JLabel txtResultNum;
     private javax.swing.JLabel txtTitle;
-    private javax.swing.JLabel txtTopic;
     // End of variables declaration//GEN-END:variables
 }

@@ -4,8 +4,8 @@
  */
 package com.example.qlthitracnghiem.DAO;
 
-import com.example.qlthitracnghiem.DTO.ExamDTO;
-import com.example.qlthitracnghiem.DTO.TestDTO;
+import com.example.qlthitracnghiem.BUS.ExamBUS;
+import com.example.qlthitracnghiem.BUS.TestBUS;
 import com.example.qlthitracnghiem.DTO.TestDTO;
 
 import java.sql.Connection;
@@ -14,14 +14,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import com.example.qlthitracnghiem.interfaces.CrudInterface;
-import com.example.qlthitracnghiem.utils.ConvertUtil;
 import com.example.qlthitracnghiem.utils.DBConnection;
 import java.time.LocalDateTime;
-import org.json.JSONArray;
+import java.util.List;
 
 // chưa sửa lại mấy phương thức create,update,delete 
-public class TestDAO implements CrudInterface<TestDTO> {
+public class TestDAO {
   /// ý tưởng là hiển thị test dựa trên testcode tham chiếu từ bảng exams, lúc ấn
   /// vô xem chi tiết thì hiện chi tiết đề ra
   public ArrayList<TestDTO> search(String keyword, int status) throws SQLException {
@@ -92,17 +90,11 @@ public class TestDAO implements CrudInterface<TestDTO> {
     }
   }
 
-  @Override
-  public int create(TestDTO test) throws SQLException {
-
-    return 0;
-  }
-
   public int create(TestDTO test, Integer[] topics) throws SQLException {
     Connection connection = DBConnection.getConnection();
     connection.setAutoCommit(false); // Bắt đầu transaction
     int rowsInserted = 0;
-    String testCode = String.format("TST%04d", getAutoIncrement());
+    String testCode = String.format("TST%03d", getAutoIncrement());
     String createTest = "INSERT INTO test(testCode, testTitle, testTime, num_easy, num_medium, num_diff, testLimit, testDate, testStatus) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
     String createTestTopic = "INSERT INTO test_topic(testID, topicID) VALUES(?, ?)";
     try (
@@ -117,7 +109,7 @@ public class TestDAO implements CrudInterface<TestDTO> {
       psCreateTest.setInt(6, test.getNum_diff());
       psCreateTest.setInt(7, test.getTestLimit());
       psCreateTest.setObject(8, test.getTestDate());
-      psCreateTest.setInt(9, test.getTestStatus());
+      psCreateTest.setInt(9, 1);
       rowsInserted = psCreateTest.executeUpdate();
       ResultSet rs = psCreateTest.getGeneratedKeys();
       if (rs.next()) {
@@ -140,7 +132,6 @@ public class TestDAO implements CrudInterface<TestDTO> {
     }
   }
 
-  @Override
   public int update(TestDTO test) throws SQLException {
     System.out.println("update test: " + test.toString());
     String sql = "UPDATE test SET testTitle = ?, testTime = ?, num_easy = ?, num_medium = ?, num_diff = ?, testLimit = ?, testDate = ?, testStatus = ? WHERE testCode = ?";
@@ -174,16 +165,43 @@ public class TestDAO implements CrudInterface<TestDTO> {
     return -1;
   }
 
-  @Override
-  public int delete(int id) throws SQLException {
+  public int delete(TestDTO testCode) throws SQLException {
 
-    return 0;
-  }
+    Connection connection = DBConnection.getConnection();
+    ExamBUS examBUS = new ExamBUS();
+    try {
+      List<String> examCodes = examBUS.getExamCodesByTestCode(testCode.getTestCode());
 
-  @Override
-  public TestDTO read(int id) throws SQLException {
+      for (String exCode : examCodes) {
+        if (examBUS.isExCodeExistInResult(exCode)) {
+          throw new SQLException("Đã có học sinh làm bài kiểm tra, không thể xóa.");
+        }
+      }
+      // Xóa bảng test_topic
+      String deleteTopic = "Delete from test_topic where testID=? ";
+      try (PreparedStatement psExams = connection.prepareStatement(deleteTopic)) {
+        psExams.setInt(1, testCode.getTestID());
+        psExams.executeUpdate();
+      }
+            // Xóa bảng exam
+      String deleteExamsSQL = "DELETE FROM exams WHERE testCode = ?";
+      try (PreparedStatement psExams = connection.prepareStatement(deleteExamsSQL)) {
+        psExams.setString(1, testCode.getTestCode());
+        psExams.executeUpdate();
+      }
+      String deleteTest = "DELETE FROM test where testcode=?";
+      try (PreparedStatement psExams = connection.prepareStatement(deleteTest)) {
+        psExams.setString(1, testCode.getTestCode());
+        psExams.executeUpdate();
+      }
 
-    return null;
+
+      return 1;
+    } catch (SQLException e) {
+      e.printStackTrace();
+      throw e;
+    } finally {
+    }
   }
 
   public ArrayList<TestDTO> getAll() throws SQLException {
@@ -282,4 +300,16 @@ public class TestDAO implements CrudInterface<TestDTO> {
     return testDto;
   }
 
+  public boolean isTestCodeExistExam(String testCode) throws SQLException {
+    Connection connection = DBConnection.getConnection();
+    String sql = "SELECT COUNT(*) FROM exams WHERE testCode = ?";
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+      ps.setString(1, testCode);
+      ResultSet rs = ps.executeQuery();
+      if (rs.next()) {
+        return rs.getInt(1) > 0;
+      }
+    }
+    return false;
+  }
 }

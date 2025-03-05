@@ -169,6 +169,9 @@
                 <Column editable="false" title="Fullname" type="java.lang.Object"/>
               </Table>
             </Property>
+            <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="generateTableColumnModel()" type="code"/>
+            </Property>
           </Properties>
         </Component>
       </SubComponents>

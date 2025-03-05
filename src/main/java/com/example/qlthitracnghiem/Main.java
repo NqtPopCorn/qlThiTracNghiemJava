@@ -7,7 +7,9 @@ import javax.swing.SwingUtilities;
 public class Main {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            new AuthFrame().setVisible(true);
+            AuthFrame af = new AuthFrame();
+            af.setVisible(true);
+            System.out.println(af.getSize());
         });
     }
 }

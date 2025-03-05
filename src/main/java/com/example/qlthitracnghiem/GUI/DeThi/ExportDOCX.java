@@ -48,73 +48,69 @@ public class ExportDOCX {
     }
 
     // Phương thức để xuất dữ liệu ra file .docx
-    public static void exportToDocx(TestDTO test, List<String> examCodes, String filePath)
+    public static void exportToDocx(TestDTO test, String examCodes, String filePath)
             throws IOException, Exception {
         XWPFDocument document = new XWPFDocument();
-
-        // Tạo một đối tượng ExamBUS
         ExamBUS examBUS = new ExamBUS();
+        // Tạo tiêu đề cho mỗi mã đề
+        XWPFParagraph titleParagraph = document.createParagraph();
+        titleParagraph.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun titleRun = titleParagraph.createRun();
+        titleRun.setBold(true);
+        titleRun.setFontSize(14);
+        titleRun.setText("Tên bài thi: " + test.getTestTitle());
+        titleRun.addBreak();
 
-        for (String exCode : examCodes) {
-            // Tạo tiêu đề cho mỗi mã đề
-            XWPFParagraph titleParagraph = document.createParagraph();
-            titleParagraph.setAlignment(ParagraphAlignment.CENTER);
-            XWPFRun titleRun = titleParagraph.createRun();
-            titleRun.setBold(true);
-            titleRun.setFontSize(14);
-            titleRun.setText("Tên bài thi: " + test.getTestTitle());
-            titleRun.addBreak();
+        titleRun.setText("Thời gian: " + test.getTestTime() + " phút");
+        titleRun.addBreak();
 
-            titleRun.setText("Thời gian: " + test.getTestTime() + " phút");
-            titleRun.addBreak();
+        titleRun.setText("Mã Đề: " + examCodes);
+        titleRun.addBreak();
 
-            titleRun.setText("Mã Đề: " + exCode);
-            titleRun.addBreak();
+        List<Integer> exQuesIDs = examBUS.getExQuesIDsByExCode(examCodes);
+        int questionNumber = 1;
 
-            List<Integer> exQuesIDs = examBUS.getExQuesIDsByExCode(exCode); 
-            int questionNumber = 1;
+        for (int qID : exQuesIDs) {
+            // Lấy nội dung câu hỏi và hình ảnh
+            Map<String, String> questionData = examBUS.getQuestionContent(qID);
+            String qContent = questionData.get("qContent");
+            String qPictures = questionData.get("qPictures");
 
-            for (int qID : exQuesIDs) {
-                // Lấy nội dung câu hỏi và hình ảnh
-                Map<String, String> questionData = examBUS.getQuestionContent(qID); 
-                String qContent = questionData.get("qContent");
-                String qPictures = questionData.get("qPictures");
+            // Tạo đoạn văn cho câu hỏi
+            XWPFParagraph questionParagraph = document.createParagraph();
+            XWPFRun questionRun = questionParagraph.createRun();
+            questionRun.setText("Câu " + questionNumber + ": " + qContent);
+            questionRun.addBreak();
 
-                // Tạo đoạn văn cho câu hỏi
-                XWPFParagraph questionParagraph = document.createParagraph();
-                XWPFRun questionRun = questionParagraph.createRun();
-                questionRun.setText("Câu " + questionNumber + ": " + qContent);
-                questionRun.addBreak();
-
-                if (qPictures != null && !qPictures.isEmpty()) {
-                    addImageToDocument(questionRun, qPictures); 
-                }
-
-                // Lấy danh sách câu trả lời
-                List<Map<String, String>> awContents = examBUS.getAnswerContent(qID); 
-                for (Map<String, String> answerData : awContents) {
-                    String awContent = answerData.get("awContent");
-                    String awPictures = answerData.get("awPictures");
-
-                    XWPFParagraph answerParagraph = document.createParagraph();
-                    XWPFRun answerRun = answerParagraph.createRun();
-                    answerRun.setText(" - " + awContent);
-                    answerRun.addBreak();
-
-                    if (awPictures != null && !awPictures.isEmpty()) {
-                        addImageToDocument(answerRun, awPictures);
-                    }
-                }
-
-                questionNumber++;
+            if (qPictures != null && !qPictures.isEmpty()) {
+                addImageToDocument(questionRun, qPictures);
             }
 
-            // Thêm dòng phân cách giữa các mã đề
-            XWPFParagraph separatorParagraph = document.createParagraph();
-            XWPFRun separatorRun = separatorParagraph.createRun();
-            separatorRun.setText("---------------------------------------------------");
-            separatorRun.addBreak();
+            // Lấy danh sách câu trả lời
+            List<Map<String, String>> awContents = examBUS.getAnswerContent(qID);
+            for (Map<String, String> answerData : awContents) {
+                String awContent = answerData.get("awContent");
+                String awPictures = answerData.get("awPictures");
+
+                XWPFParagraph answerParagraph = document.createParagraph();
+                XWPFRun answerRun = answerParagraph.createRun();
+                answerRun.setText(" - " + awContent);
+                answerRun.addBreak();
+
+                if (awPictures != null && !awPictures.isEmpty()) {
+                    addImageToDocument(answerRun, awPictures);
+                }
+            }
+
+            questionNumber++;
         }
+
+        // Thêm dòng phân cách giữa các mã đề
+        XWPFParagraph separatorParagraph = document.createParagraph();
+        XWPFRun separatorRun = separatorParagraph.createRun();
+        separatorRun.setText(
+                "------------------------------------------------------------------------------------------------");
+        separatorRun.addBreak();
 
         // Ghi file
         try (FileOutputStream out = new FileOutputStream(filePath)) {
@@ -127,9 +123,14 @@ public class ExportDOCX {
     public static void addImageToDocument(XWPFRun run, String imagePath) throws IOException, InvalidFormatException {
         InputStream imageStream = null;
 
-        //  đường dẫn tương đối
-        imageStream = ExportDOCX.class.getClassLoader().getResourceAsStream(imagePath.startsWith("/") ? imagePath.substring(1) : imagePath); // má vcl lấy mãi k đc cái path hóa ra do cái dấu /pictures bên db, cmn
-//        System.err.println("imageStream" + imageStream);
+        // đường dẫn tương đối
+        imageStream = ExportDOCX.class.getClassLoader()
+                .getResourceAsStream(imagePath.startsWith("/") ? imagePath.substring(1) : imagePath); // má vcl lấy mãi
+                                                                                                      // k đc cái path
+                                                                                                      // hóa ra do cái
+                                                                                                      // dấu /pictures
+                                                                                                      // bên db, cmn
+        // System.err.println("imageStream" + imageStream);
         if (imageStream != null) {
             // Chuyển đổi hình ảnh thành mảng byte
             byte[] imageBytes = IOUtils.toByteArray(imageStream);
@@ -139,7 +140,7 @@ public class ExportDOCX {
 
             // Chèn hình ảnh vào tài liệu
             run.addPicture(byteArrayInputStream, XWPFDocument.PICTURE_TYPE_PNG, imagePath, Units.toEMU(200),
-                    Units.toEMU(200)); 
+                    Units.toEMU(200));
         } else {
             throw new IOException("Không thể tìm thấy hình ảnh: " + imagePath);
         }

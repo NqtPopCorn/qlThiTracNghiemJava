@@ -4,21 +4,25 @@
  */
 package com.example.qlthitracnghiem.GUI.Auth;
 
+import javax.swing.JOptionPane;
+
+import com.example.qlthitracnghiem.BUS.UserBUS;
+import com.example.qlthitracnghiem.DTO.UserDTO;
+import com.example.qlthitracnghiem.GUI.DashboardFrame;
+import com.example.qlthitracnghiem.utils.ImageUtil;
+
 /**
  *
  * @author truon
  */
 public class AuthFrame extends javax.swing.JFrame {
+    private UserBUS userBUS = UserBUS.getInstance();
 
     /**
      * Creates new form MainFrame
      */
     public AuthFrame() {
-        setTitle("Auth Module");
-        setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
-        
-        add(new AuthPanel(this));
-        pack();
+        initComponents();
         setLocationRelativeTo(null);
     }
 
@@ -29,22 +33,297 @@ public class AuthFrame extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        jPanel1 = new javax.swing.JPanel();
+        icLoginArt = new javax.swing.JLabel();
+        cardPanel = new javax.swing.JPanel();
+        pnlDangNhap = new javax.swing.JPanel();
+        lblLogin = new javax.swing.JLabel();
+        txtUser_login = new javax.swing.JTextField();
+        txtPassword_login = new javax.swing.JPasswordField();
+        btnLogin = new javax.swing.JButton();
+        btnNavResgister = new javax.swing.JButton();
+        pnlDangKi = new javax.swing.JPanel();
+        btnNavDangNhap = new javax.swing.JButton();
+        btnResgister = new javax.swing.JButton();
+        lblDangKi = new javax.swing.JLabel();
+        txtPassword1_register = new javax.swing.JPasswordField();
+        txtUserEmail_register = new javax.swing.JTextField();
+        txtPassword2_register = new javax.swing.JPasswordField();
+        txtUserName_register = new javax.swing.JTextField();
+        txtUserFullName_register = new javax.swing.JTextField();
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 400, Short.MAX_VALUE));
-        layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 300, Short.MAX_VALUE));
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Đăng nhập");
+
+        jPanel1.setPreferredSize(new java.awt.Dimension(700, 500));
+        jPanel1.setLayout(new java.awt.BorderLayout());
+
+        icLoginArt.setBackground(new java.awt.Color(204, 255, 204));
+        icLoginArt.setIcon(ImageUtil.createIcon("/icons/login_art.png", 400, 400));
+        icLoginArt.setPreferredSize(new java.awt.Dimension(400, 400));
+        jPanel1.add(icLoginArt, java.awt.BorderLayout.WEST);
+
+        cardPanel.setPreferredSize(new java.awt.Dimension(300, 500));
+        cardPanel.setLayout(new java.awt.CardLayout());
+
+        pnlDangNhap.setPreferredSize(new java.awt.Dimension(300, 500));
+
+        lblLogin.setFont(new java.awt.Font("Arial", 3, 24)); // NOI18N
+        lblLogin.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblLogin.setText("Đăng nhập");
+
+        txtUser_login.setBorder(javax.swing.BorderFactory.createTitledBorder("Email"));
+
+        txtPassword_login.setBorder(javax.swing.BorderFactory.createTitledBorder("Mật khẩu"));
+
+        btnLogin.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnLogin.setText("Xác nhận");
+        btnLogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLoginActionPerformed(evt);
+            }
+        });
+
+        btnNavResgister.setText("Đăng kí");
+        btnNavResgister.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNavResgisterActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnlDangNhapLayout = new javax.swing.GroupLayout(pnlDangNhap);
+        pnlDangNhap.setLayout(pnlDangNhapLayout);
+        pnlDangNhapLayout.setHorizontalGroup(
+            pnlDangNhapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlDangNhapLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(pnlDangNhapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtUser_login, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
+                    .addComponent(txtPassword_login))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(pnlDangNhapLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblLogin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(pnlDangNhapLayout.createSequentialGroup()
+                .addGap(98, 98, 98)
+                .addGroup(pnlDangNhapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnLogin)
+                    .addGroup(pnlDangNhapLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(btnNavResgister)))
+                .addContainerGap(114, Short.MAX_VALUE))
+        );
+        pnlDangNhapLayout.setVerticalGroup(
+            pnlDangNhapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlDangNhapLayout.createSequentialGroup()
+                .addGap(102, 102, 102)
+                .addComponent(lblLogin)
+                .addGap(18, 18, 18)
+                .addComponent(txtUser_login, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtPassword_login, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnLogin)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnNavResgister)
+                .addContainerGap())
+        );
+
+        cardPanel.add(pnlDangNhap, "DangNhap");
+
+        pnlDangKi.setPreferredSize(new java.awt.Dimension(300, 500));
+
+        btnNavDangNhap.setText("Về đăng nhập");
+        btnNavDangNhap.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNavDangNhapActionPerformed(evt);
+            }
+        });
+
+        btnResgister.setText("Tạo tài khoản");
+        btnResgister.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResgisterActionPerformed(evt);
+            }
+        });
+
+        lblDangKi.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblDangKi.setText("Đăng kí");
+
+        txtPassword1_register.setBorder(javax.swing.BorderFactory.createTitledBorder("Mật khẩu"));
+
+        txtUserEmail_register.setBorder(javax.swing.BorderFactory.createTitledBorder("Email"));
+
+        txtPassword2_register.setBorder(javax.swing.BorderFactory.createTitledBorder("Nhập lại mật khẩu"));
+
+        txtUserName_register.setBorder(javax.swing.BorderFactory.createTitledBorder("Tên đăng nhập"));
+
+        txtUserFullName_register.setBorder(javax.swing.BorderFactory.createTitledBorder("Họ và tên"));
+
+        javax.swing.GroupLayout pnlDangKiLayout = new javax.swing.GroupLayout(pnlDangKi);
+        pnlDangKi.setLayout(pnlDangKiLayout);
+        pnlDangKiLayout.setHorizontalGroup(
+            pnlDangKiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlDangKiLayout.createSequentialGroup()
+                .addGroup(pnlDangKiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlDangKiLayout.createSequentialGroup()
+                        .addGap(17, 17, 17)
+                        .addGroup(pnlDangKiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtPassword1_register, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtPassword2_register, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtUserFullName_register, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtUserName_register, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtUserEmail_register, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(pnlDangKiLayout.createSequentialGroup()
+                        .addGap(119, 119, 119)
+                        .addComponent(lblDangKi))
+                    .addGroup(pnlDangKiLayout.createSequentialGroup()
+                        .addGap(97, 97, 97)
+                        .addGroup(pnlDangKiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnResgister)
+                            .addComponent(btnNavDangNhap))))
+                .addContainerGap(12, Short.MAX_VALUE))
+        );
+        pnlDangKiLayout.setVerticalGroup(
+            pnlDangKiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlDangKiLayout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(lblDangKi)
+                .addGap(18, 18, 18)
+                .addComponent(txtUserName_register, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addComponent(txtUserFullName_register, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtUserEmail_register, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addComponent(txtPassword1_register, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(txtPassword2_register, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(33, 33, 33)
+                .addComponent(btnResgister)
+                .addGap(18, 18, 18)
+                .addComponent(btnNavDangNhap)
+                .addContainerGap(34, Short.MAX_VALUE))
+        );
+
+        cardPanel.add(pnlDangKi, "DangKi");
+
+        jPanel1.add(cardPanel, java.awt.BorderLayout.CENTER);
+
+        getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnNavDangNhapActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnNavDangNhapActionPerformed
+        ((java.awt.CardLayout) cardPanel.getLayout()).show(cardPanel, "DangNhap");
+    }// GEN-LAST:event_btnNavDangNhapActionPerformed
+
+    private void btnNavResgisterActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnNavResgisterActionPerformed
+        ((java.awt.CardLayout) cardPanel.getLayout()).show(cardPanel, "DangKi");
+    }// GEN-LAST:event_btnNavResgisterActionPerformed
+
+    private boolean validateFormDangKi() {
+        String password = new String(txtPassword2_register.getPassword());
+        String password1 = new String(txtPassword1_register.getPassword());
+        try {
+            boolean isUserExist = userBUS.checkExist(txtUserEmail_register.getText());
+            if (txtUserEmail_register.getText().trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Tên đăng nhập không được để trống");
+                return false;
+            } else if (password.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Mật khẩu không được để trống");
+                return false;
+            } else if (!password.equals(password1)) {
+                JOptionPane.showMessageDialog(this, "Mật khẩu không trùng khớp");
+                return false;
+            } else if (isUserExist) {
+                JOptionPane.showMessageDialog(this, "Tên đăng nhập đã tồn tại");
+                return false;
+            }
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Có lỗi xảy ra\n" + e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+        return false;
+    }
+
+    private void btnResgisterActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnResgisterActionPerformed
+        String username = txtUserName_register.getText();
+        String password = new String(txtPassword1_register.getPassword());
+        String email = txtUserEmail_register.getText();
+        String fullName = txtUserFullName_register.getText();
+        if (!validateFormDangKi()) {
+            return;
+        }
+        try {
+            int result = userBUS.register(username, password, email, fullName);
+            JOptionPane.showMessageDialog(this, "Đăng kí thành công");
+            ((java.awt.CardLayout) cardPanel.getLayout()).show(cardPanel, "DangNhap");
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Đăng kí thất bại. Có lỗi xảy ra\n" + e.getMessage(), "Lỗi",
+                    JOptionPane.ERROR_MESSAGE);
+            txtUserEmail_register.setText("");
+            txtPassword1_register.setText("");
+            txtPassword2_register.setText("");
+        }
+    }// GEN-LAST:event_btnResgisterActionPerformed
+
+    private boolean validateFormDangNhap() {
+        String password = new String(txtPassword_login.getPassword());
+        if (txtUser_login.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Tên đăng nhập không được để trống");
+            return false;
+        } else if (password.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Mật khẩu không được để trống");
+            return false;
+        }
+        return true;
+    }
+
+    private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnLoginActionPerformed
+        if (validateFormDangNhap() == false) {
+            return;
+        }
+        String password = new String(txtPassword_login.getPassword());
+        String username = txtUser_login.getText();
+        try {
+            UserDTO user = userBUS.login(username, password);
+            this.dispose();
+            new DashboardFrame(user).setVisible(true);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Lỗi: " + e.getMessage());
+        }
+    }// GEN-LAST:event_btnLoginActionPerformed
+
+    private void txtUserEmailActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_txtUserEmailActionPerformed
+        // TODO add your handling code here:
+    }// GEN-LAST:event_txtUserEmailActionPerformed
 
     /**
      * @param args the command line arguments
@@ -87,5 +366,23 @@ public class AuthFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnLogin;
+    private javax.swing.JButton btnNavDangNhap;
+    private javax.swing.JButton btnNavResgister;
+    private javax.swing.JButton btnResgister;
+    private javax.swing.JPanel cardPanel;
+    private javax.swing.JLabel icLoginArt;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lblDangKi;
+    private javax.swing.JLabel lblLogin;
+    private javax.swing.JPanel pnlDangKi;
+    private javax.swing.JPanel pnlDangNhap;
+    private javax.swing.JPasswordField txtPassword1_register;
+    private javax.swing.JPasswordField txtPassword2_register;
+    private javax.swing.JPasswordField txtPassword_login;
+    private javax.swing.JTextField txtUserEmail_register;
+    private javax.swing.JTextField txtUserFullName_register;
+    private javax.swing.JTextField txtUserName_register;
+    private javax.swing.JTextField txtUser_login;
     // End of variables declaration//GEN-END:variables
 }

@@ -7,13 +7,10 @@ package com.example.qlthitracnghiem.GUI.ThongKe;
 import com.example.qlthitracnghiem.BUS.ExamBUS;
 import com.example.qlthitracnghiem.BUS.TestBUS;
 import com.example.qlthitracnghiem.BUS.ThongKeBUS;
-import com.example.qlthitracnghiem.DTO.AnswersDTO;
 import com.example.qlthitracnghiem.DTO.ExamDTO;
-import com.example.qlthitracnghiem.DTO.QuestionsDTO;
 import com.example.qlthitracnghiem.DTO.ResultDTO;
 import com.example.qlthitracnghiem.DTO.TestDTO;
-import com.example.qlthitracnghiem.DTO.TopicsDTO;
-import com.example.qlthitracnghiem.GUI.DeThi.TestPanel;
+import com.example.qlthitracnghiem.GUI.DeThi.TestPanel2;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -282,7 +279,7 @@ public class LichSuPanel extends JPanel {
                             try {
                                 loadExamList();
                             } catch (Exception ex) {
-                                Logger.getLogger(TestPanel.class.getName()).log(Level.SEVERE, null, ex);
+                                Logger.getLogger(TestPanel2.class.getName()).log(Level.SEVERE, null, ex);
                             }
                             examListPanel.revalidate();
                             examListPanel.repaint();

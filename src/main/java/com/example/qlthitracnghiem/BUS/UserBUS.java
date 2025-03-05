@@ -44,10 +44,11 @@ public class UserBUS {
     return user;
   }
 
-  public int register(String username, String password, String email) throws Exception {
+  public int register(String username, String password, String email, String fullName) throws Exception {
     UserDTO user = new UserDTO();
     user.setUserName(username);
     user.setUserEmail(email);
+    user.setUserFullName(fullName);
     String hashedPassword = PasswordUtil.hashPassword(password);
     user.setUserPassword(hashedPassword);
     return userDAO.create(user);

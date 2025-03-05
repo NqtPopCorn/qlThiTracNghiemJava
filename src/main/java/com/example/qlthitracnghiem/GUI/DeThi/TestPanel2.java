@@ -33,6 +33,10 @@ public class TestPanel2 extends javax.swing.JPanel {
 
     }
 
+    public void setJlbExamCode(String examCode) {
+        jlbExamCode.setText(examCode);
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
@@ -493,19 +497,41 @@ public class TestPanel2 extends javax.swing.JPanel {
     }// GEN-LAST:event_jtxSearchActionPerformed
 
     private void jtxSearchKeyReleased(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_jtxSearchKeyReleased
-        ExamBUS examBUS = new ExamBUS();
-
-        try {
-            examBUS.searchExCode(jtxSearch.getText());
-        } catch (Exception ex) {
-            Logger.getLogger(TestPanel2.class.getName()).log(Level.SEVERE, null, ex);
-        }
+         ExamBUS examBUS = new ExamBUS();
+         String keyword = jtxSearch.getText().trim();
+         try {
+         List<String> examCodes = examBUS.search(keyword,selectedTest.getTestCode());
+         jpnExam.removeAll();
+        
+         // Hiển thị lại danh sách exam
+         if (examCodes.isEmpty()) {
+         JLabel lblNoExam = new JLabel("Không tìm thấy đề thi nào phù hợp");
+         lblNoExam.setFont(new Font("Arial", Font.BOLD, 16));
+         lblNoExam.setHorizontalAlignment(JLabel.CENTER);
+         jpnExam.add(lblNoExam);
+         } else {
+         for (String examCode : examCodes) {
+         ExamPanelRow examPanelRow = new ExamPanelRow(examCode, jpnViewChiTiet, this);
+         examPanelRow.setExamInfo(examCode);
+         jpnExam.add(examPanelRow);
+         }
+         }
+        
+         // Cập nhật lại giao diện
+         jpnExam.revalidate();
+         jpnExam.repaint();
+        
+         } catch (Exception ex) {
+         Logger.getLogger(TestPanel2.class.getName()).log(Level.SEVERE, null, ex);
+         JOptionPane.showMessageDialog(this, "Lỗi khi tìm kiếm đề thi: " +
+         ex.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+         }
     }// GEN-LAST:event_jtxSearchKeyReleased
 
     private void jtxSearchFocusGained(java.awt.event.FocusEvent evt) {// GEN-FIRST:event_jtxSearchFocusGained
-        if (jtxSearch.getText().trim().isEmpty()) {
-            jtxSearch.setText("Tìm kiếm");
-            jtxSearch.setForeground(Color.GRAY);
+        if (jtxSearch.getText().equals("Tìm kiếm")) {
+            jtxSearch.setText("");
+            jtxSearch.setForeground(Color.BLACK);
         }
     }// GEN-LAST:event_jtxSearchFocusGained
 
@@ -517,25 +543,30 @@ public class TestPanel2 extends javax.swing.JPanel {
     }// GEN-LAST:event_jtxSearchFocusLost
 
     private void btnXuatDocxActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnXuatDocxActionPerformed
-        // String filePath = ExportDOCX.chooseFileToSave();
+        String filePath = ExportDOCX.chooseFileToSave();
         // System.err.println("filePath: " + filePath);
-        //
-        // if (filePath != null) {
-        // try {
-        // ExportDOCX.exportToDocx(test, examCodes, filePath);
-        // JOptionPane.showMessageDialog(TestPanel2.this, "Xuất file thành công!",
-        // "Thành công",
-        // JOptionPane.INFORMATION_MESSAGE);
-        // } catch (Exception ex) {
-        // ex.printStackTrace();
-        // JOptionPane.showMessageDialog(TestPanel2.this, "Lỗi khi xuất file!", "Lỗi",
-        // JOptionPane.ERROR_MESSAGE);
-        // }
-        // } else {
-        // JOptionPane.showMessageDialog(TestPanel2.this, "Không có file được chọn!",
-        // "Thông báo",
-        // JOptionPane.WARNING_MESSAGE);
-        // }
+        String examCodes = jlbExamCode.getText();
+        String testCode = examCodes.substring(0, examCodes.length() - 1);
+        // System.out.println("testCode"+testCode);
+        TestBUS testBUS = new TestBUS();
+        TestDTO test = testBUS.getTestByTestCode(testCode);
+        // System.out.println("testDto"+test);
+        if (filePath != null) {
+            try {
+                ExportDOCX.exportToDocx(test, examCodes, filePath);
+                JOptionPane.showMessageDialog(TestPanel2.this, "Xuất file thành công!",
+                        "Thành công",
+                        JOptionPane.INFORMATION_MESSAGE);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(TestPanel2.this, "Lỗi khi xuất file!", "Lỗi",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(TestPanel2.this, "Không có file được chọn!",
+                    "Thông báo",
+                    JOptionPane.WARNING_MESSAGE);
+        }
     }// GEN-LAST:event_btnXuatDocxActionPerformed
 
     private void btnTestRefreshActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnTestRefreshActionPerformed
@@ -556,7 +587,7 @@ public class TestPanel2 extends javax.swing.JPanel {
         String statusFilter = (String) jcbSearch.getSelectedItem();
         int status = -1; // Mặc định là tất cả
 
-        if ("Đang mở".equals(statusFilter)) {
+        if ("Đang diễn ra".equals(statusFilter)) {
             status = 1;
         } else if ("Đã kết thúc".equals(statusFilter)) {
             status = 0;
@@ -567,7 +598,7 @@ public class TestPanel2 extends javax.swing.JPanel {
             results = testBUS.search(keyword, status);
             updateTestPanel(results);
         } catch (Exception ex) {
-            Logger.getLogger(TestPanel.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TestPanel2.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -607,7 +638,7 @@ public class TestPanel2 extends javax.swing.JPanel {
             } else {
 
                 for (String examCode : examCodes) {
-                    jlbExamCode.setText("Mã đề: " + examCode);
+
                     ExamPanelRow examPanelRow = new ExamPanelRow(examCode, jpnViewChiTiet, this);
                     examPanelRow.setExamInfo(examCode);
                     jpnExam.add(examPanelRow);
