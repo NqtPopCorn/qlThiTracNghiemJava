@@ -120,14 +120,14 @@ public class ExamPanelRow extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnXemActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnXemActionPerformed
-        parentPanel.setJlbExamCode(examCode);
+        parentPanel.setJlbExamCode("Exam: " + examCode);
         showExamDetails(examCode);
     }// GEN-LAST:event_btnXemActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnDeleteActionPerformed
 
         int confirm = JOptionPane.showConfirmDialog(
-                this,
+                null,
                 "Bạn có chắc chắn muốn xóa không?",
                 "Xác nhận xóa",
                 JOptionPane.YES_NO_OPTION,

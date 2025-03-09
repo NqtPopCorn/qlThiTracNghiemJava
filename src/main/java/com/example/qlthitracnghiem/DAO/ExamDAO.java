@@ -22,109 +22,136 @@ import java.util.stream.Collectors;
 import org.json.JSONArray;
 
 public class ExamDAO {
-    private int currentIndex = 0;
+    private static final int MAX_EXAMS = 10;
     private ArrayList<Character> exOrderList = new ArrayList<>(
             List.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'));
 
     public int generateExams(TestDTO test, int soLuong) throws Exception {
-        for (int i = 0; i < soLuong; i++) {
-            generateExam(test);
-            return 1;
+        if (soLuong <= 0 || soLuong > MAX_EXAMS) {
+            throw new IllegalArgumentException("Số lượng đề thi phải từ 1 đến " + MAX_EXAMS);
         }
-        return 0;
+
+        int currentCount = getNumExam(test.getTestCode());
+        if (currentCount >= MAX_EXAMS) {
+            throw new SQLException("Đã đạt tối đa " + MAX_EXAMS + " đề thi cho testCode: " + test.getTestCode());
+        }
+
+        int remainingCapacity = MAX_EXAMS - currentCount;
+        int examsToGenerate = Math.min(soLuong, remainingCapacity);
+
+        for (int i = 0; i < examsToGenerate; i++) {
+            generateExam(test);
+        }
+        return examsToGenerate;
     }
 
     public int generateExam(TestDTO test) throws Exception {
-        Connection connection = DBConnection.getConnection();
-        String insertExam = "INSERT INTO exams (testCode, exOrder, exCode, ex_quesIDs) VALUES (?, ?, ?, ?)";
-        // Reset currentIndex về 0 trước khi bắt đầu tạo đề thi
-        currentIndex = 0;
+        Connection connection = null;
+        try {
+            connection = DBConnection.getConnection();
+            connection.setAutoCommit(false);
 
-        // Lấy một bộ câu hỏi duy nhất
-        JSONArray baseExQuesIDs = generateExQuesIDs(test.getTestID(), test.getNum_easy(),
-                test.getNum_medium(), test.getNum_diff());
-        int index = getNumExam(test.getTestCode());
-        String exOrder = exOrderList.get(index) + "";
-        String exCode = test.getTestCode() + exOrder;
+            int currentCount = getNumExam(test.getTestCode());
+            if (currentCount >= MAX_EXAMS) {
+                throw new SQLException("Đã đạt tối đa " + MAX_EXAMS + " đề thi cho testCode: " + test.getTestCode());
+            }
 
-        System.out.println("index: " + index);
-        System.out.println("baseExQuesIDs: " + baseExQuesIDs);
-        System.out.println("exOrder: " + exOrder);
-        System.out.println("exCode: " + exCode);
-        System.out.println("testCode: " + test.getTestCode());
-        try (PreparedStatement ps = connection.prepareStatement(insertExam)) {
-            ps.setString(1, test.getTestCode());
-            ps.setString(2, exOrder);
-            ps.setString(3, exCode);
-            ps.setString(4, baseExQuesIDs.toString());
-            ps.executeUpdate();
+            String exOrder = String.valueOf(exOrderList.get(currentCount));
+            String exCode = test.getTestCode() + exOrder;
+
+            // Get question IDs from test structure
+            TestDAO testDAO = new TestDAO(connection);
+            Map<Integer, int[]> topicStructures = testDAO.getTestStructure(test.getTestCode());
+
+            JSONArray exQuesIDs = generateExQuesIDsFromStructure(connection, topicStructures);
+
+            String insertExam = "INSERT INTO exams (testCode, exOrder, exCode, ex_quesIDs) VALUES (?, ?, ?, ?)";
+            try (PreparedStatement ps = connection.prepareStatement(insertExam)) {
+                ps.setString(1, test.getTestCode());
+                ps.setString(2, exOrder);
+                ps.setString(3, exCode);
+                ps.setString(4, exQuesIDs.toString());
+                ps.executeUpdate();
+            }
+
+            connection.commit();
             return 1;
         } catch (SQLException e) {
-            e.printStackTrace();
+            if (connection != null) {
+                connection.rollback();
+            }
             throw e;
         } finally {
-            connection.close();
-        }
-    }
-
-    private int getNumExam(String testCode) throws SQLException {
-        String sql = "SELECT COUNT(ex.exCode) as count\r\n" + //
-                "FROM exams ex\r\n" + //
-                "WHERE ex.testCode LIKE ?";
-        try (Connection connection = DBConnection.getConnection();
-                PreparedStatement ps = connection.prepareStatement(sql);) {
-            ps.setString(1, testCode);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                return rs.getInt("count");
+            if (connection != null) {
+                connection.close();
             }
-            return 0;
         }
     }
 
-    // Tạo câu hỏi dựa vô số câu dễ, khó, tb
-    private JSONArray generateExQuesIDs(int testID, int numEasy, int numMedium, int numDiff)
+    private JSONArray generateExQuesIDsFromStructure(Connection connection, Map<Integer, int[]> topicStructures)
             throws SQLException {
-        // System.out.println("generateExQuesIDs");
-        // System.out.println("testID: " + testID);
-        // System.out.println("numEasy: " + numEasy);
-        // System.out.println("numMedium: " + numMedium);
-        // System.out.println("numDiff: " + numDiff);
         JSONArray exQuesIDs = new JSONArray();
-        Connection connection = DBConnection.getConnection();
 
-        // Lấy câu hỏi dễ
-        List<Integer> easyQuestions = getQuestionIDsByLevel(connection, testID, 1, numEasy);
-        if (easyQuestions.size() < numEasy) {
-            throw new SQLException("Không có đủ câu hỏi dễ. Vui lòng thêm câu hỏi.");
-        }
-        exQuesIDs.putAll(easyQuestions);
+        for (Map.Entry<Integer, int[]> entry : topicStructures.entrySet()) {
+            int topicID = entry.getKey();
+            int[] counts = entry.getValue(); // [easy, medium, difficult]
 
-        // Lấy câu hỏi trung bình
-        List<Integer> mediumQuestions = getQuestionIDsByLevel(connection, testID, 2, numMedium);
-        if (mediumQuestions.size() < numMedium) {
-            throw new SQLException("Không có đủ câu hỏi trung bình. Vui lòng thêm câu hỏi.");
-        }
-        exQuesIDs.putAll(mediumQuestions);
+            // Get questions for each difficulty level
+            List<Integer> easyQuestions = getQuestionIDsByLevel(connection, topicID, "easy", counts[0]);
+            if (easyQuestions.size() < counts[0]) {
+                throw new SQLException("Không đủ câu hỏi dễ cho topic " + topicID + ". Yêu cầu: " + counts[0]);
+            }
+            exQuesIDs.putAll(easyQuestions);
 
-        // Lấy câu hỏi khó
-        List<Integer> diffQuestions = getQuestionIDsByLevel(connection, testID, 3, numDiff);
-        if (diffQuestions.size() < numDiff) {
-            throw new SQLException("Không có đủ câu hỏi khó. Vui lòng thêm câu hỏi.");
+            List<Integer> mediumQuestions = getQuestionIDsByLevel(connection, topicID, "medium", counts[1]);
+            if (mediumQuestions.size() < counts[1]) {
+                throw new SQLException("Không đủ câu hỏi trung bình cho topic " + topicID + ". Yêu cầu: " + counts[1]);
+            }
+            exQuesIDs.putAll(mediumQuestions);
+
+            List<Integer> difficultQuestions = getQuestionIDsByLevel(connection, topicID, "difficult", counts[2]);
+            if (difficultQuestions.size() < counts[2]) {
+                throw new SQLException("Không đủ câu hỏi khó cho topic " + topicID + ". Yêu cầu: " + counts[2]);
+            }
+            exQuesIDs.putAll(difficultQuestions);
         }
-        exQuesIDs.putAll(diffQuestions);
 
         return exQuesIDs;
     }
 
+    private List<Integer> getQuestionIDsByLevel(Connection connection, int topicID, String level, int limit)
+            throws SQLException {
+        ArrayList<String> levels = new ArrayList<>(List.of("easy", "medium", "difficult"));
+        if (!levels.contains(level)) {
+            throw new IllegalArgumentException("level phải là 'easy', 'medium' hoặc 'difficult'");
+        }
+        List<Integer> questionIDs = new ArrayList<>();
+        List<Integer> allTopicIDs = getAllTopicIDs(connection, topicID);
+
+        if (!allTopicIDs.isEmpty()) {
+            String questionSQL = "SELECT qID FROM questions WHERE qTopicID IN (" +
+                    allTopicIDs.stream().map(String::valueOf).collect(Collectors.joining(",")) +
+                    ") AND qLevel = ? AND qStatus = 1 ORDER BY RAND() LIMIT ?";
+            try (PreparedStatement ps = connection.prepareStatement(questionSQL)) {
+                ps.setInt(1, levels.indexOf(level) + 1);
+                ps.setInt(2, limit);
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    questionIDs.add(rs.getInt("qID"));
+                }
+            }
+        }
+        return questionIDs;
+    }
+
     private List<Integer> getAllTopicIDs(Connection connection, int topicID) throws SQLException {
         List<Integer> topicIDs = new ArrayList<>();
-        String sql = "WITH RECURSIVE subTopics AS ("
-                + "    SELECT tpID FROM topics WHERE tpID = ?"
-                + "    UNION ALL"
-                + "    SELECT t.tpID FROM topics t"
-                + "    INNER JOIN subTopics s ON t.tpParent = s.tpID"
-                + ") SELECT tpID FROM subTopics";
+        String sql = "WITH RECURSIVE subTopics AS (" +
+                "    SELECT tpID FROM topics WHERE tpID = ?" +
+                "    UNION ALL" +
+                "    SELECT t.tpID FROM topics t" +
+                "    INNER JOIN subTopics s ON t.tpParent = s.tpID" +
+                ") SELECT tpID FROM subTopics";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, topicID);
             ResultSet rs = ps.executeQuery();
@@ -135,38 +162,21 @@ public class ExamDAO {
         return topicIDs;
     }
 
-    // lấy danh sách câu hỏi theo mức độ dễ/tb/khó
-    private List<Integer> getQuestionIDsByLevel(Connection connection, int testID, int level, int limit)
-            throws SQLException {
-        List<Integer> questionIDs = new ArrayList<>();
-        List<Integer> allTopicIDs = new ArrayList<>();
-
-        String testTopicSQL = "SELECT topicID FROM test_topic WHERE testID = ?";
-        try (PreparedStatement ps = connection.prepareStatement(testTopicSQL)) {
-            ps.setInt(1, testID);
+    private int getNumExam(String testCode) throws SQLException {
+        String sql = "SELECT COUNT(*) as count FROM exams WHERE testCode = ?";
+        try (Connection connection = DBConnection.getConnection();
+                PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, testCode);
             ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                int topicID = rs.getInt("topicID");
-                allTopicIDs.addAll(getAllTopicIDs(connection, topicID));
+            if (rs.next()) {
+                return rs.getInt("count");
             }
+            return 0;
         }
+    }
 
-        // Lấy các câu hỏi dựa trên các chủ đề đã lấy và mức độ
-        if (!allTopicIDs.isEmpty()) {
-            String questionSQL = "SELECT qID FROM questions WHERE qTopicID IN ("
-                    + allTopicIDs.stream().map(String::valueOf).collect(Collectors.joining(","))
-                    + ") AND qLevel = ? ORDER BY RAND() LIMIT ?";
-            try (PreparedStatement ps = connection.prepareStatement(questionSQL)) {
-                ps.setInt(1, level);
-                ps.setInt(2, limit);
-                ResultSet rs = ps.executeQuery();
-                while (rs.next()) {
-                    questionIDs.add(rs.getInt("qID"));
-                }
-            }
-        }
-
-        return questionIDs;
+    public boolean hasAExam(String testCode) throws SQLException {
+        return getNumExam(testCode) > 0;
     }
 
     public int delete(String testCode) throws SQLException {

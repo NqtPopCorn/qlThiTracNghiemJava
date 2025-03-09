@@ -99,4 +99,13 @@ public class TopicsBUS {
             return new ArrayList<>(); // Trả về danh sách rỗng nếu có lỗi
         }
     }
+
+    public String getTopicNameById(int tpID) {
+        try {
+            return topicsDAO.getTopicNameById(tpID);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

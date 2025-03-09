@@ -7,30 +7,11 @@ public class TestDTO {
     private String testCode;
     private String testTitle;
     private int testTime;
-    private int num_easy;
-    private int num_medium;
-    private int num_diff;
     private int testLimit;
     private LocalDateTime testDate;
     private int testStatus;
 
-    public TestDTO() {
-    }
-
-    public TestDTO(int testID, String testCode, String testTitle, int testTime, int num_easy, int num_medium,
-            int num_diff, int testLimit, LocalDateTime testDate, int testStatus) {
-        this.testID = testID;
-        this.testCode = testCode;
-        this.testTitle = testTitle;
-        this.testTime = testTime;
-        this.num_easy = num_easy;
-        this.num_medium = num_medium;
-        this.num_diff = num_diff;
-        this.testLimit = testLimit;
-        this.testDate = testDate;
-        this.testStatus = testStatus;
-    }
-
+    // Getters and Setters
     public int getTestID() {
         return testID;
     }
@@ -63,30 +44,6 @@ public class TestDTO {
         this.testTime = testTime;
     }
 
-    public int getNum_easy() {
-        return num_easy;
-    }
-
-    public void setNum_easy(int num_easy) {
-        this.num_easy = num_easy;
-    }
-
-    public int getNum_medium() {
-        return num_medium;
-    }
-
-    public void setNum_medium(int num_medium) {
-        this.num_medium = num_medium;
-    }
-
-    public int getNum_diff() {
-        return num_diff;
-    }
-
-    public void setNum_diff(int num_diff) {
-        this.num_diff = num_diff;
-    }
-
     public int getTestLimit() {
         return testLimit;
     }
@@ -113,9 +70,8 @@ public class TestDTO {
 
     @Override
     public String toString() {
-        return "TestDTO{" + "testID=" + testID + ", testCode=" + testCode + ", testTitle=" + testTitle + ", testTime="
-                + testTime + ", num_easy=" + num_easy + ", num_medium=" + num_medium + ", num_diff=" + num_diff
-                + ", testLimit=" + testLimit + ", testDate=" + testDate + ", testStatus=" + testStatus + '}';
+        return String.format("TestDTO{testID:%d, testCode: %s, testTitle: %s, testStatus: %d}", testID, testCode,
+                testTitle, testStatus);
     }
 
 }

@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 
 import com.example.qlthitracnghiem.BUS.UserBUS;
 import com.example.qlthitracnghiem.DTO.UserDTO;
+import com.example.qlthitracnghiem.utils.ImageUtil;
 
 /**
  *
@@ -25,11 +26,14 @@ public class InfoPanel extends javax.swing.JPanel {
     // test only
     public InfoPanel() {
         initComponents();
+        updateIcons();
     }
 
     // main
     public InfoPanel(UserDTO user) {
         initComponents();
+        updateIcons();
+        this.user = user;
         if (user != null) {
             this.user = user;
             System.out.println("userID: " + user.getUserID());
@@ -37,6 +41,15 @@ public class InfoPanel extends javax.swing.JPanel {
             txtEmail.setText(user.getUserEmail());
             txtFullName.setText(user.getUserFullName());
             loadExamResult();
+        }
+    }
+
+    private void updateIcons() {
+        try {
+            ImageUtil.setIcon(lblThongTinCaNhan, "/icons/ic_user_30.png", 50, 50);
+            ImageUtil.setIcon(lblDoiMatKhau, "/icons/padlock.png", 50, 50);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -76,7 +89,10 @@ public class InfoPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
@@ -85,13 +101,13 @@ public class InfoPanel extends javax.swing.JPanel {
         jPanel1 = new javax.swing.JPanel();
         txtUserName = new javax.swing.JTextField();
         txtEmail = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
+        lblThongTinCaNhan = new javax.swing.JLabel();
         txtFullName = new javax.swing.JTextField();
         btnUpdateInfo = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
         pnlPassword = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
+        lblDoiMatKhau = new javax.swing.JLabel();
         btnSavePassword = new javax.swing.JButton();
         txtNewPassword = new javax.swing.JPasswordField();
         txtConfirmPassword = new javax.swing.JPasswordField();
@@ -112,8 +128,9 @@ public class InfoPanel extends javax.swing.JPanel {
 
         jPanel1.setPreferredSize(new java.awt.Dimension(680, 615));
         java.awt.GridBagLayout jPanel1Layout = new java.awt.GridBagLayout();
-        jPanel1Layout.columnWidths = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
-        jPanel1Layout.rowHeights = new int[] {0, 16, 0, 16, 0, 16, 0, 16, 0, 16, 0, 16, 0, 16, 0};
+        jPanel1Layout.columnWidths = new int[] { 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5,
+                0 };
+        jPanel1Layout.rowHeights = new int[] { 0, 16, 0, 16, 0, 16, 0, 16, 0, 16, 0, 16, 0, 16, 0 };
         jPanel1.setLayout(jPanel1Layout);
 
         txtUserName.setEditable(false);
@@ -139,16 +156,19 @@ public class InfoPanel extends javax.swing.JPanel {
         gridBagConstraints.weightx = 0.1;
         jPanel1.add(txtEmail, gridBagConstraints);
 
-        jLabel1.setFont(new java.awt.Font("Arial", 3, 18)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Thông tin cá nhân");
+        lblThongTinCaNhan.setFont(new java.awt.Font("Arial", 3, 18)); // NOI18N
+        lblThongTinCaNhan.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblThongTinCaNhan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_user_30.png"))); // NOI18N
+        lblThongTinCaNhan.setText("Thông tin cá nhân");
+        lblThongTinCaNhan.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        lblThongTinCaNhan.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = 15;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.1;
-        jPanel1.add(jLabel1, gridBagConstraints);
+        jPanel1.add(lblThongTinCaNhan, gridBagConstraints);
 
         txtFullName.setEditable(false);
         txtFullName.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -195,20 +215,23 @@ public class InfoPanel extends javax.swing.JPanel {
 
         jPanel4.setPreferredSize(new java.awt.Dimension(680, 615));
         java.awt.GridBagLayout jPanel4Layout = new java.awt.GridBagLayout();
-        jPanel4Layout.columnWidths = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
-        jPanel4Layout.rowHeights = new int[] {0, 16, 0, 16, 0, 16, 0, 16, 0};
+        jPanel4Layout.columnWidths = new int[] { 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0 };
+        jPanel4Layout.rowHeights = new int[] { 0, 16, 0, 16, 0, 16, 0, 16, 0 };
         jPanel4.setLayout(jPanel4Layout);
 
-        jLabel2.setFont(new java.awt.Font("Arial", 3, 18)); // NOI18N
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Đổi mật khẩu");
+        lblDoiMatKhau.setFont(new java.awt.Font("Arial", 3, 18)); // NOI18N
+        lblDoiMatKhau.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblDoiMatKhau.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/padlock.png"))); // NOI18N
+        lblDoiMatKhau.setText("Đổi mật khẩu");
+        lblDoiMatKhau.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        lblDoiMatKhau.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = 19;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.8;
-        jPanel4.add(jLabel2, gridBagConstraints);
+        jPanel4.add(lblDoiMatKhau, gridBagConstraints);
 
         btnSavePassword.setText("Xác nhận");
         btnSavePassword.addActionListener(new java.awt.event.ActionListener() {
@@ -254,23 +277,25 @@ public class InfoPanel extends javax.swing.JPanel {
         javax.swing.GroupLayout pnlPasswordLayout = new javax.swing.GroupLayout(pnlPassword);
         pnlPassword.setLayout(pnlPasswordLayout);
         pnlPasswordLayout.setHorizontalGroup(
-            pnlPasswordLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1078, Short.MAX_VALUE)
-            .addGroup(pnlPasswordLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(pnlPasswordLayout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
+                pnlPasswordLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 1078, Short.MAX_VALUE)
+                        .addGroup(pnlPasswordLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(pnlPasswordLayout.createSequentialGroup()
+                                        .addGap(0, 0, Short.MAX_VALUE)
+                                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE))));
         pnlPasswordLayout.setVerticalGroup(
-            pnlPasswordLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 615, Short.MAX_VALUE)
-            .addGroup(pnlPasswordLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(pnlPasswordLayout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
+                pnlPasswordLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 615, Short.MAX_VALUE)
+                        .addGroup(pnlPasswordLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(pnlPasswordLayout.createSequentialGroup()
+                                        .addGap(0, 0, Short.MAX_VALUE)
+                                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE))));
 
         jTabbedPane1.addTab("Đổi mật khẩu", pnlPassword);
 
@@ -302,32 +327,37 @@ public class InfoPanel extends javax.swing.JPanel {
         javax.swing.GroupLayout pnlExamResultLayout = new javax.swing.GroupLayout(pnlExamResult);
         pnlExamResult.setLayout(pnlExamResultLayout);
         pnlExamResultLayout.setHorizontalGroup(
-            pnlExamResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlExamResultLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pnlExamResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
-                    .addGroup(pnlExamResultLayout.createSequentialGroup()
-                        .addComponent(tfSearchExam, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnSearchExam)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 476, Short.MAX_VALUE)
-                        .addComponent(btnRefreshResult, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(8, 8, 8)))
-                .addContainerGap())
-        );
+                pnlExamResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(pnlExamResultLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(pnlExamResultLayout
+                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jScrollPane1)
+                                        .addGroup(pnlExamResultLayout.createSequentialGroup()
+                                                .addComponent(tfSearchExam, javax.swing.GroupLayout.PREFERRED_SIZE, 390,
+                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(btnSearchExam)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED,
+                                                        476, Short.MAX_VALUE)
+                                                .addComponent(btnRefreshResult, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                        108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(8, 8, 8)))
+                                .addContainerGap()));
         pnlExamResultLayout.setVerticalGroup(
-            pnlExamResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlExamResultLayout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addGroup(pnlExamResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(tfSearchExam)
-                    .addComponent(btnRefreshResult, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnSearchExam, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 526, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+                pnlExamResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(pnlExamResultLayout.createSequentialGroup()
+                                .addGap(26, 26, 26)
+                                .addGroup(pnlExamResultLayout
+                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(tfSearchExam)
+                                        .addComponent(btnRefreshResult, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btnSearchExam, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(18, 18, 18)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 526, Short.MAX_VALUE)
+                                .addContainerGap()));
 
         jTabbedPane1.addTab("Lịch sử làm bài", pnlExamResult);
 
@@ -467,12 +497,12 @@ public class InfoPanel extends javax.swing.JPanel {
     private com.example.qlthitracnghiem.GUI.Info.ExamResultPanel examResultPanel3;
     private com.example.qlthitracnghiem.GUI.Info.ExamResultPanel examResultPanel4;
     private com.example.qlthitracnghiem.GUI.Info.ExamResultPanel examResultPanel5;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JLabel lblDoiMatKhau;
+    private javax.swing.JLabel lblThongTinCaNhan;
     private javax.swing.JPanel pnlExamResult;
     private javax.swing.JPanel pnlInfo;
     private javax.swing.JPanel pnlPassword;

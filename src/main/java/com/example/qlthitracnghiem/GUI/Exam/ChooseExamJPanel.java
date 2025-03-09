@@ -101,7 +101,7 @@ public class ChooseExamJPanel extends javax.swing.JPanel {
         tbModel.setRowCount(0);
         for (String tsCode : testCodeList) {
             tbModel.addRow(
-                    new Object[]{tsCode});
+                    new Object[] { tsCode });
         }
     }
 
@@ -272,14 +272,14 @@ public class ChooseExamJPanel extends javax.swing.JPanel {
 
     private void doTestBtnActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_doTestBtnActionPerformed
         String exCode = currentTestCodeJLabel.getText();
-        boolean isChooseTestCode = exCode.startsWith("TST");
+        boolean isChooseTestCode = exCode.equals("chưa chọn bài thi!") ? false : true;
         if (isChooseTestCode) {
             // move to do exam panel
             System.out.println("move to new frame");
 
             CardLayout cardLayout = (CardLayout) getParent().getLayout();
             cardLayout.show(getParent(), "doExamJPanel");
-//            setBorder(BorderFactory.createTitledBorder("Panel B"));
+            // setBorder(BorderFactory.createTitledBorder("Panel B"));
             try {
                 ExamDTO exam = (ExamDTO) exBus.getExamByExCode(exCode);
                 TestDTO test = tsBus.getTestByTestCode(exam.getTestCode());
@@ -287,7 +287,7 @@ public class ChooseExamJPanel extends javax.swing.JPanel {
                 doExJPanel.setExDTO(exam);
                 doExJPanel.setTsDTO(test);
                 doExJPanel.startTest();
-                
+
             } catch (Exception e) {
                 e.printStackTrace();
             }

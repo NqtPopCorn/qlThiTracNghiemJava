@@ -115,6 +115,7 @@ public class DashboardFrame extends javax.swing.JFrame {
             navBtnUserInfo.setText(user.getUserName());
             infoPanel = new InfoPanel(user);
             currentPanel.add(infoPanel, "InfoPanel");
+            doExamJPanel.setUserID(user.getUserID());
         }
     }
 

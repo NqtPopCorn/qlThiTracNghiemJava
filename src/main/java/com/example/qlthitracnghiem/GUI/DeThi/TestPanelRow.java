@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package com.example.qlthitracnghiem.GUI.DeThi;
+
 import com.example.qlthitracnghiem.BUS.TestBUS;
 import com.example.qlthitracnghiem.DTO.TestDTO;
 import java.awt.Component;
@@ -19,27 +20,32 @@ import javax.swing.JOptionPane;
 public class TestPanelRow extends javax.swing.JPanel {
     private TestBUS testBUS = new TestBUS();
     private TestPanel2 parentPanel;
-    private TestDTO testDTO=new TestDTO();
-     private String testCode;
+    private TestDTO testDTO = new TestDTO();
+    private String testCode;
+
     public TestPanelRow() {
         initComponents();
-        
+
     }
-    public TestPanelRow(TestPanel2 testPanel2, TestDTO test) { 
+
+    public TestPanelRow(TestPanel2 testPanel2, TestDTO test) {
         this.parentPanel = testPanel2;
         this.testCode = test.getTestCode();
-        this.testDTO=test;
+        this.testDTO = test;
         initComponents();
     }
-    
+
     public void setParentPanel(TestPanel2 parentPanel) {
-    this.parentPanel = parentPanel;
-}
+        this.parentPanel = parentPanel;
+    }
+
     public String getTestCode() {
-    return this.testCode;
-}
+        return this.testCode;
+    }
+
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
@@ -51,12 +57,13 @@ public class TestPanelRow extends javax.swing.JPanel {
         btnXoa = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
-        setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.gray, java.awt.Color.gray, java.awt.Color.gray, java.awt.Color.gray));
+        setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED,
+                java.awt.Color.gray, java.awt.Color.gray, java.awt.Color.gray, java.awt.Color.gray));
         setMaximumSize(new java.awt.Dimension(10000, 140));
         java.awt.GridBagLayout layout = new java.awt.GridBagLayout();
-        layout.columnWidths = new int[] {0, 8, 0, 8, 0, 8, 0, 8, 0};
-        layout.rowHeights = new int[] {0, 10, 0, 10, 0, 10, 0};
-        layout.columnWeights = new double[] {1.0};
+        layout.columnWidths = new int[] { 0, 8, 0, 8, 0, 8, 0, 8, 0 };
+        layout.rowHeights = new int[] { 0, 10, 0, 10, 0, 10, 0 };
+        layout.columnWeights = new double[] { 1.0 };
         setLayout(layout);
 
         txtTitle.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
@@ -125,84 +132,84 @@ public class TestPanelRow extends javax.swing.JPanel {
         add(btnXoa, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
+    private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnSuaActionPerformed
         try {
-        boolean flag = testBUS.isTestCodeExistExam(testCode);
-        if (!flag) {
-            EditTestDialog editTestDialog = new EditTestDialog(null, true, testBUS.getTestByTestCode(testCode));
-            editTestDialog.setVisible(true);
-        } else {
-            JOptionPane.showMessageDialog(parentPanel, "Đã tạo đề thi, không thể chỉnh sửa cấu trúc đề", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-        }
-    } catch (SQLException ex) {
-        Logger.getLogger(TestPanelRow.class.getName()).log(Level.SEVERE, null, ex);
-    }
-       
-    }//GEN-LAST:event_btnSuaActionPerformed
-
-    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
-
-    int confirm = JOptionPane.showConfirmDialog(
-            this,
-            "Xóa test sẽ xóa luôn bài kiểm tra. Bạn có chắc chắn muốn xóa không?",
-            "Xác nhận xóa",
-            JOptionPane.YES_NO_OPTION,
-            JOptionPane.WARNING_MESSAGE
-    );
-
-    // Nếu người dùng chọn "Yes" (đồng ý xóa)
-    if (confirm == JOptionPane.YES_OPTION) {
-        System.err.println("TestCode khi xóa " + testCode);
-        try {
-            TestBUS testBUS = new TestBUS();
-            TestDTO testDTO=testBUS.getTestByTestCode(testCode);
-            int result = testBUS.delete(testDTO);
-
-            if (result == 1) {
-              
-                JOptionPane.showMessageDialog(parentPanel, "Xóa đề thi thành công!", "Thành công",
-                        JOptionPane.INFORMATION_MESSAGE);
-                if (parentPanel != null) {
-                    ArrayList<TestDTO> updatedTestList = testBUS.getAll();
-                    parentPanel.updateTestPanel(updatedTestList);
-                }
+            boolean flag = testBUS.hasAExam(testCode);
+            if (!flag) {
+                UpdateTestDialog updateTestDialog = new UpdateTestDialog(null, true, testDTO.getTestCode());
+                updateTestDialog.setVisible(true);
             } else {
+                JOptionPane.showMessageDialog(parentPanel, "Đã tạo đề thi, không thể chỉnh sửa cấu trúc đề",
+                        "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(TestPanelRow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }// GEN-LAST:event_btnSuaActionPerformed
+
+    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnXoaActionPerformed
+
+        int confirm = JOptionPane.showConfirmDialog(
+                null,
+                "Xóa test sẽ xóa luôn bài kiểm tra. Bạn có chắc chắn muốn xóa không?",
+                "Xác nhận xóa",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE);
+
+        // Nếu người dùng chọn "Yes" (đồng ý xóa)
+        if (confirm == JOptionPane.YES_OPTION) {
+            System.err.println("TestCode khi xóa " + testCode);
+            try {
+                TestBUS testBUS = new TestBUS();
+                TestDTO testDTO = testBUS.getTestByTestCode(testCode);
+                int result = testBUS.delete(testDTO);
+
+                if (result == 1) {
+
+                    JOptionPane.showMessageDialog(parentPanel, "Xóa đề thi thành công!", "Thành công",
+                            JOptionPane.INFORMATION_MESSAGE);
+                    if (parentPanel != null) {
+                        ArrayList<TestDTO> updatedTestList = testBUS.getAll();
+                        parentPanel.updateTestPanel(updatedTestList);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(
+                            parentPanel,
+                            "Đã có học sinh làm bài kiểm tra, không thể xóa!",
+                            "Thông báo",
+                            JOptionPane.WARNING_MESSAGE);
+                }
+            } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(
                         parentPanel,
                         "Đã có học sinh làm bài kiểm tra, không thể xóa!",
                         "Thông báo",
                         JOptionPane.WARNING_MESSAGE);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(parentPanel, "Đã xảy ra lỗi khi xóa đề thi!", "Lỗi",
+                        JOptionPane.ERROR_MESSAGE);
             }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(
-                    parentPanel,
-                    "Đã có học sinh làm bài kiểm tra, không thể xóa!",
-                    "Thông báo",
-                    JOptionPane.WARNING_MESSAGE);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(parentPanel, "Đã xảy ra lỗi khi xóa đề thi!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        } else {
+            // Người dùng chọn "No" hoặc đóng hộp thoại
+            System.out.println("Người dùng đã hủy bỏ việc xóa.");
         }
-    } else {
-        // Người dùng chọn "No" hoặc đóng hộp thoại
-        System.out.println("Người dùng đã hủy bỏ việc xóa.");
-    }
 
+    }// GEN-LAST:event_btnXoaActionPerformed
 
-    }//GEN-LAST:event_btnXoaActionPerformed
-    
-    
-    private void btnXemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXemActionPerformed
+    private void btnXemActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnXemActionPerformed
         if (parentPanel != null) {
-      parentPanel.showExamPanel(testDTO);
-    }
-    }//GEN-LAST:event_btnXemActionPerformed
+            parentPanel.showExamPanel(testDTO);
+        }
+    }// GEN-LAST:event_btnXemActionPerformed
+
     public void setTestInfo(TestDTO test) {
-    txtTitle.setText(test.getTestTitle());
-    jLabel1.setText("Thời gian: " + test.getTestTime() + " phút");
-     jLabel2.setText("Trạng thái: " + (test.getTestStatus() == 1 ? "Đang mở" : "Đã kết thúc"));
-     
-}
+        txtTitle.setText(test.getTestTitle());
+        jLabel1.setText("Thời gian: " + test.getTestTime() + " phút");
+        jLabel2.setText("Trạng thái: " + (test.getTestStatus() == 1 ? "Đang mở" : "Đã kết thúc"));
+
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSua;

@@ -1,315 +1,223 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+// TestDAO.java
 package com.example.qlthitracnghiem.DAO;
 
-import com.example.qlthitracnghiem.BUS.ExamBUS;
-import com.example.qlthitracnghiem.BUS.TestBUS;
 import com.example.qlthitracnghiem.DTO.TestDTO;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-
 import com.example.qlthitracnghiem.utils.DBConnection;
+
+import java.sql.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
-// chưa sửa lại mấy phương thức create,update,delete 
 public class TestDAO {
-  /// ý tưởng là hiển thị test dựa trên testcode tham chiếu từ bảng exams, lúc ấn
-  /// vô xem chi tiết thì hiện chi tiết đề ra
-  public ArrayList<TestDTO> search(String keyword, int status) throws SQLException {
-    ArrayList<TestDTO> tests = new ArrayList<>();
-    Connection connection = DBConnection.getConnection();
-    String sql = "SELECT t.* FROM test t  WHERE t.testTitle LIKE ?";
-    if (status != -1) {
-      sql += " AND testStatus = ?";
+    private Connection connection;
+
+    public TestDAO() {
+        connection = DBConnection.getConnection();
     }
 
-    try {
-      PreparedStatement ps = connection.prepareStatement(sql);
-      ps.setString(1, "%" + keyword + "%");
-
-      if (status != -1) {
-        ps.setInt(2, status);
-      }
-
-      ResultSet rs = ps.executeQuery();
-      while (rs.next()) {
-        tests.add(new TestDTO(
-            rs.getInt("testID"),
-            rs.getString("testCode"),
-            rs.getString("testTitle"),
-            rs.getInt("testTime"),
-            rs.getInt("num_easy"),
-            rs.getInt("num_medium"),
-            rs.getInt("num_diff"),
-            rs.getInt("testLimit"),
-            rs.getObject("testDate", LocalDateTime.class) != null
-                ? rs.getTimestamp("testDate").toLocalDateTime()
-                : null,
-            rs.getInt("testStatus")));
-      }
-    } catch (SQLException e) {
-      e.printStackTrace();
-      throw e;
-    } finally {
+    public TestDAO(Connection connection) {
+        this.connection = connection;
     }
-    return tests;
-  }
 
-  public TestDTO getTestByTestCode(String tsCode) throws SQLException {
-    Connection connection = DBConnection.getConnection();
-    String sql = "SELECT * FROM test WHERE testCode = ?";
-    try {
-      PreparedStatement ps = connection.prepareStatement(sql);
-      ps.setString(1, tsCode);
-      ResultSet rs = ps.executeQuery();
-      TestDTO test = new TestDTO();
-      if (rs.next()) {
-        test = new TestDTO(
-            rs.getInt("testID"),
-            rs.getString("testCode"),
-            rs.getString("testTitle"),
-            rs.getInt("testTime"),
-            rs.getInt("num_easy"),
-            rs.getInt("num_medium"),
-            rs.getInt("num_diff"),
-            rs.getInt("testLimit"),
-            rs.getObject("testDate", LocalDateTime.class),
-            rs.getInt("testStatus"));
-      }
-      return test;
-    } catch (SQLException e) {
-      e.printStackTrace();
-      throw e;
-    }
-  }
+    public void createTest(TestDTO test) throws SQLException {
+        String sql = "INSERT INTO test (testCode, testTitle, testTime, testLimit, testDate, testStatus) " +
+                "VALUES (?, ?, ?, ?, ?, ?)";
 
-  public int create(TestDTO test, Integer[] topics) throws SQLException {
-    Connection connection = DBConnection.getConnection();
-    connection.setAutoCommit(false); // Bắt đầu transaction
-    int rowsInserted = 0;
-    String testCode = String.format("TST%03d", getAutoIncrement());
-    String createTest = "INSERT INTO test(testCode, testTitle, testTime, num_easy, num_medium, num_diff, testLimit, testDate, testStatus) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    String createTestTopic = "INSERT INTO test_topic(testID, topicID) VALUES(?, ?)";
-    try (
-        PreparedStatement psCreateTest = connection.prepareStatement(createTest,
-            PreparedStatement.RETURN_GENERATED_KEYS);
-        PreparedStatement psCreateTestTopic = connection.prepareStatement(createTestTopic);) {
-      psCreateTest.setString(1, testCode);
-      psCreateTest.setString(2, test.getTestTitle());
-      psCreateTest.setInt(3, test.getTestTime());
-      psCreateTest.setInt(4, test.getNum_easy());
-      psCreateTest.setInt(5, test.getNum_medium());
-      psCreateTest.setInt(6, test.getNum_diff());
-      psCreateTest.setInt(7, test.getTestLimit());
-      psCreateTest.setObject(8, test.getTestDate());
-      psCreateTest.setInt(9, 1);
-      rowsInserted = psCreateTest.executeUpdate();
-      ResultSet rs = psCreateTest.getGeneratedKeys();
-      if (rs.next()) {
-        int testID = rs.getInt(1);
-        test.setTestID(testID);
-        for (Integer topicID : topics) {
-          psCreateTestTopic.setInt(1, testID);
-          psCreateTestTopic.setInt(2, topicID);
-          psCreateTestTopic.executeUpdate();
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, test.getTestCode());
+            ps.setString(2, test.getTestTitle());
+            ps.setInt(3, test.getTestTime());
+            ps.setInt(4, test.getTestLimit());
+            ps.setString(5, test.getTestDate().format(DateTimeFormatter.ISO_LOCAL_DATE));
+            ps.setInt(6, 1); // default status = 1 (active)
+            ps.executeUpdate();
         }
-      }
-      connection.commit();
-      return rowsInserted;
-    } catch (SQLException e) {
-      connection.rollback();
-      throw e;
-    } finally {
-      connection.setAutoCommit(true);
-      connection.close();
     }
-  }
 
-  public int update(TestDTO test) throws SQLException {
-    System.out.println("update test: " + test.toString());
-    String sql = "UPDATE test SET testTitle = ?, testTime = ?, num_easy = ?, num_medium = ?, num_diff = ?, testLimit = ?, testDate = ?, testStatus = ? WHERE testCode = ?";
-    try (Connection connection = DBConnection.getConnection();
-        PreparedStatement ps = connection.prepareStatement(sql)) {
-      ps.setString(1, test.getTestTitle());
-      ps.setInt(2, test.getTestTime());
-      ps.setInt(3, test.getNum_easy());
-      ps.setInt(4, test.getNum_medium());
-      ps.setInt(5, test.getNum_diff());
-      ps.setInt(6, test.getTestLimit());
-      ps.setObject(7, test.getTestDate());
-      ps.setInt(8, test.getTestStatus());
-      ps.setString(9, test.getTestCode());
-      return ps.executeUpdate();
-    }
-  }
+    public void createTestStructure(String testCode, int tpID, int numEasy, int numMedium, int numDiff)
+            throws SQLException {
+        String sql = "INSERT INTO test_structure (testCode, tpID, num_easy, num_medium, num_diff) " +
+                "VALUES (?, ?, ?, ?, ?)";
 
-  public int getAutoIncrement() throws SQLException {
-    Connection connection = DBConnection.getConnection();
-    String sql = "SELECT MAX(testID) AS AUTO_INCREMENT FROM test";
-    try (PreparedStatement ps = connection.prepareStatement(sql)) {
-      ResultSet rs = ps.executeQuery();
-      if (rs.next()) {
-        return rs.getInt("AUTO_INCREMENT") + 1;
-      }
-    } catch (SQLException e) {
-      e.printStackTrace();
-      throw e;
-    }
-    return -1;
-  }
-
-  public int delete(TestDTO testCode) throws SQLException {
-
-    Connection connection = DBConnection.getConnection();
-    ExamBUS examBUS = new ExamBUS();
-    try {
-      List<String> examCodes = examBUS.getExamCodesByTestCode(testCode.getTestCode());
-
-      for (String exCode : examCodes) {
-        if (examBUS.isExCodeExistInResult(exCode)) {
-          throw new SQLException("Đã có học sinh làm bài kiểm tra, không thể xóa.");
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, testCode);
+            ps.setInt(2, tpID);
+            ps.setInt(3, numEasy);
+            ps.setInt(4, numMedium);
+            ps.setInt(5, numDiff);
+            ps.executeUpdate();
         }
-      }
-      // Xóa bảng test_topic
-      String deleteTopic = "Delete from test_topic where testID=? ";
-      try (PreparedStatement psExams = connection.prepareStatement(deleteTopic)) {
-        psExams.setInt(1, testCode.getTestID());
-        psExams.executeUpdate();
-      }
-            // Xóa bảng exam
-      String deleteExamsSQL = "DELETE FROM exams WHERE testCode = ?";
-      try (PreparedStatement psExams = connection.prepareStatement(deleteExamsSQL)) {
-        psExams.setString(1, testCode.getTestCode());
-        psExams.executeUpdate();
-      }
-      String deleteTest = "DELETE FROM test where testcode=?";
-      try (PreparedStatement psExams = connection.prepareStatement(deleteTest)) {
-        psExams.setString(1, testCode.getTestCode());
-        psExams.executeUpdate();
-      }
-
-
-      return 1;
-    } catch (SQLException e) {
-      e.printStackTrace();
-      throw e;
-    } finally {
     }
-  }
 
-  public ArrayList<TestDTO> getAll() throws SQLException {
-    Connection connection = DBConnection.getConnection();
-    String sql = "SELECT * FROM test";
-    try {
-      PreparedStatement ps = connection.prepareStatement(sql);
-      ResultSet rs = ps.executeQuery();
-      ArrayList<TestDTO> tests = new ArrayList<>();
-      while (rs.next()) {
-        tests.add(
-            new TestDTO(
-                rs.getInt("testID"),
-                rs.getString("testCode"),
-                rs.getString("testTitle"),
-                rs.getInt("testTime"),
-                rs.getInt("num_easy"),
-                rs.getInt("num_medium"),
-                rs.getInt("num_diff"),
-                rs.getInt("testLimit"),
-                rs.getObject("testDate", LocalDateTime.class),
-                rs.getInt("testStatus")));
-      }
-      return tests;
-    } catch (SQLException e) {
-      e.printStackTrace();
-      throw e;
+    public ArrayList<TestDTO> getAllTest() {
+        ArrayList<TestDTO> tests = new ArrayList<>();
+        String sql = "SELECT * FROM test";
+
+        try (Statement st = connection.createStatement();
+                ResultSet rs = st.executeQuery(sql)) {
+            while (rs.next()) {
+                TestDTO test = new TestDTO();
+                test.setTestID(rs.getInt("testID"));
+                test.setTestCode(rs.getString("testCode"));
+                test.setTestTitle(rs.getString("testTitle"));
+                test.setTestTime(rs.getInt("testTime"));
+                test.setTestLimit(rs.getInt("testLimit"));
+                // test.setTestDate(LocalDateTime.parse(rs.getString("testDate"),
+                // DateTimeFormatter.ISO_LOCAL_DATE));
+                test.setTestDate(rs.getDate("testDate").toLocalDate().atStartOfDay());
+                test.setTestStatus(rs.getInt("testStatus"));
+                tests.add(test);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return tests;
     }
-  }
 
-  public int updateTestTopics(int testID, Integer[] topics) throws SQLException {
-    System.out.print("update test: testID = " + testID + ", topics = ");
-    for (Integer topic : topics) {
-      System.out.print(topic + ", ");
+    public TestDTO getTestByCode(String testCode) {
+        String sql = "SELECT * FROM test WHERE testCode = ?";
+        TestDTO test = null;
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, testCode);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    test = new TestDTO();
+                    test.setTestID(rs.getInt("testID"));
+                    test.setTestCode(rs.getString("testCode"));
+                    test.setTestTitle(rs.getString("testTitle"));
+                    test.setTestTime(rs.getInt("testTime"));
+                    test.setTestLimit(rs.getInt("testLimit"));
+                    // Parse date string and convert to LocalDateTime
+                    String dateStr = rs.getString("testDate");
+                    LocalDate localDate = LocalDate.parse(dateStr, DateTimeFormatter.ISO_LOCAL_DATE);
+                    // Add default time (midnight) to convert to LocalDateTime
+                    test.setTestDate(localDate.atStartOfDay());
+                    test.setTestStatus(rs.getInt("testStatus"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return test;
     }
-    System.out.println();
-    Connection connection = DBConnection.getConnection();
-    connection.setAutoCommit(false); // Bắt đầu transaction
-    int rowsInserted = 0;
 
-    String deleteSql = "DELETE FROM test_topic WHERE testID = ?";
-    String insertSql = "INSERT INTO test_topic(testID, topicID) VALUES(?, ?)";
+    public ArrayList<TestDTO> search(String keyword, int status) {
+        ArrayList<TestDTO> tests = new ArrayList<>();
+        String sql = "SELECT * FROM test WHERE testStatus = ? and (testTitle LIKE ? OR testCode LIKE ?)";
 
-    try (PreparedStatement psDelete = connection.prepareStatement(deleteSql);
-        PreparedStatement psInsert = connection.prepareStatement(insertSql)) {
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, status);
+            ps.setString(2, "%" + keyword + "%");
+            ps.setString(3, "%" + keyword + "%");
 
-      // Xóa các chủ đề cũ
-      psDelete.setInt(1, testID);
-      psDelete.executeUpdate();
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    TestDTO test = new TestDTO();
+                    test.setTestID(rs.getInt("testID"));
+                    test.setTestCode(rs.getString("testCode"));
+                    test.setTestTitle(rs.getString("testTitle"));
+                    test.setTestTime(rs.getInt("testTime"));
+                    test.setTestLimit(rs.getInt("testLimit"));
+                    test.setTestDate(rs.getDate("testDate").toLocalDate().atStartOfDay());
+                    test.setTestStatus(rs.getInt("testStatus"));
+                    tests.add(test);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
-      // Thêm các chủ đề mới
-      for (Integer topicID : topics) {
-        psInsert.setInt(1, testID);
-        psInsert.setInt(2, topicID);
-        rowsInserted += psInsert.executeUpdate();
-      }
-
-      // Nếu không có lỗi, commit transaction
-      connection.commit();
-      return rowsInserted;
-
-    } catch (SQLException e) {
-      connection.rollback(); // Hoàn tác nếu có lỗi
-      throw e;
-    } finally {
-      connection.setAutoCommit(true); // Bật lại auto-commit
+        return tests;
     }
-  }
 
-  public TestDTO getTestDtoByTestCode(String testCode) throws SQLException {
-    TestDTO testDto = null;
-    Connection connection = DBConnection.getConnection();
-    String sql = "SELECT * FROM test WHERE testCode = ?";
+    public ArrayList<TestDTO> search(String keyword) {
+        ArrayList<TestDTO> tests = new ArrayList<>();
+        String sql = "SELECT * FROM test WHERE testTitle LIKE ? OR testCode LIKE ?";
 
-    try (PreparedStatement ps = connection.prepareStatement(sql)) {
-      ps.setString(1, testCode);
-      ResultSet rs = ps.executeQuery();
-      if (rs.next()) {
-        testDto = new TestDTO(
-            rs.getInt("testID"),
-            rs.getString("testCode"),
-            rs.getString("testTitle"),
-            rs.getInt("testTime"),
-            rs.getInt("num_easy"),
-            rs.getInt("num_medium"),
-            rs.getInt("num_diff"),
-            rs.getInt("testLimit"),
-            rs.getObject("testDate", LocalDateTime.class),
-            rs.getInt("testStatus"));
-      }
-    } catch (SQLException e) {
-      e.printStackTrace();
-      throw e;
-    } finally {
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, "%" + keyword + "%");
+            ps.setString(2, "%" + keyword + "%");
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    TestDTO test = new TestDTO();
+                    test.setTestID(rs.getInt("testID"));
+                    test.setTestCode(rs.getString("testCode"));
+                    test.setTestTitle(rs.getString("testTitle"));
+                    test.setTestTime(rs.getInt("testTime"));
+                    test.setTestLimit(rs.getInt("testLimit"));
+                    test.setTestDate(rs.getDate("testDate").toLocalDate().atStartOfDay());
+                    test.setTestStatus(rs.getInt("testStatus"));
+                    tests.add(test);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return tests;
     }
-    return testDto;
-  }
 
-  public boolean isTestCodeExistExam(String testCode) throws SQLException {
-    Connection connection = DBConnection.getConnection();
-    String sql = "SELECT COUNT(*) FROM exams WHERE testCode = ?";
-    try (PreparedStatement ps = connection.prepareStatement(sql)) {
-      ps.setString(1, testCode);
-      ResultSet rs = ps.executeQuery();
-      if (rs.next()) {
-        return rs.getInt(1) > 0;
-      }
+    public int deleteTest(String testCode) {
+        String sql = "DELETE FROM test WHERE testCode = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, testCode);
+            return ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return -1;
+        }
     }
-    return false;
-  }
+
+    public void updateTest(TestDTO test) throws SQLException {
+        String sql = "UPDATE test SET testTitle = ?, testTime = ?, testLimit = ?, testDate = ?, testStatus = ? " +
+                "WHERE testCode = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, test.getTestTitle());
+            ps.setInt(2, test.getTestTime());
+            ps.setInt(3, test.getTestLimit());
+            ps.setString(4, test.getTestDate().format(DateTimeFormatter.ISO_LOCAL_DATE));
+            ps.setInt(5, test.getTestStatus());
+            ps.setString(6, test.getTestCode());
+            ps.executeUpdate();
+        }
+    }
+
+    public void deleteTestStructure(String testCode) throws SQLException {
+        String sql = "DELETE FROM test_structure WHERE testCode = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, testCode);
+            ps.executeUpdate();
+        }
+    }
+
+    public Map<Integer, int[]> getTestStructure(String testCode) throws SQLException {
+        Map<Integer, int[]> structure = new HashMap<>();
+        String sql = "SELECT * FROM test_structure WHERE testCode = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, testCode);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int[] counts = new int[] {
+                        rs.getInt("num_easy"),
+                        rs.getInt("num_medium"),
+                        rs.getInt("num_diff")
+                };
+                structure.put(rs.getInt("tpID"), counts);
+            }
+        }
+        System.out.println("get structure: " + testCode + ": " + structure);
+        return structure;
+    }
 }

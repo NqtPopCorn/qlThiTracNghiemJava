@@ -14,6 +14,7 @@ import com.example.qlthitracnghiem.DTO.ExamDTO;
 import com.example.qlthitracnghiem.DTO.LogDTO;
 import com.example.qlthitracnghiem.DTO.ResultDTO;
 import com.example.qlthitracnghiem.DTO.TestDTO;
+import com.example.qlthitracnghiem.DTO.UserDTO;
 import com.example.qlthitracnghiem.GUI.Component.RoundedButton;
 import com.example.qlthitracnghiem.GUI.DashboardFrame;
 import com.example.qlthitracnghiem.utils.ConvertUtil;
@@ -62,6 +63,16 @@ public class DoExamJPanel extends javax.swing.JPanel {
     public DoExamJPanel(DashboardFrame dbFrame) {
         this.dbFrame = dbFrame;
         initializePN();
+    }
+
+    public DoExamJPanel(DashboardFrame dbFrame, int userId) {
+        this.dbFrame = dbFrame;
+        this.userId = userId;
+        initializePN();
+    }
+
+    public void setUserID(int userId) {
+        this.userId = userId;
     }
 
     public void setExDTO(ExamDTO exDTO) {

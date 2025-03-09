@@ -188,4 +188,21 @@ public class TopicsDAO {
         }
         return topicsList;
     }
+
+    public String getTopicNameById(int topicId) {
+        // Implement this to return topic name from database
+        // Here's a sample implementation:
+        String sql = "SELECT tpTitle FROM topics WHERE tpID = ?";
+        try (Connection conn = DBConnection.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, topicId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getString("tpTitle");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

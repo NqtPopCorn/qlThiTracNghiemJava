@@ -1,25 +1,25 @@
 package com.example.qlthitracnghiem.BUS;
 
-import com.example.qlthitracnghiem.DAO.QuestionsDAO;
+import com.example.qlthitracnghiem.DAO.QuestionDAO;
 import com.example.qlthitracnghiem.DTO.QuestionsDTO;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class QuestionsBUS {
-    
+
     private static QuestionsBUS instance;
 
     public static QuestionsBUS getInstance() {
-        if(instance == null)
+        if (instance == null)
             instance = new QuestionsBUS();
         return instance;
     }
 
-    private final QuestionsDAO questionsDAO;
+    private final QuestionDAO questionsDAO;
 
     public QuestionsBUS() {
-        questionsDAO = new QuestionsDAO();
+        questionsDAO = new QuestionDAO();
     }
 
     // phương thức update
@@ -31,7 +31,7 @@ public class QuestionsBUS {
         }
     }
 
-    //lay 1 doi tuong cau hoi
+    // lay 1 doi tuong cau hoi
     public QuestionsDTO getQuestionDTOById(Integer quesId) {
         try {
 
@@ -78,7 +78,7 @@ public class QuestionsBUS {
         }
     }
 
-    //phương thức tìm kiếm câu hỏi theo key
+    // phương thức tìm kiếm câu hỏi theo key
     public List<QuestionsDTO> find(String content, String key) {
         try {
             return questionsDAO.find(content, key);
@@ -88,7 +88,7 @@ public class QuestionsBUS {
         }
     }
 
-    //phương thức kiểm tra câu hỏi có tồn tại ko
+    // phương thức kiểm tra câu hỏi có tồn tại ko
     public boolean isQuestionExists(String content) throws SQLException {
         try {
             return questionsDAO.isQuestionExists(content);

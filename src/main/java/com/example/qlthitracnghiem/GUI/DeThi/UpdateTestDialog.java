@@ -7,9 +7,15 @@ package com.example.qlthitracnghiem.GUI.DeThi;
 import com.example.qlthitracnghiem.BUS.ExamBUS;
 import com.example.qlthitracnghiem.BUS.TestBUS;
 import com.example.qlthitracnghiem.BUS.TopicsBUS;
+import com.example.qlthitracnghiem.DAO.TestDAO;
 import com.example.qlthitracnghiem.DTO.TestDTO;
 import com.example.qlthitracnghiem.DTO.TopicsDTO;
+import com.example.qlthitracnghiem.utils.DBConnection;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -24,13 +30,15 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
-public class CreateTestDialog extends javax.swing.JDialog {
+public class UpdateTestDialog extends javax.swing.JDialog {
     private TopicsBUS topicsBUS = new TopicsBUS();
+    private TestBUS testBUS = new TestBUS();
     private DefaultComboBoxModel<String> comboBoxModel;
-    private Map<Integer, int[]> topicStructures = new HashMap<>(); // topicID -> [easy, medium, diff]
-    private Map<String, Integer> topicNameToIdMap = new HashMap<>(); // topicName -> topicID
+    private Map<Integer, int[]> topicStructures = new HashMap<>();
+    private Map<String, Integer> topicNameToIdMap = new HashMap<>();
+    private String testCode = "TEST8918"; // Default test code
 
-    public CreateTestDialog(java.awt.Frame parent, boolean modal) {
+    public UpdateTestDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         comboBoxModel = new DefaultComboBoxModel<>();
@@ -38,10 +46,19 @@ public class CreateTestDialog extends javax.swing.JDialog {
         setupListeners();
         setLocationRelativeTo(null);
         loadTopics();
+        loadTestData();
     }
 
-    public CreateTestDialog() {
-
+    public UpdateTestDialog(java.awt.Frame parent, boolean modal, String testCode) {
+        super(parent, modal);
+        this.testCode = testCode;
+        initComponents();
+        comboBoxModel = new DefaultComboBoxModel<>();
+        cbAttachedTopic.setModel(comboBoxModel);
+        setupListeners();
+        setLocationRelativeTo(null);
+        loadTopics();
+        loadTestData();
     }
 
     private void setupListeners() {
@@ -62,7 +79,117 @@ public class CreateTestDialog extends javax.swing.JDialog {
         lblTestLimit.setText("Số lần làm bài: " + sliderTestLimit.getValue() + " lần");
     }
 
+    private void loadTestData() {
+        try {
+            TestDAO testDAO = new TestDAO();
+            TestDTO test = testDAO.getTestByCode(testCode);
+            if (test != null) {
+                txtTestTtitle.setText(test.getTestTitle());
+                sliderTestTime.setValue(test.getTestTime());
+                sliderTestLimit.setValue(test.getTestLimit());
+                dateChooserTestDate.setDate(Date
+                        .from(test.getTestDate().atZone(ZoneId.systemDefault()).toInstant()));
+
+                // Load existing structure
+                topicStructures = testDAO.getTestStructure(testCode);
+                for (Map.Entry<Integer, int[]> entry : topicStructures.entrySet()) {
+                    String topicName = topicsBUS.getTopicNameById(entry.getKey());
+                    if (topicName != null) {
+                        topicNameToIdMap.put(topicName, entry.getKey());
+                        comboBoxModel.addElement(topicName);
+                    }
+                }
+                if (comboBoxModel.getSize() > 0) {
+                    cbAttachedTopic.setSelectedIndex(0);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Lỗi khi tải dữ liệu: " + e.getMessage(),
+                    "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void btnConfirmActionPerformed(java.awt.event.ActionEvent evt) {
+        String title = txtTestTtitle.getText().trim();
+        int time = sliderTestTime.getValue();
+        int limit = sliderTestLimit.getValue();
+        Date selectedDate = dateChooserTestDate.getDate();
+
+        // Validation
+        if (title.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Tiêu đề không được để trống!", "Lỗi",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if (time <= 0) {
+            JOptionPane.showMessageDialog(this, "Thời gian làm bài phải lớn hơn 0!", "Lỗi",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if (limit <= 0) {
+            JOptionPane.showMessageDialog(this, "Giới hạn lượt làm phải lớn hơn 0!", "Lỗi",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if (selectedDate == null) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn ngày thi!", "Lỗi",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        LocalDateTime testDateTime = selectedDate.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime();
+
+        if (testDateTime.isBefore(LocalDateTime.now())) {
+            JOptionPane.showMessageDialog(this, "Ngày thi phải sau ngày hiện tại!", "Lỗi",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (topicStructures.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn ít nhất một chủ đề!", "Lỗi",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        try {
+            TestDTO test = new TestDTO();
+            test.setTestCode(testCode);
+            test.setTestTitle(title);
+            test.setTestTime(time);
+            test.setTestLimit(limit);
+            test.setTestDate(testDateTime);
+            test.setTestStatus(1); // Assuming active status
+            for (Map.Entry<Integer, int[]> entry : topicStructures.entrySet()) {
+                System.out.println("Topic ID(key): " + entry.getKey());
+                String topicName = topicsBUS.getTopicNameById(entry.getKey());
+                System.out.println("Topic name: " + topicName);
+                int[] structure = entry.getValue();
+                for (int i = 0; i < structure.length; i++) {
+                    System.out.println("Structure " + i + ": " + structure[i]);
+                }
+            }
+            testBUS.update(test, topicStructures);
+            JOptionPane.showMessageDialog(this, "Cập nhật đề thi thành công!", "Thành công",
+                    JOptionPane.INFORMATION_MESSAGE);
+            this.dispose();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Lỗi: " + e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Lỗi hệ thống: " + e.getMessage(), "Lỗi",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
@@ -107,7 +234,7 @@ public class CreateTestDialog extends javax.swing.JDialog {
         btnConfirm = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Tạo ma trận đề");
+        setTitle("Update Test");
         setBackground(new java.awt.Color(255, 255, 255));
         setLocation(new java.awt.Point(0, 0));
 
@@ -217,41 +344,48 @@ public class CreateTestDialog extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtTestTtitle))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnAttachTopic, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnDetachTopic, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(85, 85, 85)
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lblTestLimit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblTestTime, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(97, 97, 97)
+                        .addComponent(sliderTestTime, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(20, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnConfirm)
-                .addGap(174, 174, 174))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(sliderTestTime, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btnConfirm)
+                        .addGap(174, 174, 174))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(txtTestTtitle))
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGap(18, 18, 18)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(btnAttachTopic, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnDetachTopic, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(85, 85, 85)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(lblTestTime, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(21, 21, 21)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(dateChooserTestDate, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(sliderTestLimit, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addComponent(lblTestLimit, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(20, Short.MAX_VALUE))
+                            .addComponent(dateChooserTestDate, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addContainerGap())
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addComponent(sliderTestLimit, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(91, 91, 91)))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -274,21 +408,21 @@ public class CreateTestDialog extends javax.swing.JDialog {
                         .addGap(12, 12, 12)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(7, 7, 7)
+                .addComponent(lblTestTime, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblTestTime)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(sliderTestTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lblTestLimit)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblTestLimit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(sliderTestLimit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(9, 9, 9)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(dateChooserTestDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(btnConfirm)
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addGap(20, 20, 20))
         );
 
         pack();
@@ -330,8 +464,9 @@ public class CreateTestDialog extends javax.swing.JDialog {
         String topicName = (String) comboBoxModel.getElementAt(selectedIndex);
         Integer topicId = topicNameToIdMap.get(topicName);
 
-        comboBoxModel.removeElementAt(selectedIndex);
-        topicNameToIdMap.remove(topicName);
+        // comboBoxModel.removeElementAt(selectedIndex);
+        // topicNameToIdMap.remove(topicName);
+        cbAttachedTopic.removeItemAt(selectedIndex);
         topicStructures.remove(topicId);
 
         // Reset sliders if no topics remain
@@ -341,6 +476,7 @@ public class CreateTestDialog extends javax.swing.JDialog {
     }// GEN-LAST:event_btnDetachTopicActionPerformed
 
     private void cbAttachedTopicActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_cbAttachedTopicActionPerformed
+        System.out.println("cbAttachedTopicActionPerformed");
         String selectedTopic = (String) cbAttachedTopic.getSelectedItem();
         if (selectedTopic != null) {
             Integer topicId = topicNameToIdMap.get(selectedTopic);
@@ -352,95 +488,6 @@ public class CreateTestDialog extends javax.swing.JDialog {
             sliderNumDiff.setValue(structure[2]);
         }
     }// GEN-LAST:event_cbAttachedTopicActionPerformed
-
-    private void btnConfirmActionPerformed(java.awt.event.ActionEvent evt) {
-        String title = txtTestTtitle.getText().trim();
-        int time = sliderTestTime.getValue();
-        int limit = sliderTestLimit.getValue();
-        Date selectedDate = dateChooserTestDate.getDate();
-
-        // Validation
-        if (title.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Tiêu đề không được để trống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        if (time <= 0) {
-            JOptionPane.showMessageDialog(this, "Thời gian làm bài phải lớn hơn 0!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        if (limit <= 0) {
-            JOptionPane.showMessageDialog(this, "Giới hạn lượt làm phải lớn hơn 0!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        if (selectedDate == null) {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn ngày thi!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        LocalDateTime testDateTime = selectedDate.toInstant()
-                .atZone(ZoneId.systemDefault())
-                .toLocalDateTime();
-
-        if (testDateTime.isBefore(LocalDateTime.now())) {
-            JOptionPane.showMessageDialog(this, "Ngày thi phải sau ngày hiện tại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        try {
-            TestBUS testBUS = new TestBUS();
-            TestDTO test = new TestDTO();
-            String testCode = testBUS.generateTestCode();
-            test.setTestCode(testCode);
-            test.setTestTitle(title);
-            test.setTestTime(time);
-            test.setTestLimit(limit);
-            test.setTestDate(testDateTime);
-
-            // Collect topic structure data
-            Map<Integer, int[]> topicStructures = new HashMap<>();
-            // You'll need to implement a way to get selected topics and their question
-            // counts
-            // For example, if using the JTree and sliders:
-            TreePath[] selectedPaths = treeTestTopic.getSelectionPaths();
-            if (selectedPaths != null) {
-                for (TreePath path : selectedPaths) {
-                    String topicName = path.getLastPathComponent().toString();
-                    int topicId = topicsBUS.getTopicIdByName(topicName);
-                    int[] structure = new int[] {
-                            sliderNumEasy.getValue(),
-                            sliderNumMedium.getValue(),
-                            sliderNumDiff.getValue()
-                    };
-                    topicStructures.put(topicId, structure);
-                }
-            }
-
-            if (topicStructures.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Vui lòng chọn ít nhất một chủ đề!", "Lỗi",
-                        JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            testBUS.create(test, topicStructures);
-            JOptionPane.showMessageDialog(this, "Tạo đề thi thành công!", "Thành công",
-                    JOptionPane.INFORMATION_MESSAGE);
-            this.dispose();
-        } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Lỗi: " + e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
-        }
-    }// GEN-LAST:event_btnConfirmActionPerformed
-
-    public ArrayList<Integer> getIDsOfSelectedTopics() {
-        return null;
-        // ArrayList<Integer> topicIDs = new ArrayList<>();
-        // for (int i = 0; i < tpTree.getSelectionCount(); i++) {
-        // TopicsBUS tpBUS = new TopicsBUS();
-        // topicIDs.add(tpBUS.getTopicIdByName(
-        // tpTree.getSelectionPaths()[i].getLastPathComponent().toString()));
-        // }
-        // return topicIDs;
-    }
 
     public void loadTopics() {
         ArrayList<TopicsDTO> topics = topicsBUS.getAll();
@@ -501,29 +548,31 @@ public class CreateTestDialog extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CreateTestDialog.class.getName()).log(
+            java.util.logging.Logger.getLogger(UpdateTestDialog.class.getName()).log(
                     java.util.logging.Level.SEVERE,
                     null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CreateTestDialog.class.getName()).log(
+            java.util.logging.Logger.getLogger(UpdateTestDialog.class.getName()).log(
                     java.util.logging.Level.SEVERE,
                     null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CreateTestDialog.class.getName()).log(
+            java.util.logging.Logger.getLogger(UpdateTestDialog.class.getName()).log(
                     java.util.logging.Level.SEVERE,
                     null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CreateTestDialog.class.getName()).log(
+            java.util.logging.Logger.getLogger(UpdateTestDialog.class.getName()).log(
                     java.util.logging.Level.SEVERE,
                     null, ex);
         }
+        // </editor-fold>
+        // </editor-fold>
         // </editor-fold>
         // </editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                CreateTestDialog dialog = new CreateTestDialog(new javax.swing.JFrame(), true);
+                UpdateTestDialog dialog = new UpdateTestDialog(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

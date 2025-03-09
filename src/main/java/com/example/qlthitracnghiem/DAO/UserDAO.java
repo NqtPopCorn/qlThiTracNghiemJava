@@ -152,7 +152,9 @@ public class UserDAO implements CrudInterface<UserDTO> {
         "FROM result r, exams e, test t\r\n" + //
         "WHERE e.testCode = t.testCode AND r.exCode = e.exCode AND r.userID = ?" +
         "ORDER BY rs_date DESC";
-    try (PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql)) {
+
+    try (Connection conn = DBConnection.getConnection();
+        PreparedStatement ps = conn.prepareStatement(sql);) {
       ps.setString(1, userID);
       ResultSet rs = ps.executeQuery();
       while (rs.next()) {
