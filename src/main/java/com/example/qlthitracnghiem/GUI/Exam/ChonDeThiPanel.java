@@ -51,7 +51,7 @@ public class ChonDeThiPanel extends javax.swing.JPanel {
         setLayout(new java.awt.BorderLayout(6, 0));
 
         jPanel1.setBackground(new java.awt.Color(255, 153, 153));
-        jPanel1.setPreferredSize(new java.awt.Dimension(300, 682));
+        jPanel1.setPreferredSize(new java.awt.Dimension(440, 682));
         jPanel1.setLayout(new java.awt.BorderLayout());
 
         tbTests.setModel(new javax.swing.table.DefaultTableModel(
@@ -79,7 +79,7 @@ public class ChonDeThiPanel extends javax.swing.JPanel {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(tfSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
+                .addComponent(tfSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnSearch)
                 .addContainerGap())
@@ -99,7 +99,7 @@ public class ChonDeThiPanel extends javax.swing.JPanel {
         add(jPanel1, java.awt.BorderLayout.LINE_START);
 
         jPanel2.setBackground(new java.awt.Color(204, 255, 204));
-        jPanel2.setPreferredSize(new java.awt.Dimension(740, 502));
+        jPanel2.setPreferredSize(new java.awt.Dimension(640, 502));
         jPanel2.setLayout(new java.awt.BorderLayout());
 
         jPanel4.setPreferredSize(new java.awt.Dimension(452, 100));
@@ -137,7 +137,7 @@ public class ChonDeThiPanel extends javax.swing.JPanel {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtTestTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtTimeLimit))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 443, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 303, Short.MAX_VALUE)
                 .addComponent(btnDoExam)
                 .addGap(32, 32, 32))
         );

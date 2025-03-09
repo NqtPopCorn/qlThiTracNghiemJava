@@ -220,4 +220,20 @@ public class TestDAO {
         System.out.println("get structure: " + testCode + ": " + structure);
         return structure;
     }
+
+    public int getSoLanLamBai(int userID, String testCode) throws SQLException {
+        String sql = "SELECT COUNT(r.rs_num) AS count " +
+                "FROM result r " +
+                "WHERE r.exCode LIKE ? AND r.userID = ? ;";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, testCode + "_");
+            ps.setInt(2, userID);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("count");
+                }
+            }
+        }
+        return -1;
+    }
 }

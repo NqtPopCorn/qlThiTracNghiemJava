@@ -10,6 +10,9 @@ import com.example.qlthitracnghiem.BUS.TestBUS;
 import com.example.qlthitracnghiem.BUS.UserBUS;
 import com.example.qlthitracnghiem.DTO.ExamDTO;
 import com.example.qlthitracnghiem.DTO.TestDTO;
+import com.example.qlthitracnghiem.DTO.UserDTO;
+import com.example.qlthitracnghiem.GUI.DashboardFrame;
+
 import java.awt.CardLayout;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
@@ -36,6 +39,7 @@ public class ChooseExamJPanel extends javax.swing.JPanel {
     private QuestionsBUS questBus = new QuestionsBUS();
     private ExamBUS exBus = new ExamBUS();
     private TestBUS tsBus = new TestBUS();
+    private int userId = 1;
 
     public ChooseExamJPanel(DoExamJPanel doExamJPanel) {
         this.doExJPanel = doExamJPanel;
@@ -43,6 +47,14 @@ public class ChooseExamJPanel extends javax.swing.JPanel {
         customstyle();
 
         handleChooseTestCodeInTable();
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public void setDoExJPanel(DoExamJPanel doExJPanel) {
+        this.doExJPanel = doExJPanel;
     }
 
     private void customstyle() {
@@ -274,15 +286,20 @@ public class ChooseExamJPanel extends javax.swing.JPanel {
         String exCode = currentTestCodeJLabel.getText();
         boolean isChooseTestCode = exCode.equals("chưa chọn bài thi!") ? false : true;
         if (isChooseTestCode) {
-            // move to do exam panel
-            System.out.println("move to new frame");
-
-            CardLayout cardLayout = (CardLayout) getParent().getLayout();
-            cardLayout.show(getParent(), "doExamJPanel");
-            // setBorder(BorderFactory.createTitledBorder("Panel B"));
             try {
+
                 ExamDTO exam = (ExamDTO) exBus.getExamByExCode(exCode);
                 TestDTO test = tsBus.getTestByTestCode(exam.getTestCode());
+
+                // kiem tra da dat testLimit chua
+                int soLanLamBai = tsBus.getSoLanLamBai(userId, test.getTestCode());
+                if (soLanLamBai >= test.getTestLimit()) {
+                    JOptionPane.showMessageDialog(getParent(), "Bạn đã hết lượt làm bài");
+                    return;
+                }
+
+                CardLayout cardLayout = (CardLayout) getParent().getLayout();
+                cardLayout.show(getParent(), "doExamJPanel");
 
                 doExJPanel.setExDTO(exam);
                 doExJPanel.setTsDTO(test);

@@ -45,25 +45,26 @@ public class TestPanelRow extends javax.swing.JPanel {
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
         txtTitle = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        btnXem = new javax.swing.JButton();
+        btnXemExam = new javax.swing.JButton();
         btnSua = new javax.swing.JButton();
         btnXoa = new javax.swing.JButton();
+        btnXemChiTiet = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
-        setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED,
-                java.awt.Color.gray, java.awt.Color.gray, java.awt.Color.gray, java.awt.Color.gray));
+        setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.gray, java.awt.Color.gray, java.awt.Color.gray, java.awt.Color.gray));
         setMaximumSize(new java.awt.Dimension(10000, 140));
         java.awt.GridBagLayout layout = new java.awt.GridBagLayout();
-        layout.columnWidths = new int[] { 0, 8, 0, 8, 0, 8, 0, 8, 0 };
-        layout.rowHeights = new int[] { 0, 10, 0, 10, 0, 10, 0 };
-        layout.columnWeights = new double[] { 1.0 };
+        layout.columnWidths = new int[] {0, 8, 0, 8, 0, 8, 0, 8, 0, 8, 0, 8, 0, 8, 0, 8, 0};
+        layout.rowHeights = new int[] {0, 10, 0, 10, 0, 10, 0};
+        layout.columnWeights = new double[] {1.0};
         setLayout(layout);
 
         txtTitle.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
@@ -88,22 +89,23 @@ public class TestPanelRow extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         add(jLabel2, gridBagConstraints);
 
-        btnXem.setBackground(new java.awt.Color(220, 230, 205));
-        btnXem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/eye.png"))); // NOI18N
-        btnXem.setText("Xem");
-        btnXem.addActionListener(new java.awt.event.ActionListener() {
+        btnXemExam.setBackground(new java.awt.Color(220, 230, 205));
+        btnXemExam.setForeground(new java.awt.Color(51, 51, 51));
+        btnXemExam.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/eye.png"))); // NOI18N
+        btnXemExam.setText("Xem các đề thi");
+        btnXemExam.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnXemActionPerformed(evt);
+                btnXemExamActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridx = 8;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridheight = 5;
-        gridBagConstraints.insets = new java.awt.Insets(0, 7, 0, 0);
-        add(btnXem, gridBagConstraints);
+        gridBagConstraints.gridheight = 3;
+        add(btnXemExam, gridBagConstraints);
 
-        btnSua.setBackground(new java.awt.Color(248, 220, 209));
+        btnSua.setBackground(new java.awt.Color(255, 204, 51));
+        btnSua.setForeground(new java.awt.Color(51, 51, 51));
         btnSua.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/wrench.png"))); // NOI18N
         btnSua.setText("Chỉnh sửa");
         btnSua.addActionListener(new java.awt.event.ActionListener() {
@@ -112,25 +114,54 @@ public class TestPanelRow extends javax.swing.JPanel {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridx = 12;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridheight = 5;
+        gridBagConstraints.gridheight = 3;
         add(btnSua, gridBagConstraints);
 
-        btnXoa.setBackground(new java.awt.Color(175, 205, 235));
+        btnXoa.setBackground(new java.awt.Color(255, 153, 153));
+        btnXoa.setForeground(new java.awt.Color(51, 51, 51));
         btnXoa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/multiply.png"))); // NOI18N
         btnXoa.setText("Xóa");
+        btnXoa.setPreferredSize(new java.awt.Dimension(100, 31));
         btnXoa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnXoaActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridx = 16;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridheight = 5;
+        gridBagConstraints.gridheight = 3;
         add(btnXoa, gridBagConstraints);
+
+        btnXemChiTiet.setBackground(new java.awt.Color(102, 102, 255));
+        btnXemChiTiet.setForeground(new java.awt.Color(51, 51, 51));
+        btnXemChiTiet.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/eye.png"))); // NOI18N
+        btnXemChiTiet.setText("Xem chi tiết");
+        btnXemChiTiet.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXemChiTietActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridheight = 3;
+        gridBagConstraints.insets = new java.awt.Insets(0, 7, 0, 0);
+        add(btnXemChiTiet, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnXemChiTietActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnXemChiTietActionPerformed
+        try {
+            UpdateTestDialog updateTestDialog = new UpdateTestDialog(null, true, testDTO.getTestCode());
+            updateTestDialog.setTitle("Xem chi tiết đề thi");
+            updateTestDialog.disableAll();
+            updateTestDialog.setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(TestPanelRow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }// GEN-LAST:event_btnXemChiTietActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnSuaActionPerformed
         try {
@@ -198,7 +229,7 @@ public class TestPanelRow extends javax.swing.JPanel {
 
     }// GEN-LAST:event_btnXoaActionPerformed
 
-    private void btnXemActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnXemActionPerformed
+    private void btnXemExamActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnXemActionPerformed
         if (parentPanel != null) {
             parentPanel.showExamPanel(testDTO);
         }
@@ -213,7 +244,8 @@ public class TestPanelRow extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSua;
-    private javax.swing.JButton btnXem;
+    private javax.swing.JButton btnXemChiTiet;
+    private javax.swing.JButton btnXemExam;
     private javax.swing.JButton btnXoa;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

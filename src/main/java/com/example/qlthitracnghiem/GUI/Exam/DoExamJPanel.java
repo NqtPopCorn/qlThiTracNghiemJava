@@ -224,12 +224,11 @@ public class DoExamJPanel extends javax.swing.JPanel {
     // use to start the timer count down when pressed
     public void startTest() {
         isTakingTest = true;
-
         logDTO = new LogDTO();
         logDTO.setLogExCode(exDTO.getExCode());
         logDTO.setLogUserID(userId);
         logDTO.setLogDate(new Timestamp(System.currentTimeMillis()));
-        logDTO.setLogContent("");
+        logDTO.setLogContent("[]");
         logId = logBUS.addLog(logDTO);
         logDTO.setLogID(logId);
 
@@ -333,6 +332,7 @@ public class DoExamJPanel extends javax.swing.JPanel {
         rsBUS.addResult(rsDTO);
         JOptionPane.showMessageDialog(null, "Điểm: " + resultMark);
         clearPanelComponents();
+        dbFrame.switchPanel("chooseExamPanel");
     }
 
     public void clearPanelComponents() {

@@ -24,7 +24,7 @@
           <Color blue="99" green="99" red="ff" type="rgb"/>
         </Property>
         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[300, 682]"/>
+          <Dimension value="[440, 682]"/>
         </Property>
       </Properties>
       <Constraints>
@@ -73,7 +73,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="tfSearch" pref="204" max="32767" attributes="0"/>
+                      <Component id="tfSearch" pref="344" max="32767" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="btnSearch" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -114,7 +114,7 @@
           <Color blue="cc" green="ff" red="cc" type="rgb"/>
         </Property>
         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[740, 502]"/>
+          <Dimension value="[640, 502]"/>
         </Property>
       </Properties>
       <Constraints>
@@ -147,7 +147,7 @@
                           <Component id="txtTestTitle" min="-2" pref="148" max="-2" attributes="0"/>
                           <Component id="txtTimeLimit" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="443" max="32767" attributes="0"/>
+                      <EmptySpace pref="303" max="32767" attributes="0"/>
                       <Component id="btnDoExam" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
                   </Group>

@@ -188,4 +188,8 @@ public class TestBUS {
       return true;
     }
   }
+
+  public int getSoLanLamBai(int userID, String testCode) throws SQLException {
+    return testDAO.getSoLanLamBai(userID, testCode);
+  }
 }

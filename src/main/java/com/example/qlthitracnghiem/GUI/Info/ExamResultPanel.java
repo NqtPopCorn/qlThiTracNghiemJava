@@ -19,7 +19,7 @@ public class ExamResultPanel extends javax.swing.JPanel {
     // rs_num, exCode, title, rs_mark, rs_date, topic
     public ExamResultPanel(String[] propValues) {
         initComponents();
-        txtResultNum.setText("Lần thi: " + (Integer.parseInt(propValues[0]) + 1));
+        txtResultNum.setText("Lần thi: " + Integer.parseInt(propValues[0]));
         txtExCode.setText("Mã đề thi: " + propValues[1]);
         txtTitle.setText(propValues[2]);
         txtMark.setText(propValues[3]);

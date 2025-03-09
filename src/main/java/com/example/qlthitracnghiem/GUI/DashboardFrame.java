@@ -78,7 +78,7 @@ public class DashboardFrame extends javax.swing.JFrame {
         cardLayout = new CardLayout();
         currentPanel.setLayout(cardLayout);
         // add panel moi tai dayday
-        currentPanel.add(chooseExamJPanel, navBtnThi.getActionCommand());
+        currentPanel.add(chooseExamJPanel, "chooseExamPanel");
         currentPanel.add(doExamJPanel, "doExamJPanel");
         currentPanel.add(cauHoiPanel, navBtnCauHoi.getActionCommand());
         currentPanel.add(userPanel, navBtnUser.getActionCommand());
@@ -96,7 +96,7 @@ public class DashboardFrame extends javax.swing.JFrame {
         buttonGroup.add(navBtnUserInfo);
 
         navBtnDeThi.addActionListener(e -> switchPanel(navBtnDeThi.getActionCommand()));
-        navBtnThi.addActionListener(e -> switchPanel(navBtnThi.getActionCommand()));
+        navBtnThi.addActionListener(e -> switchPanel("chooseExamPanel"));
         navBtnCauHoi.addActionListener(e -> switchPanel(navBtnCauHoi.getActionCommand()));
         navBtnUser.addActionListener(e -> switchPanel(navBtnUser.getActionCommand()));
         navBtnThongKe.addActionListener(e -> switchPanel(navBtnThongKe.getActionCommand()));
@@ -116,12 +116,15 @@ public class DashboardFrame extends javax.swing.JFrame {
             infoPanel = new InfoPanel(user);
             currentPanel.add(infoPanel, "InfoPanel");
             doExamJPanel.setUserID(user.getUserID());
+            chooseExamJPanel.setUserId(user.getUserID());
         }
     }
 
     public void disableAllNavButtons() {
         // Get all components from the panel
         Component[] components = navigationPanel.getComponents();
+        components = Arrays.copyOf(components, components.length + 1);
+        components[components.length - 1] = navBtnUserInfo;
         for (Component component : components) {
             if (component instanceof JToggleButton) {
                 JToggleButton button = (JToggleButton) component;
@@ -132,7 +135,8 @@ public class DashboardFrame extends javax.swing.JFrame {
 
     public void enableAllNavButtons() {
         Component[] components = navigationPanel.getComponents();
-
+        components = Arrays.copyOf(components, components.length + 1);
+        components[components.length - 1] = navBtnUserInfo;
         for (Component component : components) {
             if (component instanceof JToggleButton) {
                 JToggleButton button = (JToggleButton) component;
@@ -141,7 +145,7 @@ public class DashboardFrame extends javax.swing.JFrame {
         }
     }
 
-    private void switchPanel(String panelName) {
+    public void switchPanel(String panelName) {
         updateNavigateButton();
         cardLayout.show(currentPanel, panelName);
     }
@@ -167,6 +171,20 @@ public class DashboardFrame extends javax.swing.JFrame {
                 }
             }
         }
+    }
+
+    public void setUser(UserDTO user) {
+        this.user = user;
+        if (user != null) {
+            navBtnUserInfo.setText(user.getUserName());
+            infoPanel = new InfoPanel(user);
+            currentPanel.add(infoPanel, "InfoPanel");
+            doExamJPanel.setUserID(user.getUserID());
+        }
+    }
+
+    public UserDTO getUser() {
+        return user;
     }
 
     /**
