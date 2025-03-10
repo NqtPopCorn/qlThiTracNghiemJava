@@ -288,7 +288,6 @@ public class AuthFrame extends javax.swing.JFrame {
         String password = new String(txtPassword2_register.getPassword());
         String password1 = new String(txtPassword1_register.getPassword());
         try {
-            boolean isUserExist = userBUS.checkExist(txtUserEmail_register.getText());
             if (txtUserEmail_register.getText().trim().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Tên đăng nhập không được để trống");
                 return false;
@@ -297,9 +296,6 @@ public class AuthFrame extends javax.swing.JFrame {
                 return false;
             } else if (!password.equals(password1)) {
                 JOptionPane.showMessageDialog(this, "Mật khẩu không trùng khớp");
-                return false;
-            } else if (isUserExist) {
-                JOptionPane.showMessageDialog(this, "Tên đăng nhập đã tồn tại");
                 return false;
             }
             return true;
@@ -324,7 +320,7 @@ public class AuthFrame extends javax.swing.JFrame {
             ((java.awt.CardLayout) cardPanel.getLayout()).show(cardPanel, "DangNhap");
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Đăng kí thất bại. Có lỗi xảy ra\n" + e.getMessage(), "Lỗi",
+            JOptionPane.showMessageDialog(this, "Đăng kí thất bại.\n" + e.getMessage(), "Lỗi",
                     JOptionPane.ERROR_MESSAGE);
             txtUserEmail_register.setText("");
             txtPassword1_register.setText("");

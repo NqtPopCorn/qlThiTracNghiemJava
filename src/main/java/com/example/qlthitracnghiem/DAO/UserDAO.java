@@ -171,9 +171,11 @@ public class UserDAO implements CrudInterface<UserDTO> {
   public ArrayList<ArrayList<String>> searchLichSuLamBai(String userID, String keyword) {
     // rs_num, exCode, title, rs_mark, rs_date, topic
     ArrayList<ArrayList<String>> list = new ArrayList<>();
-    String sql = "SELECT r.*, t.testTitle AS title, tp.tpTitle AS topic\r\n" + //
-        "FROM result r, exams e, test t, topics tp\r\n" + //
-        "WHERE e.testCode = t.testCode AND r.exCode = e.exCode AND t.tpID = tp.tpID AND r.userID = ? AND (t.testTitle LIKE ? OR tp.tpTitle LIKE ?)";
+    String sql = "SELECT r.*, t.testTitle AS title\r\n" + //
+        "FROM result r, exams e, test t \r\n" + //
+        "WHERE e.testCode = t.testCode AND r.exCode = e.exCode AND r.userID = ? AND (t.testTitle LIKE ? OR e.exCode LIKE ?)\r\n"
+        + //
+        "ORDER BY rs_date DESC";
     try (PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql)) {
       ps.setString(1, userID);
       ps.setString(2, "%" + keyword + "%");
@@ -186,7 +188,6 @@ public class UserDAO implements CrudInterface<UserDTO> {
         row.add(rs.getString("title"));
         row.add(rs.getString("rs_mark"));
         row.add(rs.getString("rs_date"));
-        row.add(rs.getString("topic"));
         list.add(row);
       }
     } catch (Exception e) {

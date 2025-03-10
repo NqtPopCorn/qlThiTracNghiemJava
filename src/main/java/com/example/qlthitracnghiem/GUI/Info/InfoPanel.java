@@ -374,8 +374,6 @@ public class InfoPanel extends javax.swing.JPanel {
         txtConfirmPassword.setText("");
     }
 
-    private boolean update = false;
-
     private void btnUpdateInfoActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnSaveInfoActionPerformed
         if (btnUpdateInfo.getText().equals("Sửa")) {
             txtEmail.setEditable(true);
@@ -402,7 +400,6 @@ public class InfoPanel extends javax.swing.JPanel {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Có lỗi xảy ra\n" + e.getMessage());
         }
-
     }
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnCancelActionPerformed
@@ -433,6 +430,7 @@ public class InfoPanel extends javax.swing.JPanel {
     private void btnSearchExamActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnSearchExamActionPerformed
         try {
             pnlResultList.removeAll();
+            jScrollPane1.getVerticalScrollBar().setValue(0);
             ArrayList<ArrayList<String>> list = userBUS.searchLichSuLamBai(user.getUserID(), tfSearchExam.getText());
             if (list.size() == 0) {
                 JLabel label = new JLabel("Không có kết quả nào");
@@ -444,9 +442,9 @@ public class InfoPanel extends javax.swing.JPanel {
                     ExamResultPanel panel = new ExamResultPanel(row.stream().toArray(String[]::new));
                     pnlResultList.add(panel);
                 }
-                System.out.println("Result found");
+                System.out.println("Result found: " + list.size());
             }
-            pnlResultList.repaint();
+            pnlResultList.revalidate();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Có lỗi xảy ra\n" + e.getMessage());
             e.printStackTrace();

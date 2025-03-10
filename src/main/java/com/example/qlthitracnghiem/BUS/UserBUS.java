@@ -45,6 +45,10 @@ public class UserBUS {
   }
 
   public int register(String username, String password, String email, String fullName) throws Exception {
+    boolean isUserExist = checkExist(email);
+    if (isUserExist) {
+      throw new Exception("Email already exists");
+    }
     UserDTO user = new UserDTO();
     user.setUserName(username);
     user.setUserEmail(email);
