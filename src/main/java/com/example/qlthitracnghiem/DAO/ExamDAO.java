@@ -269,13 +269,18 @@ public class ExamDAO {
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
                 String jsonArray = rs.getString("ex_quesIDs");
+                System.out.println("jsonArray: " + jsonArray);
                 JSONArray json = new JSONArray(jsonArray);
                 for (int i = 0; i < json.length(); i++) {
                     exQuesIDs.add(json.getInt(i));
                 }
             }
         } finally {
+            connection.close();
         }
+        System.out.println("Exam DAO");
+        System.out.println("exCode: " + exCode);
+        System.out.println("exQuesIDs: " + exQuesIDs);
         return exQuesIDs;
     }
 

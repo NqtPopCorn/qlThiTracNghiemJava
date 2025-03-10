@@ -37,7 +37,6 @@ public class UserDAO implements CrudInterface<UserDTO> {
     String sql = "INSERT INTO users (userName, userPassword, userFullName, userEmail, isAdmin) VALUES (?, ?, ?, ?, ?)";
     try (Connection connection = DBConnection.getConnection();
         PreparedStatement ps = connection.prepareStatement(sql);) {
-
       ps.setString(1, user.getUserName());
       ps.setString(2, user.getUserPassword());
       ps.setString(3, user.getUserFullName());
@@ -52,7 +51,6 @@ public class UserDAO implements CrudInterface<UserDTO> {
 
   @Override
   public int update(UserDTO user) throws SQLException {
-
     String sql = "UPDATE users SET userPassword = ?, userFullName = ?, userEmail = ?, isAdmin = ? WHERE userID = ?";
     try (Connection connection = DBConnection.getConnection();
         PreparedStatement ps = connection.prepareStatement(sql);) {
@@ -70,7 +68,6 @@ public class UserDAO implements CrudInterface<UserDTO> {
 
   @Override
   public int delete(int id) throws SQLException {
-
     String sql = "DELETE FROM users WHERE userID = ?";
     try (Connection connection = DBConnection.getConnection();
         PreparedStatement ps = connection.prepareStatement(sql);) {
@@ -102,7 +99,6 @@ public class UserDAO implements CrudInterface<UserDTO> {
   }
 
   public ArrayList<UserDTO> getAll() throws SQLException {
-
     String sql = "SELECT * FROM users";
     try (Connection connection = DBConnection.getConnection();
         PreparedStatement ps = connection.prepareStatement(sql);) {

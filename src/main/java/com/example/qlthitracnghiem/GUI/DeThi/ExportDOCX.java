@@ -88,18 +88,21 @@ public class ExportDOCX {
 
             // Lấy danh sách câu trả lời
             List<Map<String, String>> awContents = examBUS.getAnswerContent(qID);
+            String optionName = "A";
             for (Map<String, String> answerData : awContents) {
                 String awContent = answerData.get("awContent");
                 String awPictures = answerData.get("awPictures");
 
                 XWPFParagraph answerParagraph = document.createParagraph();
                 XWPFRun answerRun = answerParagraph.createRun();
-                answerRun.setText(" - " + awContent);
+                answerRun.setText(optionName + ". " + awContent);
                 answerRun.addBreak();
 
                 if (awPictures != null && !awPictures.isEmpty()) {
                     addImageToDocument(answerRun, awPictures);
                 }
+
+                optionName = String.valueOf((char) (optionName.charAt(0) + 1));
             }
 
             questionNumber++;
@@ -129,8 +132,7 @@ public class ExportDOCX {
                                                                                                       // k đc cái path
                                                                                                       // hóa ra do cái
                                                                                                       // dấu /pictures
-                                                                                                      // bên db, cmn
-        // System.err.println("imageStream" + imageStream);
+                                                                                                      // bên db, cm
         if (imageStream != null) {
             // Chuyển đổi hình ảnh thành mảng byte
             byte[] imageBytes = IOUtils.toByteArray(imageStream);

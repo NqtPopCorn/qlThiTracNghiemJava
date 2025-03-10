@@ -120,7 +120,7 @@ public class ExamPanelRow extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnXemActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnXemActionPerformed
-        parentPanel.setJlbExamCode("Exam: " + examCode);
+        parentPanel.setJlbExamCode(examCode);
         showExamDetails(examCode);
     }// GEN-LAST:event_btnXemActionPerformed
 
@@ -177,14 +177,12 @@ public class ExamPanelRow extends javax.swing.JPanel {
         try {
             ExamBUS examBUS = new ExamBUS();
             List<Integer> exQuesIDs = examBUS.getExQuesIDsByExCode(examCode);
-            System.err.println("ex_quesIDs: " + exQuesIDs);
 
             int questionNumber = 1;
             for (int qID : exQuesIDs) {
                 Map<String, String> questionData = examBUS.getQuestionContent(qID);
                 String qContent = questionData.get("qContent");
                 String qPictures = questionData.get("qPictures");
-                System.err.println("qContent" + qContent);
                 JPanel questionPanel = new JPanel();
                 questionPanel.setLayout(new BoxLayout(questionPanel, BoxLayout.Y_AXIS));
                 questionPanel.setBackground(new Color(255, 255, 255));
@@ -205,7 +203,6 @@ public class ExamPanelRow extends javax.swing.JPanel {
                 for (Map<String, String> answerData : awContents) {
                     String awContent = answerData.get("awContent");
                     String awPictures = answerData.get("awPictures");
-                    System.err.println("awContent" + awContent);
                     JPanel answerPanel = new JPanel();
                     answerPanel.setLayout(new BoxLayout(answerPanel, BoxLayout.Y_AXIS));
                     answerPanel.setBackground(new Color(255, 255, 255));
