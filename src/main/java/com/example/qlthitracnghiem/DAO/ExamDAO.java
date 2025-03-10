@@ -22,6 +22,15 @@ import java.util.stream.Collectors;
 import org.json.JSONArray;
 
 public class ExamDAO {
+    private Connection connection;
+
+    public ExamDAO() {
+    }
+
+    public ExamDAO(Connection connection) {
+        this.connection = connection;
+    }
+
     private static final int MAX_EXAMS = 10;
     private ArrayList<Character> exOrderList = new ArrayList<>(
             List.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'));

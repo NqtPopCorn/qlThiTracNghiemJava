@@ -46,7 +46,8 @@ public class TestPanelRow extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
@@ -59,12 +60,13 @@ public class TestPanelRow extends javax.swing.JPanel {
         btnXemChiTiet = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
-        setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.gray, java.awt.Color.gray, java.awt.Color.gray, java.awt.Color.gray));
+        setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED,
+                java.awt.Color.gray, java.awt.Color.gray, java.awt.Color.gray, java.awt.Color.gray));
         setMaximumSize(new java.awt.Dimension(10000, 140));
         java.awt.GridBagLayout layout = new java.awt.GridBagLayout();
-        layout.columnWidths = new int[] {0, 8, 0, 8, 0, 8, 0, 8, 0, 8, 0, 8, 0, 8, 0, 8, 0};
-        layout.rowHeights = new int[] {0, 10, 0, 10, 0, 10, 0};
-        layout.columnWeights = new double[] {1.0};
+        layout.columnWidths = new int[] { 0, 8, 0, 8, 0, 8, 0, 8, 0, 8, 0, 8, 0, 8, 0, 8, 0 };
+        layout.rowHeights = new int[] { 0, 10, 0, 10, 0, 10, 0 };
+        layout.columnWeights = new double[] { 1.0 };
         setLayout(layout);
 
         txtTitle.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
@@ -214,7 +216,7 @@ public class TestPanelRow extends javax.swing.JPanel {
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(
                         parentPanel,
-                        "Đã có học sinh làm bài kiểm tra, không thể xóa!",
+                        ex.getMessage(),
                         "Thông báo",
                         JOptionPane.WARNING_MESSAGE);
             } catch (Exception ex) {

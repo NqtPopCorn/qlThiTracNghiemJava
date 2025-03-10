@@ -101,7 +101,34 @@ public class TestBUS {
   }
 
   public int delete(TestDTO test) throws SQLException {
-    return testDAO.deleteTest(test.getTestCode());
+    Connection conn = null;
+    try {
+      conn = DBConnection.getConnection();
+      conn.setAutoCommit(false);
+
+      TestDAO testDAO = new TestDAO(conn);
+      ExamDAO examDAO = new ExamDAO(conn);
+
+      // Check if test has exams
+      if (examDAO.hasAExam(test.getTestCode())) {
+        throw new SQLException("Không thể xóa bài thi đã có bài thi do có exam liên quan");
+      }
+
+      // Delete test
+      testDAO.deleteTestStructure(test.getTestCode());
+      testDAO.deleteTest(test.getTestCode());
+      conn.commit();
+      return ACTION_SUCCESS;
+    } catch (SQLException e) {
+      if (conn != null) {
+        conn.rollback();
+      }
+      throw e;
+    } finally {
+      if (conn != null) {
+        conn.close();
+      }
+    }
   }
 
   public void update(TestDTO test, Map<Integer, int[]> topicStructures) throws SQLException {
